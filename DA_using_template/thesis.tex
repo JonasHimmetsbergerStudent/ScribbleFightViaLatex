@@ -39,12 +39,15 @@
 
 \renewcommand{\lstlistlistingname}{Quellcodeverzeichnis}
 
+\setcounter{tocdepth}{3}
+\setcounter{secnumdepth}{3}
 \tableofcontents
 \newpage
 \setcounter{RPages}{\value{page}}
 \setcounter{page}{0}
 \pagenumbering{arabic}
 \pagestyle{scrheadings}
+
 
 \begin{spacing}{1}
 	\chapter{Einleitung}\label{chapter:introduction}
@@ -72,7 +75,7 @@
 \input{./sections/implementation}
 
 \begin{spacing}{1}
-	\chapter{Zusammenfassung}
+	\chapter{Evaluation des Projektverlaufs} % Zusammenfassung?
 \end{spacing}
 \input{./sections/summary}
 
