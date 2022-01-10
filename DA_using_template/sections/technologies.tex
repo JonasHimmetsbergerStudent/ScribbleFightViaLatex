@@ -1,27 +1,27 @@
 
 \section{JavaScript [R]}
-Zuerst musste die Entscheidung gefällt werden, ob unser Projekt ein Standalone-Programm sein soll, oder im Browser zu erreichen ist. Weil wir aber wollten, dass es ein 
+Zuerst musste die Entscheidung gefällt werden, ob unser Projekt ein Standalone-Programm sein soll, oder im Browser zu erreichen ist. Weil wir aber wollten, dass es ein
 Party-Game werden soll, dass man ohne jeglichen Aufwand sofort mit Freunden spielen kann, haben wir uns für die Browser-Variante entschieden.
 Für mich war es eine leichte Entscheidung JavaScript zu verwenden, da die Programmiersprache genau für den Browser geeignet ist, und man damit nicht nur im Frontend, sondern auch im Backend programmieren kann.
 \setauthor{Rafetseder Tobias}
 \subsection{p5.js / p5.play [R]}
-p5.js ist eine open-source JavaScript Library, die für Kreation von Spielen genutzt wird. 
-p5.play ist eine Library für p5.js, mit der man visuelle Objekte managen kann. Außerdem beinhaltet es Features wie Animation-support, 
+p5.js ist eine open-source JavaScript Library, die für Kreation von Spielen genutzt wird.
+p5.play ist eine Library für p5.js, mit der man visuelle Objekte managen kann. Außerdem beinhaltet es Features wie Animation-support,
 Kollisionserkennung, sowie aber auch Funktionen für Mouse und Tastatur Interaktionen.
 Es ist wichtig sich im Hinterkopf zu behalten, dass p5.play für barrierefreies und simples Programmieren gedacht ist, nicht für perfomantes.
 Es ist keine eigene Engine, und unterstütz auch keine 3D-Spiele.
 
 \subsubsection{Einbindung}
-Der einfachste Weg P5.js einzubinden ist auf ein JavaScript File online zu verweisen. 
+Der einfachste Weg P5.js einzubinden ist auf ein JavaScript File online zu verweisen.
 
 \begin{lstlisting}
     <script 
     src="https://cdn.jsdelivr.net/npm/p5@1.4.0/lib/p5.js">
     </script>
 \end{lstlisting}
-Man kann sich aber auch die P5.js Library 
+Man kann sich aber auch die P5.js Library
 lokal downloaden unter \url{https://p5js.org/download/}
-Dann muss man nur noch auf das lokale File verweisen. 
+Dann muss man nur noch auf das lokale File verweisen.
 
 \begin{lstlisting}
     <script src="../p5.min.js"></script>
@@ -40,7 +40,7 @@ Die Struktur ist sehr simpel. Im Ganzen ist es nur ein \texttt{index.html} File 
 
 So kann man nun in dem sketch.js File die P5.js Methoden nutzen. Die wichtigsten Methoden sind die Setup- und die Draw-Methode.
 Die Setup-Methode wird vor der Draw-Methode aufgerufen um das Spiel zu initialisieren. (Es wird zum Beispiel ein Canvas erstellt).
-Wenn diese abgeschlossen ist, wird die Draw-Methode 60 mal in der Sekunde aufgerufen und updatet jedes mal den Bildschirm. 
+Wenn diese abgeschlossen ist, wird die Draw-Methode 60 mal in der Sekunde aufgerufen und updatet jedes mal den Bildschirm.
 
 \begin{figure}[H]
     \centering
@@ -53,7 +53,7 @@ p5.js ähnelt sich sehr stark mit Processing, eine Programmiersprache die man si
 Der Unterschied liegt darin, dass Java eine Umgebung, basierend auf der Java Programmiersprache ist, während p5.js eine Bibliothek, basierend auf der JavaScript Programmiersprache ist.
 Processing ist dafür geeignet, lokale Applikationen zu bauen, hingegen dazu kann p5.js nur im Browser ausgeführt werden.
 
-p5.js ist also kurzgesagt ein direkter JavaScript Port für die Processing Programmiersprache. 
+p5.js ist also kurzgesagt ein direkter JavaScript Port für die Processing Programmiersprache.
 
 Vorteile von p5.js:
 \begin{compactitem}
@@ -70,8 +70,8 @@ Nachteile von p5.js:
 
 \subsection {Node.js [R]}
 Node.js ist eine plattformübergreifende Open-Source-JavaScript-Laufzeitumgebung, mit der Besonderheit, dass sie JavaScript-Code außerhalb eines Webbrowsers ausführen kann
-und wurde ursprünglich von Ryan Dahl 2009 entwickelt, einem Software-Entwickler aus San Diego, Kalifornien. 
-Die Laufzeitumgebung wurde darauf spezialisiert, leicht skalierbare Server zu bauen. 
+und wurde ursprünglich von Ryan Dahl 2009 entwickelt, einem Software-Entwickler aus San Diego, Kalifornien.
+Die Laufzeitumgebung wurde darauf spezialisiert, leicht skalierbare Server zu bauen.
 
 In dem folgenden "Hello World"-Beispiel, können viele Verbindung gleichzeitig behandelt werden. Bei jeder Verbindung wird die Callback-Funktion ausgeführt, aber wenn keine Arbeit zu erledigen ist, schläft Node.js.
 
@@ -81,14 +81,14 @@ In dem folgenden "Hello World"-Beispiel, können viele Verbindung gleichzeitig b
     \caption{Sehr simpler Node.js Server}
 \end{figure}
 
-Man merkt den Unterschied zu den heutzutage weit verbreiteten Concurrency-Modellen, die mit OS-Threads arbeiten. Der Vorteil von Node.js hierbei ist, dass 
-man sich keine Sorgen über dead-locking machen muss, da fast keine Node.js Funktion direkte I/O Operationen durchführt. Also ist der ganze Prozess so gut wie nie blockiert, ausser 
+Man merkt den Unterschied zu den heutzutage weit verbreiteten Concurrency-Modellen, die mit OS-Threads arbeiten. Der Vorteil von Node.js hierbei ist, dass
+man sich keine Sorgen über dead-locking machen muss, da fast keine Node.js Funktion direkte I/O Operationen durchführt. Also ist der ganze Prozess so gut wie nie blockiert, ausser
 wenn synchrone Methoden der Node.js Standard Library benutzt wird.
 
 \subsubsection{NPM}
 Neben Node an sich, ist NPM (Node Package Manager) das wichtigste Werkzeug für Node Applikationen. Mit NPM können alle Packages, die das Projekt benötigt, gefetched werden.
-Es ist möglich, alle Packages einzeln zu fetchen, jedoch benutzt man normalerweise ein package.json File. In diesem File stehen alle Dependencies für jedes JavaScript Package, 
-das benötigt wird, sowie auch Meta-Daten zu dem Node Projekt. Erstellt wird dieses 
+Es ist möglich, alle Packages einzeln zu fetchen, jedoch benutzt man normalerweise ein package.json File. In diesem File stehen alle Dependencies für jedes JavaScript Package,
+das benötigt wird, sowie auch Meta-Daten zu dem Node Projekt. Erstellt wird dieses
 in dem man in das Verzeichnis navigiert, in dem man das Projekt haben will und den Befehl \texttt{npm init} ausführt.
 
 \begin{figure}[H]
@@ -98,9 +98,9 @@ in dem man in das Verzeichnis navigiert, in dem man das Projekt haben will und d
 \end{figure}
 
 \subsubsection{Express}
-Express ist das am meisten verbreiteteste Node Web Framework und ist auch die Basis für andere Node Web Frameworks. Die Hauptverantwortung 
+Express ist das am meisten verbreiteteste Node Web Framework und ist auch die Basis für andere Node Web Frameworks. Die Hauptverantwortung
 von Express ist das Bereitstellen von Server-Logik wie zum Beispiel das Schreiben von Handlers für Requests mit unterschiedlichen Http Verbs auf unterschiedlichen URL Pfaden.
-Man kann Express mit dem Node Package Manager mit \texttt{npm install express} installieren, oder man befindet sich in 
+Man kann Express mit dem Node Package Manager mit \texttt{npm install express} installieren, oder man befindet sich in
 einem Verzeichnis mit package.json File bei dem Express als Dependency hinzugefügt wurde, dann reicht \texttt{npm install}
 
 \begin{figure}[H]
@@ -111,7 +111,7 @@ einem Verzeichnis mit package.json File bei dem Express als Dependency hinzugef�
 
 \subsection{Socket IO [R]}
 
-Socket.IO ist eine Library, die eine bidirektionale Echt-Zeit Verbindung zwischen Server und Client ermöglicht. Es besteht aus 
+Socket.IO ist eine Library, die eine bidirektionale Echt-Zeit Verbindung zwischen Server und Client ermöglicht. Es besteht aus
 \begin{compactitem}
     \item Einem Node.js Server
     \item Einer JavaScript Client Library (Es bestehen auch einige andere Client Implementationen für Sprachen wie Java, C++, Python, etc.)
@@ -141,17 +141,17 @@ Die API ist auf der Server-Seite dem Client sehr ähnlich, man bekommt auch wied
 
 
 \subsubsection{Unterschied Socket.IO zu WebSocket}
-Socket.IO ist keine WebSocket Implementation. Auch wenn Socket.IO WebSocket als Transportmittel benutzt, werden bei jedem Paket zusätzliche Metadaten angehängt. Das ist auch der Grund, warum 
-ein Socket.IO Client keine Verbindung mit einem schlichten WebSocket Server herstellen kann, und umgekehrt. 
+Socket.IO ist keine WebSocket Implementation. Auch wenn Socket.IO WebSocket als Transportmittel benutzt, werden bei jedem Paket zusätzliche Metadaten angehängt. Das ist auch der Grund, warum
+ein Socket.IO Client keine Verbindung mit einem schlichten WebSocket Server herstellen kann, und umgekehrt.
 Man kann sich Socket.IO also als einen Wrapper rund um die WebSocket API vorstellen.
 
 \section{Deployment [R]}
 Das Scribble-Fight Browser-Game wurde in die Leocloud, ein Cloud-System der HTL-Leonding, unter \url{https://student.cloud.htl-leonding.ac.at/t.rafetseder/scribble-fight/} deployed.
-Zuerst wurde mithilfe von der Docker-Technologie ein Docker-Image erstellt und auf die Leocloud hochgeladen. Das Deployment wurde dann mithilfe von Kubernetes umgesetzt. 
+Zuerst wurde mithilfe von der Docker-Technologie ein Docker-Image erstellt und auf die Leocloud hochgeladen. Das Deployment wurde dann mithilfe von Kubernetes umgesetzt.
 Was Docker und Kubernetes genau ist, folgt in den nächsten Sektionen.
 \subsection{Docker [R]}
-Die Software Docker ist eine Technologie zum Containerisieren von Prozessen, die dann unabhängig voneinander und isoliert ausgeführt werden können. Diese isolierte Prozesse nennt man dann Container. 
-Durch die Unabhängigkeit, die dadurch entsteht, wird die Infrastruktur besser genutzt und auch die Sicherheit bewahrt, die sich aus der Arbeit mit voneinander getrennten System ergibt. 
+Die Software Docker ist eine Technologie zum Containerisieren von Prozessen, die dann unabhängig voneinander und isoliert ausgeführt werden können. Diese isolierte Prozesse nennt man dann Container.
+Durch die Unabhängigkeit, die dadurch entsteht, wird die Infrastruktur besser genutzt und auch die Sicherheit bewahrt, die sich aus der Arbeit mit voneinander getrennten System ergibt.
 Docker arbeitet mit einem Image-basierten Bereitstellungsmodell. Dieses wird gerne bei Containertools verwendet, da Applikationen mit all deren Dependencies, egal in welcher Umgebung, genutzt werden können.
 \begin{compactitem}
     \item Wenn man einmal seine containerisierte Applikation getestet hat, kann man sich sicher sein, dass die Applikation auf jeder anderen Umgebung, auf dem Docker installiert ist, auch funktioniert
@@ -160,7 +160,7 @@ Docker arbeitet mit einem Image-basierten Bereitstellungsmodell. Dieses wird ger
     \item Im Gegensatz zu virtuellen Maschinen beinhalten Container keine eigenen Operating Systems, deshalb kann man sie schneller erstellen und auch schneller starten
 \end{compactitem}
 
-Wichtige Begriffe, die man im Zusammenhang mit Docker kennen sollte: 
+Wichtige Begriffe, die man im Zusammenhang mit Docker kennen sollte:
 
 \begin{compactitem}
     \item Image: Speicherabbild eines Containers
@@ -170,7 +170,7 @@ Wichtige Begriffe, die man im Zusammenhang mit Docker kennen sollte:
 \end{compactitem}
 
 \subsubsection{Docker Architektur}
-Die Docker Architektur ist eine Server-Client Architektur. Der Docker Client kommuniziert mit dem Docker Daemon, der dann Docker Container z.B. baut und ausführt. 
+Die Docker Architektur ist eine Server-Client Architektur. Der Docker Client kommuniziert mit dem Docker Daemon, der dann Docker Container z.B. baut und ausführt.
 Dieser Docker Daemon kann lokal installiert sein, aber der Client kann sich auch mit einem Daemon Remote verbinden.
 
 \begin{figure}[H]
@@ -182,9 +182,9 @@ Dieser Docker Daemon kann lokal installiert sein, aber der Client kann sich auch
 
 \subsection{Kubernetes [R]}
 Kubernetes ist Open-Source-Plattform, die dafür genutzt wird, containerisierte Applikationen und Services zu verwalten. Es managed die Computer-, Netzwerk und Speicherinfrastruktur von Containern.
-Das Kubernetes-Projekt ist 2014 als Open-Source Projekt in die Welt gerufen worden. 
+Das Kubernetes-Projekt ist 2014 als Open-Source Projekt in die Welt gerufen worden.
 
-Kubernetes hat mehrere Funktionen, zum Beispiel ist Kubernetes: 
+Kubernetes hat mehrere Funktionen, zum Beispiel ist Kubernetes:
 \begin{compactitem}
     \item eine Containerplattform
     \item eine Microservices-Plattform
@@ -193,12 +193,42 @@ Kubernetes hat mehrere Funktionen, zum Beispiel ist Kubernetes:
 
 In dieser Diplomarbeit wird Kubernetes benutzt, um ein mit Docker gebautes Images des Scribble-Fight Browsergames auf ein Cloudsystem zu deployen. Näheres zur Umsetzung findet man \url{hier}
 
+\newpage
 \section{Python [H]}
+Diese Programmiersprache, welche nach der Britischen comedy Serie ``Monty Python'' benannt ist,
+fand in unserer Arbeit zwei Haupteinsatzgebiete. \\
+Erstens, zur Erkennung des Blatt Papiers und der Umwandlung der Zeichnung in eine spielbare Map
+und zweitens um die Künstliche Intelligenz zu erschaffen. \\
+Die Bibliotheken, welche wir dabei in Verwendung haben, werden im folgenden gelistet und näher
+erklärt.
 \setauthor{Himmetsberger Jonas}
 
 \subsection{Flask [H]}
+Flask ist das am wohl häufigste verwendete Python Web-Framework. Somit gibt es viele Tutorials,
+Tools und Bibliotheken. Diese sind sehr gut bis gut dokumentiert und teilweise geprüft.
+Aus diesen Gründen haben wir den Teil der Bild- und Maperkennung, welche
+als Webanwendung funktioniert, mittels Flask umgesetzt. In Kombination mit Flask-SocketIO werden Bilder von der Webcam
+in Echtzeit direkt an den Server geschickt, welcher dann via OpenCV2 Informationen aus dem Bild
+generiert. Genau wie bei SocketIO in JavaScript, agiert Flask-SocketIO als bidirektionale
+Kommunikation zwischen Server und Client. Die extrem geringe Latenzzeit, welche dabei auftritt,
+ist wichtig um eine flüssige Verarbeitung der Bilder zu gewährleisten.
 
 \subsection{OpenCV2 [H]}
+Open ``Computer Vision'' (CV) wurde in unserem Kontext als Python Bibliothek verwendet. OpenCV verfügt über eine
+breitgefächerte Auswahl an Bildverarbeitungs-Algorithmen.
+Folgende wurden bei der Maperkennung eingesetzt:
+\begin{compactitem}
+    \item Resizing
+    \item Farbraumkonvertierung
+    \item Weichzeichnung
+    \begin{compactitem}
+        \item Median-Blur
+        \item Gaussian-Blur
+    \end{compactitem}
+    \item adaptive Schwellenwertbildung von Pixelwerten
+    \item Konvertierung eines Zahlen Arrays in eine ``.png'' datei
+\end{compactitem}
+Auf die Funktionsweise dieser Algorithmen wird im Folgenden genauer eingegangen.
 
 \subsection{PIL [H]}
 
