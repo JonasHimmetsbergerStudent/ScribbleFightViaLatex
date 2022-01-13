@@ -199,7 +199,7 @@ Diese Programmiersprache, welche nach der Britischen comedy Serie ``Monty Python
 fand in unserer Arbeit zwei Haupteinsatzgebiete. \\
 Erstens, zur Erkennung des Blatt Papiers und der Umwandlung der Zeichnung in eine spielbare Map
 und zweitens um die Künstliche Intelligenz zu erschaffen. \\
-Die Bibliotheken, welche wir dabei in Verwendung haben, werden im folgenden gelistet und näher
+Die kostenlosen Bibliotheken, welche wir dabei in Verwendung haben, werden im folgenden gelistet und näher
 erklärt.
 \setauthor{Himmetsberger Jonas}
 
@@ -229,8 +229,53 @@ Folgende wurden bei der Maperkennung eingesetzt:
     \item Konvertierung eines Zahlen Arrays in eine ``.png'' datei
 \end{compactitem}
 Auf die Funktionsweise dieser Algorithmen wird im Folgenden genauer eingegangen.
+\\
+Um zum Beispiel ein beliebiges Bild unscharf zu zeichnen würde man so vorgehen:
+\\
+
+\begin{lstlisting}[language=Python,caption=OpenCV Demo,label=lst:tech:gaussianBlur]
+    # Dieses kurze Programm soll ein Bild in Python mittels Open Computer Vision weichzeichnen
+    
+    # Importieren der gebrauchten Bibliothek
+    import cv2
+    import numpy
+    
+    # Bild einlesen
+    source = cv2.imread('./Pfad/zum/Bild.png', cv2.IMREAD_UNCHANGED)
+    
+    # Das Quell-Bild wird nun unscharf gezeichnet
+    destination = cv2.GaussianBlur(source,(5,5),cv2.BORDER_DEFAULT)
+
+    # Anzeigen von dem Quellbild und dem bearbeiteten Bild 
+    cv2.imshow('Weichzeichnung',numpy.hstack((source, destination)))
+
+    # warten, bis eine Taste gedrueckt wurde
+    cv2.waitKey(0) 
+
+    # Alle Fenster, welche die Bilder anzeigen, werden geschlossen
+    cv2.destroyAllWindows() 
+\end{lstlisting}
 
 \subsection{PIL [H]}
+PIL (Python Image Library) ist, wie Flask und OpenCV2, eine kostenlose Zusatzbibliothek für Python.
+PIL wird verwendet um Bilder zu speichern und zu pixel zu manipulieren. Dabei unterstütz PIL diese
+Dateiformate: PPM, PNG, JPEG, GIF, TIFF, und BMP. \\
+
+
+
+\begin{lstlisting}[language=Python,caption=PIL Demo,label=]
+    # verwendete Klassen der Bibliothek einbinden
+    from PIL import Image, ImageFilter  
+
+    source = Image.open("file.ppm") # Load an image from the file system.
+    destination = source.filter(ImageFilter.BLUR) # Blur the image.
+
+    # Display both images.
+    original_image.show() 
+    destination.show()
+\end{lstlisting}
+
+
 
 \subsection{TensorFlow und Keras [H]}
 
