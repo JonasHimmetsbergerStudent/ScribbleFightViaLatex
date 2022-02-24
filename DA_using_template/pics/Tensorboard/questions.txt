@@ -1,0 +1,5 @@
+https://www.reddit.com/r/MLQuestions/comments/r0oyou/ppo_ep_rew_mean_and_ep_len_mean_flatlining/
+
+https://medium.com/aureliantactics/understanding-ppo-plots-in-tensorboard-cbc3199b9ba2
+
+https://stackoverflow.com/questions/55703416/why-learning-rate-does-not-change

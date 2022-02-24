@@ -259,11 +259,16 @@ Um zum Beispiel ein beliebiges Bild unscharf zu zeichnen würde man so vorgehen:
 \subsection{PIL [H]}
 PIL (Python Image Library) ist, wie Flask und OpenCV2, eine kostenlose Zusatzbibliothek für Python.
 PIL wird verwendet um Bilder zu speichern und zu pixel zu manipulieren. Dabei unterstütz PIL diese
-Dateiformate: PPM, PNG, JPEG, GIF, TIFF, und BMP. \\
+Dateiformate: PPM, PNG, JPEG, GIF, TIFF, und BMP. Pixel manipulation bedeutet, dass jeder Pixel auf einem
+Input Bild angepasst werden kann. Beispiele hierfür sind zum Beispiel das Aufhellen oder Abdunkeln von
+Bildern oder das Anpassen der Sättigung. Auch Kontrast- oder Schärfeeinstellungen können mit
+Pixelmanipulation erzielt werden. Dafür werden meistens Matrizen und/oder Formeln pro Pixel verwendet um
+deren Farbwerte anzupassen
+\\
 
 
 
-\begin{lstlisting}[language=Python,caption=PIL Demo,label=]
+\begin{lstlisting}[language=Python,caption=PIL Demo,label=lst:tech:PIL]
     # verwendete Klassen der Bibliothek einbinden
     from PIL import Image, ImageFilter  
 
@@ -281,12 +286,46 @@ Dateiformate: PPM, PNG, JPEG, GIF, TIFF, und BMP. \\
 TensorFlow ist eine Python Bibliothek, welche beim erstellen von Projekten, welche maschinelles Lernen
 in irgend einer Art und Weise eingebunden haben, extrem unterstütz.
 Wie der Name schon vermuten lässt, basiert TensorFlow auf zwei Grundlagen: Tensoren und Graphen (Flow
-vom Wort dataflow). Tensoren sind besser bekannt als Skalare, Vektoren oder Matrizen. Tensoren sind also
+vom Wort dataflow). \\
+Tensoren sind besser bekannt als Skalare, Vektoren oder Matrizen. Tensoren sind also
 null-, ein- oder mehrdimensionale Daten-Tupel.
-Dabei bietet TensorFlow alles
-von on der effizienten Ausführung von
+TensorFlow bietet alles von on der effizienten Ausführung von
 Befehlen auf der CPU, oder GPU, über der Skalierung von Berechnungen auf viele Endgeräte bis hin
-zur Visualisierung der gelernten Daten mittels TensorBoard.
-Auf diese open-source machine learning platform baut auch Keras auf. Kreas ist eine deep-learning
+zur Visualisierung der gelernten Daten mittels dem sogenannten ``TensorBoard''. TensorFlow ist also ein
+sehr mächtiges Framework, das viele Möglichkeiten bietet, künstliche Intelligenzen zu trainieren und
+analysieren.\\
+Jedoch ist die Benutzerfreundlichkeit von TensorFlow sehr eingeschränkt. Viele Entwickler empfanden
+es als ungeeignet für schnelles Prototyping und verwendeten daher das auf TensorFlow basierende Keras. \\
+Keras verwendet standardmäßig die GPU zum ausführen von Code und is somit um einiges schneller als TensorFlow.
+In dieser Diplomarbeit wurden zwei der von TensorFlow (Stable-Baselines3) bereits vorgefertigten Algorithmen,
+namens ``A2C'' und ``PPO'', verwendet um die KI zu trainieren. Auf die Auswertung wird in \dots näher
+eingegangen. Die Logik hinter der Künstlichen Intelligenz
+wurde mittels OpenAI Gym implementiert.
 
 \subsection{OpenAI Gym [H]}
+OpenAI Gym ist ein Toolkit, mit welchem das Erlernen und Erstellen von reinforcement learning Algorithmen
+sehr leicht fällt. Da viele Menschen nicht wissen, was ``reinforcement learning'' ist, wird es im folgenden
+kurz erläutert.
+
+\subsubsection{Reinforcement Learning[H]}
+Reinforcement learning bedeutet auf deutsch so viel wie bestärkendes Lernen oder verstärkendes Lernen. Es
+ist die dem biologischen Gehirn am nächsten Lernart.
+Dabei basiert es auf folgendem Konzept: \\
+Ein Agent, welcher etwas erlernen soll, wird in eine ihm unbekannte Umwelt gesetzt. Dieser kennt nicht mehr
+als seinen eigenen Zustand und welche Aktionen er ausführen kann. Bewegt sich diese Entität nun in der
+Umwelt, so passieren ihm Dinge. Diese können nach einer Observation entweder zu einer negative (-) oder einer
+positive (+) Belohnung führen. Das einzige Ziel des Agenten besteht nun darin sein Tun so anzupassen, dass
+er so viel und so
+effizient wie möglich an diese Belohnung gelangt. Folgende Grafik erläutert das Beispiel an einem Hund,
+welcher lernen soll einen Stecken zu apportieren.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6]{pics/reinforcementLearningConcept.png}
+    \caption{Veranschaulichung bestärkendes Lernen}
+\end{figure}
+
+OpenAI Gym hat also einen mehr oder weniger vorgegebenen Bauplan, und vorgegebene Regeln, nach welchen man
+so eine Künstliche Intelligenz aufbauen muss. \\
+Weitere, weit verbreitete Formen von machine learning sind supervised und unsupervised learning. Auf diese
+wird nur weiter eingegangen, wenn zu wenig Text für eine positive Note für die Diplomarbeit vorliegen sollte.
