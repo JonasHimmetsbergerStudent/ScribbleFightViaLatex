@@ -71,13 +71,16 @@ Wurde es zum Beispiel zum Type "bomb", kann man 5 Mal eine Bombe werfen.
 Bei dem Typ "mine", also einer Mine, kann man mehrere Minen gleichzeitig legen, deshalb ist das Sprite-Attribut auch ein Array.
 Bei den anderen Items kann immer nur ein Sprite davon existieren.
 
-\subsubsection{Die Items}
+
+
+
+\subsubsection{Die Items}  \label{impl:items}
 Grundsätzlich gibt es 5 unterschiedliche Items in Scribble-Fight. Je nachdem, welches Item man aufgesammelt hat, kann man verschiedene Fähigkeiten aktivieren.
 Für jedes Item existiert eine physics-Methode, die in der Draw-Funktion aufgerufen wird. 
 
 \textbf{Keyboard-Access}
 \\
-Durch p5.js kann man sehr leicht auf die Tastatur zugreifen. Mithilfe von ASCII Code greift man auf die einzelnen Tasten zu.
+Die Items werden alle durch Tasten auf der Tastatur ausgelöst. Durch p5.js kann man sehr leicht auf die Tastatur zugreifen. Mithilfe von ASCII Code kann man jede Taste einzeln ansteuern.
 Mit der p5.js Methode <keyWentDown(Key)> wird überprüft, ob die Taste gerade gedrückt wurde.
 
 \begin{lstlisting}[caption=Keyboard-Access,language=Java,label=lst:impl:keyboard-access]
@@ -180,6 +183,268 @@ Die Black-Hole-Physics Funktion sieht also (vereinfacht) so aus:
 \textbf{Piano}
 \\
 \textit{Das Piano-Item wird mit der Taste <R> aktiviert.}
+\\
+Das Piano-Item ist, wie der Namen schon vermuten lässt, ein Klavier, das am höchsten Punkt der Map erscheint und nach unten fällt.
+Das bedeutet, die y-Koordinate ist 0 und die x-Koordinate ist die selbe wie die, die der Sprite des Spielers hat, der das Piano aktiviert hat.
+ Bei Kontakt zu einem Spieler oder der Umgebung wird das Klavier zerstört. Zum Überprüfen auf Kollisionen wird die p5.js Methode <sprite.collide(otherSprite)> verwendet.
+ Diese wird true, falls eine Kollisionen zwischen zwei Sprites oder Sprite-Gruppen stattfindet.
+\\
+\begin{lstlisting}[caption=Piano-Item Physics,language=Java,label=lst:impl:pianoPhy]
+    // check for collisions
+    if (p.collide(environment)) {
+        p.remove();
+      } else if (p.overlap(myPlayer.sprite)) {
+        myPlayer.sprite.getsThrownAway()
+        p.remove();
+      }
+      p.velocity.y -= GRAVITY;
+\end{lstlisting}
+
+\textbf{Mine}
+\\
+\textit{Das Minen-Item wird mit der Taste <C> aktiviert.}
+Das Minen-Item ist das einzige Item, bei dem man mehrere Instanzen auf einmal entsenden kann. 
+Es taucht hinter dem eigenen Player-Sprite auf und fliegt so lange nach unten, bis es auf der Umgebung landet. Erst wenn es wo gelandet wird, wird es 'aktiv'.
+Wenn eine Mine aktiviert worden ist, und ein Spieler in Berührung mit dem Item kommt, wird dieser in die Luft gestoßen und die Mine wird gelöscht.
+\\
+\begin{lstlisting}[caption=Mine-Item Physics,language=Java,label=lst:impl:minePhy]
+    // check if mine has landed somewhere (if true: activate mine)
+    if (m.collide(environment) && m.touching.bottom) {
+        m.set = true;
+    }
+    if (m.overlap(myPlayer.sprite) && m.set) {
+        myPlayer.sprite.getsThrownAway();
+        m.remove();
+    }
+    m.velocity.y -= GRAVITY;
+\end{lstlisting}
+
+\textbf{Size-Reduction}
+\\
+\textit{Das Size-Reduction-Item wird mit der Taste <F> aktiviert.}
+\\
+Dieses Item ist das einzige, das keinen eigenen Sprite hat. Das einzige was diese Item macht, ist, den Spieler-Sprite zu verkleinern. Dadurch wird dieser schwieriger zu treffen.
+Der Code, der dies umsetzt, sieht vereinfacht so aus:
+\\
+\begin{lstlisting}[caption=Size-Reduction,language=Java,label=lst:impl:sizeReduc]
+// gets called on key press F
+function makeMeSmall() {
+  if (doIHaveTheItem()) {
+    imSmall = true;
+    smallTimer = 10;
+  }
+}
+
+// gets called in draw function
+function smallChecker() {
+  if (imSmall) {
+    // scale the sprite down at the start of countdown
+    if (smallTimer == 10) {
+      myPlayer.sprite.scale = 0.6;
+    }
+    // every second (60 frames), the countdown gets reducced
+    if (frameCount % 60 == 0 && smallTimer > 0) {
+      smallTimer--;
+    }
+    // if the countdown is over, rescale the sprite back to the original form
+    if (smallTimer == 0) {
+      myPlayer.sprite.scale = 1;
+      smallTimer = 10;
+      imSmall = false;
+    }
+  }
+
+}
+\end{lstlisting}
+
+\textbf{Die Default-Attacke}
+\\
+\textit{Die Default-Attacke wird mit <Left-Click> aktiviert.}
+\\
+p5.js bietet sehr leicht die Möglichkeit, auf User-Input zu überprüfen. Das einzige, was nötig ist um zu erkennen, ob der User gerade die linke Maustaste geklickt hat, ist die Funktion <mouseClicked()>.
+Mit diesen Funktionalitäten wird nun zu dem Punkt, auf dem man gerade die Maus hält und die Default-Attacke aktiviert, ein Projektil abgeschossen. Um die Information zu erhalten, auf welcher X- und Y-Position sich die Maus befindet,
+ werden die von p5.js vordefinierten Eigenschaft <camera.mouseX> und <camera.mouseY> verwendet.
+\\
+\begin{lstlisting}[caption=Size-Reduction,language=Java,label=lst:impl:sizeReduc]
+    function mouseClicked() {
+    // Maus-Position
+    let x = camera.mouseX,
+        y = camera.mouseY;
+    // Sprite wird bei meiner Player-Sprite-Positon erstellt
+    projectile = createSprite(myPlayer.sprite.position.x, myPlayer.sprite.position.y, pixelWidth, pixelWidth);
+      
+    // Geschwindigkeit wird auf die Position der Maus ausgerichtet
+    projectile.velocity.x = (x - myPlayer.sprite.position.x);
+    projectile.velocity.y = (y - myPlayer.sprite.position.y);
+}
+
+\end{lstlisting}
+
+\subsubsection{Movements}
+Es gibt 3 fundamentale Bewegungsmöglichkeiten in Scribble-Fight. Springen, links/rechts laufen und 'klettern'. Diese Bewegungen werden im Folgenden genauer erläutert.
+
+\textbf{Springen}
+\\
+In dem Web-Game springt man mittels Leertaste. Genau wie bei den Items, wird mittels den p5.js Methoden der User-Input ermittelt.
+Bei dem Springbewegung wird einfach die vertikale Geschwindigkeit des Player-Sprites so verändert, dass dieser etwas nach oben springt.
+\\
+\begin{lstlisting}[caption=Jumping,language=Java,label=lst:impl:jumping]
+    // check if user pressed spacebar
+    if (keyWentDown(32)) {
+        jump()
+    }
+
+    function jump() {
+    // user is only allowed to jump 2 times (it resets when touching the ground)
+    if (!(JUMP_COUNT >= MAX_JUMP)) {
+        // make the user fly up a bit (JUMP is a global variable)
+        myPlayer.sprite.velocity.y = -JUMP;
+        JUMP_COUNT++;
+    }
+}
+\end{lstlisting}
+
+\textbf{Links/Rechts Laufen}
+\\
+Das Prinzip des Links oder Rechts Bewegens ist sehr simpel. Es wird einfach die horizontale Geschwindigkeit des Player-Sprites auf eine konstante Variable gesetzt.
+Wenn man sich nach rechts bewegt ist diese Konstante positiv, bei einer Linksbewegung negativ. Im Gegensatz zur Springbewegung wird diesmal aber die Methode <keyIsDown(key)> verwendet, und nicht <keyWentDown(key)>.
+Der Grund dafür ist, dass die Bewegung so lange anhalten soll, wie der User die Taste drückt, und nicht nur einmal pro Tastendruck.
+
+\begin{lstlisting}[caption=Links/Rechts-Movement,language=Java,label=lst:impl:moving]
+    //A
+    if (keyIsDown(65)) {
+        moveLeft()
+    }
+    //D
+    if (keyIsDown(68)) {
+        moveRight()
+    }
+
+    // SPEED is a global variable
+    function moveLeft() {
+    myPlayer.sprite.velocity.x = -SPEED;
+    }
+
+    function moveRight() {
+    myPlayer.sprite.velocity.x = SPEED;
+    }
+\end{lstlisting}
+
+\textbf{Bewegung auf der Spielumgebung}
+\\
+Die Bewegung auf der Spielumgebung wird durch die Methode <collisions()> bestimmt. Diese wird in der draw-Methode aufgerufen und wird somit 60 mal die Sekunde ausgeführt.
+Berührt der Sprite des Players nichts, fällt er er mit konstanter Beschleunigung nach unten.
+Findet jedoch eine Kollision mit der Spielumgebung statt, dann wird überprüft, welche Art von Berührung gerade stattfindet:
+
+\begin{compactitem}
+    \item Falls Berührung seitlich: Player-Sprite bekommt eine Klettergeschwindigkeit und behält diese so lange, wie die Berührung stattfindet
+    \item Falls Berührung unten: Die vertikale Geschwindigkeit des Player-Sprites wird auf 0 gesetzt und der Sprung-Counter zurückgesetzt
+    \item Falls Berührung oben: Mit einer Berührung die zwischen Spielumgebung und Sprite stattfindet, kann man nicht klettern noch wird der Sprung-Counter zurückgesetzt
+\end{compactitem}
+
+\begin{lstlisting}[caption=Bewegung auf der Spielumgebung,language=Java,label=lst:impl:collisions]
+    // check for collisions
+    if (myPlayer.sprite.collide(environment)) {
+      // if the collision is on the side, the sprite will start "climbing" with a certain speed
+      if (myPlayer.sprite.touching.left || myPlayer.sprite.touching.right) {
+        myPlayer.sprite.velocity.y = CLIMBINGSPEED;
+      }
+      // jump count gets only reset when the collision is not on the top of the player-sprite
+      if (!myPlayer.sprite.touching.top) {
+        JUMP_COUNT = 0;
+      }
+    }
+\end{lstlisting}
+
+\textbf{Richtungswechsel des Sprites}
+\\
+Ein weiterer wichtiger Aspekt bei der Bewegung des Player-Sprites ist, dass sich auch die Orientierung des Bildes ändern muss, wenn dieser die Richtung wechselt.
+Auch für diese Problemstellung stellt p5.play.js eine Lösung zu Verfügung. Mit der Methode <mirrorX()> wird der Sprite entlang seiner vertikalen Achse gespiegelt.
+Jedes mal, wenn der User nun also die Richtung seines Player-Sprites wechselt, wird auch der Sprites passend seiner Bewegung gespiegelt.
+
+\begin{lstlisting}[caption=Sprite Richtungswechsel,language=Java,label=lst:impl:mirrorSprite]
+    function mirrorSprite() {
+        // A
+        if (keyWentDown(65)) {
+            mirrorSpriteLeft()
+        }
+        // D
+        if (keyWentDown(68)) {
+            mirrorSpriteRight()
+        }
+    }
+    
+    function mirrorSpriteLeft() {
+        // if the mirrorX attribute is 1, then the sprite is looking to the right
+        if (myPlayer.sprite.mirrorX() === 1) {
+            myPlayer.sprite.mirrorX(myPlayer.sprite.mirrorX() * -1);
+            myPlayer.direction = "left";
+        }
+    }
+    
+    function mirrorSpriteRight() {
+        // if the mirrorX attribute is 1, then the sprite is looking to the left
+        if (myPlayer.sprite.mirrorX() === -1) {
+            myPlayer.sprite.mirrorX(myPlayer.sprite.mirrorX() * -1);
+            myPlayer.direction = "right";
+        }
+    }
+\end{lstlisting}
+
+\subsubsection{Wie gewinne ich?}
+Um in Scribble-Fight zu gewinnen, muss man seinen Gegner/seine Gegner drei mal erfolgreich von der Spielumgebung schießen, so, dass der Sprite des Gegners ins Nichts fällt.
+Dies ist durch die Attacken, die in Kapitel \ref{impl:items} genau beschreiben werden, möglich. 
+Um zu überprüfen, ob der Sprite nun hinuntergefallen und somit 'gestorben' ist, wird in der draw-Methode die Funktion <deathCheck()> aufgerufen.
+Diese hat einige Aufgaben:
+\begin{compactitem}
+    \item Überprüfen ob sich der Player-Sprite außerhalb des Bildschirms befindet
+    \item Falls ja, überprüfen ob der Player noch mindestens ein Leben hat
+    \item Falls der Player keine Leben mehr hat, wird sein Sprite zerstört
+    \item Hat der Player noch weitere Leben, dann wird er nach drei Sekunden an einem zufälligen Punkt, an dem er nicht direkt wieder aus dem Bildschirm fällt, gespawned
+    \item Wird der Player respawned, werden ihm alle seine Items, die er eventuell noch hatte, wieder genommen
+    \item Wird der Player respawned, wird sein Knockback wieder zurückgesetzt
+\end{compactitem}
+
+Vereinfacht sieht die Methode also so aus:
+
+\begin{lstlisting}[caption=Überprüfung nach Toden,language=Java,label=lst:impl:deathCheck]
+function deathCheck() {
+    // check if sprite has fallen outside of the monitor
+    if (myPlayer.sprite.position.y - player_height > windowHeight && !respawnTime) {
+        youDied();
+    }
+}
+
+function youDied() {
+    myPlayer.removeItem();
+    myPlayer.death++;
+    myPlayer.knockback = 0;
+    respawnTime = true;
+
+    // after 3 seconds the player gets respawned on a location, if he still has at least one live left
+    setTimeout(() => {
+        if (myPlayer.death < 3) {
+            myPlayer.sprite.position.x = xCoordinates[Math.floor(Math.random() * xCoordinates.length)];
+            myPlayer.sprite.position.y = 0;
+            respawnTime = false;
+        }
+    }, 3000);
+}
+\end{lstlisting}
+
+Außerdem zählt es auch als Tod, wenn der Knockback des eigenen Players über 100 ansteigt. Dies wird mit der <fatalHit()>-Methode überprüft.
+Diese Methode wird immer dann aufgerufen, wenn der eigene Player von irgendeinem Projekil getroffen wurde.
+\begin{lstlisting}[caption=Fatal Hit,language=Java,label=lst:impl:falatHit]
+    function fatalHit() {
+        if (myPlayer.knockback >= 100) {
+            youDied();
+        }
+    } 
+\end{lstlisting}
+
+
+
+
 
 
 
