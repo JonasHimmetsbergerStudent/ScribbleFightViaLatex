@@ -1,9 +1,9 @@
 \section{Web-Game [R]}
 \setauthor{Rafetseder Tobias}
-\subsection{Frontend [R]}
-Für die Umsetzung des Frontends wird p5.js beziehungsweise p5.play.js verwendet. 
-Eine detaillierte Beschreibung zu diesem JavaScript-Bibliothek und wie man es in ein Projekt einbinden kann, wird in Kapitel \ref{subsection:p5js} genau beschrieben.
-p5.play.js basiert auf einer Sprite Klasse. Diese Sprite-Klasse hat einige praktische vordefinierte Funktionen für Collisiondetection oder Animation Support. 
+\subsection{Client [R]}
+Für die Umsetzung des Clients wird p5.js beziehungsweise p5.play.js verwendet. 
+Eine detaillierte Beschreibung zu diesen JavaScript-Bibliotheken und wie man sie in ein Projekt einbinden kann, wird in Kapitel \ref{subsection:p5js} genau beschrieben.
+p5.play.js basiert auf einer Sprite Klasse. Diese Sprite-Klasse hat einige praktische vordefinierte Funktionen für zum Beispiel Collisiondetection oder Animation Support. 
 Um einen Sprite zu erstellen, wird einfach die Funktion createSprite() aufgerufen.
 \\
 \begin{lstlisting}[language=Java,label=lst:impl:createSprite]
@@ -265,7 +265,7 @@ p5.js bietet sehr leicht die Möglichkeit, auf User-Input zu überprüfen. Das e
 Mit diesen Funktionalitäten wird nun zu dem Punkt, auf dem man gerade die Maus hält und die Default-Attacke aktiviert, ein Projektil abgeschossen. Um die Information zu erhalten, auf welcher X- und Y-Position sich die Maus befindet,
  werden die von p5.js vordefinierten Eigenschaft <camera.mouseX> und <camera.mouseY> verwendet.
 \\
-\begin{lstlisting}[caption=Size-Reduction,language=Java,label=lst:impl:sizeReduc]
+\begin{lstlisting}[caption=Default-Attacke,language=Java,label=lst:impl:defaultAttack]
     function mouseClicked() {
     // Maus-Position
     let x = camera.mouseX,
@@ -307,7 +307,7 @@ Bei dem Springbewegung wird einfach die vertikale Geschwindigkeit des Player-Spr
 \textbf{Links/Rechts Laufen}
 \\
 Das Prinzip des Links oder Rechts Bewegens ist sehr simpel. Es wird einfach die horizontale Geschwindigkeit des Player-Sprites auf eine konstante Variable gesetzt.
-Wenn man sich nach rechts bewegt ist diese Konstante positiv, bei einer Linksbewegung negativ. Im Gegensatz zur Springbewegung wird diesmal aber die Methode <keyIsDown(key)> verwendet, und nicht <keyWentDown(key)>.
+Wenn man sich nach rechts bewegt, ist diese Konstante positiv, bei einer Linksbewegung negativ. Im Gegensatz zur Springbewegung wird diesmal aber die Methode <keyIsDown(key)> verwendet, und nicht <keyWentDown(key)>.
 Der Grund dafür ist, dass die Bewegung so lange anhalten soll, wie der User die Taste drückt, und nicht nur einmal pro Tastendruck.
 
 \begin{lstlisting}[caption=Links/Rechts-Movement,language=Java,label=lst:impl:moving]
@@ -349,12 +349,43 @@ Findet jedoch eine Kollision mit der Spielumgebung statt, dann wird überprüft,
       if (myPlayer.sprite.touching.left || myPlayer.sprite.touching.right) {
         myPlayer.sprite.velocity.y = CLIMBINGSPEED;
       }
+      // standing on the environment
+      if(myPlayer.sprite.touching.bottom) {
+        myPlayer.sprite.velocity.y = 0; 
+      }
       // jump count gets only reset when the collision is not on the top of the player-sprite
       if (!myPlayer.sprite.touching.top) {
         JUMP_COUNT = 0;
       }
     }
 \end{lstlisting}
+
+\textbf{Knockback-Bewegung} \\
+Wenn man von einem Projektil getroffen wurde, wird der eigene Player-Sprite für kurze Zeit bewegungsunfähig und prallt von der Spielumgebung ab.
+Wie lang dieses Knockback-Movement andauert, kommt auf die Art des Projektils und auf den Wert des Knockbacks des Players an.
+Soll der Player-Sprite also nun diese Bewegung ausführen, wird das mit einer Funktion namens <sendHimFlying()> bewerkstelligt.
+Bevor diese aufgerufen wird, muss noch wie der Countdown, wie lange der Sprite nun in dieser Bewegung bleiben soll, festgelegt werden. Bei jedem draw-Zyklus wird dieser Countdown um den Wert eins verringert.
+Hinzu kommt noch, dass wenn man also getroffen wurde, man kurz etwas verlangsamt wird. Es soll so wirken, als wäre man gerade etwas betäubt worden.
+\begin{lstlisting}[caption=Knockback-Bewegung,language=Java,label=lst:impl:knockbackMov]
+// before function gets called, make sure to set flying to true and set a flying-duration
+function sendHimFlying() {
+  if (flying) {
+    timeFlying--;
+    //slowdown 
+    if (timeFlying <= flyingDuration / 2 && timeFlying > 0) {
+      if (myPlayer.sprite.velocity.x > 0) { myPlayer.sprite.velocity.x -= 0.3; }
+      if (myPlayer.sprite.velocity.x < 0) { myPlayer.sprite.velocity.x += 0.3; }
+      if (myPlayer.sprite.velocity.y > 0) { myPlayer.sprite.velocity.y -= 0.3; }
+      if (myPlayer.sprite.velocity.y < 0) { myPlayer.sprite.velocity.y += 0.3; }
+    }
+    // flying-duration is over
+    if (timeFlying == 0) {
+      flying = false;
+    }
+  }
+}
+\end{lstlisting}
+
 
 \textbf{Richtungswechsel des Sprites}
 \\
@@ -442,13 +473,219 @@ Diese Methode wird immer dann aufgerufen, wenn der eigene Player von irgendeinem
     } 
 \end{lstlisting}
 
+\subsubsection{Erstellung der Spielumgebung} \label{impl:Spielumgebung}
+Um sich auch auf dem Bild, das der User gezeichnet hat, bewegen zu können, muss einiges gemacht werden. Mittels Objekterkennung kann das Bild abfotografiert, 
+und daraus ein Array mit Bildaten erstellt werden, aus dem man dann wiederum die Spielumgebung kreiert. Wie genau dieser Array zustande kommt, wird in Kapitel TODO beschrieben.
+\\
+\begin{lstlisting}[caption=Vereinfachte Darstellung eines Bilddaten-Arrays,language=Java,label=lst:impl:bilddaten]
+    [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0],
+    [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0],
+    [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0],
+    [255, 255, 255, 0], [252, 252, 252, 0], [251, 251, 251, 0],
+    [248, 248, 248, 0], [249, 249, 249, 0], [247, 247, 247, 0],
+    [255, 255, 255, 0], [240, 240, 240, 0], [250, 250, 250, 0],
+    [174, 174, 174, 0], [255, 255, 255, 0], [173, 173, 173, 0],
+    [226, 226, 226, 0], [255, 255, 255, 0], [253, 253, 253, 0],
+    [163, 163, 163, 0], [254, 254, 254, 0], [255, 255, 255, 0],
+    [0, 0, 0, 0], [0, 0, 0, 0], [[0, 0, 0, 0],
+\end{lstlisting}
+
+Desto genauer dieser Array ist, desto genauer werden auch die Hitboxen der Spielumgebung.
+Hat ein Eintrag des Arrays an Stelle vier mehr als 0 als Wert, wird dort ein Pixel erstellt. Das liegt daran, dass an der vierten Stelle eines solchen Eintrags die Opacity der Bildstelle angegeben wird. Das bedeutet, jemand hat dort etwas gezeichnet.
+Natürlich muss der Sprite-Pixel noch einen richtigen X- und Y-Wert bekommen. Diese Koordinate muss auch mit dem Punkt des Bildes übereinstimmen, an den der Sprite als Hitbox agieren soll.
+Aus Perfomance-Gründen (Es wird durchgehend auf Kollidierung zwischen Player und Spielumgebung geprüft) werden die Sprite-Pixel entlang der X-Achse noch zusammengefasst.
+Wurden nun alle Sprite-Pixel ausfindig gemacht, mit richtigen Koordinaten versehen und entlang der horizontalen Achse zusammengefasst, werden alle einer p5-Group-Variable hinzugefügt.
+Das macht das Überprüfen auf Kollision sehr leicht. \\
+Die nächsten drei Bilder sollen den Ablauf bildlich darstellen.
+
+Zuerst hat man das originale, vom User gezeichnete Bild.
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5]{pics/simpleDrawing.PNG}
+    \caption{Originale Zeichnung}
+\end{figure}
+
+Daraus erhält man nun druch Objekterkennung einen Array aus den Bilddaten. Wenn man nun aber einfach mit diesem Array 
+die Pixel für die Spielumgebung erstellt, sind diese noch viel zu klein und an der falschen Position.
+\\
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5]{pics/simpleDrawing2.PNG}
+    \caption{Bilddaten-Array bildich dargestellt}
+\end{figure}
+
+Um die richtigen Koordinaten für die Sprite-Pixel zu bestimmen, werden noch einige andere Faktoren miteinbezogen und daraus dann die richtige Position der Pixel am Bildschirm ermittelt.
+Außerdem werden sie noch entlang der X-Achse kombiniert.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.75]{pics/simpleDrawing3.PNG}
+    \caption{Spielumgebung}
+\end{figure}
+
+Natürlich werden dann diese Sprites versteckt. Es soll ja so wirken, also würde sich der User auf dem, was er gerade gezeichnet hat, bewegen können.
+Im Folgenden wird der Algorithmus zum Aufbereiten der Spielumgebung vereinfacht dargestellt. 
+\begin{lstlisting}[caption=Erstellen der Spielumgebung,language=Java,label=lst:impl:createEnv]
+    environment = new Group();
+    // looping through image data array
+    for (let i = 0; i < pixel_clumps.length; i++) {
+      sprite_pixels[i] = [];
+      for (let j = 0; j < pixel_clumps[0].length; j++) {
+        if the value is greater than 0, then something has been drawn there
+        if (pixel_clumps[i][j][3] > 0) {
+          if the last value in the array is not undefined, we can merge the sprite-pixels
+          if (sprite_pixels[i][j - 1] !== undefined) {
+            same_x_counter++;
+            sprite_pixels[i][j] = createSprite(pixelWidth * faktorX, pielWidth + faktorY, pixelWidth * same_x_counter, pixelWidth);
+            sprite_pixels[i][j].visible = false;
+            sprite_pixels[i][j].immovable = true;
+            environment.add(sprite_pixels[i][j]);
+            // remove the last value, because it has been replaced by a new sprite, with more width
+            sprite_pixels[i][j - 1].remove();
+            sprite_pixels[i][j - 1] = undefined;
+          } else {
+            same_x_counter = 1;
+            sprite_pixels[i][j] = createSprite(pixelWidth * faktorX, pielWidth + faktorY, pixelWidth, pixelWidth); 
+            //sprite_pixels[i][j].debug = true;
+            sprite_pixels[i][j].immovable = true;
+            environment.add(sprite_pixels[i][j]);
+            sprite_pixels[i][j].visible = false;
+          }
+        }
+      }
+    }
+\end{lstlisting}
+
+\subsubsection{Item-Spawns}
+Alle 10 Sekunden wird 1 Item gespawned.
+Es wird an oberster Stelle des Bildschirms kreiert (y-Koordiante = 0); die x-Position dieses Items wird dann zufällig ausgewählt. 
+Wichtig dabei ist jedoch, dass das Items auf keiner Position spawnen darf, bei der es einfach oben auftaucht und dann aus dem Bildschirm fällt.
+Wie genau man zu diesen x-Koordiaten kommt, wird in Kapitel \ref{impl:xCoordinates} genau beschrieben. 
+Damit man Items voneinder unterscheiden kann, wird jede Art von Item farblich gekennzeichnet:
+
+\begin{compactitem}
+    \item Rot: Bomb
+    \item Blau: Black-Hole
+    \item Gelb: Piano
+    \item Orange: Mine
+    \item Grün: Size-Reduction
+\end{compactitem}
+
+Den Input, wann ein Item genau erstellt wird, (muss bei jedem User der gerade spielt gleich sein!) liefert der Server. Genauere Details wie der Server von Scribble-Fight funktioniert, findet man in Kapitel TODO
+\\
+
+\begin{lstlisting}[caption=Erstellen eines Items,language=Java,label=lst:impl:createItem]
+funciton createItem(data) {
+    // number between 1-5 from the server to create a random item
+    let num = data.num;
+    // random x-Coordinate from the server
+    let x = data.x
+    // this equation gets you the highest point of the map
+    let y = (windowHeight - ImageHeight) / 2;
+    // if x = -1, something on the server-side went wrong
+    if (x != -1) {
+        // itemSize is a global variable
+        switch (num) {
+            case 1:
+                i = createSprite(x, y, itemSize, itemSize);
+                i.type = "bomb";
+                break;
+            case 2:
+                i = createSprite(x, y, itemSize, itemSize);
+                i.type = "black_hole";
+                break;
+            case 3:
+                i = createSprite(x, y, itemSize, itemSize);
+                i.type = "piano";
+                break;
+            case 4:
+                i = createSprite(x, y, itemSize, itemSize);
+                i.type = "mine";
+                break;
+            case 5:
+                i = createSprite(x, y, itemSize, itemSize);
+                i.type = "small";
+                break;
+        }
+        i.dropped = false;
+        items.push(i);
+    }
+\end{lstlisting}
+
+Nachdem nun das Item erstellt wurde, braucht dieses natürlich auch so wie zum Beispiel die Projektile oder der Player eine eigene Physik-Methode. Diese wird, so wie die anderen Physik-Methoden auch, in der Draw-Methode aufgerufen.
+Die Methode funktioniert so, dass das Item so lange fällt, bis es irgenwo auf der Spielumgebung landet. Jeder Player kann das Item berühren und somit eine neue Fähigkeit bekommen.
+
+\begin{lstlisting}[caption=Item-Physik,language=Java,label=lst:impl:itemPhy]
+    function itemPickUp() {
+        if (items.length > 0) {
+            items.forEach(item => {
+                // if the item collides with the environment, the dropped-attribute becomes true
+                if(item.collide(environment)) {
+                    item.dropped = true;
+                }
+                // if the item has not landed anywhere, let it fall 
+                if(!item.dropped) {
+                    item.velocity.y -= GRAVITY;
+                }
+    
+                // if I collide with the item, I get a new ability depending on the type of the item and the item gets deleted
+                if (item.overlap(myPlayer.sprite)) {
+                    myPlayer.item[item.type] = new Item(item.type);
+                    deleteItem(item);
+                }
+        }
+    }
+    \end{lstlisting}
+
+\textbf{Bestimmung von gültigen X-Koordinaten} \label{impl:xCoordinates}
+\\
+Mit gültiger X-Koordinaten sind jene X-Koordinaten gemeint, bei denen ein Sprite erstellt werden kann, und man sich sicher sein kann, dass der gespawnte Sprite auf der Spielumgebung landen wird und nicht einfach aus dem Bildschirm fliegt.
+Um den Algorithmus verstehen zu können, muss man wissen, wie die Spielumgebung erstellt wird und was ein Pixel-Width ist. Dies wird in Kapitel \ref{impl:Spielumgebung} beschrieben.
+Bei dem Algorithmus wird zuerst überprüft, auf welchen Stellen Sprite-Pixel vorhanden sind. Von diesen kann schon der Mittelpunkt als gültige X-Koordiaten genommen werden, solange dieser Pixel eine gewisse Breite aufweist. 
+Doch damit bei einem sehr breiten Pixel nicht nur eine einzige X-Koordinate ausgewählt wird, wird schrittweise überprüft, ob noch Stellen vor oder hinter dem Mittelpunkt des Sprites in Frage kommen.
+Dazu wird dieser Sprite-Pixel nach vorne und nach hinten abgetastet, ob noch genügend Platz da ist, ein Item dort landen zu lassen. 
+Es können höchstens halb so viele X-Koordiaten pro Sprite-Pixel ausgewählt werden, wie der Pixel (in Pixel-Width gemessen) breit ist. 
+Die Funktion wird im Setup von Scribble-Fight aufgerufen. 
+
+\begin{lstlisting}[caption=Bestimmung gültiger X-Koordinaten,language=Java,label=lst:impl:xCoords]
+    function getXCoordinates() {
+        let sprite;
+        // looping through the sprite_pixel array
+        for (let i = 0; i < sprite_pixels.length; i++) {
+            for (let j = 0; j < sprite_pixels[i].length; j++) {
+                sprite = sprite_pixels[i][j];
+                // if the sprite variable is not undefined, it means a sprite exists there
+                // the sprite hast to be a width of at least 4 times the normal pixel width
+                if (sprite !== undefined && sprite.width >= pixelWidth * 4) {
+                    // sprites gets checked if there are more Coordinates to let an item spawn there (to the right of the center)
+                    for (let index = 0; index < sprite.width / 2; index += pixelWidth * 2) {
+                        if (sprite.position.x + index < sprite.position.x + sprite.width / 2) {
+                            let x = sprite.position.x + index;
+                            xCoordinates.push(x);
+                        }
+                    }
+                    // sprites gets checked if there are more Coordinates to let an item spawn there (to the left of the center)
+                    for (let index = sprite.width; index > sprite.width / 2; index -= pixelWidth * 2) {
+                        if (sprite.position.x + index > sprite.position.x + sprite.width / 2) {
+                            let x = sprite.position.x + index - sprite.width;
+                            xCoordinates.push(x);
+                        }
+                    }
+                    // doing this eliminates duplicates
+                    xCoordinates = Array.from(new Set(xCoordinates));
+                }
+            }
+            return xCoordinates;
+        }
+    }
+\end{lstlisting}
 
 
 
 
 
 
-\subsection{Backend [R]}
+\subsection{Server [R]}
 \subsubsection{Node.js [R]}
 \subsubsection{SocketIO [R]}
 \subsection{Gamephysics [R]}
