@@ -533,12 +533,11 @@ Im Folgenden wird der Algorithmus zum Aufbereiten der Spielumgebung vereinfacht 
       for (let j = 0; j < pixel_clumps[0].length; j++) {
         if the value is greater than 0, then something has been drawn there
         if (pixel_clumps[i][j][3] > 0) {
-          if the last value in the array is not undefined, we can merge the sprite-pixels
+          //if the last value in the array is not undefined, we can merge the sprite-pixels
           if (sprite_pixels[i][j - 1] !== undefined) {
             same_x_counter++;
             sprite_pixels[i][j] = createSprite(pixelWidth * faktorX, pielWidth + faktorY, pixelWidth * same_x_counter, pixelWidth);
-            sprite_pixels[i][j].visible = false;
-            sprite_pixels[i][j].immovable = true;
+            // add sprite to environment group
             environment.add(sprite_pixels[i][j]);
             // remove the last value, because it has been replaced by a new sprite, with more width
             sprite_pixels[i][j - 1].remove();
@@ -546,10 +545,8 @@ Im Folgenden wird der Algorithmus zum Aufbereiten der Spielumgebung vereinfacht 
           } else {
             same_x_counter = 1;
             sprite_pixels[i][j] = createSprite(pixelWidth * faktorX, pielWidth + faktorY, pixelWidth, pixelWidth); 
-            //sprite_pixels[i][j].debug = true;
-            sprite_pixels[i][j].immovable = true;
+            // add sprite to environment group
             environment.add(sprite_pixels[i][j]);
-            sprite_pixels[i][j].visible = false;
           }
         }
       }
