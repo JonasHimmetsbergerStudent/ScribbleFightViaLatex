@@ -86,7 +86,7 @@ Man merkt den Unterschied zu den heutzutage weit verbreiteten Concurrency-Modell
 man sich keine Sorgen über dead-locking machen muss, da fast keine Node.js Funktion direkte I/O Operationen durchführt. Also ist der ganze Prozess so gut wie nie blockiert, ausser
 wenn synchrone Methoden der Node.js Standard Library benutzt wird.
 
-\subsubsection{NPM}
+\subsubsection{NPM}\label{NPM}
 Neben Node an sich, ist NPM (Node Package Manager) das wichtigste Werkzeug für Node Applikationen. Mit NPM können alle Packages, die das Projekt benötigt, gefetched werden.
 Es ist möglich, alle Packages einzeln zu fetchen, jedoch benutzt man normalerweise ein package.json File. In diesem File stehen alle Dependencies für jedes JavaScript Package,
 das benötigt wird, sowie auch Meta-Daten zu dem Node Projekt. Erstellt wird dieses

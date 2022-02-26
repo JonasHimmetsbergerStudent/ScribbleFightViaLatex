@@ -1,7 +1,7 @@
 \section{Web-Game [R]}
 \setauthor{Rafetseder Tobias}
-\subsection{Client [R]}
-Für die Umsetzung des Clients wird p5.js beziehungsweise p5.play.js verwendet. 
+\subsection{Frontend [R]}
+Für die Umsetzung des Frontends wird p5.js beziehungsweise p5.play.js verwendet. 
 Eine detaillierte Beschreibung zu diesen JavaScript-Bibliotheken und wie man sie in ein Projekt einbinden kann, wird in Kapitel \ref{subsection:p5js} genau beschrieben.
 p5.play.js basiert auf einer Sprite Klasse. Diese Sprite-Klasse hat einige praktische vordefinierte Funktionen für zum Beispiel Collisiondetection oder Animation Support. 
 Um einen Sprite zu erstellen, wird einfach die Funktion createSprite() aufgerufen.
@@ -387,7 +387,7 @@ function sendHimFlying() {
 \end{lstlisting}
 
 
-\textbf{Richtungswechsel des Sprites}
+\textbf{Richtungswechsel des Sprites} \label{directionChange}
 \\
 Ein weiterer wichtiger Aspekt bei der Bewegung des Player-Sprites ist, dass sich auch die Orientierung des Bildes ändern muss, wenn dieser die Richtung wechselt.
 Auch für diese Problemstellung stellt p5.play.js eine Lösung zu Verfügung. Mit der Methode <mirrorX()> wird der Sprite entlang seiner vertikalen Achse gespiegelt.
@@ -680,9 +680,284 @@ Die Funktion wird im Setup von Scribble-Fight aufgerufen.
 
 
 
-
-
 \subsection{Server [R]}
+Der Server von Scribble-Fight ist ein einfacher Web-Server, der mit node.js und express.js umgesetzt wurde. 
+Dieser hostet statische Files, auf denen sich der Code für das Frontend befindet (HTML Files, p5.js library, etc).
+Viele Teile dieses Codes werden im vorherigen Kapitel detailliert erklärt. 
+Durch SocketIO können multiple Clients eine Verbindung mit dem Server aufbauen.
+So wird es ermöglicht, dass man von unterschiedlichen Netzwerken aus gemeinsam spielen kann. 
+
+\subsubsection{Erstellen des Servers}
+Ein node.js Server ist einfach zu erstellen. Man benötigt eigentlich nur zwei Voraussetzungen:
+
+\begin{compactitem}
+    \item {Eine funktionierende Node.js-Version}
+    \item Java-Script Grundlagen
+\end{compactitem}
+
+Ist dies gegeben, kann man einfach einen neuen Ordner erstellen, in diesen wechseln und den Befehl \texttt{npm init} ausführen. 
+Dort wird dann ein package.json File für das Node-Projekt erstellt. Nähere Infos zu diesem File findet man in Kapitel \ref{NPM}.
+Danach kann man einfach entweder durch eine Entwicklungsumgebung ein neues Java-Script File erstellen, oder man benutzt im Terminal den Befehl \texttt{touch server.js}.
+In dem Backend von Scribble-Fight werden express.js und SocketIO benutzt, deshalb muss man die Befehle \texttt{npm install express --save} für express.js, und
+\texttt{npm install socket.io} für SocketIO im Terminal ausführen. Dies installiert die Module und fügt die Dependencies zu dem package.json File hinzu. 
+
+Wurde all das berücksichtigt, wird jetzt die Logik des server.js-Files umgesetzt. Zuerst wird eine Instanz von express.js erstellt. 
+Danach wird ein HTTP-Server-Objekt und eine SocketIO Instanz angelegt, die das HTTP-Server-Objekt als Paramter nimmt. Zusätzlich wird noch Cross-Origin Resource Sharing freigegeben. 
+Der Code sieht also so aus: 
+
+\begin{lstlisting}[caption=,language=Java,label=lst:impl:socketIO]
+    var express = require("express");
+    var app = express();
+    var http = require("http").createServer(app);
+    var io = require("socket.io")(http, {
+        cors: {
+            origin: '*',
+        }
+    });
+\end{lstlisting}
+
+Das war aber nur ein Teil, um einen funktionierenden SocketIO-Webserver zu erstellen. Bei unserem Web-Game müssen, wie vorher schon erwähnt, das Frontend als statische Files gehostet werden.
+Für dieses Problem wurde das Paths-Module von node.js verwendet. Dieses stellt Funktionen für das Arbeiten mit File-und Directory-Pfaden zur Verfügung. Darauf zugreifen kann  man mit:
+
+\begin{lstlisting}[caption=,language=Java,label=lst:impl:socketIO]
+    const path = require('path');
+\end{lstlisting}
+
+Nun können die Files einfach mit \\
+
+\begin{lstlisting}[caption=,language=Java,label=lst:impl:socketIO]
+    // path.join is used to get the right path 
+    app.use(express.static(path.join(__dirname, '/../p5_frontend/src')));
+\end{lstlisting}
+
+gehostet werden. (Diese befinden sich in dem Folder <src>);
+
+Als letzten Schritt wird noch der Port bei dem HTTP-Server-Objekt angegeben, im Fall von unserem Server ist dieser 3000. 
+\begin{lstlisting}[caption=,language=Java,label=lst:impl:socketIO]
+    // Server is listening on port 3000
+    http.listen(3000);
+\end{lstlisting}
+
+Ist das alles abgeschlossen, wird nun die SocketIO Logik umgesetzt. 
+
+\subsubsection{SocketIO Logik}
+Der nun funktionierende Web-Server soll nun SocketIO-Verbindungen, die vom Browser kommen, annehmen können.
+Mit der SocketIO Instanz, die im letzten Abschnitt erstellt worden ist, kann dieses Problem sehr leicht gelöst werden:
+
+\begin{lstlisting}[caption=,language=Java,label=lst:impl:socketIO]
+    io.sockets.on('connection', newConnection);
+
+    function newConnection(socket) {
+        // LOGIC COMES HERE
+    }
+\end{lstlisting}
+
+Findet nun eine Verbindung zu dem Server von einem Client statt, wird die Methode <newConnection(socket)> aufgerufen. 
+Als Paramter dieser Methode bekommt man eine socket-Instanz, die sehr viele Informationen und Funktionalitäten der gerade bestehenden Verbindung enthält.
+Wie der Client eine Verbindung zu diesem Server aufbauen kann, ist von Programmiersprache zu Programmiersprache unterschiedlich. Im Frontend von Scribble-Fight wird Java-Scritp benutzt. 
+
+\textbf{SocketIO im Frontend}
+
+Um im Frontend eine SocketIO-Verbindung aufzubauen, wird zuerst in dem index.html File die SocketIO Library verlinkt:
+\begin{lstlisting}[,language=Java,label=lst:impl:socketIO]
+    // link SocketIO in index.html
+    <script src="https://cdn.socket.io/4.1.2/socket.io.min.js"></script>
+\end{lstlisting}
+
+Jetzt kann einfach eine neue Socket-Instanz erstellt werden mit der man Events empfangen, aber auch aussenden kann. 
+Da der Server von Scribble-Fight nicht mehr lokal läuft, sondern auf einem Kubernetes-Cluster, wird hierbei noch ein Pfad definiert, um eine korrekte Instanz zu erstellen.
+
+\begin{lstlisting}[,language=Java,label=lst:impl:socketIO]
+    var socket = io({
+        path: "/t.rafetseder/scribble-fight/socket.io"
+      }); 
+\end{lstlisting}
+
+Würde man einfach den Befehl \texttt{io()} benutzen, würde SocketIO die Pfad-Paramter der derzeiten Domaine einfach ignorieren. 
+\\
+Nun kann man mit dem Befehl
+\\
+\texttt{socket.on('event',funciton)} Events empfangen, und mit \texttt{socket.emit('event')} Events auslösen.
+
+\textbf{SocketIO Events} \\
+Nachdem nun eine aufrechte Verbindunge hergestellt werden konnte, gibt es 10 Events, die passieren können. 
+\begin{compactitem}
+    \item Ein neuer Spieler soll erstellt werden
+    \item Abruf von schon bestehenden Spielern
+    \item Die Position von meinem Sprite soll geupdatet werden
+    \item Die Richtung, in die mein Sprite schaut, soll geupdatet werden
+    \item Ein Item wurde aufgehoben, also soll es bei jedem entfernt werden
+    \item Jemand hat eine Attacke ausgeführt, also soll bei jedem ein Projektil erstellt werden
+    \item Jemand hat einen Kill erzielt
+    \item Ein Spieler wurde von einem Projektil getroffen, das heißt das Projektil, das getroffen hat, muss bei jedem entfernt werden
+    \item Jemand ist gestorben
+\end{compactitem}
+
+Diese Events werden im Folgenden genau erklärt. 
+
+\textbf{Erstellen eines neuen Spielers und Abrufen von vorhandenen Spieler} \\
+Führt man das Frontend des Web-Games aus, stellt dieses sofort eine Verbindung mit dem Sever her. Um nun schon vorhandene Spieler, die gerade auch verbunden sind zu erhalten, wird ein Event <getPlayers> emittiert.
+Danach muss natürlich dem Server noch mitgeteilt werden, dass man nun selbst auch eine spielbare Figur erhlaten möchte. Dies wird mit dem <newPlayer>-Event bewerkstelligt.
+Wird nun das Event <newPlayer> vom Server ausgelöst, wird ein neues Player-Objekt dem Player-Array des Frontends hinzugefügt. Der Konstruktur von diesem Player-Objekt benötigt nur einen Sprite, der auch neu erstellt wird.
+\begin{lstlisting}[,language=Java,label=lst:impl:socketIO]
+    // listen to an event from the server
+    socket.on('newPlayer',createNewPlayer);
+    // get existing players
+    socket.emit('getPlayers');
+    // create my own player
+    socket.emit('newPlayer');
+
+    function createNewPlayer(data) {
+        // new player gets added an new sprite is created in the middle of the map
+        players[data.id] = new Player(createSprite(ImageWidth / 2,ImageHeight / 2, player_width, player_height));
+    }
+\end{lstlisting}
+
+Im Server sieht das Ganze etwas komplizierter aus. Grundsätzlich speichert der Server alle Player-Objekte in einem Map-Objekt ab.
+Die ID für jedes dieser Player-Objekte dient einfach die ID der Socket-Verbindung. Will ein Client nun alle schon vorhandenen Spieler, wird die Map (falls Spieler vorhanden) durchlaufen, und die ID von jedem der Spieler an den anfragenden Client geschickt.
+Dieser erstellt dann einen neuen Player / mehrere neue Player mit der dazugehörigen ID.
+
+\begin{lstlisting}[,language=Java,label=lst:impl:socketIO]
+    socket.on('getPlayers',sendPlayers);
+
+    // the object players is the map that has the player-objects saved
+    function sendPlayers() {
+        if (players.size > 0) {
+            players.forEach((values, keys) => {
+                let data = {
+                    id: values.id,
+                }
+                socket.emit('newPlayer', data);
+            })
+        }
+    }
+\end{lstlisting}
+
+Nachdem nun der Server alle schon vorhanden Spieler dem Client mitgeteilt hat, muss noch ein neuer Spieler für diesen Client erstellt werden. 
+
+\begin{lstlisting}[,language=Java,label=lst:impl:socketIO]
+    socket.on('newPlayer',createPlayer);  
+
+    function createPlayer() {
+        players.set(socket.id, new Player(socket.id));
+        let data = {
+            id: socket.id,
+        }
+        // im using io.emit() so it sends to everyone, including the client that triggered the event
+        io.emit('newPlayer', data);
+    }
+\end{lstlisting}
+
+Der Client erstellt nun genau gleich wie bei dem <getPlayers>-Event den Spieler.
+
+\textbf{Update Position and Update Direction}
+
+Die Postion des Sprites von jedem Spieler soll in jedem Draw-Zyklus geupdatet werden. Die Orientierung des Sprites soll nur dann aktualisiert werden, wenn der Spieler die Richtung seines Sprites wechselt. (Beschrieben in Kapitel \ref{directionChange})
+Leider ergibt sich beim Aktualisieren von Positionen von Sprites ein Problem. Die Koordinaten in p5.js weden in Pixel angeben. Das bedeuet, haben unterschiedliche Client unterschiedlich große Endgeräte, befinden sich Sprites mit gleichen Koordinaten an unterschiedlichen Stellen. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=1]{pics/pixelDiff.PNG}
+    \caption{Pixel-Unterschied}
+\end{figure}
+
+Aus diesem Grund kann man nicht einfach nur die rohen Koordinaten an alle Clients schicken, muss muss sie in Relation zu dem Bildschirm des Endgeräts und der Größe der Map, also dem Bild auf dem gerade gespielt wird, setzen.
+Der Code am Ende von jedem Draw-Zyklus sieht also so aus:
+
+\begin{lstlisting}[,language=Java,label=lst:impl:socketIO]
+    let transferX = (myPlayer.sprite.position.x - (windowWidth - ImageWidth) / 2) * originalBildBreite / neueBildBreite;
+    let transferY = (myPlayer.sprite.position.y - (windowHeight - ImageHeight) / 2) * originalBildHoehe / neueBildHoehe;
+    relPosData = {
+      x: transferX,
+      y: transferY
+    }
+      socket.emit('update', relPosData);
+\end{lstlisting}
+
+Im Server werden diese Koordinaten einfach zusammen mit der passenden ID des Players an alle Spieler verteilt:
+
+\begin{lstlisting}[,language=Java,label=lst:impl:socketIO]
+
+socket.on('update',updatePosition)
+
+    function updatePosition(data) {
+        let posData = {
+            x: data.x,
+            y: data.y,
+            id: socket.id
+        }
+        // with socket.broadcast, everyone except the one who triggered the event gets the data
+        socket.broadcast.emit('updatePosition', posData);
+    }
+\end{lstlisting}
+
+Empfängt ein Client die Koordinaten, muss er diese dann wieder für sein Endgerät richtig umwandeln: 
+
+
+\begin{lstlisting}[,language=Java,label=lst:impl:socketIO]
+
+socket.on('updatePosition',updatePosition);
+
+    function updatePosition(data) {
+        players[data.id].sprite.position.x = 
+        data.x * neueBildBreite / originalBildBreite + (windowWidth - neueBildBreite) / 2;
+
+        players[data.id].sprite.position.y = 
+        data.y * neueBildHoehe / originalBildHoehe + (windowHeight - neueBildHoehe) / 2;
+    }
+\end{lstlisting}
+
+Zum Glück ist das Aktualisieren von der Richtung des Sprites viel leichter. Dort spielt es keine Rolle, wie groß das Endgerät ist. 
+Beim Drücken von A oder D auf der Tastatur, wird jetzt einfach ein Event getriggered, dass die Richtung des Sprites bei jedem verbundenen Spieler ändert.
+
+
+\begin{lstlisting}[,language=Java,label=lst:impl:socketIO]
+    // A
+    if (keyWentDown(65)) {
+        socket.emit('updateDirection', 'left');
+    }
+    // D
+    if (keyWentDown(68)) {
+        socket.emit('updateDirection', 'right');
+    }
+\end{lstlisting}
+
+Im Server wird die Information nun einfach an alle Clients verteilt:
+
+\begin{lstlisting}[,language=Java,label=lst:impl:socketIO]
+   socket.on('updateDirection',updateDirection);
+
+   function updateDirection(data) {
+    let dataWithId = {
+        id: socket.id,
+        direction: ""
+    }
+        if (data == "left") {
+            dataWithId.direction = "left";
+            socket.broadcast.emit('updateDirection', dataWithId);
+        } else if (data == "right") {
+            dataWithId.direction = "right";
+            socket.broadcast.emit('updateDirection', dataWithId);
+        }
+}
+\end{lstlisting}
+
+Wird vom Client nun das <updateDirection>-Event empfangen, wird einfach die Orientierung des Sprites geändert.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \subsubsection{Node.js [R]}
 \subsubsection{SocketIO [R]}
 \subsection{Gamephysics [R]}
