@@ -49,7 +49,7 @@ Zum Erstellen der Player-Klasse wird zwar ein Sprite benötigt, damit der Player
     \item direction: String, der die Richtung angibt, in die man gerade schaut (links oder rechts)
 \end{compactitem}
 
-Während des Spiels werden auf der Map Items gespawned. Welcher Algorithmus dahinter steckt, wird im Kapitel TODO genauer beschrieben.
+Während des Spiels werden auf der Map Items gespawned. Welcher Algorithmus dahinter steckt, wird im Kapitel \ref{impl:xCoordinates} genauer beschrieben.
 Es wird zwischen 5 unterschiedlichen Items entschieden. Eine Item-Klasse hat ähnlich wie die Player-Klasse als Hauptbestandteil einen Sprite, doch auch hier werden noch weitere Attribute benötigt.
 
 \begin{figure}[H]
@@ -1197,7 +1197,7 @@ Auf der Server-Seite sieht der Code also so aus:
  \end{lstlisting}
 
  Der Client muss jetzt nur mehr beim Empfangen dieses Events ein Item am richtigen Ort erstellen. 
- Wie Items am Client erstellt werden, findet man in Kapitel \ref{impl:itemSpawnF}.
+ Wie Items am Client erstellt werden, findet man in Kapitel \ref{impl:itemSpawnF}.\\
  Vereinfacht sieht der Code am Client also so aus:
 
 
@@ -1209,6 +1209,9 @@ Auf der Server-Seite sieht der Code also so aus:
         // item gets created here
     }
  \end{lstlisting}
+
+ Das waren allen Funktionalitäten des Scribble-Fight-Web-Servers. Dieser läuft allerdings nicht mehr lokal, sondern auf einem Kubernetes-Cluster: Der Leocloud. 
+ Wie der Server deployed werden konnte, wird in dem nächsten Kapitel beschrieben.
 
 
 \section{Deployment [R]}
