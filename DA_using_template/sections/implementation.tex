@@ -422,7 +422,7 @@ Jedes mal, wenn der User nun also die Richtung seines Player-Sprites wechselt, w
     }
 \end{lstlisting}
 
-\subsubsection{Wie gewinne ich?}
+\subsubsection{Wie gewinne ich?} \label{impl:win}
 Um in Scribble-Fight zu gewinnen, muss man seinen Gegner/seine Gegner drei mal erfolgreich von der Spielumgebung schießen, so, dass der Sprite des Gegners ins Nichts fällt.
 Dies ist durch die Attacken, die in Kapitel \ref{impl:items} genau beschreiben werden, möglich. 
 Um zu überprüfen, ob der Sprite nun hinuntergefallen und somit 'gestorben' ist, wird in der draw-Methode die Funktion <deathCheck()> aufgerufen.
@@ -465,13 +465,38 @@ function youDied() {
 
 Außerdem zählt es auch als Tod, wenn der Knockback des eigenen Players über 100 ansteigt. Dies wird mit der <fatalHit()>-Methode überprüft.
 Diese Methode wird immer dann aufgerufen, wenn der eigene Player von irgendeinem Projekil getroffen wurde.
-\begin{lstlisting}[caption=Fatal Hit,language=Java,label=lst:impl:falatHit]
+\begin{lstlisting}[caption=Fatal Hit,language=Java,label=lst:impl:fatalHit]
     function fatalHit() {
         if (myPlayer.knockback >= 100) {
             youDied();
         }
     } 
 \end{lstlisting}
+Ein Indikator, ob man gut abgeschnitten hat, sind die Kills, die man erzielen konnte.
+In Scribble-Fight kann man Kills sammeln, indem man jemanden mit jeglicher Art von Projektil trifft, und dieser innerhalb von 3 Sekunden aus der Spielumgebung fliegt. 
+Dies funktioniert so, dass wenn jemand meinen player-Sprite trifft, in meinem Player-Objekt abgespeichert wird, welcher Spieler mich gerade getroffen hat. 
+Diese Information wird aber alle 3 Sekunden wieder gelöscht. 
+
+\begin{lstlisting}[,language=Java]
+    function draw() {
+        // every second, the countdown gets reduced by 1
+        if (frameCount % 60 == 0 && damagedByTimer > 0 && myPlayer.damagedBy != null) {
+            damagedByTimer--;
+          }
+      
+        // if the countdown has reached 0, the information gets deleted and the countdown restarts
+        if (damagedByTimer == 0) {
+            damagedByTimer = 3;
+            myPlayer.damagedBy = null;
+        }
+    }
+   
+\end{lstlisting}
+
+
+Wenn ich nun sterbe, und die Information, dass mich jemand getroffen hat in meinem Player-Objekt gespeichert ist, bekommt dieser einen Kill. 
+
+
 
 \subsubsection{Erstellung der Spielumgebung} \label{impl:Spielumgebung}
 Um sich auch auf dem Bild, das der User gezeichnet hat, bewegen zu können, muss einiges gemacht werden. Mittels Objekterkennung kann das Bild abfotografiert, 
@@ -524,8 +549,8 @@ Außerdem werden sie noch entlang der X-Achse kombiniert.
 \end{figure}
 
 Natürlich werden dann diese Sprites versteckt. Es soll ja so wirken, also würde sich der User auf dem, was er gerade gezeichnet hat, bewegen können.
-Im Folgenden wird der Algorithmus zum Aufbereiten der Spielumgebung vereinfacht dargestellt. 
-\begin{lstlisting}[caption=Erstellen der Spielumgebung,language=Java,label=lst:impl:createEnv]
+Im Folgenden wird der Algorithmus zum Aufbereiten der Spielumgebung vereinfacht dargestellt.
+\begin{lstlisting}[,language=Java,label=lst:impl:createEnv]
     environment = new Group();
     // looping through image data array
     for (let i = 0; i < pixel_clumps.length; i++) {
@@ -553,11 +578,11 @@ Im Folgenden wird der Algorithmus zum Aufbereiten der Spielumgebung vereinfacht 
     }
 \end{lstlisting}
 
-\subsubsection{Item-Spawns}
-Alle 10 Sekunden wird 1 Item gespawned.
+\subsubsection{Item-Spawns} \label{impl:itemSpawnF}
+Alle 10 Sekunden wird ein Item gespawned.
 Es wird an oberster Stelle des Bildschirms kreiert (y-Koordiante = 0); die x-Position dieses Items wird dann zufällig ausgewählt. 
 Wichtig dabei ist jedoch, dass das Items auf keiner Position spawnen darf, bei der es einfach oben auftaucht und dann aus dem Bildschirm fällt.
-Wie genau man zu diesen x-Koordiaten kommt, wird in Kapitel \ref{impl:xCoordinates} genau beschrieben. 
+Wie man zu diesen x-Koordiaten kommt, wird in Kapitel \ref{impl:xCoordinates} genau beschrieben. 
 Damit man Items voneinder unterscheiden kann, wird jede Art von Item farblich gekennzeichnet:
 
 \begin{compactitem}
@@ -568,7 +593,7 @@ Damit man Items voneinder unterscheiden kann, wird jede Art von Item farblich ge
     \item Grün: Size-Reduction
 \end{compactitem}
 
-Den Input, wann ein Item genau erstellt wird, (muss bei jedem User der gerade spielt gleich sein!) liefert der Server. Genauere Details wie der Server von Scribble-Fight funktioniert, findet man in Kapitel TODO
+Den Input, wann ein Item genau erstellt wird, (muss bei jedem User der gerade spielt gleich sein!) liefert der Server. Genauere Details wie der Server von Scribble-Fight funktioniert, findet man in Kapitel \ref{impl:itemSpawnB}
 \\
 
 \begin{lstlisting}[caption=Erstellen eines Items,language=Java,label=lst:impl:createItem]
@@ -610,7 +635,7 @@ funciton createItem(data) {
 \end{lstlisting}
 
 Nachdem nun das Item erstellt wurde, braucht dieses natürlich auch so wie zum Beispiel die Projektile oder der Player eine eigene Physik-Methode. Diese wird, so wie die anderen Physik-Methoden auch, in der Draw-Methode aufgerufen.
-Die Methode funktioniert so, dass das Item so lange fällt, bis es irgenwo auf der Spielumgebung landet. Jeder Player kann das Item berühren und somit eine neue Fähigkeit bekommen.
+Die Methode funktioniert so, dass das Item so lange fällt, bis es irgenwo auf der Spielumgebung landet. Jeder Player kann jeder Zeit das Item berühren und somit eine neue Fähigkeit bekommen.
 
 \begin{lstlisting}[caption=Item-Physik,language=Java,label=lst:impl:itemPhy]
     function itemPickUp() {
@@ -791,6 +816,7 @@ Nachdem nun eine aufrechte Verbindunge hergestellt werden konnte, gibt es 10 Eve
     \item Jemand hat einen Kill erzielt
     \item Ein Spieler wurde von einem Projektil getroffen, das heißt das Projektil, das getroffen hat, muss bei jedem entfernt werden
     \item Jemand ist gestorben
+    \item Es soll ein neues Item erstllet werden (Passiert alle 10 Sekunden)
 \end{compactitem}
 
 Diese Events werden im Folgenden genau erklärt. 
@@ -871,7 +897,7 @@ Der Code am Ende von jedem Draw-Zyklus sieht also so aus:
       x: transferX,
       y: transferY
     }
-      socket.emit('update', relPosData);
+    socket.emit('update', relPosData);
 \end{lstlisting}
 
 Im Server werden diese Koordinaten einfach zusammen mit der passenden ID des Players an alle Spieler verteilt:
@@ -944,26 +970,247 @@ Im Server wird die Information nun einfach an alle Clients verteilt:
 
 Wird vom Client nun das <updateDirection>-Event empfangen, wird einfach die Orientierung des Sprites geändert.
 
+\textbf{Synchronisieren von Projektilen oder Items} \\
+Wenn ich ein Item aufsammle, soll dieses natürlich für die anderen Spieler nicht mehr verfügbar sein. Genauso soll, wenn ich eine Attacke ausführe, diese bei allen anderen Spielern auch ausgeführt werden.
+Die Logik dazu ist relativ simpel. Jedes Item bekommt beim Erstellen eine eigene unique ID. Sammelt nun irgendein Spieler dieses Item auf, wird an den Server eine Benachrichtigung gesendet, dass jemand dieses Item aufgesammelt hat. 
+Dieser verteilt diese Information einfach an alle Spieler, und das Item mit der richtigen ID wird bei jedem gelöscht. 
+Bei den Projektilen ist es ähnlich. Wenn ein Spieler eine Attacke ausführt, wird auch das dem Server mitgeteilt. Der verteilt nun wieder die Information an alle Spieler, und bei jedem wird ein neues Projekil mit der gleichen ID erstellt.
+Wenn irgendeiner der Spieler eine Kollision zwischen ihrem Player-Sprite und einem Projekil feststellt, wird das dem Server mitgeilt und dieser teilt wieder allen anderen Spieler mit, dass das Projektil bei jedem gelöscht werden muss.
+Der Server hat einen Array mit Item-Objekten gespeichert. Vereinfacht sieht die Logik so auf der Server-Seite aus:
+
+\begin{lstlisting}[,language=Java,label=lst:impl:socketIO]
+
+    socket.on('deleteItem', deleteItem);
+    socket.on('attack', syncAttacks);
+    socket.on('deleteAttack', deleteAttack);
+
+    function deleteItem(data) {
+        items.forEach(i => {
+            if (i == data.id) {
+                // remove item from item array
+                items.splice(items.indexOf(i), 1);
+                socket.broadcast.emit('deleteItem', data);
+            }
+        });
+    }
+
+    // data consist of type of attack and attack ID
+    function syncAttacks(data) {
+        socket.broadcast.emit('attack', data);
+    }
+
+    // data consist of type of attack and attack ID
+    function deleteAttack(data) {
+        socket.broadcast.emit("deleteAttack", data);
+    }
+
+ \end{lstlisting}
+
+ Im Frontend werden einfach die bestimmten Events am richtigen Ort ausgelöst. 
+ Zum Beispiel, wenn man eine Bombe erstellt: 
+
+ \begin{lstlisting}[,language=Java,label=lst:impl:socketIO]
+    funciton addBomb() {
+        // bomb gets created here
+        let data = {
+            playerId: socket.id,
+            type: "bomb",
+            x: bomb.position.x,
+            y: bomb.position.y,
+        }   
+        socket.emit("attack",data);
+    }
+ \end{lstlisting}
 
 
+ Natürlich befindet sich auch die Logik, um die vom Server ausgelösten Events zu empfangen und darauf zu reagieren, am Client.
+
+ \begin{lstlisting}[,language=Java,label=lst:impl:socketIO]
+    socket.on('deleteItem', syncItems);
+    socket.on('attack', addAttack);
+    socket.on('deleteAttack', deleteAttack);
+
+    // remove item from the item array
+    function syncItems(data) {
+        items[data.index].remove();
+        items.splice(items.indexOf(items[data.index]), 1);
+    }
+
+    // add a projectile, depending on the type of attack
+    function addAttack(data) {
+    switch (data.type) {
+        case "default": addDefaultAttack(data);
+            break;
+        case "bomb": addBomb(data);
+            break;
+        case "blackHole": addBlackHole(data);
+            break;
+        case "piano": addPiano(data);
+            break;
+        case "mine": addMine(data);
+            break;
+        case "small": addSmall(data);
+            break;
+        }  
+    }
+
+    // delete the right projectile, depending on the type and the ID of the projectile
+    function deleteAttack(data) {
+        
+        switch (data.type) {
+            case "default":
+                projectiles.forEach(p => {
+                    if (p.id === data.id) {
+                        p.remove();
+                    }
+                });
+                break;
+            case "bomb":
+                bombs.forEach(b => {
+                    if (b.id === data.id) {
+                        b.remove();
+                    }
+                });
+                break;
+        // ... and so on
+        }
+    }
+
+ \end{lstlisting}
+
+ Somit ist schon die meiste Logik des SocketIO-Servers gegeben. Was aber noch wichtiges fehlt, ist wenn jemand aus der Spielumgebung fällt, muss immer auf Gewinner überprüft und Kills abgespeichert werden.
+
+ \textbf{Tode und Kills} \\
+ Wie man in Scribble-Fight gewinnt, wann man 'stirbt' und wie man Kills sammelt wird alles auf der Client-Seite in Kapitel \ref{impl:win} beschrieben. 
+ Doch natürlich muss der Client auch mit dem Server kommunizieren, damit dieser all diese Events auch an alle anderen Spieler mitteilen kann.
+ Stirbt ein Spieler, teilt er dies dem Server mit. Dieser speichert die Information ab und überprüft, ob der Spieler noch weiter mitspielen darf. 
+ Ist er jedoch schon zum dritten Mal gestorben, ist dies nicht mehr der Fall und der Spieler wird aus der Spieler-Map vom Server gelöscht.
+ Ist ab dem Zeitpunkt nur mehr ein einziger Spieler in dem Map-Objekt gespeichert, hat dieser gewonnen.
+
+ \begin{lstlisting}[,language=Java,label=lst:impl:socketIO]
+    function death(data) {
+        players.get(data.deadPlayer).death++;
+        if (players.get(data.deadPlayer).death >= 3) {
+            // delete the player from player-map
+            players.delete(data.deadPlayer);
+            let transferData = {
+                id: data.deadPlayer
+            }
+            // send the information that someone died to everyone
+            io.emit('death', transferData);
+            // disconnect the socket connection
+            socket.disconnect();
+        }
+        // if player-map only has one player left, he has won 
+        if (players.size <= 1) {
+            socket.broadcast.emit("win");
+        }
+    }
+ \end{lstlisting}
+
+ Der Client muss natürlich jetzt auf beide Events, also falls er gerade vom Spiel ausgeschieden wurde, oder gerade gewonnen hat, reagieren können.
+ Bekommt er die Benachrichtigung, dass gerade jemand ausgeschieden wurde, wird überprüft, ob es sich um ihn selbst handelt. 
+ Falls ja, wird die draw-Methode gestoppt, ihm wird mitgeilt, dass er verloren hat und eine kurze Übersicht von seinen Spiel-Statistiken wird angezeigt.
+ Die Übersicht beinhaltet:
+ \begin{compactitem}
+     \item Den Schaden, den er an alle anderen Spieler ausgeteilt hat
+     \item Anzahl an Kills, die erzielt worden sind
+     \item Der eigene Knockback, also ein Indikator wie oft man getroffen worden ist
+ \end{compactitem}
+ Falls es sich nicht um ihn handelt, passiert nichts.
+
+ \begin{lstlisting}[,language=Java,label=lst:impl:socketIO]
+    socket.on('death',someoneDied);
+
+    // data consits of id of dead player
+    function someoneDied(data) {
+    players[data.id].sprite.remove();
+    if (data.id == myPlayer.id) {
+        alert("You died!\n
+        Your kills: " + myPlayer.kills + "\n" 
+        + "Your damage: " + myPlayer.dmgDealt + "\n" 
+        + "Your knockback: " + myPlayer.knockback);
+
+        // stop the draw-function
+        noLoop();
+    }
+}
+ \end{lstlisting}
+
+ Bekommt man nun aber die Benachrichtigung, dass man gewonnen hat, wird diese Nachrichte ausgegeben und auch hier wird wieder eine kurze Übersicht der Spiel-Statistiken gezeigt.
+ Diesmal aber inklusive den Toden, da sie dieses Mal nicht mit Sicherheit drei sind. 
+
+ \begin{lstlisting}[,language=Java,label=lst:impl:socketIO]
+    socket.on('win',win);
+     
+    function win() {
+        alert("You won!\n
+        Your kills: " + myPlayer.kills + "\n" 
+        + "Your damage: " + myPlayer.dmgDealt 
+        + "\n" + "Your knockback: " + myPlayer.knockback 
+        + "\n" + "Your deaths: " + myPlayer.death);
+    }
+ \end{lstlisting}
+
+ Wird im Client bestimmt, dass gerade ein Kill erzielt worden ist, speichert der Sever diese Information ab, damit sie immer abrufbar ist. 
+ \begin{lstlisting}[,language=Java,label=lst:impl:socketIO]
+    socket.on('kill',kill);
+    
+    // data consists of the id of the player who should get the kill
+    function kill(data) {
+        // player could leave before getting the kill
+        if (players.get(data.damagedBy) != undefined) {
+            players.get(data.damagedBy).kill += 1;
+    }
+
+ \end{lstlisting}
+
+ Nun hat der Server schon fast die ganze Funktionalität, die er benötigt, damit das Web-Game funktionert. 
+ Das Einzige, was fehlt, ist dass der Server allen Spielern immer mitteilen muss, wann ein neues Item erscheinen soll. 
+
+ \textbf{Item-Spawn-Event} \label{impl:itemSpawnB} \\
+ Items werden in Scribble-Fight alle 10 Sekunden gespawned, falls ein Spieler mit dem Server verbunden ist. 
+Auf der Server-Seite ist das leicht umzusetzen. Mit der Methode \texttt{setIntervall()} kann einfach ein Intervall definiert werden, in dem eine Funktion ausgeführt werden soll.
+Das Intervall wird auf 10 Sekunden gesetzt. Nun wird, solange ein Spieler vorhanden ist, alle 10 Sekunde ein Event ausgelöst, dass allen verbundenen Spielern mitteilt, wo, welche Art von Item erstellt werden soll.
+Wie man die x-Koodinaten bekommt, die für die Item-Spawns in Frage kommen, wird in Kapitel \ref{impl:xCoordinates} beschrieben.
+Auf der Server-Seite sieht der Code also so aus:
+\begin{lstlisting}[,language=Java,label=lst:impl:socketIO]
+    setInterval(() => {
+        // if players are connected with the server
+        if (players.size > 0) {
+            // get one of the available spawn points for items
+            let x = getItemSpawnPoint();
+            let data = {
+                id: randomId(),
+                x: x,
+                num: getRandomInt(5)
+            }
+            // too many items on the field
+            if (x != -1) {
+                items.push(data.id);
+            }
+            // sending the event to every connected player
+            io.emit('spawnItem', data);
+        }
+    }, 10000);
+
+ \end{lstlisting}
+
+ Der Client muss jetzt nur mehr beim Empfangen dieses Events ein Item am richtigen Ort erstellen. 
+ Wie Items am Client erstellt werden, findet man in Kapitel \ref{impl:itemSpawnF}.
+ Vereinfacht sieht der Code am Client also so aus:
 
 
+\begin{lstlisting}[,language=Java,label=lst:impl:socketIO]
+    socket.on('spawnItem',createItem);
+
+    // data consits of item-ID, type of item and position of item
+    funciton createItem(data) {
+        // item gets created here
+    }
+ \end{lstlisting}
 
 
-
-
-
-
-
-
-
-
-\subsubsection{Node.js [R]}
-\subsubsection{SocketIO [R]}
-\subsection{Gamephysics [R]}
-\subsection{Hitregistration [R]}
-\subsection{Collisiondetection [R]}
-\subsection{Regeln und Spielablauf [R]}
 \section{Deployment [R]}
 \setauthor{Rafetseder Tobias}
 \subsection{Docker [R]}
