@@ -55,13 +55,27 @@ Andere Beispiele:
 \end{compactitem}
 
 \subsubsection{Beschreibung der Funktionalität [H]}
-Wieso für Kontouren entschieden
+
+Wie schon erwähnt kann man aus Bildern Daten erkennen. Viele Pixel bilden insgesamt ein Bild, welches wir visuell aufnehmen und in welchem wir alles Mögliche erkennen können. Jeder einzelne dieser Pixel in einem digitalen Bild enthält Informationen über die Helligkeit und über die Farbe. Der Bildpunkt setzt sich zusammen aus den Farben Rot, Grün und Blau. Aus diesen drei können alle möglichen Farben abgebildet werden.
+\\
+Bevor ich darauf eingehe, wieso wir uns für die Konturenerkennung als Art der Bilderkennung entschieden haben, ist es noch entscheidend vorher zu wissen, wie der Mensch Objekte erkennt.
+\\
+In unserem Auge passiert die Farberkennung via den Zapfen. Auch hier wird die Wellenlänge des Lichts in ein Gemisch aus Rot, Grün und Blau aufgeteilt. Allerdings benötigen wir das reine Farbsehen nicht um Objekte zu erkennen. Uns reicht es schon, wenn wir nur Informationen über die Helligkeit empfinden. Somit können wir zum Beispiel auch in Schwarz-Weiß-Bildern oder in der Dunkelheit bei wenig Licht Objekte erkennen. Wir erkennen einen Unterschied zwischen Objekten, welche sich in einem dreidimensionalen Raum befinden leicht, indem das eine Objekt sich in der Helligkeit von dem anderen Objekt unterscheidet. Das heißt, dass wenn z.B. ein Würfel auf einem Boden liegt, dann erkennen wir den Würfel, weil dieser anders viel Licht reflektiert als der Boden. Und an der Stelle, wo der Würfel aufhört, erkennen wir eine Kontur. Hier ist der Unterschied zwischen Boden und Würfel erkennbar.
+\\
+Und genau so passiert auch die Objekterkennung in unserem Spiel ScribbleFight. Hier wird zuerst aus der Live-View, welche vom Client zur Verfügung gestellt wird, das Farbbild in Graustufen konvertiert. Das passiert, indem für jeden Pixel ein ``Durchschnitt'' der Helligkeit von allen drei Farbwerte (Rot, Grün, Blau), welche in einem 8-Bit System von 0 bis 255 geht, gebildet wird. Wie dies jedoch genauer funktioniert, wird im Kapitel Bildverarbeitungsalgorithmen
+\ref{maai:alogs}
+genauer erklärt. Nachdem das Bild in ein Schwarz-Weiß-Bild umgewandelt wurde, muss vor der Konturenerkennung noch ein Schwellwert-Bild erzeugt werden. In der Untenstehenden Abbildung %\ref{}% 
+das dritte Bild von links.
+
+
+
+Code stücke noch einbauen
 
 
 Welche Abfolge von CV2 Bildverarbeitungsalgorithmen haben zum ergebnis geführt
 noch nicht auf die Algorithmen näher eingehen
 \subsection{Open-CV2 [H]}
-\subsubsection{Bildverarbeitungsalgorithmen}
+\subsubsection{Bildverarbeitungsalgorithmen} \label{maai:alogs}
 auf die algos näher eingehen
 \subsubsection{Umwandlung der Bilder in für das Spiel brauchbare Daten [H]}
 
