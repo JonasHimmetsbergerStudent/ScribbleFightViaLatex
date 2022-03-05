@@ -1216,8 +1216,104 @@ Auf der Server-Seite sieht der Code also so aus:
 
 \section{Deployment [R]}
 \setauthor{Rafetseder Tobias}
-\subsection{Docker [R]}
+Die Grundlage, um etwas auf einen Kubernetes-Cluster deployen zu können, ist ein Docker-Image. Näheres zu der Docker-Technologie findet man in Kapitel \ref{tech:docker}.
+\subsection{Docker-Image [R]}
+Da es sich bei Scribble-Fight nur um einen Web-Server, der statische Files hostet, handelt, und keine Datenbank beinhaltet ist, ist das Docker-File relativ simpel.
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.85]{pics/dockerfile_scribble.PNG}
+    \caption{Scribble-Fight Dockerfile}
+\end{figure}
+Die Zeilen Code werden im Folgenden genauer erläutert. \\
+\begin{lstlisting}
+    FROM node:16
+\end{lstlisting}
+Da Docker-Images von anderen Docker-Images erben können, wird nicht ein eigenes Base-Images verwendet, sondern das offizielle Node.js Image, das schon die Tools und Packages hat, die benötigt werden, um eine Node.js-Applikation auszuführen.
+\\
+\begin{lstlisting}
+    WORKDIR /usr/src/app
+\end{lstlisting}
+Es wird ein neues Verzeichnis erstellt, von wo aus gearbeitet wird.
+In diesem Verzeichnis werden alle folgenden Befehle ausgeführt. Der Vorteil davon ist, dass man nun keine absoluten File-Paths benutzten muss, sondern relativ zu diesem Verzeichnis relativ-Paths benutzt werden können. \\
+
+
+\begin{lstlisting}
+    COPY ./p5_backend/package*.json ./p5_backend/
+\end{lstlisting}
+Bevor \texttt{npm install} ausgeführt werden kann, muss unser package.json und package-lock.json File auf das Image kopiert werden.
+Um das machen zu können, wird \texttt{COPY} benutzt. Dieser Befehl nimmt zwei Parameter: Source und Destination. Es werden package.json und package-lock.json in einen neuen Ordner des vorherig erstellen Arbeits-Verzeichnis kopiert. \\
+
+\begin{lstlisting}
+    WORKDIR /usr/src/app/p5_backend
+    RUN npm install
+\end{lstlisting}
+Es wird nun das Verzeichnis, in das das package.json-und package-lock.json-File kopiert worden sind, als Arbeits-Verzeichnis definiert. 
+Da dort diese Files vorhanden sind, kann \texttt{npm install} ausgeführt werden und alle nötigen Dependencies werden heruntegeladen. \\
+
+\begin{lstlisting}
+    WORKDIR /usr/src/app
+    COPY ./p5_backend ./p5_backend
+    COPY ./p5_frontend ./p5_frontend
+\end{lstlisting}
+
+Nun wird wieder das ursprüngliche Verzeichnis als Arbeits-Verzeichnis definiert. Dorthin werden die Files, die der Server zum Funktionieren braucht und auch die Files für das Frontend, die der Server hostet, kopiert. \\
+
+\begin{lstlisting}
+    EXPOSE 3000
+    CMD [ "node", "./p5_backend/server.js" ]
+\end{lstlisting}
+
+Zuletzt wird nur mehr der Port, den der Scribble-Fight-Server akzeptiert, nach aussen freigegeben, und mit dem Befehl \texttt{CMD} der Server gestartet.
+
 \subsection{Leo-Cloud [R]}
+Die Leo-Cloud ist eine Cloud-Computing-Umgebung der HTL Leonding.
+Da nun ein funktionierendes Image des Web-Servers vorhanden ist, kann an dem Deployment an die Leo-Cloud gearbeitet werden.
+
+Zuerst muss das Image, das für das Deployment verwendet werden soll, in das Docker-Registry der HTL Leonding geladen werden. 
+Dazu kann man einfach den Befehl \texttt{docker login registry.cloud.htl-leonding.ac.at} benutzen, um sich mit den eigenen Anmeldedaten dort einzuloggen.
+Danach wird das Image einfach mit dem Befehl \texttt{docker push registry.cloud.htl-leonding.ac.at/t.rafetseder/<image-name>/<image-version>} hochgeladen.
+
+Um das Deployment umzusetzten, werden drei YAML-Files benötigt. 
+YAML ist eine Daten-Serialisierungs-Sprache, die gerne benutzt wird, um Konfigurations-Files zu schreiben.
+
+Diese drei Files sind:
+\begin{compactitem}
+    \item Deployment-File
+    \item Service-File
+    \item Ingress-File
+\end{compactitem}
+
+In dem Deployment-File kann man Konfigurationen zum eigentlichen Deployment festelegen, zum Beispiel welches Image verwendet werden soll,
+welche Anzahl an Pods (Linux-Containern) verwendet werden sollen oder welcher Port benutzt werden soll. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.85]{pics/deployment.PNG}
+    \caption{Scribble-Fight Deployment.yaml}
+\end{figure}
+
+Auf einem Kubernetes-Cluster laufen viele Pods. Diese müssen in einer Weise verbindet werden. Das ist der Job von Service-Files.
+Service abstrahiert die IP-Adresse eines Pods zu einem statischen Service-Name, sodass externe Requests zu multiplen Pods geleitet werden können.
+\\
+Das Weiterleiten von Requests zu dem erwünschten Pod basiert auf der \texttt{selector}-spec am Service, der mit dem Metadaten-Label des Pods zusammenpassen muss. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=1]{pics/service.PNG}
+    \caption{Scribble-Fight Service.yaml}
+\end{figure}
+
+Zusätzlich muss noch konfiguriert werden, wie Services in einem Cluster via IP-Adresse oder URL erreicht werden können.
+Dazu werden Ingress-Files verwendet. Ein Ingress ist eine Ansammlung von Regeln, die einkommende Verbindungen erlauben, Cluster-Servives zu erreichen. 
+Das Ingress-Spec-Field stellt einen Service-Namen und Service-Port bereit, der gemeinsam mit der URL-Route von dem Service exposed wird. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.85]{pics/ingress.PNG}
+    \caption{Scribble-Fight Ingress.yaml}
+\end{figure}
+
+
 
 % Ben dein teil kommt hier herein
 
