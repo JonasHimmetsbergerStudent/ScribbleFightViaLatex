@@ -7,20 +7,20 @@ Für mich war es eine leichte Entscheidung JavaScript zu verwenden, da die Progr
 \subsection{p5.js / p5.play [R]}
 \label{subsection:p5js}
 p5.js ist eine open-source JavaScript Library, die für Kreation von Spielen genutzt wird.
-p5.play ist eine Library für p5.js, mit der man visuelle Objekte managen kann. Außerdem beinhaltet es Features wie Animation-support,
-Kollisionserkennung, sowie aber auch Funktionen für Mouse und Tastatur Interaktionen.
+p5.play ist eine Library für p5.js, mit der man visuelle Objekte managen kann. Außerdem beinhaltet es Features wie Animation-Support,
+Kollisionserkennung, sowie aber auch Funktionen für Maus- und Tastatur-Interaktionen.
 Es ist wichtig sich im Hinterkopf zu behalten, dass p5.play für barrierefreies und simples Programmieren gedacht ist, nicht für perfomantes.
 Es ist keine eigene Engine, und unterstütz auch keine 3D-Spiele.
 
 \subsubsection{Einbindung}
-Der einfachste Weg P5.js einzubinden ist auf ein JavaScript File online zu verweisen.
+Der einfachste Weg p5.js einzubinden ist auf ein JavaScript File online zu verweisen.
 
 \begin{lstlisting}
     <script 
     src="https://cdn.jsdelivr.net/npm/p5@1.4.0/lib/p5.js">
     </script>
 \end{lstlisting}
-Man kann sich aber auch die P5.js Library
+Man kann sich aber auch die p5.js Library
 lokal downloaden unter \url{https://p5js.org/download/}
 Dann muss man nur noch auf das lokale File verweisen.
 
@@ -30,8 +30,8 @@ Dann muss man nur noch auf das lokale File verweisen.
 
 Jedoch muss man das Projekt dann auf einem lokalen Server (z.B. Node.js) hosten.
 
-\subsubsection{Struktur eines P5.js Projekts}
-Die Struktur ist sehr simpel. Im Ganzen ist es nur ein \texttt{index.html} File und ein \texttt{sketch.js} File. In dem HTML File bindet man die P5 Library ein, und auch das sketch.js File.
+\subsubsection{Struktur eines p5.js Projekts}
+Die Struktur ist sehr simpel. Im Ganzen ist es nur ein \texttt{index.html} File und ein \texttt{sketch.js} File. In dem HTML File bindet man die p5-Library ein, und auch das sketch.js File.
 
 \begin{figure}[H]
     \centering
@@ -39,7 +39,7 @@ Die Struktur ist sehr simpel. Im Ganzen ist es nur ein \texttt{index.html} File 
     \caption{Aufbau index.html}
 \end{figure}
 
-So kann man nun in dem sketch.js File die P5.js Methoden nutzen. Die wichtigsten Methoden sind die Setup- und die Draw-Methode.
+So kann man nun in dem sketch.js File die p5.js Methoden nutzen. Die wichtigsten Methoden sind die Setup- und die Draw-Methode.
 Die Setup-Methode wird vor der Draw-Methode aufgerufen um das Spiel zu initialisieren. (Es wird zum Beispiel ein Canvas erstellt).
 Wenn diese abgeschlossen ist, wird die Draw-Methode 60 mal in der Sekunde aufgerufen und updatet jedes mal den Bildschirm.
 
@@ -259,7 +259,7 @@ Um zum Beispiel ein beliebiges Bild unscharf zu zeichnen würde man so vorgehen:
 
 \subsection{PIL [H]}
 PIL (Python Image Library) ist, wie Flask und OpenCV2, eine kostenlose Zusatzbibliothek für Python.
-PIL wird verwendet um Bilder zu speichern und zu pixel zu manipulieren. Dabei unterstütz PIL diese
+PIL wird verwendet um Bilder zu speichern und zu pixel zu manipulieren. Dabei unterstützt PIL diese
 Dateiformate: PPM, PNG, JPEG, GIF, TIFF, und BMP. Pixel manipulation bedeutet, dass jeder Pixel auf einem
 Input Bild angepasst werden kann. Beispiele hierfür sind zum Beispiel das Aufhellen oder Abdunkeln von
 Bildern oder das Anpassen der Sättigung. Auch Kontrast- oder Schärfeeinstellungen können mit
