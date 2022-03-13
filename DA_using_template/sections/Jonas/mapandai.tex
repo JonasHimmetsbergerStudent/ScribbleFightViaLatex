@@ -218,31 +218,362 @@ Im letzten Teil der Funktion wird lediglich nur noch das Bild in die richtige Pe
 \subsection{Open-CV2 [H]}
 \subsubsection{Bildverarbeitungsalgorithmen} \label{maai:alogs}
 
-Bildverarbeitungsalgorithmen sind Grundbausteine für die Bild beziehungsweise Map-Erkennung. Ohne diesen können keine, oder nur wenige Daten aus Bildern ausgelesen werden. Ohne diesen Algorithmen würde jedes Bild nur Informationen über die Helligkeit und die Farbe\/Farbhelligkeit jedes Bildpunktes beinhalten. Deshalb ist es wichtig Bildverarbeitungsalgorithmen zu verwenden um mehr Informationen aus den Bildern, welche dem Python-Server zur Verfügung gestellt werden, zu erkennen und zu erhalten. In dieser Arbeit wurden folgende Methoden von OpenCV2 verwendet, welche das Erkennen des Blatt Papiers ermöglichten. Im Folgenden wird näher auf die Funktionsweise der einzelnen Algorithmen eingegangen. Diese sind:
+Bildverarbeitungsalgorithmen sind Grundbausteine für die Bild- beziehungsweise Map-Erkennung. Ohne diesen können keine, oder nur wenige Daten aus Bildern ausgelesen werden. Somit würde jedes Bild nur Informationen über die Helligkeit und die Farbe/Farbhelligkeit jedes Bildpunktes beinhalten. Deshalb ist es wichtig Bildverarbeitungsalgorithmen zu verwenden um mehr Informationen aus den Bildern, welche dem Python-Server zur Verfügung gestellt werden, zu erkennen und zu erhalten. In dieser Arbeit wurden folgende Methoden von OpenCV2 verwendet, welche das Erkennen des Blatt Papiers ermöglichten. Im Folgenden (\ref{maai:grayscale}-\ref{maai:wrapPerspective}) wird näher auf die Funktionsweise der einzelnen Algorithmen eingegangen. Diese sind:
 
 \begin{compactitem}
-    \item ``Grayscaling'' (cv2.cvtColor(image, cv2.COLOR\_BGR2GRAY)): Diese Funktion bewirkt eine Graustufenkonvertierung eines gegebenen Bilds.
-    \item ``Blurring'' (cv2.GaussianBlur(\dots)): Mit dieser Funktion wird ein gegebenes Bild unscharf gezeichnet und somit unnötig genaue Informationen entfernt.
-    \item ``Adaptive Thresholding'' (cv2.adaptiveThreshold(\dots)): Hier wird die Schwellwertbildung adaptiv festgelegt. Es wird das gegeben Bild in Raster unterteilt und für jeden dieser Raster ein Schwellwert gebildet. Somit werden Farbübergänge eliminiert und es bleibt ein reines Schwarz-Weiß-Bild mit harten Kanten über.
-    \item ``Canny'' Kantenerkennung (cv2.canny(\dots)): Die Kantenerkennung liefert automatisch erkannte Kanten aus einem gegebenen Bild.
-    \item ``ApproxPolyDP'' (cv2.approxPolyDP(\dots)): Diese Funktion vergröbert die erkannten Konturen um einen angegebenen Grad. Die erkannten Konturen werden auf wenige Punkte minimiert. Somit kann zum Beispiel über eine Kontur ein Vieleck gelegt werden.
-    \item Perspektiven-Korrektur (cv2.warpPerspective(\dots)): Mit ``wrapPerspective'' kann ein Bild, welches in einer weiteren Dimension aufgenommen wurde und somit einer Perspektive unterlag Perspektiven-korrigiert werden.
+    \item cv2.cvtColor(image, cv2.COLOR\_BGR2GRAY) (``Grayscaling''): Diese Funktion bewirkt eine Graustufenkonvertierung eines gegebenen Bilds.
+    \item cv2.GaussianBlur(\dots) (``Blurring''): Mit dieser Funktion wird ein gegebenes Bild unscharf gezeichnet und somit unnötig genaue Informationen entfernt.
+    \item cv2.adaptiveThreshold(\dots) (``Adaptive Thresholding''): Hier wird die Schwellwertbildung adaptiv festgelegt. Es wird das gegeben Bild in Raster unterteilt und für jeden dieser Raster ein Schwellwert gebildet. Somit werden Farbübergänge eliminiert und es bleibt ein reines Schwarz-Weiß-Bild mit harten Kanten über.
+    \item cv2.canny(\dots) (``Canny'' Kantenerkennung): Die Kantenerkennung liefert automatisch erkannte Kanten aus einem gegebenen Bild.
+    \item cv2.approxPolyDP(\dots) (``ApproxPolyDP''): Diese Funktion vergröbert die erkannten Konturen um einen angegebenen Grad. Die erkannten Konturen werden auf wenige Punkte minimiert. Somit kann zum Beispiel über eine Kontur ein Vieleck gelegt werden.
+    \item cv2.warpPerspective(\dots) (Perspektiven-Korrektur): Mit ``wrapPerspective'' kann ein Bild, welches in einer weiteren Dimension aufgenommen wurde und somit einer Perspektive unterlag Perspektiven-korrigiert werden.
 \end{compactitem}
 
 Nur einige der verwendeten Bildbearbeitungsalgorithmen sind basierend auf Pixelmanipulation. Andere Algorithmen, wie zum Beispiel ``ApproxPolyDP'', sind reines Auslesen von Bildwerten beziehungsweise -daten, welche durch Vorarbeit extrahiert wurden.
 
 
 \subsubsection{Grayscale}\label{maai:grayscale}
-\dots
-\subsubsection{Blur}
-\dots
+Beim ``grayscaling'' werden Informationen über die Lichtintensität aus den einzelnen Pixeln extrahiert und über eine Gewichtung der drei Farben Rot, Grün und Blau gleichmäßig gewertet. Somit entsteht ein Bild, welches rein Informationen über die Helligkeit/Lichtintensität enthält.
+
+Die Lichtintensität ist die Menge an Licht(stärke) pro Pixel. Diese Lichtstärke kann in einem 8-Bit System von den Farben Rot, Grün und Blau von 0-255 reichen. Der Kontrast geht somit von ganz schwarz, was einer Lichtintensität von 0 entspricht (es wird aus diesem Pixel kein Licht emittiert), bis ganz weiß, was in einem 8-Bit System 255 entspricht.
+
+Für eine Umwandlung eines Bilds in dessen Graustufen wird für jeden Pixel also die Lichtintensität der drei Farben (Rot, Grün und Blau) beziehungsweise der Farbkombination dieser drei Farben gemessen und über eine Gewichtung der drei Werte ein ``Mittelwert'' errechnet. Diese Gewichtung kann über verschiedene Faktoren erfolgen. Daher ist es nicht gegeben, dass auch OpenCV2 die folgende Formel zur Umrechnung eines Bildes, welches aus einem RGB(A)-Farbraum (Rot (R); Grün (G); Blau (B); Opazität (A)) in Graustufen konvertiert werden soll, verwendet. Die Formel dient deswegen nur als Exempel, um alle drei Werte auf eine lineare Gleichgültigkeit für das menschliche Auge zu setzen, um somit ein Graustufenbild zu erzeugen:
+
+\[
+    Y_{ linear } = 0,2126 * R_{ linear } + 0.7152 * G_{ linear } + 0.0722 * B_{ linear }
+\]
+
+Aus dieser Formel ist erkennbar, dass die Farbe Grün mehr gewichtet wird als Rot und Blau. Dies resultiert daraus, dass das Auge die meiste Lichtinformation aus der Farbe Grün extrahieren kann. Somit wirkt auch diese Farbe am hellsten für das menschliche Auge. Deshalb wird sie am höchsten gewichtet, damit ein scheinbar ausgeglichener Wert der Lichtintensität der Farbkombination der drei Farben herauskommt. Dieser gewichtete Wert (Y), welcher auch als Luminanz bezeichnet wird, ist die Basis für die Graustufenkonvertierung.
+
+Im folgendem Code-Beispiel \ref{maai:grayscaling} wird die Umsetzung einer Graustufenkonvertierung mittels OpenCV2 in der Programmiersprache Python gezeigt.
+% Quelle: https://en.wikipedia.org/wiki/Grayscale
+
+\begin{lstlisting}[caption=Graustufenkonvertierung,language=Python,label=maai:grayscaling]
+    # OpenCV2 used as pixel manipulation library
+    import cv2
+  
+    # read Image from Folder
+    image = cv2.imread('Path/to/your/image.jpg')
+    # Convert RGB image to (2) gray
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    
+    # display the original image (input) on the screen
+    cv2.imshow('Original image',image)
+    # display the grayscaled image (output of cv2 funktion cvtColor) on the screen
+    cv2.imshow('Gray image', gray)
+      
+    cv2.waitKey(0) # waits until a key is pressed
+    cv2.destroyAllWindows() # destroys the window showing image
+\end{lstlisting}
+%Quelle: https://docs.opencv.org/3.4/d8/d01/group__imgproc__color__conversions.html
+
+Dieses Stück Programmcode führt zu folgendem Ergebnis:
+
+\begin{figure}[htb]
+    \centering
+    \begin{minipage}[t]{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{pics/bildverarbeitungsalgos/input.png}
+        \caption{Input}
+        \label{maai:grayscaling:input}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{pics/bildverarbeitungsalgos/grayscaling_output.png}
+        \caption{Output}
+        \label{maai:grayscaling:output}
+    \end{minipage}
+\end{figure}
+%Quelle: https://s3.envato.com/files/16109405/index.html
+
+\subsubsection{Blurring}\label{maai:blurring}
+
+Soll ein Bild ``geblurred'' (engl. für verwischen/verschwommen) werden, so ist das Ziel eine Unschärfe. Ähnlich, wie das ``Grayscaling'' ist auch das unscharf-Zeichnen eines Bildes reine Pixelmanipulation. Hier wird jedoch nicht ein einzelner Pixel zur Berechnung der Unschärfe herangezogen, sondern eine zweidimensionale Matrix an umliegenden Bildpunkten. Somit wird jeder Pixel basierend auf dessen benachbarten Bildzellen manipuliert.
+
+Um eine Unschärfe zu erzielen, muss eine mathematische Operation der Faltung einer spezialisierten Matrix, genannt Kernel, auf die Matrix des Bildes angewandt werden. Dabei wird diese Faltungsoperation auch ``Konvolution'' genannt.
+
+Mathematisch gesehen ist Konvolution, also die Faltung zweier Matrizen, A mit der Größe a \(\times\) b und B mit der Größe c \(\times\) d, eine \((a + c -1) \times (b + d - 1)\) Matrix C mit folgenden Einträgen:
+\[
+    C_{ rs } = \sum_{i+k=r+1, j+l=s+1}^{r=a+c-1,s = b + d - 1} A_{ ij }B_{ kl }
+\]
+Aus dieser Formel ist ersichtlich, dass das Falten beziehungsweise die Konvolution zweier Matrizen A und B eine neue Matrix C, in welcher die Einträgen durch die Summe des Produkts der Einträge der Matrix A mit den am gleich liegenden zweidimensionalen Indexe entsprechenden Einträgen der anderen Matrix B gebildet werden, erzeugt. Alle diese Produkte werden im zweidimensionalen, also entlang den Zeilen und Spalten, berechnet.
+
+Der zuvor genannte (Begriff) Kernel kann als Matrix beschrieben werden. Diese dient dazu ein Bild in dessen Aussehen zu verändern. Somit ist der Begriff nicht nur auf das Weichzeichnen von Bildern begrenzt. Ein Kernel kann zum Beispiel auch dazu verwendet werden, um Kanten in Bildern zu schärfen.
+
+Da der Kernel eine Matrix mit einem Mittelpunkt ist, muss die Kernel Größe einer ungeraden Zahl, zum Beispiel \([5*5]\), entsprechen.
+
+In dieser Diplomarbeit wurde häufig der ``Gauß'scher'' Weichzeichnungsfilter verwendet. Dieser Filter gibt jedem Bildpunkt, welche um einen betrachteten Pixel liegen, eine Gewichtung.
+
+Diese Gewichtung nimmt mit der Distanz zu dem betrachteten Pixel ab. Somit hat theoretisch jeder Pixel in der Bild-Matrix eine eigene Gewichtung. Da diese jedoch mit der Distanz so stark abnehmen werden diese nicht mehr berücksichtigt. Die theoretische Formel zur Berechnung der Gewichte der Pixelwerte rund um einen fokussierten Bildpunkt sieht wie folgt aus:
+\[
+    G(x,y)=\frac{ 1 }{ 2*\pi*\sigma^2 }*e^{ - \frac{ x^2 + y^2 }{ 2*\sigma^2 } }
+\]
+Wobei x und y der horizontale und vertikale Abstand zum untersuchten Bildpunkt ist. Sigma ist die Standardabweichung (je höher der Wert von Sigma, desto stärker ist auch der Weichzeichnungseffekt).
+
+In der Realität werden jedoch die Werte dieser ``Gaus'schen'' Funktion mittels der Werte im Kernel genähert. Dabei macht es wenig Sinn, dass die Kernel-Matrix groß gewählt wird, da der Wert eines Eintrags im Kernel mit der Distanz zum Mittelpunkt abnimmt. Dabei wird oft das \(\sigma\) der Funktion in der Programmierung ignoriert und vom Programm auf Basis der angegebenen Größe des Kernels selbst entschieden. Somit sieht eine Näherung an die ``Gaus'sche'' Formel durch eine Kernel Matrix wie folgt aus:
+\[
+    \frac{ 1 }{ 16 } * \left[\begin{array}{rrr}
+            1 & 2 & 1 \\
+            2 & 4 & 2 \\
+            1 & 2 & 1 \\
+        \end{array}\right]
+\]
+OpenCV2 stellt jedoch bereits Funktionen zur Verfügung, welche das Kalkulieren des Kernels abnimmt. Im folgendem Codeblock (\ref{maai:gaussianblur}) wird gezeigt, wie diese Funktion in dieser Arbeit verwendet wurde.
+
+% Quelle: https://medium.com/swlh/how-image-blurring-works-652051aee2d1
+
+\begin{lstlisting}[caption=Gaussian Blur,language=Python,label=maai:gaussianblur]
+    import cv2
+    import numpy
+    
+    # read image
+    src = cv2.imread('/path/to/image.png', cv2.IMREAD_UNCHANGED)
+    
+    # apply guassian blur on src image
+    # (10,10) is the Kernel size
+    dst = cv2.GaussianBlur(src,(10,10),cv2.BORDER_DEFAULT)
+    
+    # display input and output image
+    cv2.imshow("Gaussian Smoothing",numpy.hstack((src, dst)))
+    cv2.waitKey(0) # waits until a key is pressed
+    cv2.destroyAllWindows() # destroys the window showing image
+\end{lstlisting}
+
+%Quelle: https://www.tutorialkart.com/opencv/python/opencv-python-gaussian-image-smoothing/
+
+Führt man diesen Programmcode aus, so erzeugt dieser folgenden Effekt:
+
+\begin{figure}[htb]
+    \centering
+    \begin{minipage}[t]{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{pics/bildverarbeitungsalgos/input.png}
+        \caption{Input}
+        \label{maai:gaussianblur:input}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{pics/bildverarbeitungsalgos/gaussianblur_output.png}
+        \caption{Output}
+        \label{maai:gaussianblur:output}
+    \end{minipage}
+\end{figure}
+
+% Quelle: https://www.tutorialkart.com/opencv/python/opencv-python-gaussian-image-smoothing/
+
 \subsubsection{Thresholding}
-\dots
+
+Das ``Image-Thresholding'' also die Schwellwertbildung eines Bilds ist basierend auf die ``Image-Segmentation''. Diese erzeugt eine Unterteilung eines Bildes in mehrere Segmente.
+
+Das ``Image-Thresholding'' ist eine einfache Form der Segmentierung. Das ``Thresholding'' basiert auf gesetzte Schwellwerte, welches unterschiedlich ``intensive'' Pixel trennen soll. Dadurch ist das Produkt ein binäres Bild, welches aus Nullen und Einsen besteht (= entweder hell oder dunkel).
+
+``Thresholding'' ist, wie auch die Graustufenkonvertierung (Kapitel ``Grayscaling'' \ref{maai:grayscale}), das Weichzeichnen von Bildern (Kapitel ``Blurring'' \ref{maai:blurring}) und viele andere Methoden der Bildverarbeitung, eine Art der Pixelmanipulation. Die Pixel sollen beim ``Image-Thresholding'' beziehungsweise bei der Schwellwertbildung so angepasst werden, dass Bilder und deren Pixel einfacher zu analysieren sind. In dieser Arbeit legte das Schwellwert-Bild den Grundbaustein zur Konturen-/Kantenerkennung.
+
+Ziel ist es also, aus einem Farb- beziehungsweise Graustufenbild eine Segmentierung zu erzeugen. Durch dieses Verfahren wird also, wie zuvor erwähnt, ein binäres Bild erzeugt, welches nur noch Schwarz- und Weißwerte beinhaltet. Dies wird zum Beispiel dafür verwendet, dass ein Hintergrund vom Vordergrund getrennt wird. Somit werden sogenannte ``Regions Of Interest'' erkannt. ``Region Of Interest'' bedeutet ``Bereich von Interesse''. Hierzu werden spezielle Bereiche aus einem Histogramm, also einer Messkurve, ausgewertet beziehungsweise ausgewählt und nach dem zuvor definierten Schwellwert in Gruppen unterteilt. Somit gibt die ``Region Of Interest'' die fokussierten/für die Auswertung Interessanten Bereiche eines Bildes wieder. Dem Hintergrund wird in einem binären Bild der Wert 0 (null) zugewiesen und dem Vordergrund der Wert 1. Diese Werte werden in einem Bild als 0 (null) - schwarz und als 1 – Weiß dargestellt.
+
+Durch das ``Thresholding'' gibt es die Möglichkeit ein Histogramm zu erstellen, um die Helligkeitswerte eines Bildes zu analysieren. Wenn man aus diesem Graustufenbild (\ref{maai:thresholding:input}) ein Histogramm (\ref{maai:thresholding:histogramm}) erzeugt, sieht dies wie folgt aus:
+
+\begin{figure}[htb]
+    \centering
+    \begin{minipage}[t]{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{pics/bildverarbeitungsalgos/grayscaling_output.png}
+        \caption{Input}
+        \label{maai:thresholding:input}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{pics/bildverarbeitungsalgos/thresholding_histogram.png}
+        \caption{Helligkeitsverteilung}
+        \label{maai:thresholding:histogramm}
+    \end{minipage}
+\end{figure}
+
+Das Histogramm veranschaulicht die Helligkeitsverteilung aller Pixel von den Werten 0 (null) (schwarz), welcher der Wert ganz Links auf der X-Achse im Histogramm ist, bis 255 (weiß), welches dem äußersten X-Wert entspricht. Auf der Y-Achse befindet sich die Häufigkeit der vorkommenden Pixel mit der entsprechenden Helligkeit.
+Man kann also erkennen und analysieren, dass überwiegend Hintergrund (dunkle Helligkeitswerte) in diesem Bild existiert. Damit aus diesem Histogramm auch ein Schwellwert-Bild (das binäre Bild) erzeugt werden kann, wird ein zuvor definierter Schwellwert zur Verarbeitung der Pixel herangezogen. Somit werden global (!) nur alle Pixel über einem gewissen Helligkeitswert in den Wert 1 (Vordergrund) umgewandelt. Alle anderen bleiben Schwarz. Sieht man sich nun folgendes Bild (\ref{maai:thresholding:output}) an, kann man durch die Schwellwertbildung erkennen, dass sich das interessante Objekt in der Bildmitte befindet:
+
+
+\begin{figure}[htb]
+    \centering
+    \begin{minipage}[t]{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{pics/bildverarbeitungsalgos/grayscaling_output.png}
+        \caption{Input}
+        \label{maai:thresholding:input:second}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{pics/bildverarbeitungsalgos/thresholding_output.png}
+        \caption{Output}
+        \label{maai:thresholding:output}
+    \end{minipage}
+\end{figure}
+%Quelle: https://www.youtube.com/watch?v=8TkligJJCAQ&ab_channel=Apeer_micro
+%Quelle: https://datacarpentry.org/image-processing/07-thresholding/
+
+
+Für dieses Bild wurde ein globaler Schwellwert verwendet. Dies ist jedoch keine gute Entscheidung, wenn der Helligkeitseinfall im Bild unterschiedlich stark ist. In unserer Arbeit wurde daher ein adaptiver Schwellwert verwendet. Dieser wird somit durch einen Algorithmus für einen Pixel basierend auf einem kleinen Bereich um ihn herum gebildet. Dadurch werden unterschiedliche Schwellwerte in unterschiedlichen Regionen des Bildes gebildet, um eine ungleichmäßige Beleuchtung zu korrigieren.
+
+%Quelle: https://docs.opencv.org/4.x/d7/d4d/tutorial_py_thresholding.html
+Programmiertechnisch wurde dies wie folgt umgesetzt:
+
+
+\begin{lstlisting}[caption=Adaptive Gaussian Thresholding,language=Python,label=maai:gaussianthresholding]
+    # Python program to illustrate
+    # adaptive thresholding type on an image
+    
+    # organizing imports
+    import cv2
+    import numpy as np
+    
+    # path to input image is specified and
+    # image is loaded with imread command
+    image1 = cv2.imread(
+        'path/to/img.png')
+    
+    # cv2.cvtColor is applied over the
+    # image input with applied parameters
+    # to convert the image in grayscale
+    img = cv2.cvtColor(image1, cv2.COLOR_BGR2GRAY)
+    
+    # applying gaussian thresholding
+    # technique on the input image
+    thresh = cv2.adaptiveThreshold(
+        img, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 5, 4)
+    
+    cv2.imshow('Adaptive Gaussian', thresh)
+    
+    
+    # De-allocate any associated memory usage
+    if cv2.waitKey(0) & 0xff == 27:
+        cv2.destroyAllWindows()
+\end{lstlisting}
+%Quelle: https://www.geeksforgeeks.org/python-thresholding-techniques-using-opencv-set-2-adaptive-thresholding/
+
+Dieser Code erzeugt aus einem Input-Bild (\ref{maai:thresholding:input:thrid}) folgendes Schwellwert-Bild (\ref{maai:gaussianthresholding:output}), in welchem sehr genau erkennbar ist, was den Vordergrund bildet.
+
+
+\begin{figure}[htb]
+    \centering
+    \begin{minipage}[t]{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{pics/bildverarbeitungsalgos/grayscaling_output.png}
+        \caption{Input}
+        \label{maai:thresholding:input:thrid}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{pics/bildverarbeitungsalgos/gaussian_thresholding.png}
+        \caption{Output}
+        \label{maai:gaussianthresholding:output}
+    \end{minipage}
+\end{figure}
+
 \subsubsection{Detecting Contours}
-\dots
+
+Kantenerkennung ist wie die Graustufenkonvertierung (\ref{maai:grayscale}) oder das Weichzeichnen (\ref{maai:blurring}) ein Bildverarbeitungsalgorithmus, welcher dazu verwendet wird, um Diskontinuitäten zu identifizieren. Hierzu werden scharfe Änderungen der Bildfarbe/der Bildintensität herausgefiltert. Punkte, wo dieser Wert stark variiert, wird als Kante abgestempelt.
+
+Das Kanten erkennen schafft eine Basis für die Bildverarbeitung und Form Erkennung der Bild- und Objekterkennung. Für die Konturenerkennung sind jedoch nur geschlossene Kanten von Bedeutung.
+
+Die Kantenerkennung funktioniert wie folgt. Für die ``Edge-Detection'' (Kantenerkennung) ist wie beim Weichzeichnungsalgorithmus (\ref{maai:blurring}) eine Konvolution nötig; vor allem, um hochauflösende Bilder zu verarbeiten. Oft wird dazu der sogenannte ``Sobel''-Operator herangezogen. Dieser erzeugt für die Kantenerkennung zwei Kernel, welche in x- und y-Richtung unterteilt sind. Der Kernel in x-Richtung sieht wie folgt aus:
+
+\[
+    \left[\begin{array}{rrr}
+            -1 & 0 & 1 \\
+            -2 & 0 & 2 \\
+            -1 & 0 & 1 \\
+        \end{array}\right]
+\]
+
+
+Hier sind negative Nummern links und positive Nummern rechts. Wegen der 0 (null) in der Mitte des Kernels wird nur geprüft, ob eine vertikale Linie/Kontur nach unten existiert. Daher wird mit diesem Kernel nur in x-Richtung auf eine Kante überprüft. Die mittigen Pixel auf der y-Achse des Kernels werden durch den ``Sobel''-Operator höher gewichtet als die Randpixel.
+
+Das Ziel ist dabei einen Unterschied zwischen der Farb-/Lichtintensität des linksseitigen Bereichs des Bilds (der Pixel auf der linken Seite) und der Intensität des rechtsseitigen Bereichs des Bilds (der Pixel auf der rechten Seite) herauszufinden.
+
+Anhand eines Beispiels wird diese Operation klarer:
+
+\[
+    \left[\begin{array}{rrrr}
+            0 & 0 & 255 & 255 \\
+            0 & 0 & 255 & 255 \\
+            0 & 0 & 255 & 255 \\
+            0 & 0 & 255 & 255 \\
+        \end{array}\right]
+\]
+
+Hier existiert eine für einen Menschen klar erkennbare Kante; jedoch tut sich bei dem Erkennen die Maschine etwas schwerer. Dazu muss der zuvor genannte Kernel über die Pixel gelegt werden. So erhält man durch die Summe der Multiplikationen der einzelnen Werte des Kernels mit den entsprechenden Werten der Matrix des Bildes. Diese ergibt in diesem Beispiel 1025. Ist dieser Wert über einen zuvor definierten Schwellwert, so existiert an dieser Position eine Kante.
+
+Für die Konturenerkennung wird ein Bereich von geschlossenen Kanten herangezogen. Diese geschlossenen Kanten werden erkannt, indem eine Kante in einem zuvor definierten Kernel rund um eine weitere Kante existiert. Führt dieser Pfad wieder zurück zur Ausgangskante, so kann mit Sicherheit gesagt werden, dass es sich um eine Geschlossene Kontur handelt.
+
+%Quelle:https://www.geeksforgeeks.org/find-and-draw-contours-using-opencv-python/
+
+
+\begin{lstlisting}[caption=Adaptive Gaussian Thresholding,language=Python,label=maai:gaussianthresholding]
+    
+import cv2
+import numpy as np
+
+# Let's load a simple image with 3 black squares
+image = cv2.imread(
+    'path/to/image.png')
+cv2.waitKey(0)
+
+# Grayscale
+gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+# Find Canny edges
+edged = cv2.Canny(gray, 30, 200)
+cv2.waitKey(0)
+
+# Finding Contours
+# Use a copy of the image e.g. edged.copy()
+# since findContours alters the image
+contours, hierarchy = cv2.cv2.findContours(
+    edged, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+
+cv2.imshow('Canny Edges After Contouring', edged)
+cv2.waitKey(0)
+
+print("Number of Contours found = " + str(len(contours)))
+
+# Draw all contours
+# -1 signifies drawing all contours
+cv2.drawContours(image, contours, -1, (255, 255, 0), 1)
+
+cv2.imshow('Contours', image)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+
+\end{lstlisting}
+
+Dieser Programmcode erzeugt folgendes Bild:
+
+
+\begin{figure}[htb]
+    \centering
+    \begin{minipage}[t]{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{pics/bildverarbeitungsalgos/input.png}
+        \caption{Input}
+        \label{maai:getcounturs:input}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{pics/bildverarbeitungsalgos/getcounturs_output.png}
+        \caption{Output}
+        \label{maai:getcounturs:output}
+    \end{minipage}
+\end{figure}
+
 \subsubsection{ApproxPolyDP}
 \dots
-\subsubsection{Wrap Perspective}
+\subsubsection{Wrap Perspective}\label{maai:wrapPerspective}
 \dots
 
 \subsubsection{Umwandlung der Bilder in für das Spiel brauchbare Daten [H]}
@@ -283,7 +614,7 @@ Die Zeile zwanzig dient dazu das Bild testweise in einem Ordner abzuspeichern.
         cv2.imwrite('./source/prototypes/streamFusion/output/imgAdaptiveThre.png', imgAdaptiveThre)
 \end{lstlisting}
 
-Im nächsten Schritt wird der Array berechnet, welcher als Grundlage für die spielbare Map dient und aus dem aufgenommenen Bild extrahiert wird. Der Array beinhaltet nach der Verarbeitung schwarze und transparente Bildpunkte. Die schwarzen Pixel symbolisieren jene Plätze, auf welchen sich der Spieler schlussendlich bewegen kann. Die transparenten Pixel sind jene, welche als Hintergrund erkannt wurden und somit nicht für den Spieler begehbar sein sollten. Wie sich jedoch der Spieler auf diesen Punkten bewegen kann und wie der Array in die Spiellogik implementiert wird, wird im Kapitel ``Erstellung der Spielumgebung \ref {impl:Spielumgebung}‘‘ von Rafetseder Tobias näher erklärt.
+Im nächsten Schritt wird der Array berechnet, welcher als Grundlage für die spielbare Map dient und aus dem aufgenommenen Bild extrahiert wird. Der Array beinhaltet nach der Verarbeitung schwarze und transparente Bildpunkte. Die schwarzen Pixel symbolisieren jene Plätze, auf welchen sich der Spieler schlussendlich bewegen kann. Die transparenten Pixel sind jene, welche als Hintergrund erkannt wurden und somit nicht für den Spieler begehbar sein sollten. Wie sich jedoch der Spieler auf diesen Punkten bewegen kann und wie der Array in die Spiellogik implementiert wird, wird im Kapitel ``Erstellung der Spielumgebung \ref {impl:Spielumgebung}'' von Rafetseder Tobias näher erklärt.
 
 Jedoch wird zuerst eben das transformierte Bild in den Array umgewandelt. Dafür wird aus diesem adaptiven Threshold-Bild (Schwellwert-Bild) ein Faktor ausgerechnet, mit welchem die Bildpunkte zusammengefasst werden müssen, um insgesamt nicht mehr als \(\approx\)3025 Pixel zu überschreiten. Die dabei verwendete Formel wird im Folgenden an einem einfachen Beispiel erklärt. Diese lautet:
 

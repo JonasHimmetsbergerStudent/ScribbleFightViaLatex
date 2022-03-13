@@ -1,0 +1,1 @@
+{"rule":"DE_AGREEMENT","sentence":"^\\QFührt man diesen Programmcode aus, so erzeugt dieser folgende Bilder:\\E$"}
