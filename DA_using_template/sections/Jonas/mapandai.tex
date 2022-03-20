@@ -707,14 +707,64 @@ Die Transformationsmatrix ist eine Kombination aus folgenden Werten:
     \to
     \text{ Projektionsvektor }
 \]
+
 Die acht Unbekannten in der Transformationsmatrix geben die Freiheitsgrade im Raum an.
 
 Um die Matrix kalkulieren zu können müssen zuerst die vier Punkte der Eckpunktnäherung durch ``approxPolyDp'' herangezogen werden. Diese Funktion wurde im Kapitel \ref{maai:approxpolydp:header} erklärt. Die vier Eckpunkte, welche in die Vogelperspektive transformiert wurden, sollen ein neues Rechteck darstellen. Das heißt, dass die vier Punkte, welche zuvor im dreidimensionalen Raum die vier Ecken des Blatt Papiers darstellten, werden nun in ein Rechteck perspektiventransformiert. Dadurch wird das Bild in eine Perspektive, welche einen Blick von ``oben'' ermöglicht, umgewandelt, und richtig sakliert.
 
 Somit hat man acht Unbekannte und acht Gleichungen wodurch die Gleichungen in der Matrix-Form gelöst werden können. In OpenCV2 passiert diese Matrixkalkulation via der Funktion ``cv2. getPerspectiveTransform(points, points')''. Der erste Parameter stellt die Koordinaten im Ausgangsbild dar und der zweite stellt die Koordinaten im Ausgabebild dar.
 
-Danach wird ``cv2.wrapPerspective(\dots)'' angewendet, um die Perspektive anhand der gegebenen Matrix zu verändern. Dafür wird aus dem Ausgangsbild ein Teil weggeschnitten und über bleibt der für das ``use-case'' (Anwendungsfall) interessante Teil. Es wird nur jenes Stück aus dem Bild verwendet, welches in den vier gewählten Eckpunkten liegt. Dieses wird in die Vogelperspektive umgewandelt
+Danach wird ``cv2.wrapPerspective(\dots)'' angewendet, um die Perspektive anhand der gegebenen Matrix zu verändern. Dafür wird aus dem Ausgangsbild ein Teil weggeschnitten und über bleibt der für das ``use-case'' (Anwendungsfall) interessante Teil. Es wird nur jenes Stück aus dem Bild verwendet, welches in den vier gewählten Eckpunkten liegt. Dieses wird in die Vogelperspektive umgewandelt.
 
+Folgender Programmcode zeigt die Matrixrechnung anhand der Bibliothek OpenCV2 und der dazugehörigen Funktionen:
+
+
+
+\begin{lstlisting}[language=Python,caption=Perspektiventransformation Beispiel,label=maai:approxpolydp:code]
+    #importing the module cv2 and numpy
+    import cv2
+    import numpy as np
+
+    #reading the image whose perspective is to be changed
+    imageread = cv2.imread('C:/Users/admin/Desktop/plane.jpg')
+    
+    #specifying the points in the source image which is to be transformed to the corresponding points in the destination image
+    points1 = np.float32([[0, 100], [700, 260], [0, 700], [700, 400]])
+    points2 = np.float32([[0, 200], [600, 0], [0, 700], [1000, 700]])
+    
+    #applying getPerspectiveTransform() function to transform the perspective of the given source image to the corresponding points in the destination image
+    resultimage = cv2.getPerspectiveTransform(points1, points2)
+    
+    #applying warpPerspective() function to fit the size of the resulting image from getPerspectiveTransform() function to the size of source image
+    finalimage = cv2.warpPerspective(imageread, resultimage, (500, 600))
+    
+    #displaying the original image and the transformed image as the output on the screen
+    cv2.imshow('Source_image', imageread)
+    cv2.imshow('Destination_image', finalimage)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+\end{lstlisting}
+%Quelle: Zitat: https://www.educba.com/opencv-warpperspective/
+
+Dieser Programmcode führt zu folgendem Ergebnis:
+
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}[t]{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{pics/bildverarbeitungsalgos/ApproxPolyDP_input.png}
+        \caption{Input}
+        \label{maai:wrapperspective:input}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{pics/bildverarbeitungsalgos/wrapperspective.png}
+        \caption{perspektiventransformiert}
+        \label{maai:wrapperspective:output}
+    \end{minipage}
+\end{figure}
 
 \subsubsection{Umwandlung der Bilder in für das Spiel brauchbare Daten [H]}
 Hat man nun das Bild Perspektiven transformiert, so kann man dies mit dem Send-Button (Wie in Abbildung \ref{fig:map:maperkennungsprozess} ersichtlich) bestätigen.
