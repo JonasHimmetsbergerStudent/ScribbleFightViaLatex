@@ -265,7 +265,7 @@ Im folgendem Code-Beispiel \ref{maai:grayscaling} wird die Umsetzung einer Graus
     cv2.waitKey(0) # waits until a key is pressed
     cv2.destroyAllWindows() # destroys the window showing image
 \end{lstlisting}
-%Quelle: https://docs.opencv.org/3.4/d8/d01/group__imgproc__color__conversions.html
+%Quelle: Zitat: https://docs.opencv.org/3.4/d8/d01/group__imgproc__color__conversions.html
 
 Dieses Stück Programmcode führt zu folgendem Ergebnis:
 
@@ -572,7 +572,86 @@ Dieser Programmcode erzeugt folgendes Bild:
 \end{figure}
 
 \subsubsection{ApproxPolyDP}
-\dots
+
+%Quelle: https://pyimagesearch.com/2021/10/06/opencv-contour-approximation/
+
+Um nun aus den gewonnenen Konturen ein Blatt Papier zu erkennen, müssen die vier Eckpunkte des Blattes herausgefunden werden für eine Perspektiventransformation. Diese vier Punkte werden über die Open-Computer-Vision-Funktion ``approxPolyDp(\dots)'' (``approxymation of Polygon Points'' englisch für Annäherung von Polygonen) gewonnen. Die Funktion gibt aus einem übergebenen Konturen-Array (Array = Ansammlung an Daten; in diesem Fall eine Sammlung an Positionsdaten der Kontur-Eckpunkte), eine Annäherung der Eckpunkte zurück. In dem Feld werden die Punkte der Konturen als Vektoren angegeben. Die Annäherung an diese Punkte erfolgt mit einer übergebenen Genauigkeit, welche als Parameter der Funktion spezifiziert wird.
+
+Diese Kontur Näherung, welche den ``Ramer–Douglas–Peucker'' Algorithmus (abgekürzt RDP.; Abbildung \ref{fig:map:rdpalgo}) verwendet, hat das Ziel eine Kontur, also eine Polygon-Line, zu vereinfachen. Dies passiert, indem der Algorithmus die Scheitelpunkte der Kontur bei einem gegebenen Schwellwert reduziert.
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5]{pics/bildverarbeitungsalgos/The-Ramer-Douglas-Peucker-algorithm.png}
+    \caption{Der Ramer–Douglas–Peucker Algorithmus}
+    \label{fig:map:rdpalgo}
+\end{figure}
+% Quelle: https://www.researchgate.net/figure/The-Ramer-Douglas-Peucker-algorithm_fig6_332499235
+
+Wenn die Start- und Endpunkte einer Kurve gegeben sind, findet der Algorithmus zuerst den am weitest entfernten Punkt (Endpunkt). Dieser nimmt dann mit einem gegebenen Schwellwert \(x\) einen Bruchteil, welcher zu der Anzahl \(x\) an Polygonpunkten führt, der originalen Kontur her. Der gefragte Punkt, welcher sich an der Stelle des Bruchteils befindet, wird als neuer Konturpunkt herangezogen. Wenn andere Kontur-Punkte dazwischen liegen, so werden diese für den neuen, vereinfachten Konturen-Array ignoriert beziehungsweise eliminiert. Somit werden bestimmte Vertices (Eckpunkte) systematisch eliminiert.
+
+Über bleibt eine Annäherung an eine Ausgangskurve. Somit bleibt am Ende genügend Information über, um zum Beispiel ein Blatt Papier erkennen zu können, was das Hauptziel von diesem Teil der Arbeit (Maperkennung) war. Dabei werden so viel wie möglich Daten aus den Konturen entfernt und die Verarbeitung kann schneller passieren.
+
+Dieses Verfahren wird auch als Kurvenglättung bezeichnet.
+
+Außerdem werden maximal vier Punkte für eine Perspektiventransformation herangezogen.
+
+Das heißt, dass die Scheitelpunkte einer Kurve reduziert werden und dabei trotzdem eine große Menge beziehungsweise Genauigkeit an Information erhalten bleibt. Somit bleibt ein Großteil der Form beibehalten.
+
+Somit werden die vier Eckpunkte des Blatt Papiers in dieser Arbeit herausgefunden. Diese vier Eckpunkte sind eine sehr genaue Annäherung an die Eckpunkte, so wie diese in der Realität vorzufinden sind.
+
+Wie dies mit Python und OpenCV2 umgesetzt wurde, wird im folgenden Codebeispiel ersichtlich:
+
+
+\begin{lstlisting}[language=Python,caption=Bild in Spielbare Map umwandeln,label=lst:umsetzung:getplayablearray]
+    #importing the module cv2
+    import cv2
+
+    #reading the image whose shape is to be detected using imread() function
+    imageread = cv2.imread('Path/to/image.png')
+
+    #converting the input image to grayscale image using cvtColor() function
+    imagegray = cv2.cvtColor(imageread, cv2.COLOR_BGR2GRAY)
+
+    #using threshold() function to convert the grayscale image to binary image
+    _, imagethreshold = cv2.threshold(imagegray, 245, 255, cv2.THRESH_BINARY_INV)
+
+    #finding the contours in the given image using findContours() function
+    imagecontours, _ = cv2.findContours(imagethreshold, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+
+    #for each of the contours detected, the shape of the contours is approximated using approxPolyDP() function and the contours are drawn in the image using drawContours() function
+    for count in imagecontours:
+    epsilon = 0.01 * cv2.arcLength(count, True)
+    approximations = cv2.approxPolyDP(count, epsilon, True)
+    cv2.drawContours(imageread, [approximations], 0, (0), 3)
+    
+    #displaying the resulting image as the output on the screen
+    cv2.imshow("Resulting_image", imageread)
+    cv2.waitKey(0)
+\end{lstlisting}
+%Quelle: Zitat: https://www.educba.com/opencv-approxpolydp/
+
+Dieser Programmcode führt zu folgendem Ergebnis:
+
+
+\begin{figure}[htb]
+    \centering
+    \begin{minipage}[t]{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{pics/bildverarbeitungsalgos/ApproxPolyDP_input.png}
+        \caption{Input}
+        \label{maai:approxpolydp:input}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{pics/bildverarbeitungsalgos/ApproxPolyDP_output.png}
+        \caption{Erster Output des Programmcodes}
+        \label{maai:approxpolydp:output}
+    \end{minipage}
+\end{figure}
+
+
 \subsubsection{Wrap Perspective}\label{maai:wrapPerspective}
 \dots
 
