@@ -571,7 +571,7 @@ Dieser Programmcode erzeugt folgendes Bild:
     \end{minipage}
 \end{figure}
 
-\subsubsection{ApproxPolyDP}
+\subsubsection{ApproxPolyDP}\label{maai:approxpolydp:header}
 
 %Quelle: https://pyimagesearch.com/2021/10/06/opencv-contour-approximation/
 
@@ -603,7 +603,7 @@ Somit werden die vier Eckpunkte des Blatt Papiers in dieser Arbeit herausgefunde
 Wie dies mit Python und OpenCV2 umgesetzt wurde, wird im folgenden Codebeispiel ersichtlich:
 
 
-\begin{lstlisting}[language=Python,caption=Bild in Spielbare Map umwandeln,label=lst:umsetzung:getplayablearray]
+\begin{lstlisting}[language=Python,caption=ApproxPolyDP Beispiel,label=maai:approxpolydp:code]
     #importing the module cv2
     import cv2
 
@@ -653,7 +653,68 @@ Dieser Programmcode führt zu folgendem Ergebnis:
 
 
 \subsubsection{Wrap Perspective}\label{maai:wrapPerspective}
-\dots
+
+``Warp Perspective'' ist Englisch und bedeutet ``Perspektiventransformation''. Der Bildverarbeitungsalgorithmus wird zur Perspektivenveränderung herangezogen. Dieser Algorithmus ist der letzte Schritt der Bildverarbeitung, welcher nötig ist, um das Blatt Papier, auf welchem eine Map gezeichnet ist, aus einem Bild zu erkennen.
+
+Durch die Perspektiventransformation werden Winkel, Parallelität und Längen verändert, wodurch es zu einer Stauchung beziehungsweise Streckung eines Bildes kommt.
+
+Der Algorithmus zur Transformation der Perspektive kann wie folgt beschrieben werden:
+\[
+    \left[\begin{array}{r}
+            ti\_x' \\
+            ti\_y' \\
+            ti     \\
+        \end{array}\right]
+    = \left[\begin{array}{rrr}
+            a_{ 1 } & a_{ 2 } & b_{ 1 } \\
+            a_{ 3 } & a_{ 4 } & b_{ 2 } \\
+            c_{ 1 } & c_{ 2 } & 1       \\
+        \end{array}\right]
+    * \left[\begin{array}{r}
+            x \\
+            y \\
+            1 \\
+        \end{array}\right]
+\]
+Auf der rechten Seite der Gleichung befindet sich die Transformationsmatrix als erster Faktor und der Input \(x\) und \(y\) als Vektor und 1 als zweiter Faktor.
+
+Das Produkt daraus, also die linke Seite der Gleichung, gibt den Skalierungsfaktor an. Das heißt der Perspektiven-transformierte Punkte mit den Koordinaten \(x\) und \(y\) wird zu einem neuen Punkt \(P'\) mit den Koordinaten \(x'\) und \(y'\).
+
+Die Transformationsmatrix ist eine Kombination aus folgenden Werten:
+\[
+    \left[\begin{array}{rr}
+            a_{ 1 } & a_{ 2 } \\
+            a_{ 3 } & a_{ 4 } \\
+        \end{array}
+        \right]
+    \to
+    \text{ Transformation hinsichtlich Rotation, Skalierung, etc. }
+\]
+\[
+    \left[\begin{array}{r}
+            b_{ 1 } \\
+            b_{ 2 } \\
+        \end{array}
+        \right]
+    \to
+    \text{ Verschiebungsvektor }
+\]
+\[
+    \left[\begin{array}{rr}
+            c_{ 1 } & c_{ 2 } \\
+        \end{array}
+        \right]
+    \to
+    \text{ Projektionsvektor }
+\]
+Die acht Unbekannten in der Transformationsmatrix geben die Freiheitsgrade im Raum an.
+
+Um die Matrix kalkulieren zu können müssen zuerst die vier Punkte der Eckpunktnäherung durch ``approxPolyDp'' herangezogen werden. Diese Funktion wurde im Kapitel \ref{maai:approxpolydp:header} erklärt. Die vier Eckpunkte, welche in die Vogelperspektive transformiert wurden, sollen ein neues Rechteck darstellen. Das heißt, dass die vier Punkte, welche zuvor im dreidimensionalen Raum die vier Ecken des Blatt Papiers darstellten, werden nun in ein Rechteck perspektiventransformiert. Dadurch wird das Bild in eine Perspektive, welche einen Blick von ``oben'' ermöglicht, umgewandelt, und richtig sakliert.
+
+Somit hat man acht Unbekannte und acht Gleichungen wodurch die Gleichungen in der Matrix-Form gelöst werden können. In OpenCV2 passiert diese Matrixkalkulation via der Funktion ``cv2. getPerspectiveTransform(points, points')''. Der erste Parameter stellt die Koordinaten im Ausgangsbild dar und der zweite stellt die Koordinaten im Ausgabebild dar.
+
+Danach wird ``cv2.wrapPerspective(\dots)'' angewendet, um die Perspektive anhand der gegebenen Matrix zu verändern. Dafür wird aus dem Ausgangsbild ein Teil weggeschnitten und über bleibt der für das ``use-case'' (Anwendungsfall) interessante Teil. Es wird nur jenes Stück aus dem Bild verwendet, welches in den vier gewählten Eckpunkten liegt. Dieses wird in die Vogelperspektive umgewandelt
+
 
 \subsubsection{Umwandlung der Bilder in für das Spiel brauchbare Daten [H]}
 Hat man nun das Bild Perspektiven transformiert, so kann man dies mit dem Send-Button (Wie in Abbildung \ref{fig:map:maperkennungsprozess} ersichtlich) bestätigen.
