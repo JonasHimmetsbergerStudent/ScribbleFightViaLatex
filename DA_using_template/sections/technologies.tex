@@ -1,5 +1,5 @@
 
-\section{JavaScript [R]}
+\section{JavaScript [R] [W]}
 Zuerst musste die Entscheidung gefällt werden, ob unser Projekt ein Standalone-Programm sein soll, oder im Browser zu erreichen ist. Weil wir aber wollten, dass es ein
 Party-Game werden soll, dass man ohne jeglichen Aufwand sofort mit Freunden spielen kann, haben wir uns für die Browser-Variante entschieden.
 Für mich war es eine leichte Entscheidung JavaScript zu verwenden, da die Programmiersprache genau für den Browser geeignet ist, und man damit nicht nur im Frontend, sondern auch im Backend programmieren kann.
@@ -146,6 +146,85 @@ Socket.IO ist keine WebSocket Implementation. Auch wenn Socket.IO WebSocket als 
 ein Socket.IO Client keine Verbindung mit einem schlichten WebSocket Server herstellen kann, und umgekehrt.
 Man kann sich Socket.IO also als einen Wrapper rund um die WebSocket API vorstellen.
 
+
+\subsection{qrcode.js [W]}
+Ein QR-Code ist ein Matrix-Barcode welcher meistens auf eine bestimmte URL verweist. Die Bezeichnung QR steht für Quick Response,
+also schnelle Antwort. Für die Codierung verwendet der QR-Code 4 Methoden: Numerisch, Alphanumerisch, Byte/Bit und Kanji.
+Besonders populär wurde das QR-Code System dank seiner
+schnellen Lesbarkeit und seiner erhöhten Speicherkapazität im Vergleich zu den 
+damalig verwendeten UPC Barcodes(sh. Abbildung 11). Anwendungsfälle für QR-Codes sind Produkt-Tracking, Item-Identifikation, Dokumentenmanagement, etc. .
+Ein QR-Code besteht aus schwarzen Quadraten welche in einem großen Quadrat arrangiert werden(sh. Abbildung 10).
+Dieser kann einfach von einer Kamera oder ähnlichem gescannt und ausgewertet werden.
+Das QR-Code-System wurde von Masahiro Hara von der japanischen Autofirma Denso Wave entwickelt. 
+Das Design basiert auf den schwarzen und weißen Spielfiguren des Go-Spiels. 
+Ursprünglich wurde das System zum tracken von Fahrzeugen während der Herstellung verwendet. 
+Heutzutage werden QR-Codes vor allem im Werbebereich verwendet. Oft wird der
+potenzielle Kunde dazu eingeladen einfach sein Smartphone herauszuholen und einfach den QR-Code zu Scannen um 
+ihn dann auf der Webseite Produkte anzubieten. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=1]{pics/googleQR.png}
+    \caption{QR-Code zu www.google.com}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.8]{pics/UPCBarcode.png}
+    \caption{UPC Barcode}
+\end{figure}
+
+
+Hier ist ein einfaches Beispiel wie man qrcode.js in eine Webseite einfügen kann.
+Dieser verweist auf https://www.google.com. Wichtig ist hierbei anzumerken, dass dafür die qrcode.js Javascript Bibliothek einzubinden ist.
+Diese kann unter http://davidshimjs.github.io/qrcodejs/ gedownloaded werden.
+\begin{lstlisting}[language=html,caption=QR-Code Demo,label=lst:tech:gaussianBlur]
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>QR-Demo</title>
+        <script src="qrcode.min.js"></script>
+    </head>
+    
+    <body>
+        <div id="qrcode"></div>
+        <script type="text/javascript">
+            new QRCode(document.getElementById("qrcode"), "https://www.google.com");
+        </script>
+    </body>
+    
+</html>
+\end{lstlisting}
+
+Bei qrcode.js können auch weitere Parameter für den QR-Code gesetzt werden. Es können
+Beispielsweise Farbe, Größe, etc. verändert werden.
+
+\begin{lstlisting}[language=html,caption=QR-Code Demo 2,label=lst:tech:gaussianBlur]
+    var qrcode = new QRCode(document.getElementById("qrcode"), {
+            text: "www.google.com",
+            width: 512,
+            height: 512,
+            colorDark: "#B3FF78",
+            colorLight: "#F677FF",
+            correctLevel: QRCode.CorrectLevel.H
+        });
+\end{lstlisting}
+Das Resultat dieser Veränderung sieht so aus:
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.7]{pics/fancyQR.png}
+    \caption{Personalisierter QR-Code}
+\end{figure}
+
+Bei dieser Arbeit wurde der QR-Code verwendet mit dem Handy zugriff auf den Mapscanner und
+das Hochladen der Zeichnung zu gewährleisten.   
+
+\newpage
+\subsection{chart.js [W]}
+
 \section{Deployment [R]}
 Das Scribble-Fight Browser-Game wurde in die Leocloud, ein Cloud-System der HTL-Leonding, unter \url{https://student.cloud.htl-leonding.ac.at/t.rafetseder/scribble-fight/} deployed.
 Zuerst wurde mithilfe von der Docker-Technologie ein Docker-Image erstellt und auf die Leocloud hochgeladen. Das Deployment wurde dann mithilfe von Kubernetes umgesetzt.
@@ -193,6 +272,7 @@ Kubernetes hat mehrere Funktionen, zum Beispiel ist Kubernetes:
 \end{compactitem}
 
 In dieser Diplomarbeit wird Kubernetes benutzt, um ein mit Docker gebautes Images des Scribble-Fight Browsergames auf ein Cloudsystem zu deployen. Näheres zur Umsetzung findet man \url{hier}
+
 
 \newpage
 \section{Python [H]}
