@@ -876,19 +876,74 @@ Dieser Map-Array wird dann in ein File abgespeichert. Dieses File dient rein daz
         return newImg
 
 \end{lstlisting}
+
 \subsection{Kommunikation mit der Lobby via Flask und Flask SocketIO [W]}
 
-\section{KI [H]}
+\section{KI [H]}\label{maai:ai:title}
+
+Die Vorstellung von Künstlichen Intelligenzen gibt es schon seit Mitte des zwanzigsten Jahrhunderts. Bei einer Konferenz von Wissenschaftlern am Dartmouth College im US-Bundesstaat New Hampshire im Jahr 1956 wird das erste Mal bewiesen, dass es möglich ist mit Mathematik menschliche Intelligenz zu simulieren.
+
+%Quelle: https://www.bosch.com/de/stories/geschichte-der-kuenstlichen-intelligenz/
+Der Gedanke, dass eine von Menschenhand erschaffene Intelligenz, welche keine biologische Abstammung hat und den Menschen bei der Arbeit unterstützen, oder diese ganz abnehmen kann, wird seit diesem Ereignis angestrebt. Dabei ist das Feld, in welchem ``Artificial Intelligence'' (AI) beziehungsweise Künstliche Intelligenz (KI) eingesetzt werden kann, scheinbar unbegrenzt.
+
+Das Einzige, das gegeben sein muss, ist, dass in einem komplexen System, in welcher die Künstliche Intelligenz operiert, Daten extrahiert und gesammelt werden können. Weiters sind Ressourcen, wie Hardware oder Zeit, ein wichtiger Aspekt. Die intelligente Maschine kann mehrere Millionen Schritte pro Tag ausführen und mit mehreren ``Gehirnen'' (Mehrere Instanzen der des Lernumfelds) gleichzeitig lernen. Trotzdem ist dies limitiert, durch die Geschwindigkeit und der Rechenleistung, die zu diesem Zeitpunkt aufgebracht werden kann, mit welcher die Aktionen ausgeführt werden und somit zu einem ``Lernen'' führen.
+
+Die zuvor genannte ``Lern-Technik'' Reinforcementlearning (Kapitel \ref{}), funktioniert ähnlich wie die Lern-Art von biologischen Organismen. Die Idee stammt davon, dass simple, Lebensformen, welche nicht mehr als Instinkte zum Futter sammeln, Prädatoren ausweichen und im Generellen zum Überleben haben, sollten von einer Maschine ``leicht'' simuliert werden können. Ein Beispiel hierfür wäre ein Fadenwurm. Das ZNS (Zentrale Nervensystem) baut sich aus dreihundertzwei Nervenzellen zusammen. Weitere chemische Verbindungsstellen und Kanäle erhöhen die Komplexität dieses Lebewesens nur wenig. Dies ist mit modernen Computern bereits simulierbar.
+%Quelle: https://www.sueddeutsche.de/wissen/gehirngroesse-von-0-bis-11-000-000-000-neuronen-1.1850384
+
+Dazu müssen jedoch gewisse mathematische Modelle angewandt werden, um dieses Ergebnis zu erreichen und den Organismus zu simulieren.
+
+Dass und wie es für eine Maschine möglich ist zu lernen wurde bereits im Kapitel \ref {tech:ki:head} näher erläutert.
+
+Um diese mathematischen Modelle jedoch perfekt auf ein gewünschtes Ergebnis abstimmen zu können, wir Hpyerparamter-``Fine-Tuning'' angewendet. Dabei werden jene Parameter, welche zu einem Lernen beitragen, so angepasst, dass das Modell eine perfekte Lernkurve erzielt.
+
+Im Zuge dieser Arbeit wurde klar, dass Künstliche Intelligenz kein Thema ist, welches leicht zu begreifen ist.
+
+Diese zuvor erwähnten mathematischen Modelle wurden bereits in einer Python Bibliothek namens ``Stable\_baselines3'' implementiert. Dieses Framework wird im Folgenden (Kapitel: \ref {maai:usedLibraries}) genauer erklärt.
+
+Die zur Verfügung gestellten Algorithmen sind jedoch nicht perfekt auf unseren Anwendungsfall abgestimmt. Trotzdem wurden Ergebnisse erzielt (auch, wenn diese nicht bemerkenswert sind).
+
+Die Logik der Welt, in welcher sich der Agent (Reinforcement-Learning) bewegt, wurde mittels Open-AI-Gym umgesetzt. Dabei handelt es sich um eine Hilfestellung, welche es ermöglicht objektorientiert eine Künstliche Intelligenz mit Python umzusetzen. Die Syntax beziehungsweise Vorgehensweise, welche verwendet wird, um eine Künstliche Intelligenz, welche mit der Methode des verstärkten Lernens trainiert, mittels Python zu implementieren, wird in den folgenden Kapiteln genauer beschrieben. Dabei wird auch genauer auf die genannten Bibliotheken eingegangen.
+
+\subsection{Verwendete Bibliotheken [H]}\label{maai:usedLibraries}
+
+
+syntax (gym.make(), obs, step, und so zeig)
+
+% \subsection{Künstliche Intelligenz Definition [H]}
+\subsection{Reinforcement Learning [H]}
+Code
+Wie wurde reward vergeben
+\subsection{Die ScribbleFight-KI [H]}\label{maai:scribblefightki}
+
 Im Laufe der Ausarbeitung der Diplomarbeit und der damit zusammenhängenden Forschung änderte sich oft die
 Vorstellung darüber, wie das Endprodukt (KI) auszusehen hat, beziehungsweise, wie dieses aussehen kann.
 Limitierungen, welche vor der Forschung noch nicht bekannt und bewusst waren, begrenzten die Lernfähigkeit der KI.
-Auf Probleme, Lösungen und Ergebnisse wird jedoch noch näher in ... eingegangen.
-\subsection{Lernen mit OpenAI-Gym [H]}
-% \subsection{Künstliche Intelligenz Definition [H]}
-\subsection{Reinforcement Learning [H]}
-\subsection{Die ScribbleFight-KI [H]}\label{maai:scribblefightki}
+Auf Probleme, Lösungen und Ergebnisse wird jedoch noch näher in \ref{maai:scribblefightki} eingegangen.
+
+
+Ziele
+Umsetzung
+code (eher so vom rafi)
 \subsubsection{Beschreibung der Funktionalität [H]}
+Was sieht die KI?
+\begin{figure}[H]
+    \centering
+    \begin{minipage}[t]{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{pics/ai/screenshots.png}
+        \caption{Spieler Sicht}
+        \label{maai:ai:visCopy:input}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{pics/ai/newImg.png}
+        \caption{KI Sicht}
+        \label{maai:ai:visCopy:output}
+    \end{minipage}
+\end{figure}
 \subsubsection{Warum Python? [H]}
-\subsection{Tensorflow und Keras [H]}
-\subsubsection{Tensorflow [H]}
-\subsubsection{Keras [H]}
+% \subsection{Tensorflow und Keras [H]}
+% \subsubsection{Tensorflow [H]}
+% \subsubsection{Keras [H]}
