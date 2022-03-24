@@ -908,12 +908,117 @@ Die Logik der Welt, in welcher sich der Agent (Reinforcement-Learning) bewegt, w
 \subsection{Verwendete Bibliotheken [H]}\label{maai:usedLibraries}
 
 
-syntax (gym.make(), obs, step, und so zeig)
+``OpenAI-Gym'' ist dafür da Reinforcement-Learning Algorithmen auf einem Beginner Niveau beizubringen und diese hauptsächlich zum Ausprobieren und Vergleichen zur Verfügung zu stellen.
+
+Dabei erstellt ``OpenAI-Gym'' viele vorab entwickelte Videospiele zur Verfügung. Diese Spiele sind hauptsächlich Atari-Games, wie zum Beispiel Tetris, Pac-Man, oder Breakout. Atari ist eine Spielkonsole aus den 1980‘ Jahren.
+
+Diese Bibliothek stellt jedoch nicht nur zweidimensionale Umwelten zu Verfügung. Auch einige dreidimensionale Umgebungen, wie ``Humanoid'', bei welchem man einer Figur das Gehen beibringen muss, sind zur Auswahl.
+
+Somit ist es für jeden möglich sich spielerisch mit dem Thema der Künstlichen Intelligenz auseinanderzusetzen. Es ist bereits mit einigen, wenigen Code-Zeilen möglich die ``Library'' einzubinden und ein simples Programm umzusetzen.
+\begin{lstlisting}[language=Python,label=lst:maap:simpleGym,caption=Simples OpenAI-Gym Programm]
+    # import dependencies
+    import gym 
+
+    # create CartPole environment
+    env = gym.make('CartPole-v0') 
+
+    # reset the environment
+    env.reset() 
+
+    # walk 1000 steps
+    for _ in range(1000): 
+        # display progress visually
+        env.render() 
+        # take a random action
+        env.step(env.action_space.sample()) 
+        
+    # close the environment after it is done
+    env.close()
+\end{lstlisting}
+
+
+In diesem Environment (Spielumgebung) wird versucht ein Stab mithilfe einer beweglichen Plattform zu balancieren. Die Plattform kann sich dabei nur in einer Dimension (auf der X-Achse) bewegen. Mit diesem Beispielcode (\ref{lst:maap:simpleGym}) wird jedoch noch keine Künstliche Intelligenz trainiert. Hier werden zunächst zufällige Aktionen in dem Spiel ausgeführt, was selbstverständlich noch nicht zu einem gewünschten Ergebnis führt. Die Schwierigkeit dabei ist, dass sich die Plattform nicht nach links bewegt, wenn der Stab nach links fällt, oder umgekehrt, sondern den Stab wirklich balanciert. Diesen Ablauf der Bewegung findet der Algorithmus binnen weniger Sekunden heraus.
+
+Es ist jedoch möglich dieses Programm so zu erweitern, dass dieses auch dazulernt. Dies lässt sich mit folgendem Code implementieren.
+
+CODEEEEEEEEE
+
+Außerdem kann man mit ``OpenAI-Gym'' ein eigenes Spiel erstellen. Dies funktioniert objektorientiert. Dabei müssen folgende Funktionen eingebunden werden:
+
+%Quelle: https://gym.openai.com/docs/
+
+\begin{compactenum}
+    \item \_\_init\_\_(self): diese Funktion wird aufgerufen, wenn ein Objekt der Klasse erstellt wird. Diese Methode wird auch ``Konstruktor'' genannt. Hier werden alle Parameter des Objekts initialisiert.
+    \item step(self): Step(\dots) ist das Herzstück der Klasse. Hier wird jeder Schritt der Künstlichen Intelligenz definiert. Dazu wird zunächst eine Aktion definiert, welche die Maschine ausführen soll. Danach wird observiert, was sich in der Umgebung verändert hat und daraus ein Schluss gezogen, ob die Aktion zu einem guten, schlechten oder gar keinem Ergebnis führte; es wird also die Belohnung errechnet. Der Rückgabewert besteht dann aus den Observationen, der Belohnung, dem Status der Episode, welche die Künstliche Intelligenz zurzeit erlernt und einer beliebigen Zusatzinformation.
+    \item render(self): Render(\dots) kann optional implementiert werden. Diese Funktion dient dazu dem Anwender den Lernfortschritt visuell darzustellen.
+    \item reset(): die vierte und letzte Funktion ist Reset(\dots). Diese wird dazu verwendet um nach einer Episode die Umgebung und alle dazugehörigen Variablen auf einen gewünschten Stand zurückzusetzen.
+\end{compactenum}
+
+Für die Beschreibung einzelner Begriffe empfiehlt es sich folgendes Kapitel zu lesen: ``Künstliche Intelligenz allgemein'' (\ref {tech:ki:head})
+
+Die ScribbleFight-KI wurde wie folgt in Python implementiert:
+(gym\_env.py)
+
+\begin{lstlisting}[language=Python,label=lst:maap:scribblefightki,caption=ScribbleFight-KI OpenAI-Gym Environment]
+    import gym
+    from gym.spaces import MultiDiscrete, Box
+    from KI_v01.env.game import Game
+
+
+    class CustomEnv(gym.Env):
+
+        '''
+        This class is a custom open-ai gym environment
+        It has helper functions which are implemented below
+        '''
+
+        #metadata = {'render.modes' : ['human']}
+        def __init__(self):
+            self.pygame = Game()
+            '''DISCRETE[0]: ANGLE+, ANGLE-, idle
+            DISCRETE[1]: "SPACE", "E", "Q", "R", "C", "F", "LEFTCLICK", idle
+            DISCRETE[2]: "A", "D", idle'''
+            self.action_space = MultiDiscrete([3, 8, 3])
+            '''random output when observation_space is sampled:
+            [[0,0,0,...],
+            [0,1,0,...],
+                .....,
+            [0,1,3,...],
+            [0,1,5,...]]'''
+            self.observation_space = Box(0, 10, (165, 165), int)
+
+        def reset(self):
+            self.pygame.reset()
+            obs = self.pygame.observe()
+            return obs
+
+        def step(self, actions):
+            self.pygame.action(actions)
+            obs = self.pygame.observe()
+            # checks if observations are valid
+            #   if true then there are no observations made
+            ''' 
+            comparison = obs == Box(0, 0, (165, 165), int).sample()
+            equal_arrays = comparison.all()
+            print(equal_arrays)
+            '''
+            reward = self.pygame.evaluate()
+            done = self.pygame.is_done()
+
+            # info = self.pygame.info()  # not really needed
+            return obs, reward, done, {}
+
+        def render(self, mode="human", close=False):
+            self.pygame.view()
+
+\end{lstlisting}
+
 
 % \subsection{Künstliche Intelligenz Definition [H]}
 \subsection{Reinforcement Learning [H]}
 Code
 Wie wurde reward vergeben
+(game.py)
 \subsection{Die ScribbleFight-KI [H]}\label{maai:scribblefightki}
 
 Im Laufe der Ausarbeitung der Diplomarbeit und der damit zusammenhängenden Forschung änderte sich oft die
