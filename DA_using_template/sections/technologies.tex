@@ -1,34 +1,36 @@
 
-\section{JavaScript [R]}
-Zuerst musste die Entscheidung gefällt werden, ob unser Projekt ein Standalone-Programm sein soll, oder im Browser zu erreichen ist. Weil wir aber wollten, dass es ein
-Party-Game werden soll, dass man ohne jeglichen Aufwand sofort mit Freunden spielen kann, haben wir uns für die Browser-Variante entschieden.
-Für mich war es eine leichte Entscheidung JavaScript zu verwenden, da die Programmiersprache genau für den Browser geeignet ist, und man damit nicht nur im Frontend, sondern auch im Backend programmieren kann.
+\section{Java-Script [R]}
+\subsection{Wieso Java-Script?}
+Ein Stand-alone-Programm ist ein Programm, dass selbständig arbeiten kann.
+Das Web-Game sollte kein Stand-alone-Programm werden, sondern im Browser erreichbar sein. Deswegen wurde Java-Script für die Programmierung am Client, sowie auch am Server ausgewählt. 
+Der Vorteil davon ist, dass nur eine Programmiersprache benutzt werden muss, um eine Client-Server-Architektur zu bewerkstelligen.  
+Außerdem besteht kein Aufwand, um Scribble-Fight spielen zu können - ein Browser ist alles, was benötigt wird. 
 \setauthor{Rafetseder Tobias}
 \subsection{p5.js / p5.play [R]}
 \label{subsection:p5js}
-p5.js ist eine open-source JavaScript Library, die für Kreation von Spielen genutzt wird.
-p5.play ist eine Library für p5.js, mit der man visuelle Objekte managen kann. Außerdem beinhaltet es Features wie Animation-Support,
+p5.js ist eine open-source JavaScript-Library, die für Kreation von Spielen genutzt wird.
+p5.play ist eine Library für p5.js, mit der visuelle Objekte verwaltet werden können. Außerdem beinhaltet es Features wie Animation-Support,
 Kollisionserkennung, sowie aber auch Funktionen für Maus- und Tastatur-Interaktionen.
-Es ist wichtig sich im Hinterkopf zu behalten, dass p5.play für barrierefreies und simples Programmieren gedacht ist, nicht für perfomantes.
+P5.play ist für barrierefreies und simples Programmieren gedacht ist, nicht für performantes.
 Es ist keine eigene Engine, und unterstütz auch keine 3D-Spiele.
 
 \subsubsection{Einbindung}
-Der einfachste Weg p5.js einzubinden ist auf ein JavaScript File online zu verweisen.
+Der einfachste Weg p5.js einzubinden, ist auf ein Java-Script File online zu verweisen.
 
 \begin{lstlisting}
     <script 
     src="https://cdn.jsdelivr.net/npm/p5@1.4.0/lib/p5.js">
     </script>
 \end{lstlisting}
-Man kann sich aber auch die p5.js Library
-lokal downloaden unter \url{https://p5js.org/download/}
-Dann muss man nur noch auf das lokale File verweisen.
+Die p5.js Library kann aber auch 
+unter \url{https://p5js.org/download/} lokal heruntergeladen werden.
+Dann kann einfach auf das lokale File verwiesen werden.
 
 \begin{lstlisting}
     <script src="../p5.min.js"></script>
 \end{lstlisting}
 
-Jedoch muss man das Projekt dann auf einem lokalen Server (z.B. Node.js) hosten.
+Jedoch muss man das Projekt dann auf einem lokalen Server (z.B. mit Node.js umgesetzt) hosten.
 
 \subsubsection{Struktur eines p5.js Projekts}
 Die Struktur ist sehr simpel. Im Ganzen ist es nur ein \texttt{index.html} File und ein \texttt{sketch.js} File. In dem HTML File bindet man die p5-Library ein, und auch das sketch.js File.
@@ -41,7 +43,7 @@ Die Struktur ist sehr simpel. Im Ganzen ist es nur ein \texttt{index.html} File 
 
 So kann man nun in dem sketch.js File die p5.js Methoden nutzen. Die wichtigsten Methoden sind die Setup- und die Draw-Methode.
 Die Setup-Methode wird vor der Draw-Methode aufgerufen um das Spiel zu initialisieren. (Es wird zum Beispiel ein Canvas erstellt).
-Wenn diese abgeschlossen ist, wird die Draw-Methode 60 mal in der Sekunde aufgerufen und updatet jedes mal den Bildschirm.
+Wenn diese abgeschlossen ist, wird die Draw-Methode 60 mal in der Sekunde aufgerufen und aktualisiert jedes mal den Bildschirm.
 
 \begin{figure}[H]
     \centering
@@ -51,10 +53,10 @@ Wenn diese abgeschlossen ist, wird die Draw-Methode 60 mal in der Sekunde aufger
 
 \subsubsection{P5.js vs Processing}
 p5.js ähnelt sich sehr stark mit Processing, eine Programmiersprache die man sich wie ein stark vereinfachte Version von Java vorstellen kann.
-Der Unterschied liegt darin, dass Java eine Umgebung, basierend auf der Java Programmiersprache ist, während p5.js eine Bibliothek, basierend auf der JavaScript Programmiersprache ist.
+Der Unterschied liegt darin, dass Java eine Umgebung, basierend auf der Java Programmiersprache ist, während p5.js eine Bibliothek, basierend auf der Java-Script Programmiersprache ist.
 Processing ist dafür geeignet, lokale Applikationen zu bauen, hingegen dazu kann p5.js nur im Browser ausgeführt werden.
 
-p5.js ist also kurzgesagt ein direkter JavaScript Port für die Processing Programmiersprache.
+p5.js kann als direkter Java-Script Port für die Processing Programmiersprache definiert werden. Die Funktionen, die man in Processing mit Java geschrieben hat, werden nun mit Java-Script geschrieben.
 
 Vorteile von p5.js:
 \begin{compactitem}
@@ -65,8 +67,7 @@ Vorteile von p5.js:
 
 Nachteile von p5.js:
 \begin{compactitem}
-    \item Ist langsamer beim Pixel manipulieren
-    \item Ist kein Standalone-Programm, d.h. ein Browser wird benötigt
+    \item Ist kein Stand-alone-Programm, d.h. ein Browser wird benötigt
 \end{compactitem}
 
 \subsection {Node.js [R]}
