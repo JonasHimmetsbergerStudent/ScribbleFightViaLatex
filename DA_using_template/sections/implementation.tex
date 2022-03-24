@@ -113,7 +113,7 @@ Mit der p5.js Methode <keyWentDown(Key)> wird überprüft, ob die Taste gerade g
 Durch p5.play.js kann man mit <sprite.velocity.y> die vertikale Geschwindigkeit eines Sprites verändern. Dadurch kann eine Gravitation simuliert werden.
 Außerdem kann man mit <sprite.bounce(otherSprite)> Sprites an anderen Sprites oder Gruppen von Sprites 'abspringen' lassen. Dies wird benutzt, damit die Bombe an der Umgebung abprallt
 Danach wird mit <sprite.overlap(myPlayer.sprite)> überprüft, ob eine Bombe mit meinem Spieler-Sprite kollidiert.
-Falls ja, wird die Bombe mit <sprite.remove()> entfernt.
+Falls ja, wird die Bombe mit <sprite.remove()> entfernt und mein Spieler wird weggestoßen.
 Falls nein, wird noch überprüft, ob sich die Bombe außerhalb des Bildschirms befindet, und falls dies zutrifft, wird auch in dem Fall die Bombe entfernt.
 \\
 

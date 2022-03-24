@@ -30,10 +30,10 @@ Dann kann einfach auf das lokale File verwiesen werden.
     <script src="../p5.min.js"></script>
 \end{lstlisting}
 
-Jedoch muss man das Projekt dann auf einem lokalen Server (z.B. mit Node.js umgesetzt) hosten.
+Jedoch muss das Projekt dann auf einem lokalen Server (z.B. mit Node.js umgesetzt) gehostet werden.
 
 \subsubsection{Struktur eines p5.js Projekts}
-Die Struktur ist sehr simpel. Im Ganzen ist es nur ein \texttt{index.html} File und ein \texttt{sketch.js} File. In dem HTML File bindet man die p5-Library ein, und auch das sketch.js File.
+Die Struktur ist sehr simpel. Im Ganzen ist es nur ein \texttt{index.html} File und ein \texttt{sketch.js} File. In dem HTML File wird die p5-Library und auch das sketch.js File eingebunden.
 
 \begin{figure}[H]
     \centering
@@ -41,7 +41,7 @@ Die Struktur ist sehr simpel. Im Ganzen ist es nur ein \texttt{index.html} File 
     \caption{Aufbau index.html}
 \end{figure}
 
-So kann man nun in dem sketch.js File die p5.js Methoden nutzen. Die wichtigsten Methoden sind die Setup- und die Draw-Methode.
+So können in dem sketch.js File die p5.js Methoden genutzt werden. Die wichtigsten Methoden sind die Setup- und die Draw-Methode.
 Die Setup-Methode wird vor der Draw-Methode aufgerufen um das Spiel zu initialisieren. (Es wird zum Beispiel ein Canvas erstellt).
 Wenn diese abgeschlossen ist, wird die Draw-Methode 60 mal in der Sekunde aufgerufen und aktualisiert jedes mal den Bildschirm.
 
@@ -51,18 +51,19 @@ Wenn diese abgeschlossen ist, wird die Draw-Methode 60 mal in der Sekunde aufger
     \caption{Simples sketch.js Beispiel}
 \end{figure}
 
+%https://www.sitepoint.com/processing-js-vs-p5-js-whats-difference/
 \subsubsection{P5.js vs Processing}
-p5.js ähnelt sich sehr stark mit Processing, eine Programmiersprache die man sich wie ein stark vereinfachte Version von Java vorstellen kann.
+p5.js ähnelt sich sehr stark mit Processing, eine Programmiersprache die eine stark vereinfachte Version von Java ist.
 Der Unterschied liegt darin, dass Java eine Umgebung, basierend auf der Java Programmiersprache ist, während p5.js eine Bibliothek, basierend auf der Java-Script Programmiersprache ist.
 Processing ist dafür geeignet, lokale Applikationen zu bauen, hingegen dazu kann p5.js nur im Browser ausgeführt werden.
 
-p5.js kann als direkter Java-Script Port für die Processing Programmiersprache definiert werden. Die Funktionen, die man in Processing mit Java geschrieben hat, werden nun mit Java-Script geschrieben.
+p5.js kann als direkter Java-Script Port für die Processing Programmiersprache definiert werden. Die Funktionen, die in Processing mit Java geschrieben werden, werden nun mit Java-Script geschrieben.
 
 Vorteile von p5.js:
 \begin{compactitem}
-    \item Man kann interaktive Programme entwickeln, die in jedem modernen Browser funktionieren (plattformunabhängig)
+    \item Die Programme die mit p5.js umgesetzt werden, funktionieren in jedem modernen Browser (plattformunabhängig)
     \item Das Programm ist nicht nur lokal auf dem eigenen Gerät, was das Teilen sehr viel leichter macht
-    \item Man hat die Option den p5.js Editor im Web zu verwenden: Überhaupt kein Aufwand, um loszuprogrammieren
+    \item Es besteht die Option, den p5.js Editor im Web zu verwenden: Überhaupt kein Aufwand, um loszuprogrammieren
 \end{compactitem}
 
 Nachteile von p5.js:
@@ -71,28 +72,41 @@ Nachteile von p5.js:
 \end{compactitem}
 
 \subsection {Node.js [R]}
-Node.js ist eine plattformübergreifende Open-Source-JavaScript-Laufzeitumgebung, mit der Besonderheit, dass sie JavaScript-Code außerhalb eines Webbrowsers ausführen kann
-und wurde ursprünglich von Ryan Dahl 2009 entwickelt, einem Software-Entwickler aus San Diego, Kalifornien.
+Node.js ist eine plattformübergreifende Open-Source-JavaScript-Laufzeitumgebung, mit der Besonderheit, dass sie JavaScript-Code außerhalb eines Webbrowsers ausführen kann.
+Ursprünglich wurde Node.js von Ryan Dahl 2009 entwickelt, einem Software-Entwickler aus San Diego, Kalifornien.
 Die Laufzeitumgebung wurde darauf spezialisiert, leicht skalierbare Server zu bauen.
 
-In dem folgenden "Hello World"-Beispiel, können viele Verbindung gleichzeitig behandelt werden. Bei jeder Verbindung wird die Callback-Funktion ausgeführt, aber wenn keine Arbeit zu erledigen ist, schläft Node.js.
+%https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/Introduction
+Vorteile von Node.js:
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[scale=1]{pics/node js.PNG}
-    \caption{Sehr simpler Node.js Server}
-\end{figure}
+\begin{compactitem}
+    \item Starke Performance. Node.js ist mit Fokus auf Optimierung des Datentransport und der Skalierbarkeit bei Web-Applikationen designet worden
+    \item Da mit Java-Script entwickelt wird, wird nur eine Sprache für Client und Server benötigt
+    \item Da Java-Script eine relativ neue Programmiersprache ist, profitiert diese auch von Verbesserungen bei Programmiersprachen-Design (im Vergleich zu anderen Web-Server-Sprachen wie PHP oder Python)
+    \item Durch den Node-Package-Manager (NPM) kann auf sehr viele Bibliotheken zugegriffen werden
+    \item Es ist nicht wichtig, welches Betriebssystem verwendet wird. Node.js ist kompatibel mit Microsoft Windows, macOS, Linux, Solaris, FreeBSD, OpenBSD etc.
+    \item Hinter Node.js steht eine große Entwickler-Community, die bereit ist, in Problemfällen zu helfen
+\end{compactitem}
 
-Man merkt den Unterschied zu den heutzutage weit verbreiteten Concurrency-Modellen, die mit OS-Threads arbeiten. Der Vorteil von Node.js hierbei ist, dass
-man sich keine Sorgen über dead-locking machen muss, da fast keine Node.js Funktion direkte I/O Operationen durchführt. Also ist der ganze Prozess so gut wie nie blockiert, ausser
-wenn synchrone Methoden der Node.js Standard Library benutzt wird.
 
-\subsubsection{NPM}\label{NPM}
-Neben Node an sich, ist NPM (Node Package Manager) das wichtigste Werkzeug für Node Applikationen. Mit NPM können alle Packages, die das Projekt benötigt, gefetched werden.
-Es ist möglich, alle Packages einzeln zu fetchen, jedoch benutzt man normalerweise ein package.json File. In diesem File stehen alle Dependencies für jedes JavaScript Package,
-das benötigt wird, sowie auch Meta-Daten zu dem Node Projekt. Erstellt wird dieses
-in dem man in das Verzeichnis navigiert, in dem man das Projekt haben will und den Befehl \texttt{npm init} ausführt.
+% In dem folgenden "Hello World"-Beispiel, können viele Verbindung gleichzeitig behandelt werden. Bei jeder Verbindung wird die Callback-Funktion ausgeführt, aber wenn keine Arbeit zu erledigen ist, schläft Node.js.
 
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[scale=1]{pics/node js.PNG}
+%     \caption{Sehr simpler Node.js Server}
+% \end{figure}
+
+% Man merkt den Unterschied zu den heutzutage weit verbreiteten Concurrency-Modellen, die mit OS-Threads arbeiten. Der Vorteil von Node.js hierbei ist, dass
+% man sich keine Sorgen über dead-locking machen muss, da fast keine Node.js Funktion direkte I/O Operationen durchführt. Also ist der ganze Prozess so gut wie nie blockiert, ausser
+% wenn synchrone Methoden der Node.js Standard Library benutzt wird.
+
+\subsubsection{Node Package Manager}\label{NPM}
+Neben Node.js an sich, ist NPM (Node Package Manager) das wichtigste Werkzeug für Node.js Applikationen. Mit NPM können alle Packages, die das Projekt benötigt, gefetched werden.
+Es ist möglich, alle Packages einzeln zu fetchen, jedoch wird in der Praxis immer ein package.json-File benutzt. In diesem File stehen alle Dependencies für jedes JavaScript Package,
+das benötigt wird, sowie auch Meta-Daten zu dem Node.js Projekt. 
+Erstellt wird dieses mit dem Befehl \texttt{npm init}. Es spielt jedoch eine Rolle, wo dieser Befehl ausgeführt wird, also muss darauf geachtet werden, dass der Befehl in dem Verzeichnis ausgeführt wird, in dem das Projekt erstellt werden soll.
+Die Struktur eines package.json-Files sieht wie folgt aus:
 \begin{figure}[H]
     \centering
     \includegraphics[scale=1]{pics/package json.PNG}
@@ -100,10 +114,10 @@ in dem man in das Verzeichnis navigiert, in dem man das Projekt haben will und d
 \end{figure}
 
 \subsubsection{Express}
-Express ist das am meisten verbreiteteste Node Web Framework und ist auch die Basis für andere Node Web Frameworks. Die Hauptverantwortung
-von Express ist das Bereitstellen von Server-Logik wie zum Beispiel das Schreiben von Handlers für Requests mit unterschiedlichen Http Verbs auf unterschiedlichen URL Pfaden.
-Man kann Express mit dem Node Package Manager mit \texttt{npm install express} installieren, oder man befindet sich in
-einem Verzeichnis mit package.json File bei dem Express als Dependency hinzugefügt wurde, dann reicht \texttt{npm install}
+Express ist das am meisten verbreitetste Node-Web-Framework und ist auch die Basis für andere Node-Web-Frameworks. Die Hauptverantwortung
+von Express ist das Bereitstellen von Server-Logik, wie zum Beispiel das Schreiben von Handlers für Requests mit unterschiedlichen Http-Verbs auf unterschiedlichen URL-Pfaden.
+Express wird mit dem Node-Package-Manager mit \texttt{npm install express} installiert. Befindet sich der Benutzer in 
+einem Verzeichnis das ein package.json-File beinhlatet, bei dem Express als Dependency hinzugefügt wurde, dann reicht \texttt{npm install}.
 
 \begin{figure}[H]
     \centering
@@ -113,14 +127,16 @@ einem Verzeichnis mit package.json File bei dem Express als Dependency hinzugef�
 
 \subsection{Socket IO [R]}
 
-Socket.IO ist eine Library, die eine bidirektionale Echt-Zeit Verbindung zwischen Server und Client ermöglicht. Es besteht aus
+Socket.IO ist eine Library, die eine bidirektionale Echt-Zeit Verbindung zwischen Server und Client ermöglicht. Sie baut auf das WebSocket-Protokoll auf, das bedeutet es gibt neben den WebSocket-Funktionen auch noch additionale Funktionen wie zum Beispiel eine automatische Reconnection.
+
+Um Scribble-Fight die bidirektionale Echt-Zeit Kommunikation mit dem Server bereitzustellen, wurde benutzt:
 \begin{compactitem}
-    \item Einem Node.js Server
-    \item Einer JavaScript Client Library (Es bestehen auch einige andere Client Implementationen für Sprachen wie Java, C++, Python, etc.)
+    \item Ein Node.js Server inklusive SocketIO Package
+    \item Eine JavaScript Client Library von SocketIO (Es bestehen auch einige andere Client Implementationen für Sprachen wie Java, C++, Python, etc.)
 \end{compactitem}
 
-Socket.IO funktioniert so, dass der Client, falls möglich, eine WebSocket Verbindung mit dem Server herstellt.
-Ist keine Verbindung möglich, setzt der Client einen HTTP long polling Request ab.
+Socket.IO funktioniert so, dass der Client, falls möglich, eine SocketIO-Verbindung mit dem Server herstellt.
+Ist keine Verbindung möglich, setzt der Client einen HTTP-long polling-Request ab.
 
 \begin{figure}[H]
     \centering
@@ -133,7 +149,7 @@ Damit der Server die Verbindung annehmen kann, müssen folgende Kriterien erfül
     \item Der Browser unterstützt WebSocket
     \item Die Verbindung wird nicht von Elementen wie Firewall gestört
 \end{compactitem}
-Die API ist auf der Server-Seite dem Client sehr ähnlich, man bekommt auch wieder ein \texttt{socket} Objekt, welches von der EventEmitter Klasse von Node.js erbt.
+Die API ist auf der Server-Seite dem Client sehr ähnlich, es existiert auch wieder ein \texttt{socket} Objekt, welches von der EventEmitter Klasse von Node.js erbt.
 
 \begin{figure}[H]
     \centering
@@ -145,34 +161,34 @@ Die API ist auf der Server-Seite dem Client sehr ähnlich, man bekommt auch wied
 \subsubsection{Unterschied Socket.IO zu WebSocket}
 Socket.IO ist keine WebSocket Implementation. Auch wenn Socket.IO WebSocket als Transportmittel benutzt, werden bei jedem Paket zusätzliche Metadaten angehängt. Das ist auch der Grund, warum
 ein Socket.IO Client keine Verbindung mit einem schlichten WebSocket Server herstellen kann, und umgekehrt.
-Man kann sich Socket.IO also als einen Wrapper rund um die WebSocket API vorstellen.
+Socket.IO ist also ein Wrapper rund um die WebSocket API.
 
 \section{Deployment [R]}
 Das Scribble-Fight Browser-Game wurde in die Leocloud, ein Cloud-System der HTL-Leonding, unter \url{https://student.cloud.htl-leonding.ac.at/t.rafetseder/scribble-fight/} deployed.
 Zuerst wurde mithilfe von der Docker-Technologie ein Docker-Image erstellt und auf die Leocloud hochgeladen. Das Deployment wurde dann mithilfe von Kubernetes umgesetzt.
 Was Docker und Kubernetes genau ist, folgt in den nächsten Sektionen.
 \subsection{Docker [R]} \label{tech:docker}
-Die Software Docker ist eine Technologie zum Containerisieren von Prozessen, die dann unabhängig voneinander und isoliert ausgeführt werden können. Diese isolierte Prozesse nennt man dann Container.
+Die Software Docker ist eine Technologie zum Containerisieren von Prozessen, die dann unabhängig voneinander und isoliert ausgeführt werden können. Diese isolierte Prozesse werden Container genannt.
 Durch die Unabhängigkeit, die dadurch entsteht, wird die Infrastruktur besser genutzt und auch die Sicherheit bewahrt, die sich aus der Arbeit mit voneinander getrennten System ergibt.
 Docker arbeitet mit einem Image-basierten Bereitstellungsmodell. Dieses wird gerne bei Containertools verwendet, da Applikationen mit all deren Dependencies, egal in welcher Umgebung, genutzt werden können.
 \begin{compactitem}
-    \item Wenn man einmal seine containerisierte Applikation getestet hat, kann man sich sicher sein, dass die Applikation auf jeder anderen Umgebung, auf dem Docker installiert ist, auch funktioniert
+    \item Wenn der Benutzer einmal seine containerisierte Applikation getestet hat, kann er sich sicher sein, dass die Applikation auf jeder anderen Umgebung, auf dem Docker installiert ist, auch funktioniert
     \item Alle Docker Container sind komplett voneinander unabhängig
-    \item Falls Skalierung notwendig ist, kann man schnell neue Container erstellen
-    \item Im Gegensatz zu virtuellen Maschinen beinhalten Container keine eigenen Operating Systems, deshalb kann man sie schneller erstellen und auch schneller starten
+    \item Falls Skalierung notwendig ist, können schnell neue Container erstellt werden
+    \item Im Gegensatz zu virtuellen Maschinen beinhalten Container keine eigenen Betriebssysteme, deshalb können sie schneller erstellt und auch schneller gestartet werden
 \end{compactitem}
 
-Wichtige Begriffe, die man im Zusammenhang mit Docker kennen sollte:
+Wichtige Begriffe, im Zusammenhang mit Docker:
 
 \begin{compactitem}
     \item Image: Speicherabbild eines Containers
     \item Container: aktive Instanz eines Images
     \item Dockerfile: eine Textdatei, die den Aufbau des Images beschreibt
-    \item Registry: Unter Registry versteht man eine Ansammlung gleicher Images mit verschiedenen Tags, meistens Versionen
+    \item Registry: Unter Registry wird eine Ansammlung gleicher Images mit verschiedenen Tags verstanden, meistens Versionen
 \end{compactitem}
 
 \subsubsection{Docker Architektur}
-Die Docker Architektur ist eine Server-Client Architektur. Der Docker Client kommuniziert mit dem Docker Daemon, der dann Docker Container z.B. baut und ausführt.
+Die Docker Architektur ist eine Server-Client Architektur. Der Docker Client kommuniziert mit dem Docker Daemon (Ein Hintergrundsprozess), der dann Docker Container z.B. baut und ausführt.
 Dieser Docker Daemon kann lokal installiert sein, aber der Client kann sich auch mit einem Daemon Remote verbinden.
 
 \begin{figure}[H]
@@ -183,7 +199,7 @@ Dieser Docker Daemon kann lokal installiert sein, aber der Client kann sich auch
 
 
 \subsection{Kubernetes [R]}
-Kubernetes ist Open-Source-Plattform, die dafür genutzt wird, containerisierte Applikationen und Services zu verwalten. Es managed die Computer-, Netzwerk und Speicherinfrastruktur von Containern.
+Kubernetes ist eine Open-Source-Plattform, die dafür genutzt wird, containerisierte Applikationen und Services zu verwalten (z.B. Computer-, Netzwerk und Speicherinfrastruktur von Containern)
 Das Kubernetes-Projekt ist 2014 als Open-Source Projekt in die Welt gerufen worden.
 
 Kubernetes hat mehrere Funktionen, zum Beispiel ist Kubernetes:
@@ -193,7 +209,7 @@ Kubernetes hat mehrere Funktionen, zum Beispiel ist Kubernetes:
     \item eine Cloud-Plattform
 \end{compactitem}
 
-In dieser Diplomarbeit wird Kubernetes benutzt, um ein mit Docker gebautes Images des Scribble-Fight Browsergames auf ein Cloudsystem zu deployen. Näheres zur Umsetzung findet man \url{hier}
+In dieser Diplomarbeit wird Kubernetes benutzt, um ein mit Docker gebautes Images des Web-Servers und des Clients auf ein Cloudsystem zu deployen. Näheres zur Umsetzung wird in Kapitel TODO beschrieben
 
 \newpage
 \section{Python [H]}
