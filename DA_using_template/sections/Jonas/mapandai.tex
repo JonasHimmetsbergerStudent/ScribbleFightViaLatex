@@ -54,7 +54,7 @@ Andere Beispiele:
     \item Personenerkennung, um Menschenmassen zu analysieren.
 \end{compactitem}
 
-\subsubsection{Beschreibung der Funktionalität [H]}
+\subsubsection{Beschreibung der Funktionalität [H]}\label{maai:beschrFunktionalitaet}
 
 Wie schon erwähnt kann man aus Bildern Daten erkennen. Viele Pixel bilden insgesamt ein Bild, welches wir visuell aufnehmen und in welchem wir alles Mögliche erkennen können. Jeder einzelne dieser Pixel in einem digitalen Bild enthält Informationen über die Helligkeit und über die Farbe. Der Bildpunkt setzt sich zusammen aus den Farben Rot, Grün und Blau. Aus diesen drei können alle möglichen Farben abgebildet werden.
 \\
@@ -1175,13 +1175,15 @@ Mit jeder Bewegung und Aktualisierung von Status wird der ``visual''-Array in ei
     \end{minipage}
 \end{figure}
 
-\subsection{Reinforcement Learning [H]}
-Code
-Wie wurde reward vergeben
-(game.py)
+\subsection{ScribbleFight Reinforcement Learning Implementierung [H]}
+Wie bereits in dem Kapitel ``Reinforcement Learning'' (\ref{tech:fig:reinfconcept}) erklärt, basiert diese Art des Lernens auf unpräparierte Daten. Das heißt, dass kein Trainingsset an Daten existiert, welches zum Lernen und Vergleichen verwendet wird, sondern ein Agent in eine ihm unbenannte Umwelt gesetzt wird und rein über ausprobieren lernt. Das einzige Ziel besteht darin, dass eine maximale Höhe an Belohnung erreicht werden soll.
+
+Im folgenden wird der Programmcode (\ref{lst:maai:game}), welcher diese Forderungen umsetzt, beschrieben.
+
+Bevor die KI implementiert werden kann, muss eine Referenz auf das Browserspiel erzeugt werden. Dies passiert mit der Bibliothek namens ``Selenium''. Selenium ermöglicht es mit einem Python-Code ein Browser-Fenster zu öffnen, in welchem diverse Keyboard-Events und vieles mehr ausgeführt werden können. Dafür wird zunächst die Optionen, welche beim Öffnen ein Browserfenster berücksichtig werden erstellt. Die Optionen besagen zum Beispiel, dass sich das Fenster an die Bildschirmgröße mit ``start-maximized'' anpasst. Die ``Url'' auf welche navigiert werden soll ist `` http://localhost:3000'', da hier das Spiel auf einem Node-Server, als lokale Instanz auf das Spiel, zur Verfügung gestellt wird.
 
 \begin{lstlisting}[language=Python,label=lst:maai:game,caption=Game.py]
-    '''DEPENDENCIES'''
+'''DEPENDENCIES'''
 # selenium webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium import webdriver
@@ -1196,17 +1198,6 @@ from gym.spaces import Box
 
 '''VARIABLES'''
 FPS = 10
-BUTTONS = [  # not needed
-    "SPACE",
-    "A",
-    "D",
-    "E",
-    "Q",
-    "R",
-    "C",
-    "F",
-    "LEFTCLICK",
-]
 
 # selenium webdriver options
 options = webdriver.ChromeOptions()
@@ -1215,7 +1206,13 @@ options.add_argument("disable-infobars")
 port = 3000
 url = 'http://localhost:%s' % (port)
 
+\end{lstlisting}
 
+Im folgenden Programmcode wird eine Klasse namens ``ScribbleFight'' erstellt.
+
+In der \_\_init\_\_ Funktion, also dem Konstruktor der Klasse ``ScribbleFight'' werden alle Variablen und Konstanten initiiert und somit auf einen Startwert gesetzt. Dabei werden alle, für das Spiel relevanten Parameter auf einen ``Null-Wert'' gesetzt, da noch keine Daten gewonnen wurden. Auch Wahrheitsoperatoren, wie der ``readystate'', also ob das Browserfenster gestartet wurde oder nicht werden hier gesetzt. Nach dem Kreieren wird das Fenster und somit das Spiel gestartet.
+
+\begin{lstlisting}[language=Python,firstnumber=25]
 class ScribbleFight:
 
     '''SCRIBBLE FIGHT GAME'''
@@ -1231,7 +1228,12 @@ class ScribbleFight:
         self.just_died = False
         self.readystate = False
         self.startBrowser()
+\end{lstlisting}
 
+In der Funktion ``startBrowser'' wird ein neuer webdriver erstellt, über welchem später die Künstliche Intelligenz das Spiel steuert.
+In einer Schleife wird überprüft, ob das Fenster bereits geöffnet wurde.
+
+\begin{lstlisting}[language=Python,firstnumber=41]
     def startBrowser(self):
         self.driver = webdriver.Chrome(options=options,
                                        executable_path=ChromeDriverManager().install())
@@ -1240,68 +1242,59 @@ class ScribbleFight:
         while not self.readystate:
             self.readystate = self.isReady()
 
-    def isPlaying(self):
-        return url in self.driver.current_url  # and self.readystate
-
     def isReady(self):
         try:
             self.playerId = self.driver.execute_script('return myPlayer.id;')
             return True
         except:
             return False
+\end{lstlisting}
 
+Die folgenden drei Funktionen sind ``update'', ``move'' und ``action''.
+
+Update verwendet die zuvor erklärte ``getStats'' Methode (Code-Block \ref{lst:maap:getstats}) um den aktuellen Stand des Spielers wiederherzustellen, beziehungsweise die Informationen und den Status des Spielers zu aktualisieren.
+
+Die Funktion ``action'' führt, basierend auf einem Übergabewert, eine Aktion aus. Diese Aktion kann eine Zahl zwischen null und sieben sein. Null stellt dabei zum Beispiel die Handlung ``jump'', also Springen, dar. Diese wird als ``Aktionsstring'' zurückübergeben.
+
+In der Methode ``move'' wird ebenfalls ein Aktionsstring generiert. Jedoch wird hier eine links oder rechts Bewegung angestrebt, basierend auf Ziffern zwischen null und zwei. Die Aktion null steht für einen Schritt nach links, eins steht für einen Schritt nach rechts und zwei für ``keine Bewegung''.
+
+
+\begin{lstlisting}[language=Python,firstnumber=56]
     def update(self):
         # get stats
-        self.dmgDealt, self.knockback, self.deaths, self.kills = getStats(
-            self.driver)
-
-    def move(self, action):
-        actionString = ''
-        if action == 0:
-            actionString = 'moveLeft(); mirrorSpriteLeft();'
-            # left(self.driver)
-        if action == 1:
-            actionString = 'moveRight(); mirrorSpriteRight();'
-            # right(self.driver)
-        if action == 2:
-            # idle state
-            pass
-        return actionString
-
-    def resetPlayer(self):
-        self.execAction('resetPlayer();')
-        self.just_died = False
-        self.obs = Box(0, 0, (165, 165), int).sample()
+        self.dmgDealt, self.knockback, self.deaths, self.kills = getStats(self.driver)
 
     def action(self, action, angle):
         # down ('s') action not implemented
         actionString = ''
         if action == 0:
             actionString = 'jump()'
-            # jump(self.driver)
-        if action == 1:
-            actionString = 'bombAttack()'
-            # bombAttack(self.driver)
-        if action == 2:
-            actionString = 'blackHoleAttack()'
-            # blackHoleAttack(self.driver)
-        if action == 3:
-            actionString = 'pianoTime()'
-            # pianoTime(self.driver)
-        if action == 4:
-            actionString = 'placeMine()'
-            # placeMine(self.driver)
-        if action == 5:
-            actionString = 'makeMeSmall()'
-            # makeMeSmall(self.driver)
-        if action == 6:
-            actionString = 'shootAngle(%s)' % (angle)
-            # default(self.driver, angle)
+        ...
         if action == 7:
             # idle state
             pass
         return actionString
 
+    def move(self, action):
+        actionString = ''
+        if action == 0:
+            actionString = 'moveLeft(); mirrorSpriteLeft();'
+        if action == 2:
+            # idle state
+            pass
+        return actionString
+\end{lstlisting}
+
+
+``observe'' ist dafür da, Observationen aus dem Spiel zu extrahieren.
+
+In der Methode wird die Funktion ``readFromClient'' aufgerufen, welche den ``visCopy''-Array aus dem Frontend zurückgibt. Wie dieser Array funktioniert, was dieser ist und wie er erzeugt wird, wird im Kapitel ``Beschreibung der Funktionalität'' \ref{maai:beschrFunktionalitaet} erklärt.
+
+Weiters wird überprüft, ob das Feld existiert. Sollte ``readFromClient'' ``false'' als Rückgabewert liefern, so wird ein neuer Array in derselben Dimension (zweidimensional) und Größenordnung (165x165) erstellt; jedoch mit lauter Nullen, welche für ein leeres Feld stehen. Liefert ``readFromClient'' ``visCopy'' als Rückgabewert zurück, so wird die Variable ``obs'' (Observation) mit diesem belegt.
+
+
+
+\begin{lstlisting}[language=Python,firstnumber=78]
     def observe(self):
         visCopy = readFromClient(self.driver, 'return visCopy;')
         if visCopy:
@@ -1309,9 +1302,10 @@ class ScribbleFight:
         if not visCopy:
             self.obs = Box(0, 0, (165, 165), int).sample()
 
-    def execAction(self, actionString):
-        takeAction(self.driver, actionString)
+\end{lstlisting}
 
+\dots
+\begin{lstlisting}[language=Python,firstnumber=78]
 
 class Game:
 

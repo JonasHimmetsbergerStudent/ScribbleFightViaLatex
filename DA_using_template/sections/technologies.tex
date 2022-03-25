@@ -105,7 +105,11 @@ Vorteile von Node.js: \cite{nodejs_vorteile}
 \subsubsection{Node Package Manager}\label{NPM}
 Neben Node.js an sich, ist NPM (Node Package Manager) das wichtigste Werkzeug für Node.js Applikationen. Mit NPM können alle Packages, die das Projekt benötigt, gefetched werden.
 Es ist möglich, alle Packages einzeln zu fetchen, jedoch wird in der Praxis immer ein package.json-File benutzt. In diesem File stehen alle Dependencies für jedes JavaScript Package,
+<<<<<<< HEAD
 das benötigt wird, sowie auch Meta-Daten zu dem Node.js Projekt. \cite{node_environment}  \\
+=======
+das benötigt wird, sowie auch Meta-Daten zu dem Node.js Projekt.
+>>>>>>> 55c0eefe8187a46cdd57cfd48831f935c0baa8f1
 Erstellt wird dieses mit dem Befehl \texttt{npm init}. Es spielt jedoch eine Rolle, wo dieser Befehl ausgeführt wird, also muss darauf geachtet werden, dass der Befehl in dem Verzeichnis ausgeführt wird, in dem das Projekt erstellt werden soll.
 Die Struktur eines package.json-Files sieht wie folgt aus:
 \begin{figure}[H]
@@ -116,9 +120,15 @@ Die Struktur eines package.json-Files sieht wie folgt aus:
 
 \subsubsection{Express}
 Express ist das am meisten verbreitetste Node-Web-Framework und ist auch die Basis für andere Node-Web-Frameworks. Die Hauptverantwortung
+<<<<<<< HEAD
 von Express ist das Bereitstellen von Server-Logik, wie zum Beispiel das Schreiben von Handlers für Requests mit unterschiedlichen Http-Request-Methoden (GET, POST, PUT etc.) auf unterschiedlichen URL-Pfaden. \cite{node_environment} \\
 Express wird mit dem Node-Package-Manager mit \texttt{npm install express} installiert. Befindet sich der Benutzer in 
 einem Verzeichnis, das ein package.json-File beinhlatet, bei dem Express als Dependency hinzugefügt wurde, dann reicht \texttt{npm install} für die Installation. 
+=======
+von Express ist das Bereitstellen von Server-Logik, wie zum Beispiel das Schreiben von Handlers für Requests mit unterschiedlichen Http-Verbs auf unterschiedlichen URL-Pfaden.
+Express wird mit dem Node-Package-Manager mit \texttt{npm install express} installiert. Befindet sich der Benutzer in
+einem Verzeichnis das ein package.json-File beinhlatet, bei dem Express als Dependency hinzugefügt wurde, dann reicht \texttt{npm install}.
+>>>>>>> 55c0eefe8187a46cdd57cfd48831f935c0baa8f1
 
 \begin{figure}[H]
     \centering
@@ -346,6 +356,7 @@ welcher lernen soll einen Stecken zu apportieren.
     \centering
     \includegraphics[scale=0.6]{pics/reinforcementLearningConcept.png}
     \caption{Veranschaulichung bestärkendes Lernen}
+    \label{tech:fig:reinfconcept}
 \end{figure}
 
 OpenAI Gym hat also einen mehr oder weniger vorgegebenen Bauplan, und vorgegebene Regeln, nach welchen man
