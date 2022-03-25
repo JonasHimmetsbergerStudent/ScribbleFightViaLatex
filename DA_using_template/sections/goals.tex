@@ -26,12 +26,23 @@ anspruchsvolle Teile unterteilt. Diese werden im Folgenden genauer erläutert:
 \subsection{Web-Game und Deployment [R]}
 Die wichtigsten Punkte, die im Bezug auf das Web-Game umzusetzen zu waren, sind:
 \begin{compactitem}
-    \item Die Spielphysik, also wie sich Spieler und Objekte verhalten
-    \item Die Collisiondetection von Spielern mit der Umgebung und mit Objekten
-    \item Die Hitregistration, falls ein Spieler von etwas getroffen wurde
-    \item Ab wann ist das Spiel zu Ende, beziehungsweise wann hat jemand gewonnen
+    \item Am Client:
+        \begin{enumerate}
+            \item Die Spielphysik, also wie sich Spieler und Objekte verhalten
+            \item Die Collision-Detection von Spielern mit der Umgebung und mit Objekten
+            \item Die Hitregistration, falls ein Spieler von etwas getroffen wurde
+            \item Ab wann ist das Spiel zu Ende, beziehungsweise wann hat jemand gewonnen 
+        \end{enumerate}
+    \item Am Server:
+        \begin{enumerate}
+            \item Übertragung von Positionen der Spieler
+            \item Item-Erstellung alle Clients zum gleichen Zeitpunkt
+            \item Wenn Items aufgesammelt werden, sollen diese bei allen verbundenen Spielern verschwinden
+            \item Wenn eine Attacke jemanden trifft, soll diese bei allen verbundenen Spielern gelöscht werden
+        \end{enumerate}
+
 \end{compactitem} 
-Das Deployment des Projekts in die Leocloud, ein Cloud-System der HTL-Leonding, soll mittels Kubernetes erfolgen.
+Das Deployment des Projekts in die Leocloud, ein Cloud-System der HTL-Leonding, ist mittels Kubernetes erfolgt.
 
 
 \subsection{Gamedesign und Lobby-System [B]}
