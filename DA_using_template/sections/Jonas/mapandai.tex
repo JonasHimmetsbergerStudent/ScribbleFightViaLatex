@@ -1,5 +1,5 @@
 
-\section{Map-Erkennung [H]}
+\section{Map-Erkennung [H]}\label{maai:maperkennung:head}
 Nachdem der Spieler der Lobby beigetreten ist, wird es Zeit für ihn die Spielumgebung zu zeichnen und diese für die
 Abstimmung freizugeben. Das passiert, indem dieser einen QR-Code (``Quick Response''), welcher sich in der
 Mitte der Lobby befindet, mit einem mobilen Endgerät, welches über eine Kamera verfügt, abscannt. Somit wird
@@ -939,9 +939,7 @@ Somit ist es für jeden möglich sich spielerisch mit dem Thema der Künstlichen
 
 In diesem Environment (Spielumgebung) wird versucht ein Stab mithilfe einer beweglichen Plattform zu balancieren. Die Plattform kann sich dabei nur in einer Dimension (auf der X-Achse) bewegen. Mit diesem Beispielcode (\ref{lst:maap:simpleGym}) wird jedoch noch keine Künstliche Intelligenz trainiert. Hier werden zunächst zufällige Aktionen in dem Spiel ausgeführt, was selbstverständlich noch nicht zu einem gewünschten Ergebnis führt. Die Schwierigkeit dabei ist, dass sich die Plattform nicht nach links bewegt, wenn der Stab nach links fällt, oder umgekehrt, sondern den Stab wirklich balanciert. Diesen Ablauf der Bewegung findet der Algorithmus binnen weniger Sekunden heraus.
 
-Es ist jedoch möglich dieses Programm so zu erweitern, dass dieses auch dazulernt. Dies lässt sich mit folgendem Code implementieren.
-
-CODEEEEEEEEE
+Es ist jedoch möglich dieses Programm so zu erweitern, dass dieses auch dazulernt.
 
 Außerdem kann man mit ``OpenAI-Gym'' ein eigenes Spiel erstellen. Dies funktioniert objektorientiert. Dabei müssen folgende Funktionen eingebunden werden:
 
@@ -951,20 +949,24 @@ Außerdem kann man mit ``OpenAI-Gym'' ein eigenes Spiel erstellen. Dies funktion
     \item \_\_init\_\_(self): diese Funktion wird aufgerufen, wenn ein Objekt der Klasse erstellt wird. Diese Methode wird auch ``Konstruktor'' genannt. Hier werden alle Parameter des Objekts initialisiert.
     \item step(self): Step(\dots) ist das Herzstück der Klasse. Hier wird jeder Schritt der Künstlichen Intelligenz definiert. Dazu wird zunächst eine Aktion definiert, welche die Maschine ausführen soll. Danach wird observiert, was sich in der Umgebung verändert hat und daraus ein Schluss gezogen, ob die Aktion zu einem guten, schlechten oder gar keinem Ergebnis führte; es wird also die Belohnung errechnet. Der Rückgabewert besteht dann aus den Observationen, der Belohnung, dem Status der Episode, welche die Künstliche Intelligenz zurzeit erlernt und einer beliebigen Zusatzinformation.
     \item render(self): Render(\dots) kann optional implementiert werden. Diese Funktion dient dazu dem Anwender den Lernfortschritt visuell darzustellen.
-    \item reset(): die vierte und letzte Funktion ist Reset(\dots). Diese wird dazu verwendet um nach einer Episode die Umgebung und alle dazugehörigen Variablen auf einen gewünschten Stand zurückzusetzen.
+    \item reset(): die vierte und letzte Funktion ist Reset(\dots). Diese wird dazu verwendet um nach einer Episode die Umgebung und alle dazugehörigen Variablen auf einen gewünschten Stand zurückzusetzen. Als return Wert wird der aktuelle Stand der Künstlichen Intelligenz (die ``Observation'') zurückgegeben.
 \end{compactenum}
 
 Für die Beschreibung einzelner Begriffe empfiehlt es sich folgendes Kapitel zu lesen: ``Künstliche Intelligenz allgemein'' (\ref {tech:ki:head})
 
 Die ScribbleFight-KI wurde wie folgt in Python implementiert:
-(gym\_env.py)
 
+Zunächst werden die Dependencies importiert.
 \begin{lstlisting}[language=Python,label=lst:maap:scribblefightki,caption=ScribbleFight-KI OpenAI-Gym Environment]
+    # Import dependencies
     import gym
     from gym.spaces import MultiDiscrete, Box
     from KI_v01.env.game import Game
+\end{lstlisting}
 
+Die Klasse CustomEnv, welche von ``gym.Env'' erbt wird wie folgt implementiert:
 
+\begin{lstlisting}[language=Python,firstnumber=5]
     class CustomEnv(gym.Env):
 
         '''
@@ -974,11 +976,17 @@ Die ScribbleFight-KI wurde wie folgt in Python implementiert:
 
         #metadata = {'render.modes' : ['human']}
         def __init__(self):
+            # in the init function a new ScribbleFight instance is created
             self.pygame = Game()
+            
+            # the actionspace is defined by a MultiDiscrete set of random numbers
             '''DISCRETE[0]: ANGLE+, ANGLE-, idle
             DISCRETE[1]: "SPACE", "E", "Q", "R", "C", "F", "LEFTCLICK", idle
             DISCRETE[2]: "A", "D", idle'''
             self.action_space = MultiDiscrete([3, 8, 3])
+
+            # the observationspace has the size of the visual copy Array (165x165), 
+            # which is the vision of the AI
             '''random output when observation_space is sampled:
             [[0,0,0,...],
             [0,1,0,...],
@@ -988,11 +996,13 @@ Die ScribbleFight-KI wurde wie folgt in Python implementiert:
             self.observation_space = Box(0, 10, (165, 165), int)
 
         def reset(self):
+            # the reset function resets the game
             self.pygame.reset()
             obs = self.pygame.observe()
             return obs
 
         def step(self, actions):
+            # in the step function a step is made
             self.pygame.action(actions)
             obs = self.pygame.observe()
             # checks if observations are valid
@@ -1009,29 +1019,145 @@ Die ScribbleFight-KI wurde wie folgt in Python implementiert:
             return obs, reward, done, {}
 
         def render(self, mode="human", close=False):
+            # this function renders the game
             self.pygame.view()
 
 \end{lstlisting}
 
 
+Eine weitere Bibliothek basierend auf Python, welche beim Erstellen der Reinforcement-Learning KI verwendet wurde, ist ``Stable-baselines-3''. Diese bietet auf eine zuverlässige Art und Weise die Implementierung von mathematischen Reinforcement-Learning Modellen. Dabei werden viele Algorithmen, wie zum Beispiel ``A2C'', ``DQN'', oder ``PPO'', zur Verfügung gestellt. Während dieser Arbeit wurden die Algorithmen ``A2C'' und ``PPO'' verglichen. In dem Fall der ``Scribble-Fight'' Künstlichen Intelligenz, welche ziemlich komplex ist, hat die Recherche ergeben, dass diese zwei Arten, Modelle zu trainieren, am besten geeignet sind.
+
+Eingebunden wird die Bibliothek wie folgt:
+\begin{lstlisting}[language=Python,label=lst:maap:pposampleone,caption=Stable-Baselines3 Beispiel]
+import gym
+
+from stable_baselines3 import PPO
+from stable_baselines3.common.env_util import make_vec_env
+
+\end{lstlisting}
+
+OpenAI-Gym kann verwendet werden, um ein Spielumgebung zu erschaffen. In diesem Beispiel wird wieder (wie in \ref{lst:maap:simpleGym}) die ``CartPole''-Welt verwendet. Damit die Effizienz des Lernens erhöht wird, kann durch das Erstellen der Umgebung mittels ``vec\_env'' eine Anzahl an Umgebungen gleichzeitig kreiert werden. Diese Anzahl wird als Parameter übergeben. Im folgenden Fall werden vier Umwelten gleichzeitig erstellt. All diese lernen auf dasselbe Modell. Danach wird dieses Environment an den PPO-Algorithmus übergeben. PPO steht für ``Proximal Policy Optimization''. Danach lernt die Maschine für 25.000 Schritte. Die Anzahl der Schritte haben nichts mit der Episodendauer zu tun. Ein Schritt ist entweder eine Bewegung nach links oder rechts.
+
+%Quelle: https://openai.com/blog/openai-baselines-ppo/
+
+\begin{lstlisting}[language=Python,firstnumber=6]
+
+# Parallel environments
+env = make_vec_env("CartPole-v1", n_envs=4)
+
+model = PPO("MlpPolicy", env, verbose=1)
+model.learn(total_timesteps=25000)
+\end{lstlisting}
+
+Nach dem Trainieren kann das Modell gespeichert und wiederverwendet werden. Dies passiert mittels ``PPO.load(\dots)''. Somit wird aus dem Gelernten ein Modell erstellt, welches verwendet werden kann, um vorhersagen zu treffen, darüber, wie sich die Plattform bewegen muss, um die Stange aufrecht zu erhalten.
+
+\begin{lstlisting}[language=Python,firstnumber=12]
+
+model.save("ppo_cartpole")
+
+del model # remove to demonstrate saving and loading
+
+model = PPO.load("ppo_cartpole")
+
+obs = env.reset()
+while True:
+    action, _states = model.predict(obs)
+    obs, rewards, dones, info = env.step(action)
+    env.render()
+\end{lstlisting}
+
+Auf die Frage, wie die ``Reinforcement-Learning-Algorithmen'' funktionieren wird in dieser Arbeit nicht eingegangen.
+
 % \subsection{Künstliche Intelligenz Definition [H]}
-\subsection{Reinforcement Learning [H]}
-Code
-Wie wurde reward vergeben
-(game.py)
+
 \subsection{Die ScribbleFight-KI [H]}\label{maai:scribblefightki}
 
 Im Laufe der Ausarbeitung der Diplomarbeit und der damit zusammenhängenden Forschung änderte sich oft die
 Vorstellung darüber, wie das Endprodukt (KI) auszusehen hat, beziehungsweise, wie dieses aussehen kann.
 Limitierungen, welche vor der Forschung noch nicht bekannt und bewusst waren, begrenzten die Lernfähigkeit der KI.
-Auf Probleme, Lösungen und Ergebnisse wird jedoch noch näher in \ref{maai:scribblefightki} eingegangen.
+Auf Probleme, Lösungen und Ergebnisse wird jedoch in diesem Kapitel noch näher eingegangen.
 
+Das Ziel bestand darin eine Künstliche Intelligenz zu erschaffen, welche auf einem, für einen durchschnittlich guten, menschlichen Spieler, herausfordernden Niveau spielt. Dabei sollte diese:
+\begin{compactitem}
+    \item Alle möglichen Attacken erlernen.
+    \item erlernen, in welchem Winkel ein Schuss abgefeuert werden muss, um einen Gegner zu treffen.
+    \item lernen, wann eine Attacke, oder ein Schuss abgefeuert werden muss, um einen Gegner zu treffen.
+    \item erlernen, wie ein Agent auf der Plattform bleibt, beziehungsweise was und wo diese ist.
+    \item gegnerische Kugeln beziehungsweise Attacken erkennen und ausweichen.
+\end{compactitem}
+Im Laufe der Ausarbeitung der Künstlichen Intelligenz wurde jedoch klar, dass dies Ziele sind, welche im Zuge einer Diplomarbeit, in diesem Ausmaß, nicht erreichbar waren. Die Künstliche Intelligenz lernte jedoch schnurstracks und am schnellsten Wege die Plattform zu verlassen.
 
-Ziele
-Umsetzung
-code (eher so vom rafi)
+Damit die Maschine lernen kann, stellt das Scribble-Fight-Frontend, welches mit Webtechnologien, wie HTML und JavaScript umgesetzt wurde, Informationen über den Spieler und Agenten zur Verfügung. Diese werden in einem ``myPlayer''-Objekt gespeichert. Das Objekt sieht wie folgt aus:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=1]{pics/ai/myPlayer.png}
+    \caption{``myPlayer''-Objekt}
+    \label{fig:ai:myPlayerPic}
+\end{figure}
+
+Für die Künstliche Intelligenz sind Daten, wie ``death'' (Tode), ``dmgDealt'' (verteilten Schaden), ``kills'' (Anzahl an Spieler, welche von diesem Agenten von der Plattform gestoßen wurden) und ``knockback'' (Rückstoß, welchen man erleidet) von Bedeutung.
+Damit die Werte des Objekts ausgelesen werden können wurde in Python folgende Funktion implementiert:
+
+\begin{lstlisting}[language=Python,label=lst:maap:getstats,caption=Informationen über den Spieler]
+def getStats(driver):
+    dmgDealt, knockback, deaths, kills = 0, 0, 0, 0
+
+    dmgDealt, knockback, deaths, kills = driver.execute_script(
+        'return [myPlayer.dmgDealt, myPlayer.knockback, myPlayer.death, myPlayer.kills]')
+
+    return dmgDealt, knockback, deaths, kills
+\end{lstlisting}
+
+Die Funktion extrahiert den für die Künstliche Intelligenz relevanten Inhalt und gibt diese als return Wert wieder zurück. Dadurch wird die Maschine bei jedem Schritt über den Status des Spielers informiert.
+
+% Ziele
+% Umsetzung
+% code (eher so vom rafi)
 \subsubsection{Beschreibung der Funktionalität [H]}
-Was sieht die KI?
+Ein weiterer, zentraler Punkt der Ausarbeitung ist, wie die ``ScribbleFight''-KI zu sehen hat. Dies passiert mit einem zweidimensionalen Array, welcher ``visCopy'' im Frontend genannt wird. Die Einträge in diesem Feld sind die Zahlen von null bis zehn. Dieser wird erstellt, basierend auf den Inhalt des Spiels, welchen auch ein menschlicher Spieler sehen würde. Somit ist es für die KI nicht möglich, Daten zu manipulieren, auf welche ein Gegenspieler keinen Zugriff hätte. Dabei wird das Sichtfeld wie folgt codiert:
+\begin{compactitem}\label{mappedPixels}
+    \item 0: Hintergrund
+    \item 1: Plattform
+    \item 2: eigener Agent
+    \item 3: Gegner
+    \item 4: eigenes Projektil
+    \item 5: gegnerisches Projektil
+    \item 6: Bombe
+    \item 7: Schwarzes Loch
+    \item 8: Verkleinerung
+    \item 9: Miene
+    \item 10: Piano
+\end{compactitem}
+Der ``Pixelclump'' ist ein zweidimensionaler Array von Pixelwerten (schwarz oder transparent, weiß) und wird von der Maperkennung (\ref{maai:maperkennung:head}) als Output zurückgeliefert. Dieses zweidimensionale Feld dient als Basis für den Untergrund, auf welchem sich die Spieler bewegen können. Um das Spiel in eine, für die Künstliche Intelligenz sichtbare Welt umzuwandeln, wird zunächst der ``Pixelclump'', um das Dreifache vergrößert. Gleichzeitig werden die Pixelwerte durch die oben angeführten Zahlen (von null bis zehn; Bedeutung: \ref{mappedPixels}) ausgetauscht. Durch die dreifache Skalierung der Spielumgebung von 55x55 auf 165x165 Werten, ist es möglich, dass die Künstliche Intelligenz dreimal genauer sieht, als ein Bildpunkt der Map aufgetragen wird. Somit kann genauer agiert werden und Spieler und Attacken besser erkannt werden (in der Theorie).
+
+Die Aufskalierung und Umwandlung des Map-Arrays in den ``Visual''-Array passiert in der Funktion ``getVisualMap(\dots)'':
+\begin{lstlisting}[language=Python,label=lst:maap:getVisualMap,caption=Umwandlung des Pixel-Clumps in eine für die KI sichtbare Darstellung]
+/**
+ * Converts standard map, which is 55x55 
+ * into visual map which is 165x165 for better accuracy
+ * 
+ * @param {given arry which represents map} paramarr 
+ * @returns new visual array
+ */
+function getVisualMap(paramarr) {
+  let visual = []
+  let factor = 3
+  for (let i = 0; i < paramarr.length * factor; i++) {
+    visual.push([])
+    for (let j = 0; j < paramarr.length * factor; j++) {
+      if (paramarr[int(i / factor)][int(j / factor)][3] > 0) {
+        visual[i].push(1)
+      } else {
+        visual[i].push(0)
+      }
+    }
+  }
+  return visual
+}
+\end{lstlisting}
+Mit jeder Bewegung und Aktualisierung von Status wird der ``visual''-Array in einen ``visCopy''-Array eingetragen. Dabei werden alle Entitäten neu hinzugefügt. Das Feld wird jedoch durch die Kopie nur an den Positionen verändert, wo auch eine Änderung passiert ist. Dadurch wird dieses nicht immer neu erstellt, und die Effizienz wird gesteigert. Außerdem, dadurch, dass Javascript zur kalkulation komplexer Berechnungen mehrere Threads zur Verfügung hat, kann das Verarbeiten dieses Arrays in einer Zeit passieren, welche die Bilder pro Sekunde des Spiels nicht verringert und somit für den Spieler nicht bemerkbar. Lässt man sich nun die bearbeitete Kopie des ``visual''-Arrays ausgeben, so sieht man die Sicht der ``ScribbleFight'' Künstlichen Intelligenz. In der folgenden Abbildung wurden die Ziffern von null bis zehn in Farben umgewandelt. Das Bild \ref{maai:ai:visCopy:input} ist die Sicht des Spielers und das Bild \ref{maai:ai:visCopy:output} ist die Sicht der KI.
+
 \begin{figure}[H]
     \centering
     \begin{minipage}[t]{0.45\linewidth}
@@ -1048,6 +1174,12 @@ Was sieht die KI?
         \label{maai:ai:visCopy:output}
     \end{minipage}
 \end{figure}
+
+\subsection{Reinforcement Learning [H]}
+Code
+Wie wurde reward vergeben
+(game.py)
+
 \subsubsection{Warum Python? [H]}
 % \subsection{Tensorflow und Keras [H]}
 % \subsubsection{Tensorflow [H]}
