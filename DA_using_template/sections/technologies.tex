@@ -1,10 +1,17 @@
 
+<<<<<<< HEAD
+\section{JavaScript [R] [W]}
+Zuerst musste die Entscheidung gefällt werden, ob unser Projekt ein Standalone-Programm sein soll, oder im Browser zu erreichen ist. Weil wir aber wollten, dass es ein
+Party-Game werden soll, dass man ohne jeglichen Aufwand sofort mit Freunden spielen kann, haben wir uns für die Browser-Variante entschieden.
+Für mich war es eine leichte Entscheidung JavaScript zu verwenden, da die Programmiersprache genau für den Browser geeignet ist, und man damit nicht nur im Frontend, sondern auch im Backend programmieren kann.
+=======
 \section{Java-Script [R]}
 \subsection{Wieso Java-Script?}
 Ein Stand-alone-Programm ist ein Programm, dass selbständig arbeiten kann.
 Das Web-Game sollte kein Stand-alone-Programm werden, sondern im Browser erreichbar sein. Deswegen wurde Java-Script für die Programmierung am Client, sowie auch am Server ausgewählt.
 Der Vorteil davon ist, dass nur eine Programmiersprache benutzt werden muss, um eine Client-Server-Architektur zu bewerkstelligen.
 Außerdem besteht kein Aufwand, um Scribble-Fight spielen zu können - ein Browser ist alles, was benötigt wird.
+>>>>>>> c2c2e21efe3106ddff4b2d12f3a3d9f349015a66
 \setauthor{Rafetseder Tobias}
 \subsection{p5.js / p5.play [R]}
 \label{subsection:p5js}\cite{p5js}
@@ -175,6 +182,202 @@ Socket.IO ist keine WebSocket Implementation. Auch wenn Socket.IO WebSocket als 
 ein Socket.IO Client keine Verbindung mit einem schlichten WebSocket Server herstellen kann, und umgekehrt.
 Das heißt, Socket.IO ist ein Wrapper rund um die WebSocket API. \cite{socketio}
 
+
+\subsection{qrcode.js [W]}
+Ein QR-Code ist ein Matrix-Barcode welcher meistens auf eine bestimmte URL verweist. Die Bezeichnung QR steht für Quick Response,
+also schnelle Antwort. Für die Codierung verwendet der QR-Code 4 Methoden: Numerisch, Alphanumerisch, Byte/Bit und Kanji.
+Besonders populär wurde das QR-Code System dank seiner
+schnellen Lesbarkeit und seiner erhöhten Speicherkapazität im Vergleich zu den 
+damalig verwendeten UPC Barcodes(sh. Abbildung 10). Anwendungsfälle für QR-Codes sind Produkt-Tracking, Item-Identifikation, Dokumentenmanagement, etc. .
+Ein QR-Code besteht aus schwarzen Quadraten welche in einem großen Quadrat arrangiert werden(sh. Abbildung 9).
+Dieser kann einfach von einer Kamera oder ähnlichem gescannt und ausgewertet werden.
+Das QR-Code-System wurde von Masahiro Hara von der japanischen Autofirma Denso Wave entwickelt. 
+Das Design basiert auf den schwarzen und weißen Spielfiguren des Go-Spiels. 
+Ursprünglich wurde das System zum tracken von Fahrzeugen während der Herstellung verwendet. 
+Heutzutage werden QR-Codes vor allem im Werbebereich verwendet. Oft wird der
+potenzielle Kunde dazu eingeladen  sein Smartphone herauszuholen und einfach den QR-Code zu Scannen um 
+ihn dann auf der Webseite Produkte anzubieten. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=1]{pics/googleQR.png}
+    \caption{QR-Code zu www.google.com}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.8]{pics/UPCBarcode.png}
+    \caption{UPC Barcode}
+\end{figure}
+
+
+Hier ist ein einfaches Beispiel wie qrcode.js in eine Webseite eingefügt werden kann.
+Dieser verweist auf https://www.google.com. Wichtig ist hierbei anzumerken, dass dafür die qrcode.js Javascript Bibliothek einzubinden ist.
+Diese kann unter http://davidshimjs.github.io/qrcodejs/ gedownloaded werden.
+\begin{lstlisting}[language=html,caption=QR-Code Demo,label=lst:tech:gaussianBlur]
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>QR-Demo</title>
+        <script src="qrcode.min.js"></script>
+    </head>
+    
+    <body>
+        <div id="qrcode"></div>
+        <script type="text/javascript">
+            new QRCode(document.getElementById("qrcode"), "https://www.google.com");
+        </script>
+    </body>
+    
+</html>
+\end{lstlisting}
+
+Bei qrcode.js können auch weitere Parameter für den QR-Code gesetzt werden. Es können
+Beispielsweise Farbe, Größe, etc. verändert werden.
+
+\begin{lstlisting}[language=html,caption=QR-Code Demo 2,label=lst:tech:gaussianBlur]
+    var qrcode = new QRCode(document.getElementById("qrcode"), {
+            text: "www.google.com",
+            width: 512,
+            height: 512,
+            colorDark: "#B3FF78",
+            colorLight: "#F677FF",
+            correctLevel: QRCode.CorrectLevel.H
+        });
+\end{lstlisting}
+Das Resultat dieser Veränderung sieht so aus:
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.7]{pics/fancyQR.png}
+    \caption{Personalisierter QR-Code}
+\end{figure}
+
+Bei dieser Arbeit wurde der QR-Code verwendet mit dem Handy zugriff auf den Mapscanner und
+das Hochladen der Zeichnung zu gewährleisten.   
+
+\subsection{Chart.js [W]}
+Chart.js ist eine Open-Source JavaScript Bibliothek welche es ermöglicht einfach und schnell Diagramme
+in eine Webseite einzubauen. Die Bibliothek kann entweder mit dem Shell-Befehl \textit{npm i chart.js} eingebunden werden oder via Github unter 
+\textit{https://github.com/chartjs/Chart.js} gedownloaded werden. Chart.js stellt einem sehr 
+viele Möglichkeiten zur Verfügung um die Diagramme zu personalisieren. 
+Ihre Bibliothek hat alle denkbaren Diagrammtypen (Balkendiagramm, Kuchendiagramm, Liniendiagramm, ..., sh. Abbildung 12-14)
+Eine einfaches Beispiel für ein Balkendiagramm sieht so aus:
+\begin{lstlisting}[language=html,caption=Balkendiagramm HTML Code,label=lst:tech:gaussianBlur]
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>QR-Demo</title>
+        <script src="chart.min.js"></script>
+    </head>
+
+    <body>
+        <canvas id="myChart" width="200" height="200"></canvas>
+        <script>
+            const ctx = document.getElementById('myChart').getContext('2d');
+            const myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                    datasets: [{
+                        label: '# of Votes',
+                        data: [12, 19, 3, 5, 2, 3],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                        
+                    }
+                }
+            });
+        </script>
+
+    </body>
+
+</html>
+\end{lstlisting}
+Die Parameter die hier verwendet wurden sind type, welcher den Typ des Diagramms angibt,
+in diesem Fall bar für Balkendiagramm, data, welcher ein JSON Object mit weiteren Parametern ist. 
+Zum Schluss wurde mit options.scales.y.beginAtZero noch festgelegt, dass der Graph bei 0 beginnen soll.
+
+Mit Veränderung des type Parameters können sehr einfach die Diagrammtypen verändert werden:
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.3]{pics/barChart.png}
+    \caption{Barchart}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.3]{pics/pieChart.png}
+    \caption{Piechart}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.3]{pics/lineChart.png}
+    \caption{Linechart}
+\end{figure}
+
+Chart.js stellt noch viele weitere hilfreiche Optionen zur Verfügung. Wird 
+zum Beispiel ein logarithmischer Graph benötigt kann dies mit options.scales.myscale.type = "logarithmic" eingestellt werden
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.3]{pics/logChart.png}
+    \caption{Logarithmisch an der Y-Achse}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.7]{pics/logCode.png}
+    \caption{Code}
+\end{figure}
+
+
+Weitere hilfreiche Einsellungen sind: 
+\begin{compactitem}
+    \item yAxis/xAxis: Konfigurierung der Y- und X-Achse
+    \item label: Die Bezeichnung für den Datensatz, die in der Legende erscheint.
+    \item color: Weißt einem Label eine bestimmte Farbe zu
+    \item datasets.data: Weißt einem label Daten zu
+    \item layout: Konfigurierung des Layouts des Diagramms
+    \item ...
+\end{compactitem}
+
+Ist es notwendig ein Diagramm zu updaten kann dies mit diesen Funktionen umgesetzt werden. Zum hinzufügen
+von Daten muss als Parameter das Diagramm, der Name des Labels und die Daten mitgegeben werden. Zum entfernen wird nur das Chart benötigt.
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=1]{pics/updateChart.png}
+    \caption{Code zum updaten eines Diagramms}
+\end{figure}
+
+
+
+
 \section{Deployment [R]}
 Das Scribble-Fight Browser-Game wurde in die Leocloud, ein Cloud-System der HTL-Leonding, unter \url{https://student.cloud.htl-leonding.ac.at/t.rafetseder/scribble-fight/} deployed.
 Zuerst wurde mithilfe von der Docker-Technologie ein Docker-Image erstellt und auf die Leocloud hochgeladen. Das Deployment wurde dann mithilfe von Kubernetes umgesetzt.
@@ -224,6 +427,7 @@ Kubernetes hat mehrere Funktionen, zum Beispiel ist Kubernetes:
 \cite{kubernetes}
 
 In dieser Diplomarbeit wird Kubernetes benutzt, um ein mit Docker gebautes Images des Web-Servers und des Clients auf ein Cloudsystem zu deployen. Näheres zur Umsetzung wird in Kapitel TODO beschrieben
+
 
 \newpage
 \section{Python [H]}
