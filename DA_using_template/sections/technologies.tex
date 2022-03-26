@@ -1,28 +1,21 @@
 
-<<<<<<< HEAD
-\section{JavaScript [R] [W]}
-Zuerst musste die Entscheidung gefällt werden, ob unser Projekt ein Standalone-Programm sein soll, oder im Browser zu erreichen ist. Weil wir aber wollten, dass es ein
-Party-Game werden soll, dass man ohne jeglichen Aufwand sofort mit Freunden spielen kann, haben wir uns für die Browser-Variante entschieden.
-Für mich war es eine leichte Entscheidung JavaScript zu verwenden, da die Programmiersprache genau für den Browser geeignet ist, und man damit nicht nur im Frontend, sondern auch im Backend programmieren kann.
-=======
-\section{Java-Script [R]}
-\subsection{Wieso Java-Script?}
+\section{JavaScript [R]}
+\subsection{Wieso JavaScript?} 
 Ein Stand-alone-Programm ist ein Programm, dass selbständig arbeiten kann.
-Das Web-Game sollte kein Stand-alone-Programm werden, sondern im Browser erreichbar sein. Deswegen wurde Java-Script für die Programmierung am Client, sowie auch am Server ausgewählt.
+Das Web-Game sollte kein Stand-alone-Programm werden, sondern im Browser erreichbar sein. Deswegen wurde JavaScript für die Programmierung am Client, sowie auch am Server ausgewählt.
 Der Vorteil davon ist, dass nur eine Programmiersprache benutzt werden muss, um eine Client-Server-Architektur zu bewerkstelligen.
 Außerdem besteht kein Aufwand, um Scribble-Fight spielen zu können - ein Browser ist alles, was benötigt wird.
->>>>>>> c2c2e21efe3106ddff4b2d12f3a3d9f349015a66
 \setauthor{Rafetseder Tobias}
 \subsection{p5.js / p5.play [R]}
 \label{subsection:p5js}\cite{p5js}
 p5.js ist eine open-source JavaScript-Library, die für Kreation von Spielen genutzt wird.
 p5.play ist eine Library für p5.js, mit der visuelle Objekte verwaltet werden können. Außerdem beinhaltet es Features wie Animation-Support,
 Kollisionserkennung, sowie aber auch Funktionen für Maus- und Tastatur-Interaktionen.
-P5.play ist für barrierefreies und simples Programmieren gedacht ist, nicht für performantes.
-Es ist keine eigene Engine, und unterstütz auch keine 3D-Spiele.
+p5.play ist für barrierefreies und simples Programmieren gedacht, nicht für performantes.
+Es ist keine eigene Engine, und unterstützt auch keine 3D-Spiele.
 
 \subsubsection{Einbindung}
-Der einfachste Weg p5.js einzubinden, ist auf ein Java-Script File online zu verweisen.
+Der einfachste Weg p5.js einzubinden, ist auf ein JavaScript File online zu verweisen.
 
 \begin{lstlisting}
     <script 
@@ -60,15 +53,15 @@ Wenn diese abgeschlossen ist, wird die Draw-Methode wiederholt aufgerufen und ak
 
 %https://www.sitepoint.com/processing-js-vs-p5-js-whats-difference/
 \subsubsection{P5.js vs Processing}
-p5.js ähnelt sich sehr stark mit Processing, eine Programmiersprache die eine stark vereinfachte Version von Java ist.
-Der Unterschied liegt darin, dass Java eine Umgebung, basierend auf der Java Programmiersprache ist, während p5.js eine Bibliothek, basierend auf der Java-Script Programmiersprache ist.
+p5.js ähnelt sich sehr stark mit Processing, eine Programmiersprache, die als eine stark vereinfachte Version von Java definiert werden kann.
+Der Unterschied liegt darin, dass Processing eine Umgebung, basierend auf der Java Programmiersprache ist, während p5.js eine Bibliothek, basierend auf der JavaScript Programmiersprache ist.
 Processing ist dafür geeignet, lokale Applikationen zu bauen, hingegen dazu kann p5.js nur im Browser ausgeführt werden.
 
-p5.js kann als direkter Java-Script Port für die Processing Programmiersprache definiert werden. Die Funktionen, die in Processing mit Java geschrieben werden, werden nun mit Java-Script geschrieben. \cite{p5_proc_difference}
+p5.js ist sozusagen ein direkter JavaScript Port für die Processing Programmiersprache. Die Funktionen, die in Processing mit Java geschrieben werden, werden nun mit JavaScript geschrieben. \cite{p5_proc_difference}
 
 Vorteile von p5.js:
 \begin{compactitem}
-    \item Die Programme die mit p5.js umgesetzt werden, funktionieren in jedem modernen Browser (plattformunabhängig)
+    \item Die Programme, die mit p5.js umgesetzt werden, funktionieren in jedem modernen Browser (plattformunabhängig)
     \item Das Programm ist nicht nur lokal auf dem eigenen Gerät verfügbar, was das Teilen sehr viel leichter macht
     \item Es besteht die Option, den p5.js Editor im Web zu verwenden: Überhaupt kein Aufwand, um loszuprogrammieren
 \end{compactitem}
@@ -89,8 +82,8 @@ Vorteile von Node.js: \cite{nodejs_vorteile}
 
 \begin{compactitem}
     \item Starke Performance. Node.js ist mit Fokus auf Optimierung des Datentransport und der Skalierbarkeit bei Web-Applikationen designet worden
-    \item Da mit Java-Script entwickelt wird, wird nur eine Sprache für Client und Server benötigt
-    \item Da Java-Script eine relativ neue Programmiersprache ist, profitiert diese auch von Verbesserungen bei Programmiersprachen-Design (im Vergleich zu anderen Web-Server-Sprachen wie PHP oder Python)
+    \item Da mit JavaScript entwickelt wird, wird nur eine Sprache für Client und Server benötigt
+    \item Da JavaScript eine relativ neue Programmiersprache ist, profitiert diese auch von Verbesserungen bei Programmiersprachen-Design (im Vergleich zu anderen Web-Server-Sprachen wie PHP oder Python)
     \item Durch den Node-Package-Manager (NPM) kann auf sehr viele Bibliotheken zugegriffen werden
     \item Es ist nicht wichtig, welches Betriebssystem verwendet wird. Node.js ist kompatibel mit Microsoft Windows, macOS, Linux, Solaris, FreeBSD, OpenBSD etc.
     \item Hinter Node.js steht eine große Entwickler-Community, die bereit ist, in Problemfällen zu helfen
@@ -110,13 +103,9 @@ Vorteile von Node.js: \cite{nodejs_vorteile}
 % wenn synchrone Methoden der Node.js Standard Library benutzt wird.
 
 \subsubsection{Node Package Manager}\label{NPM}
-Neben Node.js an sich, ist NPM (Node Package Manager) das wichtigste Werkzeug für Node.js Applikationen. Mit NPM können alle Packages, die das Projekt benötigt, gefetched werden.
-Es ist möglich, alle Packages einzeln zu fetchen, jedoch wird in der Praxis immer ein package.json-File benutzt. In diesem File stehen alle Dependencies für jedes JavaScript Package,
-<<<<<<< HEAD
+Neben Node.js an sich, ist NPM (Node Package Manager) das wichtigste Werkzeug für Node.js Applikationen. Mit NPM können alle Packages, die das Projekt benötigt, geholt werden.
+Es ist möglich, alle Packages einzeln zu holen, jedoch wird in der Praxis immer ein package.json-File benutzt. In diesem File stehen alle Dependencies für jedes JavaScript Package,
 das benötigt wird, sowie auch Meta-Daten zu dem Node.js Projekt. \cite{node_environment}  \\
-=======
-das benötigt wird, sowie auch Meta-Daten zu dem Node.js Projekt.
->>>>>>> 55c0eefe8187a46cdd57cfd48831f935c0baa8f1
 Erstellt wird dieses mit dem Befehl \texttt{npm init}. Es spielt jedoch eine Rolle, wo dieser Befehl ausgeführt wird, also muss darauf geachtet werden, dass der Befehl in dem Verzeichnis ausgeführt wird, in dem das Projekt erstellt werden soll.
 Die Struktur eines package.json-Files sieht wie folgt aus:
 \begin{figure}[H]
@@ -127,15 +116,9 @@ Die Struktur eines package.json-Files sieht wie folgt aus:
 
 \subsubsection{Express}
 Express ist das am meisten verbreitetste Node-Web-Framework und ist auch die Basis für andere Node-Web-Frameworks. Die Hauptverantwortung
-<<<<<<< HEAD
 von Express ist das Bereitstellen von Server-Logik, wie zum Beispiel das Schreiben von Handlers für Requests mit unterschiedlichen Http-Request-Methoden (GET, POST, PUT etc.) auf unterschiedlichen URL-Pfaden. \cite{node_environment} \\
 Express wird mit dem Node-Package-Manager mit \texttt{npm install express} installiert. Befindet sich der Benutzer in 
 einem Verzeichnis, das ein package.json-File beinhlatet, bei dem Express als Dependency hinzugefügt wurde, dann reicht \texttt{npm install} für die Installation. 
-=======
-von Express ist das Bereitstellen von Server-Logik, wie zum Beispiel das Schreiben von Handlers für Requests mit unterschiedlichen Http-Verbs auf unterschiedlichen URL-Pfaden.
-Express wird mit dem Node-Package-Manager mit \texttt{npm install express} installiert. Befindet sich der Benutzer in
-einem Verzeichnis das ein package.json-File beinhlatet, bei dem Express als Dependency hinzugefügt wurde, dann reicht \texttt{npm install}.
->>>>>>> 55c0eefe8187a46cdd57cfd48831f935c0baa8f1
 
 \begin{figure}[H]
     \centering
@@ -145,16 +128,17 @@ einem Verzeichnis das ein package.json-File beinhlatet, bei dem Express als Depe
 
 \subsection{Socket IO [R]}
 
-Socket.IO ist eine Library, die eine bidirektionale Echt-Zeit Verbindung zwischen Server und Client ermöglicht. Sie baut auf das WebSocket-Protokoll auf, das bedeutet es gibt neben den WebSocket-Funktionen auch noch additionale Funktionen wie zum Beispiel eine automatische Reconnection.
+Socket.IO ist eine Library, die eine bidirektionale Echt-Zeit Verbindung zwischen Server und Client ermöglicht. Sie baut auf das WebSocket-Protokoll auf, das bedeutet es gibt neben den WebSocket-Funktionen auch noch additionale Funktionen wie zum Beispiel eine automatische Wiederverbindung.
 
-Um Scribble-Fight die bidirektionale Echt-Zeit Kommunikation mit dem Server bereitzustellen, wurde benutzt:
+Um dem Client des Spiel im Browser eine bidirektionale Echt-Zeit Kommunikation mit dem Server bereitzustellen, wurde benutzt:
 \begin{compactitem}
     \item Ein Node.js Server inklusive SocketIO Package
     \item Eine JavaScript Client Library von SocketIO (Es bestehen auch einige andere Client Implementationen für Sprachen wie Java, C++, Python, etc.)
 \end{compactitem}
 
 Socket.IO funktioniert so, dass der Client, falls möglich, eine SocketIO-Verbindung mit dem Server herstellt.
-Ist keine Verbindung möglich, setzt der Client einen HTTP-long polling-Request ab. Am Client sieht die Syntax für die Java-Script-Library so aus:
+Ist keine Verbindung möglich, setzt der Client einen HTTP-long polling-Request ab, also ein Request an den Server, der diesen so lange offen hält, bis neue Daten geschickt werden können. \cite{httpLongPolling} \\
+Am Client sieht die Syntax für die JavaScript-Library so aus:
 
 \begin{figure}[H] 
     \centering
@@ -381,7 +365,7 @@ von Daten muss als Parameter das Diagramm, der Name des Labels und die Daten mit
 \section{Deployment [R]}
 Das Scribble-Fight Browser-Game wurde in die Leocloud, ein Cloud-System der HTL-Leonding, unter \url{https://student.cloud.htl-leonding.ac.at/t.rafetseder/scribble-fight/} deployed.
 Zuerst wurde mithilfe von der Docker-Technologie ein Docker-Image erstellt und auf die Leocloud hochgeladen. Das Deployment wurde dann mithilfe von Kubernetes umgesetzt.
-Was Docker und Kubernetes genau ist, folgt in den nächsten Kapiteln.
+Nähere Beschreibung zu Docker und Kubernetes folgt in den nächsten Kapiteln.
 \subsection{Docker [R]} \label{tech:docker}
 Die Software Docker ist eine Technologie zum Containerisieren von Prozessen, die dann unabhängig voneinander und isoliert ausgeführt werden können. Diese isolierte Prozesse werden Container genannt.
 Durch die Unabhängigkeit, die dadurch entsteht, wird die Infrastruktur besser genutzt und auch die Sicherheit bewahrt, die sich aus der Arbeit mit voneinander getrennten System ergibt.
@@ -426,7 +410,7 @@ Kubernetes hat mehrere Funktionen, zum Beispiel ist Kubernetes:
 \end{compactitem}
 \cite{kubernetes}
 
-In dieser Diplomarbeit wird Kubernetes benutzt, um ein mit Docker gebautes Images des Web-Servers und des Clients auf ein Cloudsystem zu deployen. Näheres zur Umsetzung wird in Kapitel TODO beschrieben
+In dieser Diplomarbeit wird Kubernetes benutzt, um ein mit Docker gebautes Images des Web-Servers und des Clients auf ein Cloudsystem zu deployen. Näheres zur Umsetzung wird in Kapitel \ref{impl:Deployment} beschrieben
 
 
 \newpage
