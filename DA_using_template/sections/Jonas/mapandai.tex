@@ -1,5 +1,5 @@
 
-\section{Map-Erkennung [H]}
+\section{Map-Erkennung [H]}\label{maai:maperkennung:head}
 Nachdem der Spieler der Lobby beigetreten ist, wird es Zeit für ihn die Spielumgebung zu zeichnen und diese für die
 Abstimmung freizugeben. Das passiert, indem dieser einen QR-Code (``Quick Response''), welcher sich in der
 Mitte der Lobby befindet, mit einem mobilen Endgerät, welches über eine Kamera verfügt, abscannt. Somit wird
@@ -54,7 +54,7 @@ Andere Beispiele:
     \item Personenerkennung, um Menschenmassen zu analysieren.
 \end{compactitem}
 
-\subsubsection{Beschreibung der Funktionalität [H]}
+\subsubsection{Beschreibung der Funktionalität [H]}\label{maai:beschrFunktionalitaet}
 
 Wie schon erwähnt kann man aus Bildern Daten erkennen. Viele Pixel bilden insgesamt ein Bild, welches wir visuell aufnehmen und in welchem wir alles Mögliche erkennen können. Jeder einzelne dieser Pixel in einem digitalen Bild enthält Informationen über die Helligkeit und über die Farbe. Der Bildpunkt setzt sich zusammen aus den Farben Rot, Grün und Blau. Aus diesen drei können alle möglichen Farben abgebildet werden.
 \\
@@ -265,7 +265,7 @@ Im folgendem Code-Beispiel \ref{maai:grayscaling} wird die Umsetzung einer Graus
     cv2.waitKey(0) # waits until a key is pressed
     cv2.destroyAllWindows() # destroys the window showing image
 \end{lstlisting}
-%Quelle: https://docs.opencv.org/3.4/d8/d01/group__imgproc__color__conversions.html
+%Quelle: Zitat: https://docs.opencv.org/3.4/d8/d01/group__imgproc__color__conversions.html
 
 Dieses Stück Programmcode führt zu folgendem Ergebnis:
 
@@ -571,10 +571,200 @@ Dieser Programmcode erzeugt folgendes Bild:
     \end{minipage}
 \end{figure}
 
-\subsubsection{ApproxPolyDP}
-\dots
+\subsubsection{ApproxPolyDP}\label{maai:approxpolydp:header}
+
+%Quelle: https://pyimagesearch.com/2021/10/06/opencv-contour-approximation/
+
+Um nun aus den gewonnenen Konturen ein Blatt Papier zu erkennen, müssen die vier Eckpunkte des Blattes herausgefunden werden für eine Perspektiventransformation. Diese vier Punkte werden über die Open-Computer-Vision-Funktion ``approxPolyDp(\dots)'' (``approxymation of Polygon Points'' englisch für Annäherung von Polygonen) gewonnen. Die Funktion gibt aus einem übergebenen Konturen-Array (Array = Ansammlung an Daten; in diesem Fall eine Sammlung an Positionsdaten der Kontur-Eckpunkte), eine Annäherung der Eckpunkte zurück. In dem Feld werden die Punkte der Konturen als Vektoren angegeben. Die Annäherung an diese Punkte erfolgt mit einer übergebenen Genauigkeit, welche als Parameter der Funktion spezifiziert wird.
+
+Diese Kontur Näherung, welche den ``Ramer–Douglas–Peucker'' Algorithmus (abgekürzt RDP.; Abbildung \ref{fig:map:rdpalgo}) verwendet, hat das Ziel eine Kontur, also eine Polygon-Line, zu vereinfachen. Dies passiert, indem der Algorithmus die Scheitelpunkte der Kontur bei einem gegebenen Schwellwert reduziert.
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5]{pics/bildverarbeitungsalgos/The-Ramer-Douglas-Peucker-algorithm.png}
+    \caption{Der Ramer–Douglas–Peucker Algorithmus}
+    \label{fig:map:rdpalgo}
+\end{figure}
+% Quelle: https://www.researchgate.net/figure/The-Ramer-Douglas-Peucker-algorithm_fig6_332499235
+
+Wenn die Start- und Endpunkte einer Kurve gegeben sind, findet der Algorithmus zuerst den am weitest entfernten Punkt (Endpunkt). Dieser nimmt dann mit einem gegebenen Schwellwert \(x\) einen Bruchteil, welcher zu der Anzahl \(x\) an Polygonpunkten führt, der originalen Kontur her. Der gefragte Punkt, welcher sich an der Stelle des Bruchteils befindet, wird als neuer Konturpunkt herangezogen. Wenn andere Kontur-Punkte dazwischen liegen, so werden diese für den neuen, vereinfachten Konturen-Array ignoriert beziehungsweise eliminiert. Somit werden bestimmte Vertices (Eckpunkte) systematisch eliminiert.
+
+Über bleibt eine Annäherung an eine Ausgangskurve. Somit bleibt am Ende genügend Information über, um zum Beispiel ein Blatt Papier erkennen zu können, was das Hauptziel von diesem Teil der Arbeit (Maperkennung) war. Dabei werden so viel wie möglich Daten aus den Konturen entfernt und die Verarbeitung kann schneller passieren.
+
+Dieses Verfahren wird auch als Kurvenglättung bezeichnet.
+
+Außerdem werden maximal vier Punkte für eine Perspektiventransformation herangezogen.
+
+Das heißt, dass die Scheitelpunkte einer Kurve reduziert werden und dabei trotzdem eine große Menge beziehungsweise Genauigkeit an Information erhalten bleibt. Somit bleibt ein Großteil der Form beibehalten.
+
+Somit werden die vier Eckpunkte des Blatt Papiers in dieser Arbeit herausgefunden. Diese vier Eckpunkte sind eine sehr genaue Annäherung an die Eckpunkte, so wie diese in der Realität vorzufinden sind.
+
+Wie dies mit Python und OpenCV2 umgesetzt wurde, wird im folgenden Codebeispiel ersichtlich:
+
+
+\begin{lstlisting}[language=Python,caption=ApproxPolyDP Beispiel,label=maai:approxpolydp:code]
+    #importing the module cv2
+    import cv2
+
+    #reading the image whose shape is to be detected using imread() function
+    imageread = cv2.imread('Path/to/image.png')
+
+    #converting the input image to grayscale image using cvtColor() function
+    imagegray = cv2.cvtColor(imageread, cv2.COLOR_BGR2GRAY)
+
+    #using threshold() function to convert the grayscale image to binary image
+    _, imagethreshold = cv2.threshold(imagegray, 245, 255, cv2.THRESH_BINARY_INV)
+
+    #finding the contours in the given image using findContours() function
+    imagecontours, _ = cv2.findContours(imagethreshold, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+
+    #for each of the contours detected, the shape of the contours is approximated using approxPolyDP() function and the contours are drawn in the image using drawContours() function
+    for count in imagecontours:
+    epsilon = 0.01 * cv2.arcLength(count, True)
+    approximations = cv2.approxPolyDP(count, epsilon, True)
+    cv2.drawContours(imageread, [approximations], 0, (0), 3)
+    
+    #displaying the resulting image as the output on the screen
+    cv2.imshow("Resulting_image", imageread)
+    cv2.waitKey(0)
+\end{lstlisting}
+%Quelle: Zitat: https://www.educba.com/opencv-approxpolydp/
+
+Dieser Programmcode führt zu folgendem Ergebnis:
+
+
+\begin{figure}[htb]
+    \centering
+    \begin{minipage}[t]{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{pics/bildverarbeitungsalgos/ApproxPolyDP_input.png}
+        \caption{Input}
+        \label{maai:approxpolydp:input}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{pics/bildverarbeitungsalgos/ApproxPolyDP_output.png}
+        \caption{Erster Output des Programmcodes}
+        \label{maai:approxpolydp:output}
+    \end{minipage}
+\end{figure}
+
+
 \subsubsection{Wrap Perspective}\label{maai:wrapPerspective}
-\dots
+
+``Warp Perspective'' ist Englisch und bedeutet ``Perspektiventransformation''. Der Bildverarbeitungsalgorithmus wird zur Perspektivenveränderung herangezogen. Dieser Algorithmus ist der letzte Schritt der Bildverarbeitung, welcher nötig ist, um das Blatt Papier, auf welchem eine Map gezeichnet ist, aus einem Bild zu erkennen.
+
+Durch die Perspektiventransformation werden Winkel, Parallelität und Längen verändert, wodurch es zu einer Stauchung beziehungsweise Streckung eines Bildes kommt.
+
+Der Algorithmus zur Transformation der Perspektive kann wie folgt beschrieben werden:
+\[
+    \left[\begin{array}{r}
+            ti\_x' \\
+            ti\_y' \\
+            ti     \\
+        \end{array}\right]
+    = \left[\begin{array}{rrr}
+            a_{ 1 } & a_{ 2 } & b_{ 1 } \\
+            a_{ 3 } & a_{ 4 } & b_{ 2 } \\
+            c_{ 1 } & c_{ 2 } & 1       \\
+        \end{array}\right]
+    * \left[\begin{array}{r}
+            x \\
+            y \\
+            1 \\
+        \end{array}\right]
+\]
+Auf der rechten Seite der Gleichung befindet sich die Transformationsmatrix als erster Faktor und der Input \(x\) und \(y\) als Vektor und 1 als zweiter Faktor.
+
+Das Produkt daraus, also die linke Seite der Gleichung, gibt den Skalierungsfaktor an. Das heißt der Perspektiven-transformierte Punkte mit den Koordinaten \(x\) und \(y\) wird zu einem neuen Punkt \(P'\) mit den Koordinaten \(x'\) und \(y'\).
+
+Die Transformationsmatrix ist eine Kombination aus folgenden Werten:
+\[
+    \left[\begin{array}{rr}
+            a_{ 1 } & a_{ 2 } \\
+            a_{ 3 } & a_{ 4 } \\
+        \end{array}
+        \right]
+    \to
+    \text{ Transformation hinsichtlich Rotation, Skalierung, etc. }
+\]
+\[
+    \left[\begin{array}{r}
+            b_{ 1 } \\
+            b_{ 2 } \\
+        \end{array}
+        \right]
+    \to
+    \text{ Verschiebungsvektor }
+\]
+\[
+    \left[\begin{array}{rr}
+            c_{ 1 } & c_{ 2 } \\
+        \end{array}
+        \right]
+    \to
+    \text{ Projektionsvektor }
+\]
+
+Die acht Unbekannten in der Transformationsmatrix geben die Freiheitsgrade im Raum an.
+
+Um die Matrix kalkulieren zu können müssen zuerst die vier Punkte der Eckpunktnäherung durch ``approxPolyDp'' herangezogen werden. Diese Funktion wurde im Kapitel \ref{maai:approxpolydp:header} erklärt. Die vier Eckpunkte, welche in die Vogelperspektive transformiert wurden, sollen ein neues Rechteck darstellen. Das heißt, dass die vier Punkte, welche zuvor im dreidimensionalen Raum die vier Ecken des Blatt Papiers darstellten, werden nun in ein Rechteck perspektiventransformiert. Dadurch wird das Bild in eine Perspektive, welche einen Blick von ``oben'' ermöglicht, umgewandelt, und richtig sakliert.
+
+Somit hat man acht Unbekannte und acht Gleichungen wodurch die Gleichungen in der Matrix-Form gelöst werden können. In OpenCV2 passiert diese Matrixkalkulation via der Funktion ``cv2. getPerspectiveTransform(points, points')''. Der erste Parameter stellt die Koordinaten im Ausgangsbild dar und der zweite stellt die Koordinaten im Ausgabebild dar.
+
+Danach wird ``cv2.wrapPerspective(\dots)'' angewendet, um die Perspektive anhand der gegebenen Matrix zu verändern. Dafür wird aus dem Ausgangsbild ein Teil weggeschnitten und über bleibt der für das ``use-case'' (Anwendungsfall) interessante Teil. Es wird nur jenes Stück aus dem Bild verwendet, welches in den vier gewählten Eckpunkten liegt. Dieses wird in die Vogelperspektive umgewandelt.
+
+Folgender Programmcode zeigt die Matrixrechnung anhand der Bibliothek OpenCV2 und der dazugehörigen Funktionen:
+
+
+
+\begin{lstlisting}[language=Python,caption=Perspektiventransformation Beispiel,label=maai:approxpolydp:code]
+    #importing the module cv2 and numpy
+    import cv2
+    import numpy as np
+
+    #reading the image whose perspective is to be changed
+    imageread = cv2.imread('C:/Users/admin/Desktop/plane.jpg')
+    
+    #specifying the points in the source image which is to be transformed to the corresponding points in the destination image
+    points1 = np.float32([[0, 100], [700, 260], [0, 700], [700, 400]])
+    points2 = np.float32([[0, 200], [600, 0], [0, 700], [1000, 700]])
+    
+    #applying getPerspectiveTransform() function to transform the perspective of the given source image to the corresponding points in the destination image
+    resultimage = cv2.getPerspectiveTransform(points1, points2)
+    
+    #applying warpPerspective() function to fit the size of the resulting image from getPerspectiveTransform() function to the size of source image
+    finalimage = cv2.warpPerspective(imageread, resultimage, (500, 600))
+    
+    #displaying the original image and the transformed image as the output on the screen
+    cv2.imshow('Source_image', imageread)
+    cv2.imshow('Destination_image', finalimage)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+\end{lstlisting}
+%Quelle: Zitat: https://www.educba.com/opencv-warpperspective/
+
+Dieser Programmcode führt zu folgendem Ergebnis:
+
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}[t]{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{pics/bildverarbeitungsalgos/ApproxPolyDP_input.png}
+        \caption{Input}
+        \label{maai:wrapperspective:input}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{pics/bildverarbeitungsalgos/wrapperspective.png}
+        \caption{perspektiventransformiert}
+        \label{maai:wrapperspective:output}
+    \end{minipage}
+\end{figure}
 
 \subsubsection{Umwandlung der Bilder in für das Spiel brauchbare Daten [H]}
 Hat man nun das Bild Perspektiven transformiert, so kann man dies mit dem Send-Button (Wie in Abbildung \ref{fig:map:maperkennungsprozess} ersichtlich) bestätigen.
@@ -614,7 +804,7 @@ Die Zeile zwanzig dient dazu das Bild testweise in einem Ordner abzuspeichern.
         cv2.imwrite('./source/prototypes/streamFusion/output/imgAdaptiveThre.png', imgAdaptiveThre)
 \end{lstlisting}
 
-Im nächsten Schritt wird der Array berechnet, welcher als Grundlage für die spielbare Map dient und aus dem aufgenommenen Bild extrahiert wird. Der Array beinhaltet nach der Verarbeitung schwarze und transparente Bildpunkte. Die schwarzen Pixel symbolisieren jene Plätze, auf welchen sich der Spieler schlussendlich bewegen kann. Die transparenten Pixel sind jene, welche als Hintergrund erkannt wurden und somit nicht für den Spieler begehbar sein sollten. Wie sich jedoch der Spieler auf diesen Punkten bewegen kann und wie der Array in die Spiellogik implementiert wird, wird im Kapitel ``Erstellung der Spielumgebung \ref {impl:Spielumgebung}'' von Rafetseder Tobias näher erklärt.
+Im nächsten Schritt wird der Array berechnet, welcher als Grundlage für die spielbare Map dient und aus dem aufgenommenen Bild extrahiert wird. Der Array beinhaltet nach der Verarbeitung schwarze und transparente Bildpunkte. Die schwarzen Pixel symbolisieren jene Plätze, auf welchen sich der Spieler schlussendlich bewegen kann. Die transparenten Pixel sind jene, welche als Hintergrund erkannt wurden und somit nicht für den Spieler begehbar sein sollten. Wie sich jedoch der Spieler auf diesen Punkten bewegen kann und wie der Array in die Spiellogik implementiert wird, wird im Kapitel ``Erstellung der Spielumgebung \ref{impl:Spielumgebung}'' von Rafetseder Tobias näher erklärt.
 
 Jedoch wird zuerst eben das transformierte Bild in den Array umgewandelt. Dafür wird aus diesem adaptiven Threshold-Bild (Schwellwert-Bild) ein Faktor ausgerechnet, mit welchem die Bildpunkte zusammengefasst werden müssen, um insgesamt nicht mehr als \(\approx\)3025 Pixel zu überschreiten. Die dabei verwendete Formel wird im Folgenden an einem einfachen Beispiel erklärt. Diese lautet:
 
@@ -686,19 +876,658 @@ Dieser Map-Array wird dann in ein File abgespeichert. Dieses File dient rein daz
         return newImg
 
 \end{lstlisting}
+
 \subsection{Kommunikation mit der Lobby via Flask und Flask SocketIO [W]}
 
-\section{KI [H]}
+\section{KI [H]}\label{maai:ai:title}
+
+Die Vorstellung von Künstlichen Intelligenzen gibt es schon seit Mitte des zwanzigsten Jahrhunderts. Bei einer Konferenz von Wissenschaftlern am Dartmouth College im US-Bundesstaat New Hampshire im Jahr 1956 wird das erste Mal bewiesen, dass es möglich ist mit Mathematik menschliche Intelligenz zu simulieren.
+
+%Quelle: https://www.bosch.com/de/stories/geschichte-der-kuenstlichen-intelligenz/
+Der Gedanke, dass eine von Menschenhand erschaffene Intelligenz, welche keine biologische Abstammung hat und den Menschen bei der Arbeit unterstützen, oder diese ganz abnehmen kann, wird seit diesem Ereignis angestrebt. Dabei ist das Feld, in welchem ``Artificial Intelligence'' (AI) beziehungsweise Künstliche Intelligenz (KI) eingesetzt werden kann, scheinbar unbegrenzt.
+
+Das Einzige, das gegeben sein muss, ist, dass in einem komplexen System, in welcher die Künstliche Intelligenz operiert, Daten extrahiert und gesammelt werden können. Weiters sind Ressourcen, wie Hardware oder Zeit, ein wichtiger Aspekt. Die intelligente Maschine kann mehrere Millionen Schritte pro Tag ausführen und mit mehreren ``Gehirnen'' (Mehrere Instanzen der des Lernumfelds) gleichzeitig lernen. Trotzdem ist dies limitiert, durch die Geschwindigkeit und der Rechenleistung, die zu diesem Zeitpunkt aufgebracht werden kann, mit welcher die Aktionen ausgeführt werden und somit zu einem ``Lernen'' führen.
+
+Die zuvor genannte Lerntechnik ``Reinforcement Learning'' (Kapitel \ref{tech:reinfLearning:header}), funktioniert ähnlich wie die Lern-Art von biologischen Organismen. Die Idee stammt davon, dass simple, Lebensformen, welche nicht mehr als Instinkte zum Futter sammeln, Prädatoren ausweichen und im Generellen zum Überleben haben, sollten von einer Maschine ``leicht'' simuliert werden können. Ein Beispiel hierfür wäre ein Fadenwurm. Das ZNS (Zentrale Nervensystem) baut sich aus dreihundertzwei Nervenzellen zusammen. Weitere chemische Verbindungsstellen und Kanäle erhöhen die Komplexität dieses Lebewesens nur wenig. Dies ist mit modernen Computern bereits simulierbar.
+%Quelle: https://www.sueddeutsche.de/wissen/gehirngroesse-von-0-bis-11-000-000-000-neuronen-1.1850384
+
+Dazu müssen jedoch gewisse mathematische Modelle angewandt werden, um dieses Ergebnis zu erreichen und den Organismus zu simulieren.
+
+Dass und wie es für eine Maschine möglich ist zu lernen wurde bereits im Kapitel \ref{tech:ki:head} näher erläutert.
+
+Um diese mathematischen Modelle jedoch perfekt auf ein gewünschtes Ergebnis abstimmen zu können, wir Hpyerparamter-``Fine-Tuning'' angewendet. Dabei werden jene Parameter, welche zu einem Lernen beitragen, so angepasst, dass das Modell eine perfekte Lernkurve erzielt.
+
+Im Zuge dieser Arbeit wurde klar, dass Künstliche Intelligenz kein Thema ist, welches leicht zu begreifen ist.
+
+Diese zuvor erwähnten mathematischen Modelle wurden bereits in einer Python Bibliothek namens ``Stable\_baselines3'' implementiert. Dieses Framework wird im Folgenden (Kapitel: \ref{maai:usedLibraries}) genauer erklärt.
+
+Die zur Verfügung gestellten Algorithmen sind jedoch nicht perfekt auf unseren Anwendungsfall abgestimmt. Trotzdem wurden Ergebnisse erzielt (auch, wenn diese nicht bemerkenswert sind).
+
+Die Logik der Welt, in welcher sich der Agent (Reinforcement-Learning) bewegt, wurde mittels Open-AI-Gym umgesetzt. Dabei handelt es sich um eine Hilfestellung, welche es ermöglicht objektorientiert eine Künstliche Intelligenz mit Python umzusetzen. Die Syntax beziehungsweise Vorgehensweise, welche verwendet wird, um eine Künstliche Intelligenz, welche mit der Methode des verstärkten Lernens trainiert, mittels Python zu implementieren, wird in den folgenden Kapiteln genauer beschrieben. Dabei wird auch genauer auf die genannten Bibliotheken eingegangen.
+
+\subsection{Verwendete Bibliotheken [H]}\label{maai:usedLibraries}
+
+
+``OpenAI-Gym'' ist dafür da Reinforcement-Learning Algorithmen auf einem Beginner Niveau beizubringen und diese hauptsächlich zum Ausprobieren und Vergleichen zur Verfügung zu stellen.
+
+Dabei erstellt ``OpenAI-Gym'' viele vorab entwickelte Videospiele zur Verfügung. Diese Spiele sind hauptsächlich Atari-Games, wie zum Beispiel Tetris, Pac-Man, oder Breakout. Atari ist eine Spielkonsole aus den 1980‘ Jahren.
+
+Diese Bibliothek stellt jedoch nicht nur zweidimensionale Umwelten zu Verfügung. Auch einige dreidimensionale Umgebungen, wie ``Humanoid'', bei welchem man einer Figur das Gehen beibringen muss, sind zur Auswahl.
+
+Somit ist es für jeden möglich sich spielerisch mit dem Thema der Künstlichen Intelligenz auseinanderzusetzen. Es ist bereits mit einigen, wenigen Code-Zeilen möglich die ``Library'' einzubinden und ein simples Programm umzusetzen.
+\begin{lstlisting}[language=Python,label=lst:maap:simpleGym,caption=Simples OpenAI-Gym Programm]
+    # import dependencies
+    import gym 
+
+    # create CartPole environment
+    env = gym.make('CartPole-v0') 
+
+    # reset the environment
+    env.reset() 
+
+    # walk 1000 steps
+    for _ in range(1000): 
+        # display progress visually
+        env.render() 
+        # take a random action
+        env.step(env.action_space.sample()) 
+        
+    # close the environment after it is done
+    env.close()
+\end{lstlisting}
+
+
+In diesem Environment (Spielumgebung) wird versucht ein Stab mithilfe einer beweglichen Plattform zu balancieren. Die Plattform kann sich dabei nur in einer Dimension (auf der X-Achse) bewegen. Mit diesem Beispielcode (\ref{lst:maap:simpleGym}) wird jedoch noch keine Künstliche Intelligenz trainiert. Hier werden zunächst zufällige Aktionen in dem Spiel ausgeführt, was selbstverständlich noch nicht zu einem gewünschten Ergebnis führt. Die Schwierigkeit dabei ist, dass sich die Plattform nicht nach links bewegt, wenn der Stab nach links fällt, oder umgekehrt, sondern den Stab wirklich balanciert. Diesen Ablauf der Bewegung findet der Algorithmus binnen weniger Sekunden heraus.
+
+Es ist jedoch möglich dieses Programm so zu erweitern, dass dieses auch dazulernt.
+
+Außerdem kann man mit ``OpenAI-Gym'' ein eigenes Spiel erstellen. Dies funktioniert objektorientiert. Dabei müssen folgende Funktionen eingebunden werden:
+
+%Quelle: https://gym.openai.com/docs/
+
+\begin{compactenum}
+    \item \_\_init\_\_(self): diese Funktion wird aufgerufen, wenn ein Objekt der Klasse erstellt wird. Diese Methode wird auch ``Konstruktor'' genannt. Hier werden alle Parameter des Objekts initialisiert.
+    \item step(self): Step(\dots) ist das Herzstück der Klasse. Hier wird jeder Schritt der Künstlichen Intelligenz definiert. Dazu wird zunächst eine Aktion definiert, welche die Maschine ausführen soll. Danach wird observiert, was sich in der Umgebung verändert hat und daraus ein Schluss gezogen, ob die Aktion zu einem guten, schlechten oder gar keinem Ergebnis führte; es wird also die Belohnung errechnet. Der Rückgabewert besteht dann aus den Observationen, der Belohnung, dem Status der Episode, welche die Künstliche Intelligenz zurzeit erlernt und einer beliebigen Zusatzinformation.
+    \item render(self): Render(\dots) kann optional implementiert werden. Diese Funktion dient dazu dem Anwender den Lernfortschritt visuell darzustellen.
+    \item reset(): die vierte und letzte Funktion ist Reset(\dots). Diese wird dazu verwendet um nach einer Episode die Umgebung und alle dazugehörigen Variablen auf einen gewünschten Stand zurückzusetzen. Als return Wert wird der aktuelle Stand der Künstlichen Intelligenz (die ``Observation'') zurückgegeben.
+\end{compactenum}
+
+Für die Beschreibung einzelner Begriffe empfiehlt es sich folgendes Kapitel zu lesen: ``Künstliche Intelligenz allgemein'' (\ref {tech:ki:head})
+
+Die ScribbleFight-KI wurde wie folgt in Python implementiert:
+
+Zunächst werden die Dependencies importiert.
+\begin{lstlisting}[language=Python,label=lst:maap:scribblefightki,caption=ScribbleFight-KI OpenAI-Gym Environment]
+    # Import dependencies
+    import gym
+    from gym.spaces import MultiDiscrete, Box
+    from KI_v01.env.game import Game
+\end{lstlisting}
+
+Die Klasse CustomEnv, welche von ``gym.Env'' erbt wird wie folgt implementiert:
+
+\begin{lstlisting}[language=Python,firstnumber=5]
+    class CustomEnv(gym.Env):
+
+        '''
+        This class is a custom open-ai gym environment
+        It has helper functions which are implemented below
+        '''
+
+        #metadata = {'render.modes' : ['human']}
+        def __init__(self):
+            # in the init function a new ScribbleFight instance is created
+            self.pygame = Game()
+            
+            # the actionspace is defined by a MultiDiscrete set of random numbers
+            '''DISCRETE[0]: ANGLE+, ANGLE-, idle
+            DISCRETE[1]: "SPACE", "E", "Q", "R", "C", "F", "LEFTCLICK", idle
+            DISCRETE[2]: "A", "D", idle'''
+            self.action_space = MultiDiscrete([3, 8, 3])
+
+            # the observationspace has the size of the visual copy Array (165x165), 
+            # which is the vision of the AI
+            '''random output when observation_space is sampled:
+            [[0,0,0,...],
+            [0,1,0,...],
+                .....,
+            [0,1,3,...],
+            [0,1,5,...]]'''
+            self.observation_space = Box(0, 10, (165, 165), int)
+
+        def reset(self):
+            # the reset function resets the game
+            self.pygame.reset()
+            obs = self.pygame.observe()
+            return obs
+
+        def step(self, actions):
+            # in the step function a step is made
+            self.pygame.action(actions)
+            obs = self.pygame.observe()
+            # checks if observations are valid
+            #   if true then there are no observations made
+            ''' 
+            comparison = obs == Box(0, 0, (165, 165), int).sample()
+            equal_arrays = comparison.all()
+            print(equal_arrays)
+            '''
+            reward = self.pygame.evaluate()
+            done = self.pygame.is_done()
+
+            # info = self.pygame.info()  # not really needed
+            return obs, reward, done, {}
+
+        def render(self, mode="human", close=False):
+            # this function renders the game
+            self.pygame.view()
+
+\end{lstlisting}
+
+
+Eine weitere Bibliothek basierend auf Python, welche beim Erstellen der Reinforcement-Learning KI verwendet wurde, ist ``Stable-baselines-3''. Diese bietet auf eine zuverlässige Art und Weise die Implementierung von mathematischen Reinforcement-Learning Modellen. Dabei werden viele Algorithmen, wie zum Beispiel ``A2C'', ``DQN'', oder ``PPO'', zur Verfügung gestellt. Während dieser Arbeit wurden die Algorithmen ``A2C'' und ``PPO'' verglichen. In dem Fall der ``Scribble-Fight'' Künstlichen Intelligenz, welche ziemlich komplex ist, hat die Recherche ergeben, dass diese zwei Arten, Modelle zu trainieren, am besten geeignet sind.
+
+Eingebunden wird die Bibliothek wie folgt:
+\begin{lstlisting}[language=Python,label=lst:maap:pposampleone,caption=Stable-Baselines3 Beispiel]
+import gym
+
+from stable_baselines3 import PPO
+from stable_baselines3.common.env_util import make_vec_env
+
+\end{lstlisting}
+
+OpenAI-Gym kann verwendet werden, um ein Spielumgebung zu erschaffen. In diesem Beispiel wird wieder (wie in \ref{lst:maap:simpleGym}) die ``CartPole''-Welt verwendet. Damit die Effizienz des Lernens erhöht wird, kann durch das Erstellen der Umgebung mittels ``vec\_env'' eine Anzahl an Umgebungen gleichzeitig kreiert werden. Diese Anzahl wird als Parameter übergeben. Im folgenden Fall werden vier Umwelten gleichzeitig erstellt. All diese lernen auf dasselbe Modell. Dies wird auch ``Competitive Self-Play'' genannt. Danach wird dieses Environment an den PPO-Algorithmus übergeben. PPO steht für ``Proximal Policy Optimization''. Danach lernt die Maschine für 25.000 Schritte. Die Anzahl der Schritte haben nichts mit der Episodendauer zu tun. Ein Schritt ist entweder eine Bewegung nach links oder rechts.
+
+%Quelle: https://openai.com/blog/openai-baselines-ppo/
+
+\begin{lstlisting}[language=Python,firstnumber=6]
+
+# Parallel environments
+env = make_vec_env("CartPole-v1", n_envs=4)
+
+model = PPO("MlpPolicy", env, verbose=1)
+model.learn(total_timesteps=25000)
+\end{lstlisting}
+
+Nach dem Trainieren kann das Modell gespeichert und wiederverwendet werden. Dies passiert mittels ``PPO.load(\dots)''. Somit wird aus dem Gelernten ein Modell erstellt, welches verwendet werden kann, um vorhersagen zu treffen, darüber, wie sich die Plattform bewegen muss, um die Stange aufrecht zu erhalten.
+
+\begin{lstlisting}[language=Python,firstnumber=12]
+
+model.save("ppo_cartpole")
+
+del model # remove to demonstrate saving and loading
+
+model = PPO.load("ppo_cartpole")
+
+obs = env.reset()
+while True:
+    action, _states = model.predict(obs)
+    obs, rewards, dones, info = env.step(action)
+    env.render()
+\end{lstlisting}
+
+Auf die Frage, wie die ``Reinforcement-Learning-Algorithmen'' funktionieren wird in dieser Arbeit nicht eingegangen.
+
+% \subsection{Künstliche Intelligenz Definition [H]}
+
+\subsection{Die ScribbleFight-KI [H]}\label{maai:scribblefightki}
+
 Im Laufe der Ausarbeitung der Diplomarbeit und der damit zusammenhängenden Forschung änderte sich oft die
 Vorstellung darüber, wie das Endprodukt (KI) auszusehen hat, beziehungsweise, wie dieses aussehen kann.
 Limitierungen, welche vor der Forschung noch nicht bekannt und bewusst waren, begrenzten die Lernfähigkeit der KI.
-Auf Probleme, Lösungen und Ergebnisse wird jedoch noch näher in ... eingegangen.
-\subsection{Lernen mit OpenAI-Gym [H]}
-% \subsection{Künstliche Intelligenz Definition [H]}
-\subsection{Reinforcement Learning [H]}
-\subsection{Die ScribbleFight-KI [H]}\label{maai:scribblefightki}
+Auf Probleme, Lösungen und Ergebnisse wird jedoch in diesem Kapitel noch näher eingegangen.
+
+Die KI wurde auf einem ``Apple IMac 2017'' trainiert.
+
+Das Ziel bestand darin eine Künstliche Intelligenz zu erschaffen, welche auf einem, für einen durchschnittlich guten, menschlichen Spieler, herausfordernden Niveau spielt. Dabei sollte diese:
+\begin{compactitem}
+    \item Alle möglichen Attacken erlernen.
+    \item erlernen, in welchem Winkel ein Schuss abgefeuert werden muss, um einen Gegner zu treffen.
+    \item lernen, wann eine Attacke, oder ein Schuss abgefeuert werden muss, um einen Gegner zu treffen.
+    \item erlernen, wie ein Agent auf der Plattform bleibt, beziehungsweise was und wo diese ist.
+    \item gegnerische Kugeln beziehungsweise Attacken erkennen und ausweichen.
+\end{compactitem}
+Im Laufe der Ausarbeitung der Künstlichen Intelligenz wurde jedoch klar, dass dies Ziele sind, welche im Zuge einer Diplomarbeit, in diesem Ausmaß, nicht erreichbar waren. Die Künstliche Intelligenz lernte jedoch schnurstracks und am schnellsten Wege die Plattform zu verlassen.
+
+Damit die Maschine lernen kann, stellt das Scribble-Fight-Frontend, welches mit Webtechnologien, wie HTML und JavaScript umgesetzt wurde, Informationen über den Spieler beziehungsweise Agenten zur Verfügung. Diese werden in einem ``myPlayer''-Objekt gespeichert. Das Objekt sieht wie folgt aus:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=1]{pics/ai/myPlayer.png}
+    \caption{``myPlayer''-Objekt}
+    \label{fig:ai:myPlayerPic}
+\end{figure}
+
+Für die Künstliche Intelligenz sind Daten, wie ``death'' (Tode), ``dmgDealt'' (verteilten Schaden), ``kills'' (Anzahl an Spieler, welche von diesem Agenten von der Plattform gestoßen wurden) und ``knockback'' (Rückstoß, welchen man erleidet) von Bedeutung.
+Damit die Werte des Objekts ausgelesen werden können wurde in Python folgende Funktion implementiert:
+
+\begin{lstlisting}[language=Python,label=lst:maap:getstats,caption=Informationen über den Spieler]
+def getStats(driver):
+    dmgDealt, knockback, deaths, kills = 0, 0, 0, 0
+
+    dmgDealt, knockback, deaths, kills = driver.execute_script(
+        'return [myPlayer.dmgDealt, myPlayer.knockback, myPlayer.death, myPlayer.kills]')
+
+    return dmgDealt, knockback, deaths, kills
+\end{lstlisting}
+
+Die Funktion extrahiert den für die Künstliche Intelligenz relevanten Inhalt und gibt diese als return Wert wieder zurück. Dadurch wird die Maschine bei jedem Schritt über den Status des Spielers informiert.
+
+% Ziele
+% Umsetzung
+% code (eher so vom rafi)
 \subsubsection{Beschreibung der Funktionalität [H]}
-\subsubsection{Warum Python? [H]}
-\subsection{Tensorflow und Keras [H]}
-\subsubsection{Tensorflow [H]}
-\subsubsection{Keras [H]}
+Ein weiterer, zentraler Punkt der Ausarbeitung ist, wie die ``ScribbleFight''-KI zu sehen hat. Dies passiert mit einem zweidimensionalen Array, welcher ``visCopy'' im Frontend genannt wird. Die Einträge in diesem Feld sind die Zahlen von null bis zehn. Dieser wird erstellt, basierend auf den Inhalt des Spiels, welchen auch ein menschlicher Spieler sehen würde. Somit ist es für die KI nicht möglich, Daten zu manipulieren, auf welche ein Gegenspieler keinen Zugriff hätte. Dabei wird das Sichtfeld wie folgt codiert:
+\begin{compactitem}\label{mappedPixels}
+    \item 0: Hintergrund
+    \item 1: Plattform
+    \item 2: eigener Agent
+    \item 3: Gegner
+    \item 4: eigenes Projektil
+    \item 5: gegnerisches Projektil
+    \item 6: Bombe
+    \item 7: Schwarzes Loch
+    \item 8: Verkleinerung
+    \item 9: Miene
+    \item 10: Piano
+\end{compactitem}
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}[t]{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{pics/ai/newView.png}
+        \caption{Spieler Sicht}
+        \label{maai:ai:newView}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{pics/ai/KIView.png}
+        \caption{KI Sicht}
+        \label{maai:ai:KIView}
+    \end{minipage}
+\end{figure}
+
+Der ``Pixelclump'' ist ein zweidimensionaler Array von Pixelwerten (schwarz oder transparent, weiß) und wird von der Maperkennung (\ref{maai:maperkennung:head}) als Output zurückgeliefert. Dieses zweidimensionale Feld dient als Basis für den Untergrund, auf welchem sich die Spieler bewegen können. Um das Spiel in eine, für die Künstliche Intelligenz sichtbare Welt umzuwandeln, wird zunächst der ``Pixelclump'', um das Dreifache vergrößert. Gleichzeitig werden die Pixelwerte durch die oben angeführten Zahlen (von null bis zehn; Bedeutung: \ref{mappedPixels}) ausgetauscht. Durch die dreifache Skalierung der Spielumgebung von 55x55 auf 165x165 Werten, ist es möglich, dass die Künstliche Intelligenz dreimal genauer sieht, als ein Bildpunkt der Map aufgetragen wird. Somit kann genauer agiert werden und Spieler und Attacken besser erkannt werden (in der Theorie).
+
+Die Aufskalierung und Umwandlung des Map-Arrays in den ``Visual''-Array passiert in der Funktion ``getVisualMap(\dots)'':
+\begin{lstlisting}[language=Python,label=lst:maap:getVisualMap,caption=Umwandlung des Pixel-Clumps in eine für die KI sichtbare Darstellung]
+/**
+ * Converts standard map, which is 55x55 
+ * into visual map which is 165x165 for better accuracy
+ * 
+ * @param {given arry which represents map} paramarr 
+ * @returns new visual array
+ */
+function getVisualMap(paramarr) {
+  let visual = []
+  let factor = 3
+  for (let i = 0; i < paramarr.length * factor; i++) {
+    visual.push([])
+    for (let j = 0; j < paramarr.length * factor; j++) {
+      if (paramarr[int(i / factor)][int(j / factor)][3] > 0) {
+        visual[i].push(1)
+      } else {
+        visual[i].push(0)
+      }
+    }
+  }
+  return visual
+}
+\end{lstlisting}
+Mit jeder Bewegung und Aktualisierung von Status wird der ``visual''-Array in einen ``visCopy''-Array eingetragen. Dabei werden alle Entitäten neu hinzugefügt. Das Feld wird jedoch durch die Kopie nur an den Positionen verändert, wo auch eine Änderung passiert ist. Dadurch wird dieses nicht immer neu erstellt, und die Effizienz wird gesteigert. Außerdem, dadurch, dass Javascript zur kalkulation komplexer Berechnungen mehrere Threads zur Verfügung hat, kann das Verarbeiten dieses Arrays in einer Zeit passieren, welche die Bilder pro Sekunde des Spiels nicht verringert und somit für den Spieler nicht bemerkbar. Lässt man sich nun die bearbeitete Kopie des ``visual''-Arrays ausgeben, so sieht man die Sicht der ``ScribbleFight'' Künstlichen Intelligenz. In der folgenden Abbildung wurden die Ziffern von null bis zehn in Farben umgewandelt. Das Bild \ref{maai:ai:visCopy:input} ist die Sicht des Spielers und das Bild \ref{maai:ai:visCopy:output} ist die Sicht der KI.
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}[t]{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{pics/ai/screenshots.png}
+        \caption{Spieler Sicht}
+        \label{maai:ai:visCopy:input}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{pics/ai/newImg.png}
+        \caption{KI Sicht}
+        \label{maai:ai:visCopy:output}
+    \end{minipage}
+\end{figure}
+
+\subsection{ScribbleFight Reinforcement Learning Implementierung [H]}
+Wie bereits in dem Kapitel ``Reinforcement Learning'' (\ref{tech:fig:reinfconcept}) erklärt, basiert diese Art des Lernens auf unpräparierte Daten. Das heißt, dass kein Trainingsset an Daten existiert, welches zum Lernen und Vergleichen verwendet wird, sondern ein Agent in eine ihm unbenannte Umwelt gesetzt wird und rein über ausprobieren lernt. Das einzige Ziel besteht darin, dass eine maximale Höhe an Belohnung erreicht werden soll.
+
+Im folgenden wird der Programmcode (\ref{lst:maai:game}), welcher diese Forderungen umsetzt, beschrieben.
+
+Bevor die KI implementiert werden kann, muss eine Referenz auf das Browserspiel erzeugt werden. Dies passiert mit der Bibliothek namens ``Selenium''. Selenium ermöglicht es mit einem Python-Code ein Browser-Fenster zu öffnen, in welchem diverse Keyboard-Events und vieles mehr ausgeführt werden können. Dafür wird zunächst die Optionen, welche beim Öffnen ein Browserfenster berücksichtig werden erstellt. Die Optionen besagen zum Beispiel, dass sich das Fenster an die Bildschirmgröße mit ``start-maximized'' anpasst. Die ``Url'' auf welche navigiert werden soll ist `` http://localhost:3000'', da hier das Spiel auf einem Node-Server, als lokale Instanz auf das Spiel, zur Verfügung gestellt wird.
+
+\begin{lstlisting}[language=Python,label=lst:maai:game,caption=Implementation der Logik der Reinforcement Learning KI]
+'''DEPENDENCIES'''
+# selenium webdriver
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium import webdriver
+
+# options
+from KI_v01.env.options.actions import *
+from KI_v01.env.options.observations import *
+
+# openai gym
+from gym.spaces import Box
+
+
+'''VARIABLES'''
+FPS = 10
+
+# selenium webdriver options
+options = webdriver.ChromeOptions()
+options.add_argument("start-maximized")
+options.add_argument("disable-infobars")
+port = 3000
+url = 'http://localhost:%s' % (port)
+
+\end{lstlisting}
+
+Im folgenden Programmcode wird eine Klasse namens ``ScribbleFight'' erstellt.
+
+In der \_\_init\_\_ Funktion, also dem Konstruktor der Klasse ``ScribbleFight'' werden alle Variablen und Konstanten initiiert und somit auf einen Startwert gesetzt. Dabei werden alle, für das Spiel relevanten Parameter auf einen ``Null-Wert'' gesetzt, da noch keine Daten gewonnen wurden. Auch Wahrheitsoperatoren, wie der ``readystate'', also ob das Browserfenster gestartet wurde oder nicht werden hier gesetzt. Nach dem Kreieren wird das Fenster und somit das Spiel gestartet.
+
+\begin{lstlisting}[language=Python,firstnumber=25]
+class ScribbleFight:
+
+    '''SCRIBBLE FIGHT GAME'''
+
+    def __init__(self):
+        self.driver = None
+        self.playerId = 0
+        self.obs = Box(0, 0, (165, 165), int).sample()
+        self.dmgDealt = 0
+        self.knockback = 0
+        self.kills = 0
+        self.deaths = 0
+        self.just_died = False
+        self.readystate = False
+        self.startBrowser()
+\end{lstlisting}
+
+In der Funktion ``startBrowser'' wird ein neuer webdriver erstellt, über welchem später die Künstliche Intelligenz das Spiel steuert.
+In einer Schleife wird überprüft, ob das Fenster bereits geöffnet wurde.
+
+\begin{lstlisting}[language=Python,firstnumber=41]
+    def startBrowser(self):
+        self.driver = webdriver.Chrome(options=options,
+                                       executable_path=ChromeDriverManager().install())
+        self.driver.get(url)
+
+        while not self.readystate:
+            self.readystate = self.isReady()
+
+    def isReady(self):
+        try:
+            self.playerId = self.driver.execute_script('return myPlayer.id;')
+            return True
+        except:
+            return False
+\end{lstlisting}
+
+Die folgenden drei Funktionen sind ``update'', ``move'' und ``action''.
+
+Update verwendet die zuvor erklärte ``getStats'' Methode (Code-Block \ref{lst:maap:getstats}) um den aktuellen Stand des Spielers wiederherzustellen, beziehungsweise die Informationen und den Status des Spielers zu aktualisieren.
+
+Die Funktion ``action'' führt, basierend auf einem Übergabewert, eine Aktion aus. Diese Aktion kann eine Zahl zwischen null und sieben sein. Null stellt dabei zum Beispiel die Handlung ``jump'', also Springen, dar. Diese wird als ``Aktionsstring'' zurückübergeben.
+
+In der Methode ``move'' wird ebenfalls ein Aktionsstring generiert. Jedoch wird hier eine links oder rechts Bewegung angestrebt, basierend auf Ziffern zwischen null und zwei. Die Aktion null steht für einen Schritt nach links, eins steht für einen Schritt nach rechts und zwei für ``keine Bewegung''.
+
+
+\begin{lstlisting}[language=Python,firstnumber=56]
+    def update(self):
+        # get stats
+        self.dmgDealt, self.knockback, self.deaths, self.kills = getStats(self.driver)
+
+    def action(self, action, angle):
+        # down ('s') action not implemented
+        actionString = ''
+        if action == 0:
+            actionString = 'jump()'
+        ...
+        if action == 7:
+            # idle state
+            pass
+        return actionString
+
+    def move(self, action):
+        actionString = ''
+        if action == 0:
+            actionString = 'moveLeft(); mirrorSpriteLeft();'
+        if action == 2:
+            # idle state
+            pass
+        return actionString
+\end{lstlisting}
+
+
+``observe'' ist dafür da, Observationen aus dem Spiel zu extrahieren.
+
+In der Methode wird die Funktion ``readFromClient'' aufgerufen, welche den ``visCopy''-Array aus dem Frontend zurückgibt. Wie dieser Array funktioniert, was dieser ist und wie er erzeugt wird, wird im Kapitel ``Beschreibung der Funktionalität'' \ref{maai:beschrFunktionalitaet} erklärt.
+
+Weiters wird überprüft, ob das Feld existiert. Sollte ``readFromClient'' ``false'' als Rückgabewert liefern, so wird ein neuer Array in derselben Dimension (zweidimensional) und Größenordnung (165x165) erstellt; jedoch mit lauter Nullen, welche für ein leeres Feld stehen. Liefert ``readFromClient'' ``visCopy'' als Rückgabewert zurück, so wird die Variable ``obs'' (Observation) mit diesem belegt.
+
+
+
+\begin{lstlisting}[language=Python,firstnumber=78]
+    def observe(self):
+        visCopy = readFromClient(self.driver, 'return visCopy;')
+        if visCopy:
+            self.obs = visCopy
+        if not visCopy:
+            self.obs = Box(0, 0, (165, 165), int).sample()
+    ...
+\end{lstlisting}
+
+Wie auch in der Klasse ``ScribbleFight'' (\ref{lst:maai:game}) beinhaltet ``Game'' zunächst eine ``\_\_init\_\_''-Funktion, welche als Konstruktor dient. Dieser setzt Startwerte der Parameter der Funktion. Beispielsweise wird als erstes eine Instanz auf ein Objekt der Klasse ``ScribbleFight'' erstellt. Variablen, welche ``previous\_'' als Präfix haben, dienen dazu den Unterschied zu einem vorherigen Schritt beziehungsweise Status herauszufinden. Die Implementation wird genauer in folgenden Codeblöcken beschrieben.
+
+
+\begin{lstlisting}[language=Python,firstnumber=85]
+
+class Game:
+
+    '''AI INTERFACE TO SCRIBBLEFIGHT GAME INSTANCE'''
+
+    def __init__(self):
+        self.scribble_fight = ScribbleFight()
+        self.min_game_length = 30 * FPS  # 1 min
+        self.nothingChanged = 0  # player didn't accomplish anything in this timespan
+        self.just_won = False  # the winning condition has yet to be implemented
+        self.previous_damage_dealt = 0
+        self.previous_knockback = 0
+        self.previous_kills = 0
+        self.previous_deaths = 0
+        self.angle = 0  # angle in which the ai can shoot a bullet
+
+\end{lstlisting}
+In der ``action''-Funktion wird zunächst überprüft, ob das Spiel läuft. Danach wird ein ``String'' (Zeichenkette) namens ``actionString'' angelegt. Dieser wird leer initialisiert. Darunter wird der ``actionString'' basierend auf einem eindimensionalen Array, welcher drei Einträge hat, befüllt. Der erste Eintrag beinhaltet die Information, über die Richtung, in welche das Programm den Agenten beziehungsweise Spieler steuern möchte. Der nächste Eintrag bestimmt, welche Attacke die Künstliche Intelligenz ausführen möchte. An der letzten Position des Arrays wird bestimmt, wie die Künstliche Intelligenz den Abschusswinkel, in welchem sie das Projektil abfeuern möchte, anpassen soll. Ist dieser Wert des Arrays null, so wird der Winkel um fünf Grad gegen den Uhrzeigersinn angepasst. Umgekehrt passiert dies bei dem Wert eins. Zwei bewirkt, dass der Winkel gleichbleibt. Nachdem in der Funktion der ``actionString'' erstellt wird, wir dieser an die Methode ``execAction'' der ``ScribbleFight''-Instanz weitergegeben. ``execAction'' bewirkt die Ausführung der angegebenen Handlungen. Im Anschluss wird der Status des ``ScribbleFight'' Objekts und dessen Parameter aktualisiert.
+\begin{lstlisting}[language=Python,firstnumber=101]
+    def action(self, actions):
+        # if current browser window has wrong url
+        #   then dont execute actions
+        if (self.scribble_fight.isPlaying() is False):
+            return
+
+        # take set of actions
+        '''DISCRETE[0]: "A", "D", idle
+        DISCRETE[1]: "SPACE", "E", "Q", "R", "C", "F", "LEFTCLICK", idle     
+        DISCRETE[2]: ANGLE+, ANGLE-, idle'''
+        actionString = ''
+
+        actionString += self.scribble_fight.move(actions[0])
+        actionString += self.scribble_fight.action(actions[1], self.angle)
+        if actions[2] == 0:
+            self.angle += 5
+            if self.angle > 360:
+                self.angle -= 360
+        if actions[2] == 1:
+            self.angle -= 5
+            if self.angle < 0:
+                self.angle += 360
+        if actions[2] == 2:
+            # idle state
+            pass
+
+        if actionString:
+            self.scribble_fight.execAction(actionString)
+
+        # update and save in-game stats
+        self.scribble_fight.update()
+
+\end{lstlisting}
+
+Nachdem die vordefinierte Handlung der KI ausgeführt wurde, ist beim verstärkten Lernen der nächste Schritt, die Umwelt zu observieren. Der wohl wichtigste Schritt passiert danach. In der Funktion ``evaluate'' wird der Reward beziehungsweise die Belohnung berechnet. Dieser wurde wie folgt vergeben:
+\begin{compactitem}
+    \item hat der Agent der Künstlichen Intelligenz Schaden ausgeteilt (einem gegnerischem Spieler Schaden hinzugefügt), so wird der Belohnung eins addiert.
+    \item erleidet der Agent Schaden, so wird der Belohnung eins subtrahiert.
+    \item hat der Agent einen Spieler von der Plattform gestoßen beziehungsweise diesem so viel Schaden zugefügt, dass er stirbt, so wird als Belohnung eintausend Punkte vergeben.
+    \item stirbt der Agent selbst, so wird eine negative Belohnung von 990 vergeben. Der Unterschied von zehn Punkten in der Entlohnung zwischen ``Gegner töten'' und ``selbst sterben'', wurde in der Hoffnung festgelegt, dass sich der Agent für einen ``Kill'' opfert.
+\end{compactitem}
+
+Nach der Evaluation der Belohnung wird überprüft, ob sich im Spiel etwas geändert hat. Wenn der Agent keinen ``Reward'' (null) erzielt hat, was bedeutet, dass er weder Schaden zugefügt, noch erlitten hat, keinen von der Plattform gestoßen hat und nicht selbst gestorben ist, so wird der Wert der Variable ``nothingChanged'' um eins erhöht.
+
+Erreicht diese Variable eine gewisse Zahl erreicht hat, welche zuvor als Episodendauer definiert wurde (``min\_game\_length''), so wird in der Funktion der Wahrheitswert ``true'' (wahr) zurückgegeben, was so viel bedeutet, wie dass eine Episode beendet wurde. Die Variable ``min\_game\_length'' wurde als 30 * der Bilder pro Sekunde definiert. Dadurch wird eine Episode, in welcher sich für 30 Sekunden nichts ändert, abgebrochen. Eine Episode ist auch vorbei, wenn der Agent gewonnen hat, oder gestorben ist.
+
+\begin{lstlisting}[language=Python,firstnumber=138]
+    def observe(self):
+        # get computer vision
+        self.scribble_fight.observe()
+        return self.scribble_fight.obs
+        # return None
+
+    def evaluate(self):
+        reward = 0
+        dmgDealt = self.scribble_fight.dmgDealt
+        knockback = self.scribble_fight.knockback
+        kills = self.scribble_fight.kills
+        deaths = self.scribble_fight.deaths
+
+        # evaluate reward
+        # if reward is calculated then update previous_x varibales
+        #   since they will be used for future comparison and reward calculation
+        if dmgDealt > self.previous_damage_dealt:
+            reward += 1
+        if knockback > self.previous_knockback:
+            reward -= 1
+        if kills > self.previous_kills:
+            reward += 1000
+        if deaths > self.previous_deaths:
+            # the reason why less reward is given when dying is because
+            # I want the ai to be a killer machine
+            reward -= 990
+            self.scribble_fight.just_died = True
+
+        self.previous_damage_dealt = dmgDealt
+        self.previous_knockback = knockback
+        self.previous_kills = kills
+        self.previous_deaths = deaths
+
+        if reward == 0:
+            self.nothingChanged += 1
+        else:
+            self.nothingChanged = 0
+
+        return reward
+
+    def is_done(self):
+        # returns if game won or nothing changed or agent died
+        return self.scribble_fight.just_died or self.just_won or self.nothingChanged == self.min_game_length
+
+\end{lstlisting}
+
+In der Funktion ``reset'' werden die Variablen der Klasse ``Game'' zurückgesetzt.
+
+``info'' alle gesammelten Informationen über den Spieler zurück. Diese Funktion wird allerdings nicht verwendet und wurde nur zur Vollständigkeit implementiert.
+
+``view'' ist eine Methode, welche OpenAI-Gym abverlangt. In dieser das Spiel für den Programmierer der Künstlichen Intelligenz visuell angezeigt. Da jedoch ``ScribbleFight'' ein Frontend besitzt ist die Implementierung dieser Funktion sinnbefreit.
+
+
+\begin{lstlisting}[language=Python,firstnumber=182]
+    def reset(self):
+        # reset position and observation
+        if not self.scribble_fight.just_died:
+            self.scribble_fight.resetPlayer()
+        # reset in-game varibales
+        self.scribble_fight.update()
+        # reset variables
+        # they should always be 0 because a reset only accures after death or as initialisation
+        self.previous_damage_dealt = self.scribble_fight.dmgDealt  # should always be 0
+        self.previous_knockback = self.scribble_fight.knockback  # should always be 1
+        self.previous_kills = self.scribble_fight.kills  # should always be 0
+        self.previous_deaths = self.scribble_fight.deaths
+        self.nothingChanged = 0
+        self.angle = 0
+
+    def info(self):
+        # return all infos about player
+        #   not really needed tho
+        return self.scribble_fight.dmgDealt, self.scribble_fight.knockback, self.scribble_fight.kills, self.scribble_fight.deaths
+
+    def view(self):
+        pass
+
+\end{lstlisting}
+
+\subsection{Evaluation der ScribbleFight KI [H]}
+
+Im laufe der Arbeit war der Teil ``ScribbleFight KI'' stark mit Forschung verbunden. Dazu wurde das Programm,
+mit welchem die Maschine hätte lernen sollen, 25 mal ausgeführt. Dabei wurden natürlich auch 25 Modelle erlernt.
+Allerdings wurden nur in 8 Fällen länger als ein Tag trainiert, da zu Testzwecken das Training abgebrochen wurde.
+Im folgenden werden die zwei Reinforcement Learning Algorithmen ``A2C'' und ``PPO'' verglichen und die besten Modelle
+und deren Ergebnisse präsentiert. Wegen der Komplexität des Spiels und der limitierten Ressourcen, wie Zeit und Rechenleistung,
+war schnell klar, dass das erlernte Modell nicht die gesetzten Ziele (Kapitel ``Die ScribbleFight-KI'' \ref{maai:scribblefightki}) erreichne wird.
+
+\subsubsection{A2C [H]}
+
+A2C ist einer der zwei Algorithmen, mit welchem die ScribbleFight Künstliche Intelligenz trainiert wurde.
+A2C steht für ``Advantage Actor Critic''. Dabei ist dies ein ``Reinforcement Learning'' Algorithmus, welcher
+zwei Arten von verstärktem Lernen miteinander kombiniert. Einerseits das ``Policy-Based Reinforcement Learning'', in welchem
+der Agent direkt ein Verhalten erlernt, was bedeutet dass dieser lernt eine Eingabe direkt auf die bestmögliche Ausgabe umzuwandeln.
+Andererseits das ``Value-Based Reinforcement Learning''. Hier erlernt das Modell Handlungen so auszuwählen, dass
+diese der Vorhersage der Eingabe gleicht.
+
+Die mit OpenAI-Gym und Stable Baselines3 erlernten Modelle können via einem ``TensorBoard'' analysiert werden.
+
+Die Graphen, welche aus den Modellen entsprungen sind zeigen, dass der A2C Algorithmus für
+die Künstliche Intelligenz nicht geeignet ist. Beispielsweise ist in folgender Grafik erkennbar, dass die Entropie, also Zufälligkeit, mit welcher die Künstliche Intelligenz
+entscheidungen trifft zwar anfänglich stark abfällt, jedoch später wieder steigt.
+
+Wegen eines Fehlers im Spiel ``ScribbleFight'', welcher die KI stoppte, wurde ``nur'' für 22.000 Schritte trainiert.
+Da jedoch zu dieser Zeit schon ersichtlich war, dass dieses Modell für den Anwendungsfall nicht geeignet ist wird das Ergebnis trotzdem präsentiert.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=1.1]{pics/Tensorboard/A2C/entropy_loss.png}
+    \caption{Entropie Verlust}
+    \label{fig:a2c:entropyloss}
+\end{figure}
+
+Dass die Künstliche Intelligenz durch den A2C Algorithmus nicht dazugelernt hat,
+wird klar erkennbar, wenn der Verlauf der Lernrate im Intervall von 0 bis 22.000 Schritte konstant auf dem Wert null bleibt.
+Die folgende Funktion stellt die Lernrate der ``ScribbleFight'' Künstlichen Intelligenz dar; es wurde der A2C Algorithmus angewandt.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.7]{pics/Tensorboard/A2C/learning_rate.png}
+    \caption{Lernrate}
+    \label{fig:a2c:entropyloss}
+\end{figure}
+
+Auch im Falle des Wertverlusts ist ein klarer Trend erkennbar, welcher für sich spricht.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.7]{pics/Tensorboard/A2C/value_loss_new.png}
+    \caption{Wertverlust}
+    \label{fig:a2c:valueLoss}
+\end{figure}
+
+Aus diesen Graphen ist es klar ersichtlich, dass der A2C Algorithmus nicht für diesen Anwendungsfall geeignet ist.
+
+\subsubsection{PPO [H]}
+
