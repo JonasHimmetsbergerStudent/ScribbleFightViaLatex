@@ -152,14 +152,14 @@ Ein QR-Code ist ein Matrix-Barcode welcher meistens auf eine bestimmte URL verwe
 also schnelle Antwort. Für die Codierung verwendet der QR-Code 4 Methoden: Numerisch, Alphanumerisch, Byte/Bit und Kanji.
 Besonders populär wurde das QR-Code System dank seiner
 schnellen Lesbarkeit und seiner erhöhten Speicherkapazität im Vergleich zu den 
-damalig verwendeten UPC Barcodes(sh. Abbildung 11). Anwendungsfälle für QR-Codes sind Produkt-Tracking, Item-Identifikation, Dokumentenmanagement, etc. .
-Ein QR-Code besteht aus schwarzen Quadraten welche in einem großen Quadrat arrangiert werden(sh. Abbildung 10).
+damalig verwendeten UPC Barcodes(sh. Abbildung 10). Anwendungsfälle für QR-Codes sind Produkt-Tracking, Item-Identifikation, Dokumentenmanagement, etc. .
+Ein QR-Code besteht aus schwarzen Quadraten welche in einem großen Quadrat arrangiert werden(sh. Abbildung 9).
 Dieser kann einfach von einer Kamera oder ähnlichem gescannt und ausgewertet werden.
 Das QR-Code-System wurde von Masahiro Hara von der japanischen Autofirma Denso Wave entwickelt. 
 Das Design basiert auf den schwarzen und weißen Spielfiguren des Go-Spiels. 
 Ursprünglich wurde das System zum tracken von Fahrzeugen während der Herstellung verwendet. 
 Heutzutage werden QR-Codes vor allem im Werbebereich verwendet. Oft wird der
-potenzielle Kunde dazu eingeladen einfach sein Smartphone herauszuholen und einfach den QR-Code zu Scannen um 
+potenzielle Kunde dazu eingeladen  sein Smartphone herauszuholen und einfach den QR-Code zu Scannen um 
 ihn dann auf der Webseite Produkte anzubieten. 
 
 \begin{figure}[H]
@@ -175,7 +175,7 @@ ihn dann auf der Webseite Produkte anzubieten.
 \end{figure}
 
 
-Hier ist ein einfaches Beispiel wie man qrcode.js in eine Webseite einfügen kann.
+Hier ist ein einfaches Beispiel wie qrcode.js in eine Webseite eingefügt werden kann.
 Dieser verweist auf https://www.google.com. Wichtig ist hierbei anzumerken, dass dafür die qrcode.js Javascript Bibliothek einzubinden ist.
 Diese kann unter http://davidshimjs.github.io/qrcodejs/ gedownloaded werden.
 \begin{lstlisting}[language=html,caption=QR-Code Demo,label=lst:tech:gaussianBlur]
@@ -222,8 +222,125 @@ Das Resultat dieser Veränderung sieht so aus:
 Bei dieser Arbeit wurde der QR-Code verwendet mit dem Handy zugriff auf den Mapscanner und
 das Hochladen der Zeichnung zu gewährleisten.   
 
-\newpage
-\subsection{chart.js [W]}
+\subsection{Chart.js [W]}
+Chart.js ist eine Open-Source JavaScript Bibliothek welche es ermöglicht einfach und schnell Diagramme
+in eine Webseite einzubauen. Die Bibliothek kann entweder mit dem Shell-Befehl \textit{npm i chart.js} eingebunden werden oder via Github unter 
+\textit{https://github.com/chartjs/Chart.js} gedownloaded werden. Chart.js stellt einem sehr 
+viele Möglichkeiten zur Verfügung um die Diagramme zu personalisieren. 
+Ihre Bibliothek hat alle denkbaren Diagrammtypen (Balkendiagramm, Kuchendiagramm, Liniendiagramm, ..., sh. Abbildung 12-14)
+Eine einfaches Beispiel für ein Balkendiagramm sieht so aus:
+\begin{lstlisting}[language=html,caption=Balkendiagramm HTML Code,label=lst:tech:gaussianBlur]
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>QR-Demo</title>
+        <script src="chart.min.js"></script>
+    </head>
+
+    <body>
+        <canvas id="myChart" width="200" height="200"></canvas>
+        <script>
+            const ctx = document.getElementById('myChart').getContext('2d');
+            const myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                    datasets: [{
+                        label: '# of Votes',
+                        data: [12, 19, 3, 5, 2, 3],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                        
+                    }
+                }
+            });
+        </script>
+
+    </body>
+
+</html>
+\end{lstlisting}
+Die Parameter die hier verwendet wurden sind type, welcher den Typ des Diagramms angibt,
+in diesem Fall bar für Balkendiagramm, data, welcher ein JSON Object mit weiteren Parametern ist. 
+Zum Schluss wurde mit options.scales.y.beginAtZero noch festgelegt, dass der Graph bei 0 beginnen soll.
+
+Mit Veränderung des type Parameters können sehr einfach die Diagrammtypen verändert werden:
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.3]{pics/barChart.png}
+    \caption{Barchart}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.3]{pics/pieChart.png}
+    \caption{Piechart}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.3]{pics/lineChart.png}
+    \caption{Linechart}
+\end{figure}
+
+Chart.js stellt noch viele weitere hilfreiche Optionen zur Verfügung. Wird 
+zum Beispiel ein logarithmischer Graph benötigt kann dies mit options.scales.myscale.type = "logarithmic" eingestellt werden
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.3]{pics/logChart.png}
+    \caption{Logarithmisch an der Y-Achse}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.7]{pics/logCode.png}
+    \caption{Code}
+\end{figure}
+
+
+Weitere hilfreiche Einsellungen sind: 
+\begin{compactitem}
+    \item yAxis/xAxis: Konfigurierung der Y- und X-Achse
+    \item label: Die Bezeichnung für den Datensatz, die in der Legende erscheint.
+    \item color: Weißt einem Label eine bestimmte Farbe zu
+    \item datasets.data: Weißt einem label Daten zu
+    \item layout: Konfigurierung des Layouts des Diagramms
+    \item ...
+\end{compactitem}
+
+Ist es notwendig ein Diagramm zu updaten kann dies mit diesen Funktionen umgesetzt werden. Zum hinzufügen
+von Daten muss als Parameter das Diagramm, der Name des Labels und die Daten mitgegeben werden. Zum entfernen wird nur das Chart benötigt.
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=1]{pics/updateChart.png}
+    \caption{Code zum updaten eines Diagramms}
+\end{figure}
+
+
+
 
 \section{Deployment [R]}
 Das Scribble-Fight Browser-Game wurde in die Leocloud, ein Cloud-System der HTL-Leonding, unter \url{https://student.cloud.htl-leonding.ac.at/t.rafetseder/scribble-fight/} deployed.
