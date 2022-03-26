@@ -466,7 +466,7 @@ Außerdem zählt es auch als Tod, wenn der Knockback des eigenen Players über 1
 Diese Methode wird immer dann aufgerufen, wenn der eigene Player von irgendeinem Projekil getroffen wurde.
 \begin{lstlisting}[caption=Fatal Hit,language=Java,label=lst:impl:fatalHit]
     function fatalHit() {
-        if (myPlayer.knockback >= 100) {
+        if (myPlayer.knockback > MAX_KNOCKBACK) {
             youDied();
         }
     } 
@@ -702,8 +702,35 @@ Die Funktion wird im Setup von Scribble-Fight aufgerufen.
     }
 \end{lstlisting}
 
-
-
+\textbf{Progressbar} \label{impl:progressbar} \\
+Um dem Spieler Feedback zu geben, wie oft er getroffen wurde, wird eine Progressbar am oberen Rand des Bildschirms eingefügt. Je öfter man getroffen wurde, desto mehr füllt sich diese.
+Wenn die Progressbar komplett aufgefüllt ist, wird der nächste Treffer eines Projektils den Spieler umbringen. 
+Umgesetzt wurde dieses Feature, indem man den derzeitigen Knockback des Spieler auf den Bereich zwischen 0 bis zur Hintergrundsbild-Breite mapped. Dazu wurde die von p5.js vordefinierte Funktion \texttt{map} verwendet.
+Als Parameter nimmt diese Funktion:
+\begin{compactitem}
+    \item Der umzuwandelnde Wert 
+    \item Start-Wert des ersten Bereichs
+    \item End-Wert des ersten Bereichs
+    \item Start-Wert des zweiten Bereichs
+    \item End-Wert des zweiten Bereichs
+\end{compactitem} 
+\begin{lstlisting}[language=Java,label=lst:impl:progressbar]
+//gets called in setup function
+function createUI() {
+    // position the progressbar at the top of the background-image
+    // at the start, the width is of the progessbar is 0
+    progressBar = createSprite(windowWidth/2 ,(windowHeight-ImageHeight) / 2,0, width);
+    progressBar.position.x += progressBar.width / 2;
+    progressBar.position.y += progressBar.height / 2;
+    progressBar.shapeColor = color(255,0,0);
+}
+// gets called whenever my player is hit
+function updateUI() {
+  let progress;
+  progress = map(myPlayer.knockback,1,MAX_KNOCKBACK,0,newImageWidth);
+  progressBar.width = progress;
+}
+\end{lstlisting}
 
 \subsection{Server [R]}
 Der Server von Scribble-Fight ist ein einfacher Web-Server, der mit Node.js und express.js umgesetzt wurde. 
@@ -1264,7 +1291,7 @@ Nun wird wieder das ursprüngliche Verzeichnis als Arbeits-Verzeichnis definiert
     CMD [ "node", "./p5_backend/server.js" ]
 \end{lstlisting}
 
-Zuletzt wird nur mehr der Port, den der Scribble-Fight-Server akzeptiert, nach aussen freigegeben, und mit dem Befehl \texttt{CMD} der Server gestartet.
+Zuletzt wird nur mehr der Port, den der Scribble-Fight-Server akzeptiert, nach aussen freigegeben, und mit dem Befehl \texttt{CMD} der Server gestartet. \cite{build_image}
 
 \subsection{Leo-Cloud [R]}
 Die Leo-Cloud ist eine Cloud-Computing-Umgebung der HTL Leonding.
