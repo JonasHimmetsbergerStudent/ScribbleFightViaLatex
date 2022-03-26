@@ -804,7 +804,7 @@ Die Zeile zwanzig dient dazu das Bild testweise in einem Ordner abzuspeichern.
         cv2.imwrite('./source/prototypes/streamFusion/output/imgAdaptiveThre.png', imgAdaptiveThre)
 \end{lstlisting}
 
-Im nächsten Schritt wird der Array berechnet, welcher als Grundlage für die spielbare Map dient und aus dem aufgenommenen Bild extrahiert wird. Der Array beinhaltet nach der Verarbeitung schwarze und transparente Bildpunkte. Die schwarzen Pixel symbolisieren jene Plätze, auf welchen sich der Spieler schlussendlich bewegen kann. Die transparenten Pixel sind jene, welche als Hintergrund erkannt wurden und somit nicht für den Spieler begehbar sein sollten. Wie sich jedoch der Spieler auf diesen Punkten bewegen kann und wie der Array in die Spiellogik implementiert wird, wird im Kapitel ``Erstellung der Spielumgebung \ref {impl:Spielumgebung}'' von Rafetseder Tobias näher erklärt.
+Im nächsten Schritt wird der Array berechnet, welcher als Grundlage für die spielbare Map dient und aus dem aufgenommenen Bild extrahiert wird. Der Array beinhaltet nach der Verarbeitung schwarze und transparente Bildpunkte. Die schwarzen Pixel symbolisieren jene Plätze, auf welchen sich der Spieler schlussendlich bewegen kann. Die transparenten Pixel sind jene, welche als Hintergrund erkannt wurden und somit nicht für den Spieler begehbar sein sollten. Wie sich jedoch der Spieler auf diesen Punkten bewegen kann und wie der Array in die Spiellogik implementiert wird, wird im Kapitel ``Erstellung der Spielumgebung \ref{impl:Spielumgebung}'' von Rafetseder Tobias näher erklärt.
 
 Jedoch wird zuerst eben das transformierte Bild in den Array umgewandelt. Dafür wird aus diesem adaptiven Threshold-Bild (Schwellwert-Bild) ein Faktor ausgerechnet, mit welchem die Bildpunkte zusammengefasst werden müssen, um insgesamt nicht mehr als \(\approx\)3025 Pixel zu überschreiten. Die dabei verwendete Formel wird im Folgenden an einem einfachen Beispiel erklärt. Diese lautet:
 
@@ -893,13 +893,13 @@ Die zuvor genannte Lerntechnik ``Reinforcement Learning'' (Kapitel \ref{tech:rei
 
 Dazu müssen jedoch gewisse mathematische Modelle angewandt werden, um dieses Ergebnis zu erreichen und den Organismus zu simulieren.
 
-Dass und wie es für eine Maschine möglich ist zu lernen wurde bereits im Kapitel \ref {tech:ki:head} näher erläutert.
+Dass und wie es für eine Maschine möglich ist zu lernen wurde bereits im Kapitel \ref{tech:ki:head} näher erläutert.
 
 Um diese mathematischen Modelle jedoch perfekt auf ein gewünschtes Ergebnis abstimmen zu können, wir Hpyerparamter-``Fine-Tuning'' angewendet. Dabei werden jene Parameter, welche zu einem Lernen beitragen, so angepasst, dass das Modell eine perfekte Lernkurve erzielt.
 
 Im Zuge dieser Arbeit wurde klar, dass Künstliche Intelligenz kein Thema ist, welches leicht zu begreifen ist.
 
-Diese zuvor erwähnten mathematischen Modelle wurden bereits in einer Python Bibliothek namens ``Stable\_baselines3'' implementiert. Dieses Framework wird im Folgenden (Kapitel: \ref {maai:usedLibraries}) genauer erklärt.
+Diese zuvor erwähnten mathematischen Modelle wurden bereits in einer Python Bibliothek namens ``Stable\_baselines3'' implementiert. Dieses Framework wird im Folgenden (Kapitel: \ref{maai:usedLibraries}) genauer erklärt.
 
 Die zur Verfügung gestellten Algorithmen sind jedoch nicht perfekt auf unseren Anwendungsfall abgestimmt. Trotzdem wurden Ergebnisse erzielt (auch, wenn diese nicht bemerkenswert sind).
 
@@ -1076,6 +1076,8 @@ Im Laufe der Ausarbeitung der Diplomarbeit und der damit zusammenhängenden Fors
 Vorstellung darüber, wie das Endprodukt (KI) auszusehen hat, beziehungsweise, wie dieses aussehen kann.
 Limitierungen, welche vor der Forschung noch nicht bekannt und bewusst waren, begrenzten die Lernfähigkeit der KI.
 Auf Probleme, Lösungen und Ergebnisse wird jedoch in diesem Kapitel noch näher eingegangen.
+
+Die KI wurde auf einem ``Apple IMac 2017'' trainiert.
 
 Das Ziel bestand darin eine Künstliche Intelligenz zu erschaffen, welche auf einem, für einen durchschnittlich guten, menschlichen Spieler, herausfordernden Niveau spielt. Dabei sollte diese:
 \begin{compactitem}
@@ -1476,8 +1478,9 @@ In der Funktion ``reset'' werden die Variablen der Klasse ``Game'' zurückgesetz
 Im laufe der Arbeit war der Teil ``ScribbleFight KI'' stark mit Forschung verbunden. Dazu wurde das Programm,
 mit welchem die Maschine hätte lernen sollen, 25 mal ausgeführt. Dabei wurden natürlich auch 25 Modelle erlernt.
 Allerdings wurden nur in 8 Fällen länger als ein Tag trainiert, da zu Testzwecken das Training abgebrochen wurde.
-Im folgenden werden die zwei Reinforcement Learning Algorithmen ``A2C'' und ``PPO'' verglichen und die besten Ergebnisse der Modelle
-präsentiert.
+Im folgenden werden die zwei Reinforcement Learning Algorithmen ``A2C'' und ``PPO'' verglichen und die besten Modelle
+und deren Ergebnisse präsentiert. Wegen der Komplexität des Spiels und der limitierten Ressourcen, wie Zeit und Rechenleistung,
+war schnell klar, dass das erlernte Modell nicht die gesetzten Ziele (Kapitel ``Die ScribbleFight-KI'' \ref{maai:scribblefightki}) erreichne wird.
 
 \subsubsection{A2C [H]}
 
@@ -1494,15 +1497,37 @@ Die Graphen, welche aus den Modellen entsprungen sind zeigen, dass der A2C Algor
 die Künstliche Intelligenz nicht geeignet ist. Beispielsweise ist in folgender Grafik erkennbar, dass die Entropie, also Zufälligkeit, mit welcher die Künstliche Intelligenz
 entscheidungen trifft zwar anfänglich stark abfällt, jedoch später wieder steigt.
 
+Wegen eines Fehlers im Spiel ``ScribbleFight'', welcher die KI stoppte, wurde ``nur'' für 22.000 Schritte trainiert.
+Da jedoch zu dieser Zeit schon ersichtlich war, dass dieses Modell für den Anwendungsfall nicht geeignet ist wird das Ergebnis trotzdem präsentiert.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=1]{pics/Tensorboard/A2C/entropy_loss.png}
+    \includegraphics[scale=1.1]{pics/Tensorboard/A2C/entropy_loss.png}
     \caption{Entropie Verlust}
     \label{fig:a2c:entropyloss}
 \end{figure}
 
+Dass die Künstliche Intelligenz durch den A2C Algorithmus nicht dazugelernt hat,
+wird klar erkennbar, wenn der Verlauf der Lernrate im Intervall von 0 bis 22.000 Schritte konstant auf dem Wert null bleibt.
+Die folgende Funktion stellt die Lernrate der ``ScribbleFight'' Künstlichen Intelligenz dar; es wurde der A2C Algorithmus angewandt.
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.7]{pics/Tensorboard/A2C/learning_rate.png}
+    \caption{Lernrate}
+    \label{fig:a2c:entropyloss}
+\end{figure}
+
+Auch im Falle des Wertverlusts ist ein klarer Trend erkennbar, welcher für sich spricht.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.7]{pics/Tensorboard/A2C/value_loss_new.png}
+    \caption{Wertverlust}
+    \label{fig:a2c:valueLoss}
+\end{figure}
+
+Aus diesen Graphen ist es klar ersichtlich, dass der A2C Algorithmus nicht für diesen Anwendungsfall geeignet ist.
 
 \subsubsection{PPO [H]}
 
