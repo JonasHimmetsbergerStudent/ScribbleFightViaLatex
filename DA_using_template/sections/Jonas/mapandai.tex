@@ -888,7 +888,7 @@ Der Gedanke, dass eine von Menschenhand erschaffene Intelligenz, welche keine bi
 
 Das Einzige, das gegeben sein muss, ist, dass in einem komplexen System, in welcher die Künstliche Intelligenz operiert, Daten extrahiert und gesammelt werden können. Weiters sind Ressourcen, wie Hardware oder Zeit, ein wichtiger Aspekt. Die intelligente Maschine kann mehrere Millionen Schritte pro Tag ausführen und mit mehreren ``Gehirnen'' (Mehrere Instanzen der des Lernumfelds) gleichzeitig lernen. Trotzdem ist dies limitiert, durch die Geschwindigkeit und der Rechenleistung, die zu diesem Zeitpunkt aufgebracht werden kann, mit welcher die Aktionen ausgeführt werden und somit zu einem ``Lernen'' führen.
 
-Die zuvor genannte ``Lern-Technik'' Reinforcementlearning (Kapitel \ref{}), funktioniert ähnlich wie die Lern-Art von biologischen Organismen. Die Idee stammt davon, dass simple, Lebensformen, welche nicht mehr als Instinkte zum Futter sammeln, Prädatoren ausweichen und im Generellen zum Überleben haben, sollten von einer Maschine ``leicht'' simuliert werden können. Ein Beispiel hierfür wäre ein Fadenwurm. Das ZNS (Zentrale Nervensystem) baut sich aus dreihundertzwei Nervenzellen zusammen. Weitere chemische Verbindungsstellen und Kanäle erhöhen die Komplexität dieses Lebewesens nur wenig. Dies ist mit modernen Computern bereits simulierbar.
+Die zuvor genannte Lerntechnik ``Reinforcement Learning'' (Kapitel \ref{tech:reinfLearning:header}), funktioniert ähnlich wie die Lern-Art von biologischen Organismen. Die Idee stammt davon, dass simple, Lebensformen, welche nicht mehr als Instinkte zum Futter sammeln, Prädatoren ausweichen und im Generellen zum Überleben haben, sollten von einer Maschine ``leicht'' simuliert werden können. Ein Beispiel hierfür wäre ein Fadenwurm. Das ZNS (Zentrale Nervensystem) baut sich aus dreihundertzwei Nervenzellen zusammen. Weitere chemische Verbindungsstellen und Kanäle erhöhen die Komplexität dieses Lebewesens nur wenig. Dies ist mit modernen Computern bereits simulierbar.
 %Quelle: https://www.sueddeutsche.de/wissen/gehirngroesse-von-0-bis-11-000-000-000-neuronen-1.1850384
 
 Dazu müssen jedoch gewisse mathematische Modelle angewandt werden, um dieses Ergebnis zu erreichen und den Organismus zu simulieren.
@@ -1036,7 +1036,7 @@ from stable_baselines3.common.env_util import make_vec_env
 
 \end{lstlisting}
 
-OpenAI-Gym kann verwendet werden, um ein Spielumgebung zu erschaffen. In diesem Beispiel wird wieder (wie in \ref{lst:maap:simpleGym}) die ``CartPole''-Welt verwendet. Damit die Effizienz des Lernens erhöht wird, kann durch das Erstellen der Umgebung mittels ``vec\_env'' eine Anzahl an Umgebungen gleichzeitig kreiert werden. Diese Anzahl wird als Parameter übergeben. Im folgenden Fall werden vier Umwelten gleichzeitig erstellt. All diese lernen auf dasselbe Modell. Danach wird dieses Environment an den PPO-Algorithmus übergeben. PPO steht für ``Proximal Policy Optimization''. Danach lernt die Maschine für 25.000 Schritte. Die Anzahl der Schritte haben nichts mit der Episodendauer zu tun. Ein Schritt ist entweder eine Bewegung nach links oder rechts.
+OpenAI-Gym kann verwendet werden, um ein Spielumgebung zu erschaffen. In diesem Beispiel wird wieder (wie in \ref{lst:maap:simpleGym}) die ``CartPole''-Welt verwendet. Damit die Effizienz des Lernens erhöht wird, kann durch das Erstellen der Umgebung mittels ``vec\_env'' eine Anzahl an Umgebungen gleichzeitig kreiert werden. Diese Anzahl wird als Parameter übergeben. Im folgenden Fall werden vier Umwelten gleichzeitig erstellt. All diese lernen auf dasselbe Modell. Dies wird auch ``Competitive Self-Play'' genannt. Danach wird dieses Environment an den PPO-Algorithmus übergeben. PPO steht für ``Proximal Policy Optimization''. Danach lernt die Maschine für 25.000 Schritte. Die Anzahl der Schritte haben nichts mit der Episodendauer zu tun. Ein Schritt ist entweder eine Bewegung nach links oder rechts.
 
 %Quelle: https://openai.com/blog/openai-baselines-ppo/
 
@@ -1129,6 +1129,24 @@ Ein weiterer, zentraler Punkt der Ausarbeitung ist, wie die ``ScribbleFight''-KI
     \item 9: Miene
     \item 10: Piano
 \end{compactitem}
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}[t]{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{pics/ai/newView.png}
+        \caption{Spieler Sicht}
+        \label{maai:ai:newView}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{pics/ai/KIView.png}
+        \caption{KI Sicht}
+        \label{maai:ai:KIView}
+    \end{minipage}
+\end{figure}
+
 Der ``Pixelclump'' ist ein zweidimensionaler Array von Pixelwerten (schwarz oder transparent, weiß) und wird von der Maperkennung (\ref{maai:maperkennung:head}) als Output zurückgeliefert. Dieses zweidimensionale Feld dient als Basis für den Untergrund, auf welchem sich die Spieler bewegen können. Um das Spiel in eine, für die Künstliche Intelligenz sichtbare Welt umzuwandeln, wird zunächst der ``Pixelclump'', um das Dreifache vergrößert. Gleichzeitig werden die Pixelwerte durch die oben angeführten Zahlen (von null bis zehn; Bedeutung: \ref{mappedPixels}) ausgetauscht. Durch die dreifache Skalierung der Spielumgebung von 55x55 auf 165x165 Werten, ist es möglich, dass die Künstliche Intelligenz dreimal genauer sieht, als ein Bildpunkt der Map aufgetragen wird. Somit kann genauer agiert werden und Spieler und Attacken besser erkannt werden (in der Theorie).
 
 Die Aufskalierung und Umwandlung des Map-Arrays in den ``Visual''-Array passiert in der Funktion ``getVisualMap(\dots)'':
@@ -1182,7 +1200,7 @@ Im folgenden wird der Programmcode (\ref{lst:maai:game}), welcher diese Forderun
 
 Bevor die KI implementiert werden kann, muss eine Referenz auf das Browserspiel erzeugt werden. Dies passiert mit der Bibliothek namens ``Selenium''. Selenium ermöglicht es mit einem Python-Code ein Browser-Fenster zu öffnen, in welchem diverse Keyboard-Events und vieles mehr ausgeführt werden können. Dafür wird zunächst die Optionen, welche beim Öffnen ein Browserfenster berücksichtig werden erstellt. Die Optionen besagen zum Beispiel, dass sich das Fenster an die Bildschirmgröße mit ``start-maximized'' anpasst. Die ``Url'' auf welche navigiert werden soll ist `` http://localhost:3000'', da hier das Spiel auf einem Node-Server, als lokale Instanz auf das Spiel, zur Verfügung gestellt wird.
 
-\begin{lstlisting}[language=Python,label=lst:maai:game,caption=Game.py]
+\begin{lstlisting}[language=Python,label=lst:maai:game,caption=Implementation der Logik der Reinforcement Learning KI]
 '''DEPENDENCIES'''
 # selenium webdriver
 from webdriver_manager.chrome import ChromeDriverManager
@@ -1301,11 +1319,13 @@ Weiters wird überprüft, ob das Feld existiert. Sollte ``readFromClient'' ``fal
             self.obs = visCopy
         if not visCopy:
             self.obs = Box(0, 0, (165, 165), int).sample()
-
+    ...
 \end{lstlisting}
 
-\dots
-\begin{lstlisting}[language=Python,firstnumber=78]
+Wie auch in der Klasse ``ScribbleFight'' (\ref{lst:maai:game}) beinhaltet ``Game'' zunächst eine ``\_\_init\_\_''-Funktion, welche als Konstruktor dient. Dieser setzt Startwerte der Parameter der Funktion. Beispielsweise wird als erstes eine Instanz auf ein Objekt der Klasse ``ScribbleFight'' erstellt. Variablen, welche ``previous\_'' als Präfix haben, dienen dazu den Unterschied zu einem vorherigen Schritt beziehungsweise Status herauszufinden. Die Implementation wird genauer in folgenden Codeblöcken beschrieben.
+
+
+\begin{lstlisting}[language=Python,firstnumber=85]
 
 class Game:
 
@@ -1322,6 +1342,9 @@ class Game:
         self.previous_deaths = 0
         self.angle = 0  # angle in which the ai can shoot a bullet
 
+\end{lstlisting}
+In der ``action''-Funktion wird zunächst überprüft, ob das Spiel läuft. Danach wird ein ``String'' (Zeichenkette) namens ``actionString'' angelegt. Dieser wird leer initialisiert. Darunter wird der ``actionString'' basierend auf einem eindimensionalen Array, welcher drei Einträge hat, befüllt. Der erste Eintrag beinhaltet die Information, über die Richtung, in welche das Programm den Agenten beziehungsweise Spieler steuern möchte. Der nächste Eintrag bestimmt, welche Attacke die Künstliche Intelligenz ausführen möchte. An der letzten Position des Arrays wird bestimmt, wie die Künstliche Intelligenz den Abschusswinkel, in welchem sie das Projektil abfeuern möchte, anpassen soll. Ist dieser Wert des Arrays null, so wird der Winkel um fünf Grad gegen den Uhrzeigersinn angepasst. Umgekehrt passiert dies bei dem Wert eins. Zwei bewirkt, dass der Winkel gleichbleibt. Nachdem in der Funktion der ``actionString'' erstellt wird, wir dieser an die Methode ``execAction'' der ``ScribbleFight''-Instanz weitergegeben. ``execAction'' bewirkt die Ausführung der angegebenen Handlungen. Im Anschluss wird der Status des ``ScribbleFight'' Objekts und dessen Parameter aktualisiert.
+\begin{lstlisting}[language=Python,firstnumber=101]
     def action(self, actions):
         # if current browser window has wrong url
         #   then dont execute actions
@@ -1334,24 +1357,19 @@ class Game:
         DISCRETE[2]: ANGLE+, ANGLE-, idle'''
         actionString = ''
 
-        for item in range(3):
-            if item == 0:
-                actionString += self.scribble_fight.move(actions[item])
-            if item == 1:
-                actionString += self.scribble_fight.action(
-                    actions[item], self.angle)
-            if item == 2:
-                if actions[item] == 0:
-                    self.angle += 5
-                    if self.angle > 360:
-                        self.angle -= 360
-                if actions[item] == 1:
-                    self.angle -= 5
-                    if self.angle < 0:
-                        self.angle += 360
-                if actions[item] == 2:
-                    # idle state
-                    pass
+        actionString += self.scribble_fight.move(actions[0])
+        actionString += self.scribble_fight.action(actions[1], self.angle)
+        if actions[2] == 0:
+            self.angle += 5
+            if self.angle > 360:
+                self.angle -= 360
+        if actions[2] == 1:
+            self.angle -= 5
+            if self.angle < 0:
+                self.angle += 360
+        if actions[2] == 2:
+            # idle state
+            pass
 
         if actionString:
             self.scribble_fight.execAction(actionString)
@@ -1359,6 +1377,21 @@ class Game:
         # update and save in-game stats
         self.scribble_fight.update()
 
+\end{lstlisting}
+
+Nachdem die vordefinierte Handlung der KI ausgeführt wurde, ist beim verstärkten Lernen der nächste Schritt, die Umwelt zu observieren. Der wohl wichtigste Schritt passiert danach. In der Funktion ``evaluate'' wird der Reward beziehungsweise die Belohnung berechnet. Dieser wurde wie folgt vergeben:
+\begin{compactitem}
+    \item hat der Agent der Künstlichen Intelligenz Schaden ausgeteilt (einem gegnerischem Spieler Schaden hinzugefügt), so wird der Belohnung eins addiert.
+    \item erleidet der Agent Schaden, so wird der Belohnung eins subtrahiert.
+    \item hat der Agent einen Spieler von der Plattform gestoßen beziehungsweise diesem so viel Schaden zugefügt, dass er stirbt, so wird als Belohnung eintausend Punkte vergeben.
+    \item stirbt der Agent selbst, so wird eine negative Belohnung von 990 vergeben. Der Unterschied von zehn Punkten in der Entlohnung zwischen ``Gegner töten'' und ``selbst sterben'', wurde in der Hoffnung festgelegt, dass sich der Agent für einen ``Kill'' opfert.
+\end{compactitem}
+
+Nach der Evaluation der Belohnung wird überprüft, ob sich im Spiel etwas geändert hat. Wenn der Agent keinen ``Reward'' (null) erzielt hat, was bedeutet, dass er weder Schaden zugefügt, noch erlitten hat, keinen von der Plattform gestoßen hat und nicht selbst gestorben ist, so wird der Wert der Variable ``nothingChanged'' um eins erhöht.
+
+Erreicht diese Variable eine gewisse Zahl erreicht hat, welche zuvor als Episodendauer definiert wurde (``min\_game\_length''), so wird in der Funktion der Wahrheitswert ``true'' (wahr) zurückgegeben, was so viel bedeutet, wie dass eine Episode beendet wurde. Die Variable ``min\_game\_length'' wurde als 30 * der Bilder pro Sekunde definiert. Dadurch wird eine Episode, in welcher sich für 30 Sekunden nichts ändert, abgebrochen. Eine Episode ist auch vorbei, wenn der Agent gewonnen hat, oder gestorben ist.
+
+\begin{lstlisting}[language=Python,firstnumber=138]
     def observe(self):
         # get computer vision
         self.scribble_fight.observe()
@@ -1403,6 +1436,16 @@ class Game:
         # returns if game won or nothing changed or agent died
         return self.scribble_fight.just_died or self.just_won or self.nothingChanged == self.min_game_length
 
+\end{lstlisting}
+
+In der Funktion ``reset'' werden die Variablen der Klasse ``Game'' zurückgesetzt.
+
+``info'' alle gesammelten Informationen über den Spieler zurück. Diese Funktion wird allerdings nicht verwendet und wurde nur zur Vollständigkeit implementiert.
+
+``view'' ist eine Methode, welche OpenAI-Gym abverlangt. In dieser das Spiel für den Programmierer der Künstlichen Intelligenz visuell angezeigt. Da jedoch ``ScribbleFight'' ein Frontend besitzt ist die Implementierung dieser Funktion sinnbefreit.
+
+
+\begin{lstlisting}[language=Python,firstnumber=182]
     def reset(self):
         # reset position and observation
         if not self.scribble_fight.just_died:
@@ -1424,13 +1467,42 @@ class Game:
         return self.scribble_fight.dmgDealt, self.scribble_fight.knockback, self.scribble_fight.kills, self.scribble_fight.deaths
 
     def view(self):
-        # render visual array?
         pass
 
 \end{lstlisting}
 
+\subsection{Evaluation der ScribbleFight KI [H]}
 
-\subsubsection{Warum Python? [H]}
-% \subsection{Tensorflow und Keras [H]}
-% \subsubsection{Tensorflow [H]}
-% \subsubsection{Keras [H]}
+Im laufe der Arbeit war der Teil ``ScribbleFight KI'' stark mit Forschung verbunden. Dazu wurde das Programm,
+mit welchem die Maschine hätte lernen sollen, 25 mal ausgeführt. Dabei wurden natürlich auch 25 Modelle erlernt.
+Allerdings wurden nur in 8 Fällen länger als ein Tag trainiert, da zu Testzwecken das Training abgebrochen wurde.
+Im folgenden werden die zwei Reinforcement Learning Algorithmen ``A2C'' und ``PPO'' verglichen und die besten Ergebnisse der Modelle
+präsentiert.
+
+\subsubsection{A2C [H]}
+
+A2C ist einer der zwei Algorithmen, mit welchem die ScribbleFight Künstliche Intelligenz trainiert wurde.
+A2C steht für ``Advantage Actor Critic''. Dabei ist dies ein ``Reinforcement Learning'' Algorithmus, welcher
+zwei Arten von verstärktem Lernen miteinander kombiniert. Einerseits das ``Policy-Based Reinforcement Learning'', in welchem
+der Agent direkt ein Verhalten erlernt, was bedeutet dass dieser lernt eine Eingabe direkt auf die bestmögliche Ausgabe umzuwandeln.
+Andererseits das ``Value-Based Reinforcement Learning''. Hier erlernt das Modell Handlungen so auszuwählen, dass
+diese der Vorhersage der Eingabe gleicht.
+
+Die mit OpenAI-Gym und Stable Baselines3 erlernten Modelle können via einem ``TensorBoard'' analysiert werden.
+
+Die Graphen, welche aus den Modellen entsprungen sind zeigen, dass der A2C Algorithmus für
+die Künstliche Intelligenz nicht geeignet ist. Beispielsweise ist in folgender Grafik erkennbar, dass die Entropie, also Zufälligkeit, mit welcher die Künstliche Intelligenz
+entscheidungen trifft zwar anfänglich stark abfällt, jedoch später wieder steigt.
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=1]{pics/Tensorboard/A2C/entropy_loss.png}
+    \caption{Entropie Verlust}
+    \label{fig:a2c:entropyloss}
+\end{figure}
+
+
+
+\subsubsection{PPO [H]}
+
