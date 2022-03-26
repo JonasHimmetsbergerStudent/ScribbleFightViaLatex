@@ -1482,6 +1482,16 @@ Im folgenden werden die zwei Reinforcement Learning Algorithmen ``A2C'' und ``PP
 und deren Ergebnisse präsentiert. Wegen der Komplexität des Spiels und der limitierten Ressourcen, wie Zeit und Rechenleistung,
 war schnell klar, dass das erlernte Modell nicht die gesetzten Ziele (Kapitel ``Die ScribbleFight-KI'' \ref{maai:scribblefightki}) erreichne wird.
 
+Zum Lernen trainierten zwei Künstliche Intelligenzen in Form von ``Competitive Self-Play''. Dies bedeutet,
+dass mehrere Instanzen der KI dasselbe Modell erlernen und auf dieses schreiben. Eine trainierte dabei basierend auf dem
+A2C Algorithmus und die andere basierend auf dem PPO Algorithmus. In jeder Instanz trainieren zwei Agenten,
+wodurch insgesamt vier Spieler an einem ScribbleFight Spiel beteiligt waren.
+
+Die mit OpenAI-Gym und Stable Baselines3 erlernten Modelle können via einem ``TensorBoard'' visualisiert und analysiert werden.
+
+Die Graphen, welche aus den erlernten Modellen entsprungen sind und diverse Informationen über die Leistung und Kompetenz beinhalten,
+zeigen, dass \textit{der \underline{PPO Algorithmus} besser für eine künstliche Intelligenz, welche das Spiel ScribbleFight erlernen soll, geeignet ist als der A2C Algorithmus.}
+
 \subsubsection{A2C [H]}
 
 A2C ist einer der zwei Algorithmen, mit welchem die ScribbleFight Künstliche Intelligenz trainiert wurde.
@@ -1491,9 +1501,7 @@ der Agent direkt ein Verhalten erlernt, was bedeutet dass dieser lernt eine Eing
 Andererseits das ``Value-Based Reinforcement Learning''. Hier erlernt das Modell Handlungen so auszuwählen, dass
 diese der Vorhersage der Eingabe gleicht.
 
-Die mit OpenAI-Gym und Stable Baselines3 erlernten Modelle können via einem ``TensorBoard'' analysiert werden.
-
-Die Graphen, welche aus den Modellen entsprungen sind zeigen, dass der A2C Algorithmus für
+Wie schon in der Evaluation erwähnt zeigen die Graphen, welche aus den Modellen entsprungen sind, dass der A2C Algorithmus für
 die Künstliche Intelligenz nicht geeignet ist. Beispielsweise ist in folgender Grafik erkennbar, dass die Entropie, also Zufälligkeit, mit welcher die Künstliche Intelligenz
 entscheidungen trifft zwar anfänglich stark abfällt, jedoch später wieder steigt.
 
@@ -1503,7 +1511,7 @@ Da jedoch zu dieser Zeit schon ersichtlich war, dass dieses Modell für den Anwe
 \begin{figure}[H]
     \centering
     \includegraphics[scale=1.1]{pics/Tensorboard/A2C/entropy_loss.png}
-    \caption{Entropie Verlust}
+    \caption{Entropieverlust}
     \label{fig:a2c:entropyloss}
 \end{figure}
 
@@ -1518,7 +1526,10 @@ Die folgende Funktion stellt die Lernrate der ``ScribbleFight'' Künstlichen Int
     \label{fig:a2c:entropyloss}
 \end{figure}
 
-Auch im Falle des Wertverlusts ist ein klarer Trend erkennbar, welcher für sich spricht.
+Auch im Falle des Wertverlusts ist kein klarer Trend erkennbar.
+Dieser sollte steigen, so lange der Agent lernt. Wenn dieser Abfällt, oder gleichbleibend ist,
+so spricht das dafür, dass die Künstliche Intelligenz ausgelernt hat und die Belohnung über die Zeit
+nahezu gleich bleibend ist.
 
 \begin{figure}[H]
     \centering
@@ -1527,7 +1538,48 @@ Auch im Falle des Wertverlusts ist ein klarer Trend erkennbar, welcher für sich
     \label{fig:a2c:valueLoss}
 \end{figure}
 
-Aus diesen Graphen ist es klar ersichtlich, dass der A2C Algorithmus nicht für diesen Anwendungsfall geeignet ist.
+Aus diesen Graphen ist es klar ersichtlich, dass der A2C Algorithmus für den Anwendungsfall nicht geeignet ist.
 
 \subsubsection{PPO [H]}
+Der zweite Algorithmus, mit welchem die Künstliche Intelligenz trainiert wurde, heißt ``PPO''.
+PPO ist eine Abkürzung und steht für ``Proximal Policy Optimization''. Dieses mathematische Modell
+wurde von OpenAI im Jahr 2017 veröffentlicht. Es basiert darauf, dass eine kleine Menge an Erfahrung gesammelt wird, indem der Spieler mit seiner Umwelt interagiert.
+Durch diese gesammelten Erfahrungen wird die Art und Weise zur Entscheidungsfindung angepasst; das heißt, dass die ``policy'' aktualisiert wird.
+Nachdem die ``policy'' erneuert wurde, werden die gesammelten Erfahrungen verworfen und der Agent muss sich neu in der Umwelt orientieren, hat aber bereits mehr Basiswissen.
+Dieser Ansatz wird auch ``on-policy learning'' genannt.
 
+Der PPO-Algorithmus kümmert sich nun darum, dass die neue Vorgehensweise nicht zusehr von der alten abweicht.
+Somit passiert weniger Varianz im Training der Künstlichen Intelligenz, wodurch einerseits ein schnelles Vortschreiten
+beim Lernen verhindert wird, andererseits wird dabei sichergestellt, dass die Künstliche Intelligenz nichts ``falsches''
+erlernt und somit nicht von einem gewünschtem Ziel abweicht.
+
+% Quelle Diesmal wirklich zitat: https://towardsdatascience.com/proximal-policy-optimization-tutorial-part-1-actor-critic-method-d53f9afffbf6
+
+Dass dieser Algorithmus besser funktioniert hat um die ScribbleFight KI zu trainieren wird durch folgdenden
+Graphen klar erkennbar.
+
+Nach 900.000 Schritten passierte auch hier im Spiel ein Fehler, wordurch das Lernen abgebrochen ist.
+Allerdings liesen sich dieses Ergebnisse im laufe der 25 Trainings, wobei die Hälfte mit dem PPO Algorithmus durchgeführt wurden,
+jedes Mal replizieren.
+
+Die Funktion des Entropieverlusts zeigt, dass die Aktionen, welche die KI durchführt, immer weniger zufällig
+wurden.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6]{pics/Tensorboard/PPO/entropy_loss.png}
+    \caption{Entropieverlust}
+    \label{fig:ppo:entropyloss}
+\end{figure}
+
+Die mittlere Größenordnung der Policenverlustfunktion.
+Korreliert damit, wie stark sich die Richtlinie (Prozess zur Entscheidungsfindung) ändert.
+Das Ausmaß sollte während einer erfolgreichen Trainingseinheit abnehmen.
+Diese Werte werden während des Trainings oszillieren. Im Allgemeinen sollten sie kleiner als 1,0 sein.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.7]{pics/Tensorboard/PPO/policy_loss_new.png}
+    \caption{Policy Graident Loss}
+    \label{fig:ppo:pgl}
+\end{figure}
