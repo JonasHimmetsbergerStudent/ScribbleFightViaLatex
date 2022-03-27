@@ -1,17 +1,10 @@
 
-<<<<<<< HEAD
-\section{JavaScript [R] [W]}
-Zuerst musste die Entscheidung gefällt werden, ob unser Projekt ein Standalone-Programm sein soll, oder im Browser zu erreichen ist. Weil wir aber wollten, dass es ein
-Party-Game werden soll, dass man ohne jeglichen Aufwand sofort mit Freunden spielen kann, haben wir uns für die Browser-Variante entschieden.
-Für mich war es eine leichte Entscheidung JavaScript zu verwenden, da die Programmiersprache genau für den Browser geeignet ist, und man damit nicht nur im Frontend, sondern auch im Backend programmieren kann.
-=======
-\section{Java-Script [R]}
+\section{Java-Script [R] [W]}
 \subsection{Wieso Java-Script?}
 Ein Stand-alone-Programm ist ein Programm, dass selbständig arbeiten kann.
 Das Web-Game sollte kein Stand-alone-Programm werden, sondern im Browser erreichbar sein. Deswegen wurde Java-Script für die Programmierung am Client, sowie auch am Server ausgewählt.
 Der Vorteil davon ist, dass nur eine Programmiersprache benutzt werden muss, um eine Client-Server-Architektur zu bewerkstelligen.
 Außerdem besteht kein Aufwand, um Scribble-Fight spielen zu können - ein Browser ist alles, was benötigt wird.
->>>>>>> c2c2e21efe3106ddff4b2d12f3a3d9f349015a66
 \setauthor{Rafetseder Tobias}
 \subsection{p5.js / p5.play [R]}
 \label{subsection:p5js}\cite{p5js}
@@ -183,6 +176,7 @@ ein Socket.IO Client keine Verbindung mit einem schlichten WebSocket Server hers
 Das heißt, Socket.IO ist ein Wrapper rund um die WebSocket API. \cite{socketio}
 
 
+\setauthor{Weinzierl Ben}
 \subsection{qrcode.js [W]}
 Ein QR-Code ist ein Matrix-Barcode welcher meistens auf eine bestimmte URL verweist. Die Bezeichnung QR steht für Quick Response,
 also schnelle Antwort. Für die Codierung verwendet der QR-Code 4 Methoden: Numerisch, Alphanumerisch, Byte/Bit und Kanji.
@@ -634,4 +628,27 @@ Um einen solchen ``Hexapawn''-Computer zu bauen braucht man vierundzwanzig Strei
 Wähle der Mensch und Gegner der Maschine den ersten Zug, so ist dieser garantiert auf einen der beiden ersten Abbildungen zu sehen. In den Zündholzschachteln befinden sich farbige Kugeln. Schüttelt man diese nun, und lässt eine Kugel aus der Öffnung seitlich fallen, so wählt man den Zug, bei welchem die Pfeilfarbe der Kugelfarbe entspricht. So spielt man das Spiel zu ende, bis es nach dem achten Zug einen garantierten Gewinner gibt und zieht dann ein Resultat. Das heißt, wenn die KI gewonnen hat, kann man die Gewinnchance bei einem nächsten Spiel erhöhen. Dies erreicht man, indem man alle farbigen Kugeln, welche aus der Streichholzschachtel fielen, doppelt zurücklegt. Wenn es also in der ersten Schachtel grün, rot und blau gibt und grün als erster Zug eines Spiels gewählt wurde, welches zu einem Sieg führte, so gibt man in die erste Schachtel eine zweite grüne Kugel. Somit wird die Wahrscheinlichkeit, dass man bei einem nächsten Spiel einen Zug wählt, welcher schon einmal zu einem Sieg führte, erhöht. Ähnlich kann man dies auch bei Zügen machen, welche dazu führten, das Spiel zu verlieren. Hier kann man die Wahrscheinlichkeit zu verlieren verringern, indem man die Farbige Kugel aus dem Spiel entnimmt.
 \\
 Und so hat Martin Gardner bewiesen, dass man Spiele mit Mathematik gewinnen kann. Auf diesem Prinzip basieren auch viele andere künstliche Intelligenzen. Natürlich können in dem Spiel ``Hexapawn'' binnen weniger Augenblicke alle möglichen Kombinationen errechnet werden und somit eine perfekte Spielstrategie entwickelt werden. Anders ist dies bei Spielen wie ``Schach'' oder ``GO''. Bei diesen Spielen gibt es unzählige Kombinationsmöglichkeiten, bei welchen es selbst für eine Maschine nahezu unmöglich ist, alle Spielkombinationen auszuprobieren. Jedoch ist es für einen Computer möglich in kürzester Zeit extrem viele Berechnungen durchzuführen. Ein tage-/monate-/jahrelanges lernen in einer Geschwindigkeit, welche für Menschen unantastbar ist, führt für die KI also auch zu einer immer höheren Gewinnchance für jedes Spiel. Dadurch ist es für die sogenannte ``AlphaGo''-KI möglich gewesen selbst die besten Spieler der Welt im Spiel ``GO'' zu besiegen. Durch die vielen Kombinationsmöglichkeiten ist es trotzdem nicht gegeben, dass die KI pro Zug die perfekte Auswahl trifft. Jedoch werden immer Züge gewählt, welche in bisherigen Spielen zu der höchsten Gewinnchance führten. Somit ist es also auch für eine Maschine möglich nicht deterministische Ereignisse mit einer gewissen Wahrscheinlichkeit, welche oft der realen Zukunft entspricht, vorherzusagen (Beispiel: Wettervorhersage).
+
+\setauthor{Weinzierl Ben}
+\newpage
+\section{Character Animation [W]}
+Für die Character Animation wurde Adobe Photoshop benutzt. Photoshop ist ein Programm mit dem 
+im professionellen wie im Amateurbereich gearbeitet wird um Bilder zu bearbeiten. 
+Aufgrund der unglaublich zahlreichen Einsatzbereiche und Funktionen von Photoshop ist es 
+eines der beliebtesten Programme der Design- und Bildbearbeitungsbranche. 
+Durch den großen Funktionsumfang ist Photoshop zwar sehr einsteigerunfreundlich, jedoch 
+hat es sich trotzdem durchgesetzt. Mit ca. 90 Prozent Marktanteil ist es das mit Abstand größte
+Bildbearbeitungsprogramm. Dadurch ist der Preis mit 24€ pro Monat für die Software sehr hoch, wobei dazugesagt werden muss,
+dass laut einer Umfrage im Jahr 2007 ca. 58 Prozent der User und Userinnen das Programm als Schwarzkopie verwenden. 
+
+Eine wichtige Funktion, welche bei dieser Arbeit viel verwendet wurde, ist das "Form erzeugen" Werkzeug. Damit können Formen erstellt und verändert werden. Um zum Beispiel ein Viereck zu erstellen, muss das Unterwerkzeug "Rechteck-Werkzeug" auswählen. Danach
+kann eine beliebig große Fläche aufgezogen werden. 
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.7]{pics/erzeugen.png}
+    \caption{Erzeugen Werkzeug}
+\end{figure}
+
+Um die Formen in die richtige Position zu bekommen, wurde mit dem "Transformieren" Werkzeug
+gearbeitet.
 
