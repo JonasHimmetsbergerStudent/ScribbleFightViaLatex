@@ -8,9 +8,9 @@ welche dann via Bilderkennung als spielbare Welt aufbereitet wird.
 \section{Ziele}
 Bis zum Abgabetermin sollen folgende Ziele erreicht werden:
 \begin{compactitem}
-    \item Das Spiel soll als Browserspiel funktionsfähig sein.
+    \item Das Spiel soll im Browser spielbar sein.
     \item Für die Benutzer soll es möglich sein ihre eigenen Kampfumgebungen zu erschaffen.
-    \item Das Spiel soll als online-Multiplayer "Player versus Player"-Spiel funktionieren.
+    \item Das Spiel soll online als Multiplayer ``Player versus Player''-Spiel funktionieren.
     \item Ein eigener Modus, in welchem der Spieler als Singleplayer gegen eine funktionsfähige KI antreten kann, soll umgesetzt werden.
 \end{compactitem}
 
@@ -27,21 +27,22 @@ anspruchsvolle Teile unterteilt. Diese werden im Folgenden genauer erläutert:
 Die wichtigsten Punkte, die im Bezug auf das Web-Game umzusetzen zu waren, sind:
 \begin{compactitem}
     \item Am Client:
-        \begin{enumerate}
-            \item Die Spielphysik, also wie sich Spieler und Objekte verhalten
-            \item Die Collision-Detection von Spielern mit der Umgebung und mit Objekten
-            \item Die Hitregistration, falls ein Spieler von etwas getroffen wurde
-            \item Ab wann ist das Spiel zu Ende, beziehungsweise wann hat jemand gewonnen 
-        \end{enumerate}
+    \begin{enumerate}
+        \item Die Spielphysik, also wie sich Spieler und Objekte verhalten
+        \item Die Collision-Detection von Spielern mit der Umgebung und mit Objekten
+        \item Die Hitregistration, falls ein Spieler von etwas getroffen wurde
+        \item Ab wann ist das Spiel zu Ende, beziehungsweise wann hat jemand gewonnen
+    \end{enumerate}
     \item Am Server:
-        \begin{enumerate}
-            \item Übertragung von Positionen der Spieler
-            \item Item-Erstellung alle Clients zum gleichen Zeitpunkt
-            \item Wenn Items aufgesammelt werden, sollen diese bei allen verbundenen Spielern verschwinden
-            \item Wenn eine Attacke jemanden trifft, soll diese bei allen verbundenen Spielern gelöscht werden
-        \end{enumerate}
+    \begin{enumerate}
+        \item Übertragung von Positionen der Spieler
+        \item Item-Erstellung bei allen Clients zum gleichen Zeitpunkt
+        \item Wenn jemand eine Attacke ausführt soll diese bei allen Clients erstellt werden
+        \item Wenn Items aufgesammelt werden, sollen diese bei allen verbundenen Spielern verschwinden
+        \item Wenn eine Attacke jemanden trifft, soll diese bei allen verbundenen Spielern gelöscht werden
+    \end{enumerate}
 
-\end{compactitem} 
+\end{compactitem}
 Das Deployment des Projekts in die Leocloud, ein Cloud-System der HTL-Leonding, ist mittels Kubernetes erfolgt.
 
 
@@ -50,14 +51,14 @@ Das Deployment des Projekts in die Leocloud, ein Cloud-System der HTL-Leonding, 
 \subsection{Aufbereitung der Spielumgebung und Künstliche Intelligenz [H]}
 Die Aufbereitung der Spielumgebung sollte folgende Funktionen erfüllen:
 \begin{compactitem}
-    \item Erkennung der Konturen in einer Live-View
-    \item Aufnahme soll in brauchbare Daten umgewandelt werden
+    \item Erkennung des Blatt Papiers in einer Live-View
+    \item Aufnahme soll in eine digitale Spielumgebung umgewandelt werden
 \end{compactitem}
 
-Folgende Forderungen waren an die KI gestellt: 
+Folgende Forderungen waren an die KI gestellt:
 \begin{compactitem}
-    \item Die KI soll auf einem herausfordernden Niveau agieren
-    \item Im Zuge der Forschung sollte ein Vergleich zwischen brauchbaren Lernalgorithmen gemacht werden
+    \item Die Künstliche Intelligenz soll auf einem herausfordernden Niveau agieren
+    \item Im Zuge der Forschung sollte ein Vergleich zwischen zwei Lernalgorithmen gemacht werden
 \end{compactitem}
 
 

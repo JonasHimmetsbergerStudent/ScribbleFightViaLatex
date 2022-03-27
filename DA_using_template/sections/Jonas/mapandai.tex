@@ -1149,7 +1149,7 @@ Ein weiterer, zentraler Punkt der Ausarbeitung ist, wie die ``ScribbleFight''-KI
     \end{minipage}
 \end{figure}
 
-Der ``Pixelclump'' ist ein zweidimensionaler Array von Pixelwerten (schwarz oder transparent, weiß) und wird von der Maperkennung (\ref{maai:maperkennung:head}) als Output zurückgeliefert. Dieses zweidimensionale Feld dient als Basis für den Untergrund, auf welchem sich die Spieler bewegen können. Um das Spiel in eine, für die Künstliche Intelligenz sichtbare Welt umzuwandeln, wird zunächst der ``Pixelclump'', um das Dreifache vergrößert. Gleichzeitig werden die Pixelwerte durch die oben angeführten Zahlen (von null bis zehn; Bedeutung: \ref{mappedPixels}) ausgetauscht. Durch die dreifache Skalierung der Spielumgebung von 55x55 auf 165x165 Werten, ist es möglich, dass die Künstliche Intelligenz dreimal genauer sieht, als ein Bildpunkt der Map aufgetragen wird. Somit kann genauer agiert werden und Spieler und Attacken besser erkannt werden (in der Theorie).
+Der ``Pixelclump'' ist ein zweidimensionaler Array von Pixelwerten (schwarz oder transparent, weiß) und wird von der Map-Erkennung (\ref{maai:maperkennung:head}) als Output zurückgeliefert. Dieses zweidimensionale Feld dient als Basis für den Untergrund, auf welchem sich die Spieler bewegen können. Um das Spiel in eine, für die Künstliche Intelligenz sichtbare Welt umzuwandeln, wird zunächst der ``Pixelclump'', um das Dreifache vergrößert. Gleichzeitig werden die Pixelwerte durch die oben angeführten Zahlen (von null bis zehn; Bedeutung: \ref{mappedPixels}) ausgetauscht. Durch die dreifache Skalierung der Spielumgebung von 55x55 auf 165x165 Werten, ist es möglich, dass die Künstliche Intelligenz dreimal genauer sieht, als ein Bildpunkt der Map aufgetragen wird. Somit kann genauer agiert werden und Spieler und Attacken besser erkannt werden (in der Theorie).
 
 Die Aufskalierung und Umwandlung des Map-Arrays in den ``Visual''-Array passiert in der Funktion ``getVisualMap(\dots)'':
 \begin{lstlisting}[language=Python,label=lst:maap:getVisualMap,caption=Umwandlung des Pixel-Clumps in eine für die KI sichtbare Darstellung]
@@ -1176,7 +1176,30 @@ function getVisualMap(paramarr) {
   return visual
 }
 \end{lstlisting}
-Mit jeder Bewegung und Aktualisierung von Status wird der ``visual''-Array in einen ``visCopy''-Array eingetragen. Dabei werden alle Entitäten neu hinzugefügt. Das Feld wird jedoch durch die Kopie nur an den Positionen verändert, wo auch eine Änderung passiert ist. Dadurch wird dieses nicht immer neu erstellt, und die Effizienz wird gesteigert. Außerdem, dadurch, dass Javascript zur kalkulation komplexer Berechnungen mehrere Threads zur Verfügung hat, kann das Verarbeiten dieses Arrays in einer Zeit passieren, welche die Bilder pro Sekunde des Spiels nicht verringert und somit für den Spieler nicht bemerkbar. Lässt man sich nun die bearbeitete Kopie des ``visual''-Arrays ausgeben, so sieht man die Sicht der ``ScribbleFight'' Künstlichen Intelligenz. In der folgenden Abbildung wurden die Ziffern von null bis zehn in Farben umgewandelt. Das Bild \ref{maai:ai:visCopy:input} ist die Sicht des Spielers und das Bild \ref{maai:ai:visCopy:output} ist die Sicht der KI.
+Mit jeder Bewegung und Aktualisierung von Status wird der ``visual''-Array in einen ``visCopy''-Array eingetragen. Dabei werden alle Entitäten neu hinzugefügt. Das Feld wird jedoch durch die Kopie nur an den Positionen verändert, wo auch eine Änderung passiert ist. Dadurch wird dieses nicht immer neu erstellt, und die Effizienz wird gesteigert. Außerdem, dadurch, dass Javascript zur kalkulation komplexer Berechnungen mehrere Threads zur Verfügung hat, kann das Verarbeiten dieses Arrays in einer Zeit passieren, welche die Bilder pro Sekunde des Spiels nicht verringert und somit für den Spieler nicht bemerkbar.
+Der Codeblock \ref{lst:maap:addspritetovisual} beschreibt die Funktion mit welcher ein
+Spielelement (``Sprite''), zu der KI-Sicht hinzugefügt wird.
+
+\begin{lstlisting}[label=lst:maap:addspritetovisual,caption=Sprite in ``visCopy''-Array eintragen]
+    function addSpriteToVisual(sprite, num) {
+      if (visual != undefined && visCopy != undefined) {
+        ...convert x and y coordinates of sprite in game into position in visCopy array
+    
+        for (let i = visualUnitX; i < maxXIterations; i++) {
+          for (let j = visualUnitY; j < maxYIterations; j++) {
+            // make sure to never overlay attacks with myPlayer or enemy
+            // top priority has myPlayer
+            if ((visCopy[j][i] != 2
+              && visCopy[j][i] != 3)
+              || num == 2)
+              visCopy[j][i] = num;
+          }
+        }
+      }
+    }
+\end{lstlisting}
+
+Lässt man sich nun die bearbeitete Kopie des ``visual''-Arrays ausgeben, so sieht man die Sicht der ``ScribbleFight'' Künstlichen Intelligenz. In der folgenden Abbildung wurden die Ziffern von null bis zehn in Farben umgewandelt. Das Bild \ref{maai:ai:visCopy:input} ist die Sicht des Spielers und das Bild \ref{maai:ai:visCopy:output} ist die Sicht der KI.
 
 \begin{figure}[H]
     \centering
@@ -1482,6 +1505,16 @@ Im folgenden werden die zwei Reinforcement Learning Algorithmen ``A2C'' und ``PP
 und deren Ergebnisse präsentiert. Wegen der Komplexität des Spiels und der limitierten Ressourcen, wie Zeit und Rechenleistung,
 war schnell klar, dass das erlernte Modell nicht die gesetzten Ziele (Kapitel ``Die ScribbleFight-KI'' \ref{maai:scribblefightki}) erreichne wird.
 
+Zum Lernen trainierten zwei Künstliche Intelligenzen in Form von ``Competitive Self-Play''. Dies bedeutet,
+dass mehrere Instanzen der KI dasselbe Modell erlernen und auf dieses schreiben. Eine trainierte dabei basierend auf dem
+A2C Algorithmus und die andere basierend auf dem PPO Algorithmus. In jeder Instanz trainieren zwei Agenten,
+wodurch insgesamt vier Spieler an einem ScribbleFight Spiel beteiligt waren.
+
+Die mit OpenAI-Gym und Stable Baselines3 erlernten Modelle können via einem ``TensorBoard'' visualisiert und analysiert werden.
+
+Die Graphen, welche aus den erlernten Modellen entsprungen sind und diverse Informationen über die Leistung und Kompetenz beinhalten,
+zeigen, dass \textit{der \underline{PPO Algorithmus} besser für eine künstliche Intelligenz, welche das Spiel ScribbleFight erlernen soll, geeignet ist als der A2C Algorithmus.}
+
 \subsubsection{A2C [H]}
 
 A2C ist einer der zwei Algorithmen, mit welchem die ScribbleFight Künstliche Intelligenz trainiert wurde.
@@ -1491,9 +1524,7 @@ der Agent direkt ein Verhalten erlernt, was bedeutet dass dieser lernt eine Eing
 Andererseits das ``Value-Based Reinforcement Learning''. Hier erlernt das Modell Handlungen so auszuwählen, dass
 diese der Vorhersage der Eingabe gleicht.
 
-Die mit OpenAI-Gym und Stable Baselines3 erlernten Modelle können via einem ``TensorBoard'' analysiert werden.
-
-Die Graphen, welche aus den Modellen entsprungen sind zeigen, dass der A2C Algorithmus für
+Wie schon in der Evaluation erwähnt zeigen die Graphen, welche aus den Modellen entsprungen sind, dass der A2C Algorithmus für
 die Künstliche Intelligenz nicht geeignet ist. Beispielsweise ist in folgender Grafik erkennbar, dass die Entropie, also Zufälligkeit, mit welcher die Künstliche Intelligenz
 entscheidungen trifft zwar anfänglich stark abfällt, jedoch später wieder steigt.
 
@@ -1502,23 +1533,28 @@ Da jedoch zu dieser Zeit schon ersichtlich war, dass dieses Modell für den Anwe
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=1.1]{pics/Tensorboard/A2C/entropy_loss.png}
-    \caption{Entropie Verlust}
+    \includegraphics[scale=0.7]{pics/Tensorboard/A2C/entropy_loss.png}
+    \caption{Entropieverlust}
     \label{fig:a2c:entropyloss}
 \end{figure}
 
-Dass die Künstliche Intelligenz durch den A2C Algorithmus nicht dazugelernt hat,
-wird klar erkennbar, wenn der Verlauf der Lernrate im Intervall von 0 bis 22.000 Schritte konstant auf dem Wert null bleibt.
-Die folgende Funktion stellt die Lernrate der ``ScribbleFight'' Künstlichen Intelligenz dar; es wurde der A2C Algorithmus angewandt.
+
+Das Modell, welches mit dem A2C Algorithmus trainiert, hat im Intervall von 0 bis 22.000 Schritten
+konstant eine Lernrate von 0.0007. Diese wird von der ``Stable Baselines3''-Bibliothek als Standardwert
+festgelegt.
+Die folgende Funktion stellt die Lernrate der ``ScribbleFight'' Künstlichen Intelligenz dar.
 
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.7]{pics/Tensorboard/A2C/learning_rate.png}
     \caption{Lernrate}
-    \label{fig:a2c:entropyloss}
+    \label{fig:a2c:learningrate}
 \end{figure}
 
-Auch im Falle des Wertverlusts ist ein klarer Trend erkennbar, welcher für sich spricht.
+Auch im Falle des Wertverlusts ist kein klarer Trend erkennbar.
+Dieser sollte steigen, so lange der Agent lernt. Wenn dieser Abfällt, oder gleichbleibend ist,
+so spricht das dafür, dass die Künstliche Intelligenz ausgelernt hat und die Belohnung über die Zeit
+nahezu gleich bleibend ist.
 
 \begin{figure}[H]
     \centering
@@ -1527,7 +1563,71 @@ Auch im Falle des Wertverlusts ist ein klarer Trend erkennbar, welcher für sich
     \label{fig:a2c:valueLoss}
 \end{figure}
 
-Aus diesen Graphen ist es klar ersichtlich, dass der A2C Algorithmus nicht für diesen Anwendungsfall geeignet ist.
+Aus diesen Graphen ist es klar ersichtlich, dass der A2C Algorithmus für den Anwendungsfall nicht geeignet ist.
 
-\subsubsection{PPO [H]}
+\subsubsection{PPO [H]}\label{maai:ppo:head}
+Der zweite Algorithmus, mit welchem die Künstliche Intelligenz trainiert wurde, heißt ``PPO''.
+PPO ist eine Abkürzung und steht für ``Proximal Policy Optimization''. Dieses mathematische Modell
+wurde von OpenAI im Jahr 2017 veröffentlicht. Es basiert darauf, dass eine kleine Menge an Erfahrung gesammelt wird, indem der Spieler mit seiner Umwelt interagiert.
+Durch diese gesammelten Erfahrungen wird die Art und Weise zur Entscheidungsfindung angepasst; das heißt, dass die ``policy'' aktualisiert wird.
+Nachdem die ``policy'' erneuert wurde, werden die gesammelten Erfahrungen verworfen und der Agent muss sich neu in der Umwelt orientieren, hat aber bereits mehr Basiswissen.
+Dieser Ansatz wird auch ``on-policy learning'' genannt.
 
+Der PPO-Algorithmus kümmert sich nun darum, dass die neue Vorgehensweise nicht zusehr von der alten abweicht.
+Somit passiert weniger Varianz im Training der Künstlichen Intelligenz, wodurch einerseits ein schnelles Vortschreiten
+beim Lernen verhindert wird, andererseits wird dabei sichergestellt, dass die Künstliche Intelligenz nichts ``falsches''
+erlernt und somit nicht von einem gewünschtem Ziel abweicht.
+
+% Quelle Diesmal wirklich zitat: https://towardsdatascience.com/proximal-policy-optimization-tutorial-part-1-actor-critic-method-d53f9afffbf6
+
+Dass dieser Algorithmus besser funktioniert hat um die ScribbleFight KI zu trainieren wird durch folgdenden
+Graphen klar erkennbar.
+
+Nach 900.000 Schritten passierte auch hier im Spiel ein Fehler, wordurch das Lernen abgebrochen ist.
+Allerdings liesen sich dieses Ergebnisse im laufe der 25 Trainings, wobei die Hälfte mit dem PPO Algorithmus durchgeführt wurden,
+jedes Mal replizieren.
+
+Die Funktion des Entropieverlusts zeigt, dass die Aktionen, welche die KI durchführt, immer weniger zufällig
+wurden.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6]{pics/Tensorboard/PPO/entropy_loss.png}
+    \caption{Entropieverlust}
+    \label{fig:ppo:entropyloss}
+\end{figure}
+
+In der folgenden Grafik wir die Änderung der ``Policy-Loss''-Funktion beschrieben.
+Diese zeigt, wie stark sich das Erlernte ändert und beschreibt somit den Prozess der Entscheidungsfindung.
+Dadurch, dass die Funktion einen Verlust darstellt, sollte dieser in einem erfolgreichen Training fallen.
+Die Werte sind während des Trainings stark geschwankt, was jedoch normal ist,
+da durch den PPO Algorithmus die Policy Funktion in jeder Episode neu erlernt wird.
+Die Aufgabe des mathematische Modells ist es, dass sich nur in Summe das Erlernte (``policy'') nicht zu stark in eine Richtung tendiert, wie am Anfang dieses Unterkapitels (\ref{maai:ppo:head}) erklärt ist.
+Im Allgemeinen sollten die Werte der ``Policy-Loss''-Funktion kleiner als 1,0 sein.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.7]{pics/Tensorboard/PPO/policy_loss_new.png}
+    \caption{Policy Graident Loss}
+    \label{fig:ppo:pgl}
+\end{figure}
+
+Wie der ``Stable Baselines3''-Dokumentation %Site: \url{https://stable-baselines3.readthedocs.io/en/master/modules/ppo.html}
+zu entnehmen ist, ist die Lernrate bei dem PPO Algorithmus eine Konstante.
+Diese hat den Wert \(3*e^{-4}\).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.7]{pics/Tensorboard/PPO/learning_rate_new.png}
+    \caption{Lernrate}
+    \label{fig:ppo:learningrate}
+\end{figure}
+
+Obwohl das Modell, welches mit dem PPO-Algorithmus erlernt wurde,
+bessere Ergebnisse erzielt hat, als jenes, welches mit dem A2C-Algorithmus trainiert wurde,
+hat auch dieses viele Schwächen. So ist es nicht möglich, dass eine Vorhersage, welche
+auf dem Erlernten basieren soll, einem menschlichen Spieler gleicht.
+
+
+%Quelle: Tensorboard Dokumentation: https://www.tensorflow.org/tensorboard/get_started
+% https://medium.com/aureliantactics/understanding-ppo-plots-in-tensorboard-cbc3199b9ba2
