@@ -1176,7 +1176,30 @@ function getVisualMap(paramarr) {
   return visual
 }
 \end{lstlisting}
-Mit jeder Bewegung und Aktualisierung von Status wird der ``visual''-Array in einen ``visCopy''-Array eingetragen. Dabei werden alle Entitäten neu hinzugefügt. Das Feld wird jedoch durch die Kopie nur an den Positionen verändert, wo auch eine Änderung passiert ist. Dadurch wird dieses nicht immer neu erstellt, und die Effizienz wird gesteigert. Außerdem, dadurch, dass Javascript zur kalkulation komplexer Berechnungen mehrere Threads zur Verfügung hat, kann das Verarbeiten dieses Arrays in einer Zeit passieren, welche die Bilder pro Sekunde des Spiels nicht verringert und somit für den Spieler nicht bemerkbar. Lässt man sich nun die bearbeitete Kopie des ``visual''-Arrays ausgeben, so sieht man die Sicht der ``ScribbleFight'' Künstlichen Intelligenz. In der folgenden Abbildung wurden die Ziffern von null bis zehn in Farben umgewandelt. Das Bild \ref{maai:ai:visCopy:input} ist die Sicht des Spielers und das Bild \ref{maai:ai:visCopy:output} ist die Sicht der KI.
+Mit jeder Bewegung und Aktualisierung von Status wird der ``visual''-Array in einen ``visCopy''-Array eingetragen. Dabei werden alle Entitäten neu hinzugefügt. Das Feld wird jedoch durch die Kopie nur an den Positionen verändert, wo auch eine Änderung passiert ist. Dadurch wird dieses nicht immer neu erstellt, und die Effizienz wird gesteigert. Außerdem, dadurch, dass Javascript zur kalkulation komplexer Berechnungen mehrere Threads zur Verfügung hat, kann das Verarbeiten dieses Arrays in einer Zeit passieren, welche die Bilder pro Sekunde des Spiels nicht verringert und somit für den Spieler nicht bemerkbar.
+Der Codeblock \ref{lst:maap:addspritetovisual} beschreibt die Funktion mit welcher ein
+Spielelement (``Sprite''), zu der KI-Sicht hinzugefügt wird.
+
+\begin{lstlisting}[label=lst:maap:addspritetovisual,caption=Sprite in ``visCopy''-Array eintragen]
+    function addSpriteToVisual(sprite, num) {
+      if (visual != undefined && visCopy != undefined) {
+        ...convert x and y coordinates of sprite in game into position in visCopy array
+    
+        for (let i = visualUnitX; i < maxXIterations; i++) {
+          for (let j = visualUnitY; j < maxYIterations; j++) {
+            // make sure to never overlay attacks with myPlayer or enemy
+            // top priority has myPlayer
+            if ((visCopy[j][i] != 2
+              && visCopy[j][i] != 3)
+              || num == 2)
+              visCopy[j][i] = num;
+          }
+        }
+      }
+    }
+\end{lstlisting}
+
+Lässt man sich nun die bearbeitete Kopie des ``visual''-Arrays ausgeben, so sieht man die Sicht der ``ScribbleFight'' Künstlichen Intelligenz. In der folgenden Abbildung wurden die Ziffern von null bis zehn in Farben umgewandelt. Das Bild \ref{maai:ai:visCopy:input} ist die Sicht des Spielers und das Bild \ref{maai:ai:visCopy:output} ist die Sicht der KI.
 
 \begin{figure}[H]
     \centering

@@ -1,6 +1,6 @@
 
 \section{JavaScript [R]}
-\subsection{Wieso JavaScript?} 
+\subsection{Wieso JavaScript?}
 Ein Stand-alone-Programm ist ein Programm, dass selbständig arbeiten kann.
 Das Web-Game sollte kein Stand-alone-Programm werden, sondern im Browser erreichbar sein. Deswegen wurde JavaScript für die Programmierung am Client, sowie auch am Server ausgewählt.
 Der Vorteil davon ist, dass nur eine Programmiersprache benutzt werden muss, um eine Client-Server-Architektur zu bewerkstelligen.
@@ -72,7 +72,7 @@ Nachteile von p5.js:
 \end{compactitem}
 
 
-\subsection {Node.js [R]} 
+\subsection {Node.js [R]}
 Node.js ist eine plattformübergreifende Open-Source-JavaScript-Laufzeitumgebung, mit der Besonderheit, dass sie JavaScript-Code außerhalb eines Webbrowsers ausführen kann.
 Sie wurde 2009 von Ryan Dahl entwickelt, einem Software-Entwickler aus Kalifornien.
 Die Laufzeitumgebung wurde darauf spezialisiert, leicht skalierbare Server zu bauen. \cite{nodejs}
@@ -87,7 +87,7 @@ Vorteile von Node.js: \cite{nodejs_vorteile}
     \item Durch den Node-Package-Manager (NPM) kann auf sehr viele Bibliotheken zugegriffen werden
     \item Es ist nicht wichtig, welches Betriebssystem verwendet wird. Node.js ist kompatibel mit Microsoft Windows, macOS, Linux, Solaris, FreeBSD, OpenBSD etc.
     \item Hinter Node.js steht eine große Entwickler-Community, die bereit ist, in Problemfällen zu helfen
-\end{compactitem} 
+\end{compactitem}
 
 
 % In dem folgenden "Hello World"-Beispiel, können viele Verbindung gleichzeitig behandelt werden. Bei jeder Verbindung wird die Callback-Funktion ausgeführt, aber wenn keine Arbeit zu erledigen ist, schläft Node.js.
@@ -117,8 +117,8 @@ Die Struktur eines package.json-Files sieht wie folgt aus:
 \subsubsection{Express}
 Express ist das am meisten verbreitetste Node-Web-Framework und ist auch die Basis für andere Node-Web-Frameworks. Die Hauptverantwortung
 von Express ist das Bereitstellen von Server-Logik, wie zum Beispiel das Schreiben von Handlers für Requests mit unterschiedlichen Http-Request-Methoden (GET, POST, PUT etc.) auf unterschiedlichen URL-Pfaden. \cite{node_environment} \\
-Express wird mit dem Node-Package-Manager mit \texttt{npm install express} installiert. Befindet sich der Benutzer in 
-einem Verzeichnis, das ein package.json-File beinhlatet, bei dem Express als Dependency hinzugefügt wurde, dann reicht \texttt{npm install} für die Installation. 
+Express wird mit dem Node-Package-Manager mit \texttt{npm install express} installiert. Befindet sich der Benutzer in
+einem Verzeichnis, das ein package.json-File beinhlatet, bei dem Express als Dependency hinzugefügt wurde, dann reicht \texttt{npm install} für die Installation.
 
 \begin{figure}[H]
     \centering
@@ -140,7 +140,7 @@ Socket.IO funktioniert so, dass der Client, falls möglich, eine SocketIO-Verbin
 Ist keine Verbindung möglich, setzt der Client einen HTTP-long polling-Request ab, also ein Request an den Server, der diesen so lange offen hält, bis neue Daten geschickt werden können. \cite{httpLongPolling} \\
 Am Client sieht die Syntax für die JavaScript-Library so aus:
 
-\begin{figure}[H] 
+\begin{figure}[H]
     \centering
     \includegraphics[scale=1]{pics/SocketIO_client.PNG}
     \caption{Socket.IO Client Beispiel}
@@ -171,16 +171,16 @@ Das heißt, Socket.IO ist ein Wrapper rund um die WebSocket API. \cite{socketio}
 Ein QR-Code ist ein Matrix-Barcode welcher meistens auf eine bestimmte URL verweist. Die Bezeichnung QR steht für Quick Response,
 also schnelle Antwort. Für die Codierung verwendet der QR-Code 4 Methoden: Numerisch, Alphanumerisch, Byte/Bit und Kanji.
 Besonders populär wurde das QR-Code System dank seiner
-schnellen Lesbarkeit und seiner erhöhten Speicherkapazität im Vergleich zu den 
+schnellen Lesbarkeit und seiner erhöhten Speicherkapazität im Vergleich zu den
 damalig verwendeten UPC Barcodes(sh. Abbildung 10). Anwendungsfälle für QR-Codes sind Produkt-Tracking, Item-Identifikation, Dokumentenmanagement, etc. .
 Ein QR-Code besteht aus schwarzen Quadraten welche in einem großen Quadrat arrangiert werden(sh. Abbildung 9).
 Dieser kann einfach von einer Kamera oder ähnlichem gescannt und ausgewertet werden.
-Das QR-Code-System wurde von Masahiro Hara von der japanischen Autofirma Denso Wave entwickelt. 
-Das Design basiert auf den schwarzen und weißen Spielfiguren des Go-Spiels. 
-Ursprünglich wurde das System zum tracken von Fahrzeugen während der Herstellung verwendet. 
+Das QR-Code-System wurde von Masahiro Hara von der japanischen Autofirma Denso Wave entwickelt.
+Das Design basiert auf den schwarzen und weißen Spielfiguren des Go-Spiels.
+Ursprünglich wurde das System zum tracken von Fahrzeugen während der Herstellung verwendet.
 Heutzutage werden QR-Codes vor allem im Werbebereich verwendet. Oft wird der
-potenzielle Kunde dazu eingeladen  sein Smartphone herauszuholen und einfach den QR-Code zu Scannen um 
-ihn dann auf der Webseite Produkte anzubieten. 
+potenzielle Kunde dazu eingeladen  sein Smartphone herauszuholen und einfach den QR-Code zu Scannen um
+ihn dann auf der Webseite Produkte anzubieten.
 
 \begin{figure}[H]
     \centering
@@ -240,13 +240,13 @@ Das Resultat dieser Veränderung sieht so aus:
 \end{figure}
 
 Bei dieser Arbeit wurde der QR-Code verwendet mit dem Handy zugriff auf den Mapscanner und
-das Hochladen der Zeichnung zu gewährleisten.   
+das Hochladen der Zeichnung zu gewährleisten.
 
 \subsection{Chart.js [W]}
 Chart.js ist eine Open-Source JavaScript Bibliothek welche es ermöglicht einfach und schnell Diagramme
-in eine Webseite einzubauen. Die Bibliothek kann entweder mit dem Shell-Befehl \textit{npm i chart.js} eingebunden werden oder via Github unter 
-\textit{https://github.com/chartjs/Chart.js} gedownloaded werden. Chart.js stellt einem sehr 
-viele Möglichkeiten zur Verfügung um die Diagramme zu personalisieren. 
+in eine Webseite einzubauen. Die Bibliothek kann entweder mit dem Shell-Befehl \textit{npm i chart.js} eingebunden werden oder via Github unter
+\textit{https://github.com/chartjs/Chart.js} gedownloaded werden. Chart.js stellt einem sehr
+viele Möglichkeiten zur Verfügung um die Diagramme zu personalisieren.
 Ihre Bibliothek hat alle denkbaren Diagrammtypen (Balkendiagramm, Kuchendiagramm, Liniendiagramm, ..., sh. Abbildung 12-14)
 Eine einfaches Beispiel für ein Balkendiagramm sieht so aus:
 \begin{lstlisting}[language=html,caption=Balkendiagramm HTML Code,label=lst:tech:gaussianBlur]
@@ -306,7 +306,7 @@ Eine einfaches Beispiel für ein Balkendiagramm sieht so aus:
 </html>
 \end{lstlisting}
 Die Parameter die hier verwendet wurden sind type, welcher den Typ des Diagramms angibt,
-in diesem Fall bar für Balkendiagramm, data, welcher ein JSON Object mit weiteren Parametern ist. 
+in diesem Fall bar für Balkendiagramm, data, welcher ein JSON Object mit weiteren Parametern ist.
 Zum Schluss wurde mit options.scales.y.beginAtZero noch festgelegt, dass der Graph bei 0 beginnen soll.
 
 Mit Veränderung des type Parameters können sehr einfach die Diagrammtypen verändert werden:
@@ -326,7 +326,7 @@ Mit Veränderung des type Parameters können sehr einfach die Diagrammtypen ver�
     \caption{Linechart}
 \end{figure}
 
-Chart.js stellt noch viele weitere hilfreiche Optionen zur Verfügung. Wird 
+Chart.js stellt noch viele weitere hilfreiche Optionen zur Verfügung. Wird
 zum Beispiel ein logarithmischer Graph benötigt kann dies mit options.scales.myscale.type = "logarithmic" eingestellt werden
 
 \begin{figure}[H]
@@ -341,7 +341,7 @@ zum Beispiel ein logarithmischer Graph benötigt kann dies mit options.scales.my
 \end{figure}
 
 
-Weitere hilfreiche Einsellungen sind: 
+Weitere hilfreiche Einsellungen sind:
 \begin{compactitem}
     \item yAxis/xAxis: Konfigurierung der Y- und X-Achse
     \item label: Die Bezeichnung für den Datensatz, die in der Legende erscheint.
@@ -415,12 +415,14 @@ In dieser Diplomarbeit wird Kubernetes benutzt, um ein mit Docker gebautes Image
 
 \newpage
 \section{Python [H]}
-Diese Programmiersprache, welche nach der Britischen comedy Serie ``Monty Python'' benannt ist,
+Die Programmiersprache Python
 fand in unserer Arbeit zwei Haupteinsatzgebiete. \\
 Erstens, zur Erkennung des Blatt Papiers und der Umwandlung der Zeichnung in eine spielbare Map
 und zweitens um die Künstliche Intelligenz zu erschaffen. \\
 Die kostenlosen Bibliotheken, welche wir dabei in Verwendung haben, werden im folgenden gelistet und näher
 erklärt.
+Der Vorteil von Python, und auch der Grund warum die Sprache den Einsatz in dieser Arbeit fand, ist, weil
+viele Hilfestellungen und Bibliotheken verfügbar sind.
 \setauthor{Himmetsberger Jonas}
 
 \subsection{Flask [H]}
