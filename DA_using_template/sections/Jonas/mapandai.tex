@@ -1510,20 +1510,22 @@ Da jedoch zu dieser Zeit schon ersichtlich war, dass dieses Modell für den Anwe
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=1.1]{pics/Tensorboard/A2C/entropy_loss.png}
+    \includegraphics[scale=0.7]{pics/Tensorboard/A2C/entropy_loss.png}
     \caption{Entropieverlust}
     \label{fig:a2c:entropyloss}
 \end{figure}
 
-Dass die Künstliche Intelligenz durch den A2C Algorithmus nicht dazugelernt hat,
-wird klar erkennbar, wenn der Verlauf der Lernrate im Intervall von 0 bis 22.000 Schritte konstant auf dem Wert null bleibt.
-Die folgende Funktion stellt die Lernrate der ``ScribbleFight'' Künstlichen Intelligenz dar; es wurde der A2C Algorithmus angewandt.
+
+Das Modell, welches mit dem A2C Algorithmus trainiert, hat im Intervall von 0 bis 22.000 Schritten
+konstant eine Lernrate von 0.0007. Diese wird von der ``Stable Baselines3''-Bibliothek als Standardwert
+festgelegt.
+Die folgende Funktion stellt die Lernrate der ``ScribbleFight'' Künstlichen Intelligenz dar.
 
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.7]{pics/Tensorboard/A2C/learning_rate.png}
     \caption{Lernrate}
-    \label{fig:a2c:entropyloss}
+    \label{fig:a2c:learningrate}
 \end{figure}
 
 Auch im Falle des Wertverlusts ist kein klarer Trend erkennbar.
@@ -1540,7 +1542,7 @@ nahezu gleich bleibend ist.
 
 Aus diesen Graphen ist es klar ersichtlich, dass der A2C Algorithmus für den Anwendungsfall nicht geeignet ist.
 
-\subsubsection{PPO [H]}
+\subsubsection{PPO [H]}\label{maai:ppo:head}
 Der zweite Algorithmus, mit welchem die Künstliche Intelligenz trainiert wurde, heißt ``PPO''.
 PPO ist eine Abkürzung und steht für ``Proximal Policy Optimization''. Dieses mathematische Modell
 wurde von OpenAI im Jahr 2017 veröffentlicht. Es basiert darauf, dass eine kleine Menge an Erfahrung gesammelt wird, indem der Spieler mit seiner Umwelt interagiert.
@@ -1572,12 +1574,13 @@ wurden.
     \label{fig:ppo:entropyloss}
 \end{figure}
 
-JONAS AAAAAAAAAAAAAAAAAAAAAAAAAAA SCHREIB MI NU UM:
-
-Die mittlere Größenordnung der Policenverlustfunktion.
-Korreliert damit, wie stark sich die Richtlinie (Prozess zur Entscheidungsfindung) ändert.
-Das Ausmaß sollte während einer erfolgreichen Trainingseinheit abnehmen.
-Diese Werte werden während des Trainings oszillieren. Im Allgemeinen sollten sie kleiner als 1,0 sein.
+In der folgenden Grafik wir die Änderung der ``Policy-Loss''-Funktion beschrieben.
+Diese zeigt, wie stark sich das Erlernte ändert und beschreibt somit den Prozess der Entscheidungsfindung.
+Dadurch, dass die Funktion einen Verlust darstellt, sollte dieser in einem erfolgreichen Training fallen.
+Die Werte sind während des Trainings stark geschwankt, was jedoch normal ist,
+da durch den PPO Algorithmus die Policy Funktion in jeder Episode neu erlernt wird.
+Die Aufgabe des mathematische Modells ist es, dass sich nur in Summe das Erlernte (``policy'') nicht zu stark in eine Richtung tendiert, wie am Anfang dieses Unterkapitels (\ref{maai:ppo:head}) erklärt ist.
+Im Allgemeinen sollten die Werte der ``Policy-Loss''-Funktion kleiner als 1,0 sein.
 
 \begin{figure}[H]
     \centering
@@ -1585,3 +1588,23 @@ Diese Werte werden während des Trainings oszillieren. Im Allgemeinen sollten si
     \caption{Policy Graident Loss}
     \label{fig:ppo:pgl}
 \end{figure}
+
+Wie der ``Stable Baselines3''-Dokumentation %Site: \url{https://stable-baselines3.readthedocs.io/en/master/modules/ppo.html}
+zu entnehmen ist, ist die Lernrate bei dem PPO Algorithmus eine Konstante.
+Diese hat den Wert \(3*e^{-4}\).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.7]{pics/Tensorboard/PPO/learning_rate_new.png}
+    \caption{Lernrate}
+    \label{fig:ppo:learningrate}
+\end{figure}
+
+Obwohl das Modell, welches mit dem PPO-Algorithmus erlernt wurde,
+bessere Ergebnisse erzielt hat, als jenes, welches mit dem A2C-Algorithmus trainiert wurde,
+hat auch dieses viele Schwächen. So ist es nicht möglich, dass eine Vorhersage, welche
+auf dem Erlernten basieren soll, einem menschlichen Spieler gleicht.
+
+
+%Quelle: Tensorboard Dokumentation: https://www.tensorflow.org/tensorboard/get_started
+% https://medium.com/aureliantactics/understanding-ppo-plots-in-tensorboard-cbc3199b9ba2
