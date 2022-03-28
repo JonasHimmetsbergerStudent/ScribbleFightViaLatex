@@ -173,8 +173,8 @@ Ein QR-Code ist ein Matrix-Barcode welcher meistens auf eine bestimmte URL verwe
 also schnelle Antwort. Für die Codierung verwendet der QR-Code 4 Methoden: Numerisch, Alphanumerisch, Byte/Bit und Kanji.
 Besonders populär wurde das QR-Code System dank seiner
 schnellen Lesbarkeit und seiner erhöhten Speicherkapazität im Vergleich zu den
-damalig verwendeten UPC Barcodes(sh. Abbildung 10). Anwendungsfälle für QR-Codes sind Produkt-Tracking, Item-Identifikation, Dokumentenmanagement, etc. .
-Ein QR-Code besteht aus schwarzen Quadraten welche in einem großen Quadrat arrangiert werden(sh. Abbildung 9).
+damalig verwendeten UPC Barcodes(Abbildung \ref{fig:tech:barcode}). Anwendungsfälle für QR-Codes sind Produkt-Tracking, Item-Identifikation, Dokumentenmanagement, etc. .
+Ein QR-Code besteht aus schwarzen Quadraten welche in einem großen Quadrat arrangiert werden(Abbildung \ref{fig:tech:qrCode}).
 Dieser kann einfach von einer Kamera oder ähnlichem gescannt und ausgewertet werden.
 Das QR-Code-System wurde von Masahiro Hara von der japanischen Autofirma Denso Wave entwickelt.
 Das Design basiert auf den schwarzen und weißen Spielfiguren des Go-Spiels.
@@ -187,12 +187,14 @@ ihn dann auf der Webseite Produkte anzubieten.
     \centering
     \includegraphics[scale=1]{pics/googleQR.png}
     \caption{QR-Code zu www.google.com}
+    \label{fig:tech:qrCode}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.8]{pics/UPCBarcode.png}
     \caption{UPC Barcode}
+    \label{fig:tech:barcode}
 \end{figure}
 
 
@@ -238,6 +240,7 @@ Das Resultat dieser Veränderung sieht so aus:
     \centering
     \includegraphics[scale=0.7]{pics/fancyQR.png}
     \caption{Personalisierter QR-Code}
+    \label{fig:tech:persQR}
 \end{figure}
 
 Bei dieser Arbeit wurde der QR-Code verwendet mit dem Handy zugriff auf den Mapscanner und
@@ -248,7 +251,7 @@ Chart.js ist eine Open-Source JavaScript Bibliothek welche es ermöglicht einfac
 in eine Webseite einzubauen. Die Bibliothek kann entweder mit dem Shell-Befehl \textit{npm i chart.js} eingebunden werden oder via Github unter
 \textit{https://github.com/chartjs/Chart.js} gedownloaded werden. Chart.js stellt einem sehr
 viele Möglichkeiten zur Verfügung um die Diagramme zu personalisieren.
-Ihre Bibliothek hat alle denkbaren Diagrammtypen (Balkendiagramm, Kuchendiagramm, Liniendiagramm, ..., sh. Abbildung 12-14)
+Ihre Bibliothek hat alle denkbaren Diagrammtypen (Balkendiagramm, Kuchendiagramm, Liniendiagramm, ..., Abbildung \ref{fig:tech:barchart}, \ref{fig:tech:linechart})
 Eine einfaches Beispiel für ein Balkendiagramm sieht so aus:
 \begin{lstlisting}[language=html,caption=Balkendiagramm HTML Code,label=lst:tech:gaussianBlur]
 <html lang="en">
@@ -315,16 +318,19 @@ Mit Veränderung des type Parameters können sehr einfach die Diagrammtypen ver�
     \centering
     \includegraphics[scale=0.3]{pics/barChart.png}
     \caption{Barchart}
+    \label{fig:tech:barchart}
 \end{figure}
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.3]{pics/pieChart.png}
     \caption{Piechart}
+    \label{fig:tech:piechart}
 \end{figure}
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.3]{pics/lineChart.png}
     \caption{Linechart}
+    \label{fig:tech:linechart}
 \end{figure}
 
 Chart.js stellt noch viele weitere hilfreiche Optionen zur Verfügung. Wird
@@ -650,8 +656,45 @@ Um die Fläche zu skalieren wird an den Ecken mit der Maus die Größe veränder
 kann dabei die Umschalt-Taste gedrückt werden. Damit die Ebene gedreht werden kann, muss an den Rändern gehovert werden bis das Drehsymbol erscheint. 
 Um die Ebene zu spiegeln oder auf den Kopf zu stellen kann der Befehl 'Horizontal Spiegeln' bzw. 'Um 180° drehen'.
 
+\subsection{12 Prinzipien der Animation}
+Im Jahr 1981 haben die beiden Disney Animatoren Ollie Johnston und Frank Thomas in ihrem Buch ''Disney Animation: Die Illusion des Lebens'' die Animationsindustrie revolutioniert. 
+Darin haben sie 12 Prinzipien der Animation vorgestellt welche seit den 1930er Jahren von Disney in ihren Animationsfilmen angewendet wurden. 
+Die Grundlagen dieser Prinzipien bestehen darin, Animationen zu erzeugen, welche den Gesetzen der Physik folgen, doch auch mit Timing, Emotionen etc. 
 
+\subsubsection{1. Quetschen und Dehnen}
+Dieses Prinzip beruht darauf, dass animierte Objekte länger bzw. flacher werden um ihre Geschwindigkeit, Masse oder ihr Momentum zu betonen.
+Wie stark ein Objekt sich dehnt und zusammendrückt sagt viel über die Masse des Objekts aus. Umso mehr Dehnung umso leichter ist das Objekt. 
+Dies wird auch auf animierte Charaktere angewandt. Wenn ein Charakter nach unten fällt, dehnt sich sein Körper und wenn er landet wird er zusammendrückt, bevor er in einer stabilen Position stehen bleibt (Abbildung \ref{fig:tech:SqashAndStretch}).    
+Dabei muss jedoch beachtet werden, dass das Volumen des Objekts immer gleich bleiben muss. Wird ein Objekt nach unten zusammengedrückt muss es sich in die Breite dehnen (Abbildung \ref{fig:tech:SqashAndStretchCube}). 
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5]{pics/SqashAndStretch.png}
+    \caption{Squash and Stretch Charakter}
+    \label{fig:tech:SqashAndStretch}
+\end{figure}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5]{pics/SqashAndStretchCube.png}
+    \caption{Squash and Stretch Quadrat}
+    \label{fig:tech:SqashAndStretchCube}
+\end{figure}
 
+\subsubsection{2. Erwartungen}
+Dieses Prinzip soll dem Zuschauer einen Hinweis darauf geben welche Aktion als nächstes passiert. Außerdem soll dies die Aktion mehr realistischer machen. 
+Das klassische Beispiel hierzu ist ein Sprung. Bevor der Charakter in die Luft springt muss er sich erst nach unten beugen, um Energie aufzubauen. Dies kann mit einer Feder verglichen werden, welche zusammengedrückt wird, und dann schnell losgelassen wird (Abbildung \ref{fig:tech:Spring}). 
+Ein weiteres Beispiel ist ein Schlag. Um den Schlag realistischer darzustellen und dem Zuseher zu signalisieren, dass gleich etwas wichtiges passieren wird, holt ein animierter Charakter überdramatisch aus(Abbildung \ref{fig:tech:Punch}).
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5]{pics/Spring.png}
+    \caption{Sprung}
+    \label{fig:tech:Spring}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5]{pics/Punch.png}
+    \caption{Schlag}
+    \label{fig:tech:Punch}
+\end{figure}
 
 
