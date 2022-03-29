@@ -4,7 +4,7 @@ Nachdem der Spieler der Lobby beigetreten ist, wird es Zeit für ihn die Spielum
 Abstimmung freizugeben. Das passiert, indem dieser einen QR-Code (``Quick Response''), welcher sich in der
 Mitte der Lobby befindet, mit einem mobilen Endgerät, welches über eine Kamera verfügt, abscannt. Somit wird
 er auf eine Webseite geleitet, welche wieder auf die Kamera zugreift. Auf dieser ist bereits eine Objekterkennung
-vorprogrammiert. Auf die Funktionsweise und auf die technische Umsetzung wird im folgenden \dots eingegangen. Wenn der Spieler
+vorprogrammiert. Auf die Funktionsweise und auf die technische Umsetzung wird im folgenden eingegangen. Wenn der Spieler
 merkt, dass die Objekterkennung das Blatt erkannt hat, kann dieser ein Bild aufnehmen. Im nächsten Schritt ist es nochmals möglich
 die erkannten Kanten zu verschieben. Wenn sich der User für das Foto als Map entscheidet, so kann er den ausgewählten Teil in eine
 top-down-2d-Perspektive
@@ -83,12 +83,12 @@ genauer erklärt.
 \end{lstlisting}
 
 
-Nachdem das Bild in ein Schwarz-Weiß-Bild umgewandelt wurde, muss vor der Konturenerkennung noch ein Schwellwert-Bild eines unscharfen Bildes erzeugt werden. In der Untenstehenden Abbildung \ref{fig:map:documentscanner}
-das dritte Bild von links, oben. Das Schwellwert-Bild dient dazu, maximal viel Information aus dem Bild zu entfernen. Somit bleiben nur die relevanten Informationen über, welche OpenCV2 braucht um Konturen bilden zu können.
-
+Nachdem das Bild in ein Schwarz-Weiß-Bild umgewandelt wurde, muss vor der Konturenerkennung noch ein Schwellwert-Bild eines unscharfen Bildes erzeugt werden.
+Das dritte Bild von links, oben in der Abbildung \ref{fig:map:documentscanner}. Das Schwellwert-Bild dient dazu, maximal viel Information aus dem Bild zu entfernen. Somit bleiben nur die relevanten Informationen über, welche OpenCV2 braucht um Konturen bilden zu können.\\
+\\
 \begin{lstlisting}[caption=Erhalten von Konturen,language=Python,label=lst:impl:getContours]
         ...
-        
+
         contours, hierarchy = cv2.findContours(
             imgThreshold, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)  # FIND ALL CONTOURS
 
@@ -97,7 +97,7 @@ das dritte Bild von links, oben. Das Schwellwert-Bild dient dazu, maximal viel I
         area = 1000
         biggest, maxArea = biggestContour(
             contours, accuracy, area)  # FIND THE BIGGEST CONTOUR
-        
+
         ...
 
         edges = getEdges(oldBiggest, biggest, contours, img, biggestChanged)
@@ -107,7 +107,7 @@ das dritte Bild von links, oben. Das Schwellwert-Bild dient dazu, maximal viel I
 
 In diesem Code-Block ist ersichtlich, wie OpenCV2 die Konturen aus einem Schwellwert-Bild extrahiert,
 und danach die größte herausfindet.
-Wie die Funktion ``biggestContour(\dots)'' funktioniert ist in diesem Codeblock \ref{lst:impl:findBiggestContour} beschrieben. Und danach wird in ``getEdges(\dots)'' ein Numpy-Array von den Eckpunkten erzeugt, in eine anderer Reihenfolge, welche für den Perspektiven Transform relevant ist, umgewandelt und dann als Return-Wert zurückgegeben.
+Wie die Funktion ``biggestContour(\dots)'' funktioniert ist in diesem Codeblock \ref{lst:impl:findBiggestContour} beschrieben. Danach wird in ``getEdges(\dots)'' ein Numpy-Array von den Eckpunkten erzeugt, in eine anderer Reihenfolge, welche für den Perspektiven Transform relevant ist, umgewandelt und dann als Return-Wert zurückgegeben.
 
 \begin{figure}[H]
     \centering
