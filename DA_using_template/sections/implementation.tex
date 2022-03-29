@@ -1267,14 +1267,14 @@ In diesem Verzeichnis werden alle folgenden Befehle ausgeführt. Der Vorteil dav
 \begin{lstlisting}
     COPY ./p5_backend/package*.json ./p5_backend/
 \end{lstlisting}
-Bevor \texttt{npm install} ausgeführt werden kann, muss unser package.json und package-lock.json File auf das Image kopiert werden.
+Bevor \texttt{npm install} ausgeführt werden kann, muss das package.json File und package-lock.json File auf das Image kopiert werden.
 Um das machen zu können, wird \texttt{COPY} benutzt. Dieser Befehl nimmt zwei Parameter: Source und Destination. Es werden package.json und package-lock.json in einen neuen Ordner des vorherig erstellen Arbeits-Verzeichnis kopiert. \\
 
 \begin{lstlisting}
     WORKDIR /usr/src/app/p5_backend
     RUN npm install
 \end{lstlisting}
-Es wird nun das Verzeichnis, in das das package.json-und package-lock.json-File kopiert worden sind, als Arbeits-Verzeichnis definiert.
+Es wird nun das Verzeichnis, in das das package.json-und package-lock.json File kopiert worden sind, als Arbeits-Verzeichnis definiert.
 Da dort diese Files vorhanden sind, kann \texttt{npm install} ausgeführt werden und alle nötigen Dependencies werden heruntegeladen. \\
 
 \begin{lstlisting}
