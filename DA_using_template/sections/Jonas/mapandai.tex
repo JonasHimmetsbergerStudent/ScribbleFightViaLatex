@@ -56,11 +56,11 @@ Andere Beispiele:
 
 \subsubsection{Beschreibung der Funktionalität [H]}\label{maai:beschrFunktionalitaet}
 
-Wie schon erwähnt kann aus Bildern Daten erkannt werden. Viele Pixel bilden insgesamt ein Bild, welches wir visuell aufnehmen und in welchem wir alles Mögliche erkennen können. Jeder einzelne dieser Pixel in einem digitalen Bild enthält Informationen über die Helligkeit und über die Farbe. Der Bildpunkt setzt sich zusammen aus den Farben Rot, Grün und Blau. Aus diesen drei können alle möglichen Farben abgebildet werden.
+Wie schon erwähnt kann aus Bildern Daten erkannt werden. Viele Pixel bilden insgesamt ein Bild, welches visuell aufgenommen wird und in welchem alles Mögliche erkannt werden kann. Jeder einzelne dieser Pixel in einem digitalen Bild enthält Informationen über die Helligkeit und über die Farbe. Der Bildpunkt setzt sich zusammen aus den Farben Rot, Grün und Blau. Aus diesen drei können alle möglichen Farben abgebildet werden.
 \\
 Bevor darauf eingegangen wird wieso die Konturenerkennung als Art der Bilderkennung verwendet wurde, ist es noch entscheidend zu wissen, wie der Mensch Objekte erkennt.
 \\
-In unserem Auge passiert die Farberkennung via den Zapfen. Auch hier wird die Wellenlänge des Lichts in ein Gemisch aus Rot, Grün und Blau aufgeteilt. Allerdings benötigen wir das reine Farbsehen nicht um Objekte zu erkennen. Es reicht schon, wenn nur Informationen über die Helligkeit empfinden. Somit können wir zum Beispiel auch in Schwarz-Weiß-Bildern oder in der Dunkelheit bei wenig Licht Objekte erkennen. Wir erkennen einen Unterschied zwischen Objekten, welche sich in einem dreidimensionalen Raum befinden leicht, indem das eine Objekt sich in der Helligkeit von dem anderen Objekt unterscheidet. Das heißt, dass wenn z.B. ein Würfel auf einem Boden liegt, dann erkennen wir den Würfel, weil dieser anders viel Licht reflektiert als der Boden. Und an der Stelle, wo der Würfel aufhört, erkennen wir eine Kontur. Hier ist der Unterschied zwischen Boden und Würfel erkennbar.
+In unserem Auge passiert die Farberkennung via den Zapfen. Auch hier wird die Wellenlänge des Lichts in ein Gemisch aus Rot, Grün und Blau aufgeteilt. Allerdings wird das reine Farbsehen nicht benötigt, um Objekte zu erkennen. Es reicht schon, wenn nur Informationen über die Helligkeit empfinden. Somit kann zum Beispiel auch in Schwarz-Weiß-Bildern, oder in der Dunkelheit bei wenig Licht, Objekte erkannt werden. Ein Mensch erkennt einen Unterschied zwischen Objekten, welche sich in einem dreidimensionalen Raum befinden leicht, indem das eine Objekt sich in der Helligkeit von dem anderen Objekt unterscheidet. Das heißt, dass wenn z.B. ein Würfel auf einem Boden liegt, ist dieser erkennbar, weil er anders viel Licht reflektiert als der Boden. An der Stelle, wo der Würfel aufhört, kann eine Kontur erkannt werden. Hier ist der Unterschied zwischen Boden und Würfel erkennbar.
 \\
 Und genau so passiert auch die Objekterkennung in unserem Spiel ScribbleFight. Hier wird zuerst aus der Live-View, welche vom Client zur Verfügung gestellt wird, das Farbbild in Graustufen konvertiert. Das passiert, indem für jeden Pixel ein ``Durchschnitts-Wert'' der Helligkeit von allen drei Farbwerte (Rot, Grün, Blau), welche in einem 8-Bit System von 0 bis 255 geht, gebildet wird. Wie dies jedoch genauer funktioniert, wird im Kapitel Bildverarbeitungsalgorithmen
 \ref{maai:alogs}
@@ -817,7 +817,7 @@ Jedoch wird zuerst eben das transformierte Bild in den Array umgewandelt. Dafür
 Wird nun eine Bildbreite und eine Bildhöhe in ``rows'' und ``columns'' eingesetzt, so ist das Ergebnis der ganzzahlige Faktor, mit welchem die angegebene Bildbreite und Höhe multipliziert werden muss, um maximal \(\approx\)3025 Pixel zu erreichen.
 Angenommen also, das Bild ist 1920x1080 Pixel groß, so würde das eine Anzahl von 2.073.600 Pixel liefer. Werden diese Werte nun in die Formel eingesetzt, so ist der Faktor 27. Werden nun die beiden Bildmaße mit diesem Wert dividiert, so ist das Ergebnis ein Bild, welches 72x40 groß ist und somit eine Anzahl von 2880 Pixel liefert und somit weit unter den geforderten 3025 Pixeln liegt.
 
-Der Grund, warum der Array eine maximale Größe von 3025 Einträgen hat, ist, weil p5.js, die Bibliothek, welche wir verwenden, um die Spielumgebung aufzubauen nur ein Maximum von 1000 ``Meshes'' generieren kann, bevor das Spiel zu ruckeln beginnt. Es wird davon ausgegangen, dass nie mehr als ein Drittel seines Blattes vollgezeichnet wird.
+Der Grund, warum der Array eine maximale Größe von 3025 Einträgen hat, ist, weil p5.js, die Bibliothek, welche verwendet wurde, um die Spielumgebung aufzubauen nur ein Maximum von 1000 ``Meshes'' generieren kann, bevor das Spiel zu ``ruckeln'' beginnt. Es wird davon ausgegangen, dass nie mehr als ein Drittel seines Blattes vollgezeichnet wird.
 
 Dann wird in einer zweidimensionalen Schleife das Bild durchgegangen und jeweils alle n Pixel ein Mittelwert errechnen über die Farbwerte des Bildes errechnet und somit der Hintergrund vom Vordergrund getrennt. Alle n Pixel werden zusammengefasst. Wenn in diesem Code also mehr als 95\% der Pixel Hintergrund darstellen, so wird der Pixel auch als Hintergrund gewertet (es wird also in den Map-Array ein transparenter Pixel an der Stelle x/n und y/n gepusht). Ansonsten wird ein Schwarzer Pixel (als Map erkannt) dem Map-Array hinzugefügt. An dem Punkt mit den Koordinaten x/n und y/n befindet sich also der neue Bildpunkt, da das Bild ja komprimiert werden soll.
 
@@ -897,7 +897,7 @@ Dazu müssen jedoch gewisse mathematische Modelle angewandt werden, um dieses Er
 
 Dass und wie es für eine Maschine möglich ist zu lernen wurde bereits im Kapitel \ref{tech:ki:head} näher erläutert.
 
-Um diese mathematischen Modelle jedoch perfekt auf ein gewünschtes Ergebnis abstimmen zu können, wir Hpyerparamter-``Fine-Tuning'' angewendet. Dabei werden jene Parameter, welche zu einem Lernen beitragen, so angepasst, dass das Modell eine perfekte Lernkurve erzielt.
+Um diese mathematischen Modelle jedoch perfekt auf ein gewünschtes Ergebnis abstimmen zu können, wird Hpyerparamter-``Fine-Tuning'' angewendet. Dabei werden jene Parameter, welche zu einem Lernen beitragen, so angepasst, dass das Modell eine perfekte Lernkurve erzielt.
 
 Im Zuge dieser Arbeit wurde klar, dass Künstliche Intelligenz kein Thema ist, welches leicht zu begreifen ist.
 
@@ -1370,7 +1370,7 @@ class Game:
         self.angle = 0  # angle in which the ai can shoot a bullet
 
 \end{lstlisting}
-In der ``action''-Funktion wird zunächst überprüft, ob das Spiel läuft. Danach wird ein ``String'' (Zeichenkette) namens ``actionString'' angelegt. Dieser wird leer initialisiert. Darunter wird der ``actionString'' basierend auf einem eindimensionalen Array, welcher drei Einträge hat, befüllt. Der erste Eintrag beinhaltet die Information, über die Richtung, in welche das Programm den Agenten beziehungsweise Spieler steuern möchte. Der nächste Eintrag bestimmt, welche Attacke die Künstliche Intelligenz ausführen möchte. An der letzten Position des Arrays wird bestimmt, wie die Künstliche Intelligenz den Abschusswinkel, in welchem sie das Projektil abfeuern möchte, anpassen soll. Ist dieser Wert des Arrays null, so wird der Winkel um fünf Grad gegen den Uhrzeigersinn angepasst. Umgekehrt passiert dies bei dem Wert eins. Zwei bewirkt, dass der Winkel gleichbleibt. Nachdem in der Funktion der ``actionString'' erstellt wird, wir dieser an die Methode ``execAction'' der ``ScribbleFight''-Instanz weitergegeben. ``execAction'' bewirkt die Ausführung der angegebenen Handlungen. Im Anschluss wird der Status des ``ScribbleFight'' Objekts und dessen Parameter aktualisiert.
+In der ``action''-Funktion wird zunächst überprüft, ob das Spiel läuft. Danach wird ein ``String'' (Zeichenkette) namens ``actionString'' angelegt. Dieser wird leer initialisiert. Darunter wird der ``actionString'' basierend auf einem eindimensionalen Array, welcher drei Einträge hat, befüllt. Der erste Eintrag beinhaltet die Information, über die Richtung, in welche das Programm den Agenten beziehungsweise Spieler steuern möchte. Der nächste Eintrag bestimmt, welche Attacke die Künstliche Intelligenz ausführen möchte. An der letzten Position des Arrays wird bestimmt, wie die Künstliche Intelligenz den Abschusswinkel, in welchem sie das Projektil abfeuern möchte, anpassen soll. Ist dieser Wert des Arrays null, so wird der Winkel um fünf Grad gegen den Uhrzeigersinn angepasst. Umgekehrt passiert dies bei dem Wert eins. Zwei bewirkt, dass der Winkel gleichbleibt. Nachdem in der Funktion der ``actionString'' erstellt wird, wird dieser an die Methode ``execAction'' der ``ScribbleFight''-Instanz weitergegeben. ``execAction'' bewirkt die Ausführung der angegebenen Handlungen. Im Anschluss wird der Status des ``ScribbleFight'' Objekts und dessen Parameter aktualisiert.
 \begin{lstlisting}[language=Python,firstnumber=101]
     def action(self, actions):
         # if current browser window has wrong url
@@ -1599,7 +1599,7 @@ wurden.
     \label{fig:ppo:entropyloss}
 \end{figure}
 
-In der folgenden Grafik wir die Änderung der ``Policy-Loss''-Funktion beschrieben.
+In der folgenden Grafik wird die Änderung der ``Policy-Loss''-Funktion beschrieben.
 Diese zeigt, wie stark sich das Erlernte ändert und beschreibt somit den Prozess der Entscheidungsfindung.
 Dadurch, dass die Funktion einen Verlust darstellt, sollte dieser in einem erfolgreichen Training fallen.
 Die Werte sind während des Trainings stark geschwankt, was jedoch normal ist,
