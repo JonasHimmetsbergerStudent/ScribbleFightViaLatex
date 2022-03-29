@@ -56,11 +56,11 @@ Andere Beispiele:
 
 \subsubsection{Beschreibung der Funktionalität [H]}\label{maai:beschrFunktionalitaet}
 
-Wie schon erwähnt kann man aus Bildern Daten erkennen. Viele Pixel bilden insgesamt ein Bild, welches wir visuell aufnehmen und in welchem wir alles Mögliche erkennen können. Jeder einzelne dieser Pixel in einem digitalen Bild enthält Informationen über die Helligkeit und über die Farbe. Der Bildpunkt setzt sich zusammen aus den Farben Rot, Grün und Blau. Aus diesen drei können alle möglichen Farben abgebildet werden.
+Wie schon erwähnt kann aus Bildern Daten erkannt werden. Viele Pixel bilden insgesamt ein Bild, welches wir visuell aufnehmen und in welchem wir alles Mögliche erkennen können. Jeder einzelne dieser Pixel in einem digitalen Bild enthält Informationen über die Helligkeit und über die Farbe. Der Bildpunkt setzt sich zusammen aus den Farben Rot, Grün und Blau. Aus diesen drei können alle möglichen Farben abgebildet werden.
 \\
-Bevor ich darauf eingehe, wieso wir uns für die Konturenerkennung als Art der Bilderkennung entschieden haben, ist es noch entscheidend zu wissen, wie der Mensch Objekte erkennt.
+Bevor darauf eingegangen wird wieso die Konturenerkennung als Art der Bilderkennung verwendet wurde, ist es noch entscheidend zu wissen, wie der Mensch Objekte erkennt.
 \\
-In unserem Auge passiert die Farberkennung via den Zapfen. Auch hier wird die Wellenlänge des Lichts in ein Gemisch aus Rot, Grün und Blau aufgeteilt. Allerdings benötigen wir das reine Farbsehen nicht um Objekte zu erkennen. Uns reicht es schon, wenn wir nur Informationen über die Helligkeit empfinden. Somit können wir zum Beispiel auch in Schwarz-Weiß-Bildern oder in der Dunkelheit bei wenig Licht Objekte erkennen. Wir erkennen einen Unterschied zwischen Objekten, welche sich in einem dreidimensionalen Raum befinden leicht, indem das eine Objekt sich in der Helligkeit von dem anderen Objekt unterscheidet. Das heißt, dass wenn z.B. ein Würfel auf einem Boden liegt, dann erkennen wir den Würfel, weil dieser anders viel Licht reflektiert als der Boden. Und an der Stelle, wo der Würfel aufhört, erkennen wir eine Kontur. Hier ist der Unterschied zwischen Boden und Würfel erkennbar.
+In unserem Auge passiert die Farberkennung via den Zapfen. Auch hier wird die Wellenlänge des Lichts in ein Gemisch aus Rot, Grün und Blau aufgeteilt. Allerdings benötigen wir das reine Farbsehen nicht um Objekte zu erkennen. Es reicht schon, wenn nur Informationen über die Helligkeit empfinden. Somit können wir zum Beispiel auch in Schwarz-Weiß-Bildern oder in der Dunkelheit bei wenig Licht Objekte erkennen. Wir erkennen einen Unterschied zwischen Objekten, welche sich in einem dreidimensionalen Raum befinden leicht, indem das eine Objekt sich in der Helligkeit von dem anderen Objekt unterscheidet. Das heißt, dass wenn z.B. ein Würfel auf einem Boden liegt, dann erkennen wir den Würfel, weil dieser anders viel Licht reflektiert als der Boden. Und an der Stelle, wo der Würfel aufhört, erkennen wir eine Kontur. Hier ist der Unterschied zwischen Boden und Würfel erkennbar.
 \\
 Und genau so passiert auch die Objekterkennung in unserem Spiel ScribbleFight. Hier wird zuerst aus der Live-View, welche vom Client zur Verfügung gestellt wird, das Farbbild in Graustufen konvertiert. Das passiert, indem für jeden Pixel ein ``Durchschnitts-Wert'' der Helligkeit von allen drei Farbwerte (Rot, Grün, Blau), welche in einem 8-Bit System von 0 bis 255 geht, gebildet wird. Wie dies jedoch genauer funktioniert, wird im Kapitel Bildverarbeitungsalgorithmen
 \ref{maai:alogs}
@@ -105,7 +105,9 @@ das dritte Bild von links, oben. Das Schwellwert-Bild dient dazu, maximal viel I
     return edges
 \end{lstlisting}
 
-In diesem Code-Block sieht man jetzt wie wir in unserer Diplomarbeit mit OpenCV2 die Konturen aus einem Schwellwert-Bild extrahiert haben und danach die größte Kontur herausgefunden haben. Wie die Funktion ``biggestContour(\dots)'' funktioniert ist in diesem Codeblock \ref{lst:impl:findBiggestContour} beschrieben. Und danach wird in ``getEdges(\dots)'' ein Numpy-Array von den Eckpunkten erzeugt, in eine anderer Reihenfolge, welche für den Perspektiven Transform relevant ist, umgewandelt und dann als Return-Wert zurückgegeben.
+In diesem Code-Block ist ersichtlich, wie OpenCV2 die Konturen aus einem Schwellwert-Bild extrahiert,
+und danach die größte herausfindet.
+Wie die Funktion ``biggestContour(\dots)'' funktioniert ist in diesem Codeblock \ref{lst:impl:findBiggestContour} beschrieben. Und danach wird in ``getEdges(\dots)'' ein Numpy-Array von den Eckpunkten erzeugt, in eine anderer Reihenfolge, welche für den Perspektiven Transform relevant ist, umgewandelt und dann als Return-Wert zurückgegeben.
 
 \begin{figure}[H]
     \centering
@@ -195,7 +197,7 @@ Dieser errechnete Faktor staucht die Höhe eines Bildes, welches von der unteren
     maxHeight *= factor
 \end{lstlisting}
 
-Im letzten Teil der Funktion wird lediglich nur noch das Bild in die richtige Perspektive transformiert. Dies wird erzielt, indem man die beiden vorgefertigten Funktionen ``cv2.getPerspectiveTransform(\dots)'' und ``cv2.warpPerspective(\dots)'' verwendet. Als Return-Wert liefert die genannte Funktion ein Bild mit dem Datentypen OpenCV2, welches dann im späteren Verlauf noch umcodiert werden muss.
+Im letzten Teil der Funktion wird lediglich nur noch das Bild in die richtige Perspektive transformiert. Dies wird erzielt, indem die beiden vorgefertigten Funktionen ``cv2.getPerspectiveTransform(\dots)'' und ``cv2.warpPerspective(\dots)'' verwendet werden. Als Return-Wert liefert die genannte Funktion ein Bild mit dem Datentypen OpenCV2, welches dann im späteren Verlauf noch umcodiert werden muss.
 
 \begin{lstlisting}[language=Python,label=lst:impl:wrapPerspective,firstnumber=40]
     m = np.array([pt_A, pt_B, pt_C, pt_D])
@@ -342,7 +344,7 @@ OpenCV2 stellt jedoch bereits Funktionen zur Verfügung, welche das Kalkulieren 
 
 %Quelle: https://www.tutorialkart.com/opencv/python/opencv-python-gaussian-image-smoothing/
 
-Führt man diesen Programmcode aus, so erzeugt dieser folgenden Effekt:
+Wird der Programmcode ausgeführt, so erzeugt dieser folgenden Effekt:
 
 \begin{figure}[htb]
     \centering
@@ -373,7 +375,7 @@ Das ``Image-Thresholding'' ist eine einfache Form der Segmentierung. Das ``Thres
 
 Ziel ist es also, aus einem Farb- beziehungsweise Graustufenbild eine Segmentierung zu erzeugen. Durch dieses Verfahren wird also, wie zuvor erwähnt, ein binäres Bild erzeugt, welches nur noch Schwarz- und Weißwerte beinhaltet. Dies wird zum Beispiel dafür verwendet, dass ein Hintergrund vom Vordergrund getrennt wird. Somit werden sogenannte ``Regions Of Interest'' erkannt. ``Region Of Interest'' bedeutet ``Bereich von Interesse''. Hierzu werden spezielle Bereiche aus einem Histogramm, also einer Messkurve, ausgewertet beziehungsweise ausgewählt und nach dem zuvor definierten Schwellwert in Gruppen unterteilt. Somit gibt die ``Region Of Interest'' die fokussierten/für die Auswertung Interessanten Bereiche eines Bildes wieder. Dem Hintergrund wird in einem binären Bild der Wert 0 (null) zugewiesen und dem Vordergrund der Wert 1. Diese Werte werden in einem Bild als 0 (null) - schwarz und als 1 – Weiß dargestellt.
 
-Durch das ``Thresholding'' gibt es die Möglichkeit ein Histogramm zu erstellen, um die Helligkeitswerte eines Bildes zu analysieren. Wenn man aus diesem Graustufenbild (\ref{maai:thresholding:input}) ein Histogramm (\ref{maai:thresholding:histogramm}) erzeugt, sieht dies wie folgt aus:
+Durch das ``Thresholding'' gibt es die Möglichkeit ein Histogramm zu erstellen, um die Helligkeitswerte eines Bildes zu analysieren. Ein aus dem Graustufenbild (\ref{maai:thresholding:input}) erzeugtes Histogramm (\ref{maai:thresholding:histogramm}) sieht es wie folgt aus:
 
 \begin{figure}[htb]
     \centering
@@ -393,7 +395,7 @@ Durch das ``Thresholding'' gibt es die Möglichkeit ein Histogramm zu erstellen,
 \end{figure}
 
 Das Histogramm veranschaulicht die Helligkeitsverteilung aller Pixel von den Werten 0 (null) (schwarz), welcher der Wert ganz Links auf der X-Achse im Histogramm ist, bis 255 (weiß), welches dem äußersten X-Wert entspricht. Auf der Y-Achse befindet sich die Häufigkeit der vorkommenden Pixel mit der entsprechenden Helligkeit.
-Man kann also erkennen und analysieren, dass überwiegend Hintergrund (dunkle Helligkeitswerte) in diesem Bild existiert. Damit aus diesem Histogramm auch ein Schwellwert-Bild (das binäre Bild) erzeugt werden kann, wird ein zuvor definierter Schwellwert zur Verarbeitung der Pixel herangezogen. Somit werden global (!) nur alle Pixel über einem gewissen Helligkeitswert in den Wert 1 (Vordergrund) umgewandelt. Alle anderen bleiben Schwarz. Sieht man sich nun folgendes Bild (\ref{maai:thresholding:output}) an, kann man durch die Schwellwertbildung erkennen, dass sich das interessante Objekt in der Bildmitte befindet:
+Es kann also erkannt und analysiert werden, dass überwiegend Hintergrund (dunkle Helligkeitswerte) in diesem Bild existiert. Damit aus dem Histogramm auch ein Schwellwert-Bild (das binäre Bild) erzeugt werden kann, wird ein zuvor definierter Schwellwert zur Verarbeitung der Pixel herangezogen. Somit werden global (!) nur alle Pixel über einem gewissen Helligkeitswert in den Wert 1 (Vordergrund) umgewandelt. Alle anderen bleiben Schwarz. In folgendem Bild (\ref{maai:thresholding:output}) an, kann durch die Schwellwertbildung erkannt werden, dass sich das interessante Objekt in der Bildmitte befindet:
 
 
 \begin{figure}[htb]
@@ -506,7 +508,7 @@ Anhand eines Beispiels wird diese Operation klarer:
         \end{array}\right]
 \]
 
-Hier existiert eine für einen Menschen klar erkennbare Kante; jedoch tut sich bei dem Erkennen die Maschine etwas schwerer. Dazu muss der zuvor genannte Kernel über die Pixel gelegt werden. So erhält man durch die Summe der Multiplikationen der einzelnen Werte des Kernels mit den entsprechenden Werten der Matrix des Bildes. Diese ergibt in diesem Beispiel 1025. Ist dieser Wert über einen zuvor definierten Schwellwert, so existiert an dieser Position eine Kante.
+Hier existiert eine für einen Menschen klar erkennbare Kante; jedoch tut sich bei dem Erkennen die Maschine etwas schwerer. Dazu muss der zuvor genannte Kernel über die Pixel gelegt werden. Das Ergebnis ist die Summe der Multiplikationen der einzelnen Werte des Kernels mit den entsprechenden Werten der Matrix des Bildes. Diese ergibt in diesem Beispiel 1025. Ist dieser Wert über einen zuvor definierten Schwellwert, so existiert an dieser Position eine Kante.
 
 Für die Konturenerkennung wird ein Bereich von geschlossenen Kanten herangezogen. Diese geschlossenen Kanten werden erkannt, indem eine Kante in einem zuvor definierten Kernel rund um eine weitere Kante existiert. Führt dieser Pfad wieder zurück zur Ausgangskante, so kann mit Sicherheit gesagt werden, dass es sich um eine Geschlossene Kontur handelt.
 
@@ -712,7 +714,7 @@ Die acht Unbekannten in der Transformationsmatrix geben die Freiheitsgrade im Ra
 
 Um die Matrix kalkulieren zu können müssen zuerst die vier Punkte der Eckpunktnäherung durch ``approxPolyDp'' herangezogen werden. Diese Funktion wurde im Kapitel \ref{maai:approxpolydp:header} erklärt. Die vier Eckpunkte, welche in die Vogelperspektive transformiert wurden, sollen ein neues Rechteck darstellen. Das heißt, dass die vier Punkte, welche zuvor im dreidimensionalen Raum die vier Ecken des Blatt Papiers darstellten, werden nun in ein Rechteck perspektiventransformiert. Dadurch wird das Bild in eine Perspektive, welche einen Blick von ``oben'' ermöglicht, umgewandelt, und richtig sakliert.
 
-Somit hat man acht Unbekannte und acht Gleichungen wodurch die Gleichungen in der Matrix-Form gelöst werden können. In OpenCV2 passiert diese Matrixkalkulation via der Funktion ``cv2. getPerspectiveTransform(points, points')''. Der erste Parameter stellt die Koordinaten im Ausgangsbild dar und der zweite stellt die Koordinaten im Ausgabebild dar.
+Somit werden acht Unbekannte und acht Gleichungen erzeugt, wodurch die Gleichungen in der Matrix-Form gelöst werden können. In OpenCV2 passiert diese Matrixkalkulation via der Funktion ``cv2. getPerspectiveTransform(points, points')''. Der erste Parameter stellt die Koordinaten im Ausgangsbild dar und der zweite stellt die Koordinaten im Ausgabebild dar.
 
 Danach wird ``cv2.wrapPerspective(\dots)'' angewendet, um die Perspektive anhand der gegebenen Matrix zu verändern. Dafür wird aus dem Ausgangsbild ein Teil weggeschnitten und über bleibt der für das ``use-case'' (Anwendungsfall) interessante Teil. Es wird nur jenes Stück aus dem Bild verwendet, welches in den vier gewählten Eckpunkten liegt. Dieses wird in die Vogelperspektive umgewandelt.
 
@@ -766,8 +768,8 @@ Dieser Programmcode führt zu folgendem Ergebnis:
     \end{minipage}
 \end{figure}
 
-\subsubsection{Umwandlung der Bilder in für das Spiel brauchbare Daten [H]}
-Hat man nun das Bild Perspektiven transformiert, so kann man dies mit dem Send-Button (Wie in Abbildung \ref{fig:map:maperkennungsprozess} ersichtlich) bestätigen.
+\subsubsection{Umwandlung der Bilder in für das Spiel brauchbare Daten [H]}\label{maai:udbifdsbd:head}
+Ist die Perspektive des Bilds transformiert, so kann dieses mit dem ``Send-Button'' (Wie in Abbildung \ref{fig:map:maperkennungsprozess} ersichtlich) bestätigt werden.
 Somit wird das Bild an den Python-Server ein letztes Mal zurückgesendet und es wird eine spielbare Map daraus generiert.
 Wie dies Funktioniert wird in den folgenden Codeblöcken ersichtlich.
 
@@ -812,10 +814,10 @@ Jedoch wird zuerst eben das transformierte Bild in den Array umgewandelt. Dafür
     n \approx math.ceil(\sqrt{ \frac{ rows * columns }{ meshes } })
 \]
 
-Setzt man nun eine Bildbreite und eine Bildhöhe in ``rows'' und ``columns'' ein, so erhält man den ganzzahligen Faktor, mit welchem die angegebene Bildbreite und Höhe multipliziert werden muss, um maximal \(\approx\)3025 Pixel zu erreichen.
-Angenommen also, das Bild ist 1920x1080 Pixel groß, so würde das eine Anzahl von 2.073.600 Pixel liefer. Setzt man diese Werte nun in die Formel ein, so erhält man den Faktor 27. Dividiert man nun die beiden Bildmaße mit diesem Wert, so erhält man ein Bild, welches 72x40 groß ist und somit eine Anzahl von 2880 Pixel liefert und somit weit unter den geforderten 3025 Pixeln liegt.
+Wird nun eine Bildbreite und eine Bildhöhe in ``rows'' und ``columns'' eingesetzt, so ist das Ergebnis der ganzzahlige Faktor, mit welchem die angegebene Bildbreite und Höhe multipliziert werden muss, um maximal \(\approx\)3025 Pixel zu erreichen.
+Angenommen also, das Bild ist 1920x1080 Pixel groß, so würde das eine Anzahl von 2.073.600 Pixel liefer. Werden diese Werte nun in die Formel eingesetzt, so ist der Faktor 27. Werden nun die beiden Bildmaße mit diesem Wert dividiert, so ist das Ergebnis ein Bild, welches 72x40 groß ist und somit eine Anzahl von 2880 Pixel liefert und somit weit unter den geforderten 3025 Pixeln liegt.
 
-Der Grund, warum der Array eine maximale Größe von 3025 Einträgen hat, ist, weil p5.js, die Bibliothek, welche wir verwenden, um die Spielumgebung aufzubauen nur ein Maximum von 1000 Meshes generieren kann, bevor das Spiel zu ruckeln beginnt. Und wir gehen davon aus, dass man nie mehr als ein Drittel seines Blattes vollzeichnen wird.
+Der Grund, warum der Array eine maximale Größe von 3025 Einträgen hat, ist, weil p5.js, die Bibliothek, welche wir verwenden, um die Spielumgebung aufzubauen nur ein Maximum von 1000 ``Meshes'' generieren kann, bevor das Spiel zu ruckeln beginnt. Es wird davon ausgegangen, dass nie mehr als ein Drittel seines Blattes vollgezeichnet wird.
 
 Dann wird in einer zweidimensionalen Schleife das Bild durchgegangen und jeweils alle n Pixel ein Mittelwert errechnen über die Farbwerte des Bildes errechnet und somit der Hintergrund vom Vordergrund getrennt. Alle n Pixel werden zusammengefasst. Wenn in diesem Code also mehr als 95\% der Pixel Hintergrund darstellen, so wird der Pixel auch als Hintergrund gewertet (es wird also in den Map-Array ein transparenter Pixel an der Stelle x/n und y/n gepusht). Ansonsten wird ein Schwarzer Pixel (als Map erkannt) dem Map-Array hinzugefügt. An dem Punkt mit den Koordinaten x/n und y/n befindet sich also der neue Bildpunkt, da das Bild ja komprimiert werden soll.
 
@@ -910,9 +912,9 @@ Die Logik der Welt, in welcher sich der Agent (Reinforcement-Learning) bewegt, w
 
 ``OpenAI-Gym'' ist dafür da Reinforcement-Learning Algorithmen auf einem Beginner Niveau beizubringen und diese hauptsächlich zum Ausprobieren und Vergleichen zur Verfügung zu stellen.
 
-Dabei erstellt ``OpenAI-Gym'' viele vorab entwickelte Videospiele zur Verfügung. Diese Spiele sind hauptsächlich Atari-Games, wie zum Beispiel Tetris, Pac-Man, oder Breakout. Atari ist eine Spielkonsole aus den 1980‘ Jahren.
+Dabei erstellt ``OpenAI-Gym'' viele vorab entwickelte Videospiele zur Verfügung. Diese Spiele sind hauptsächlich Atari-Games, wie zum Beispiel Tetris, Pac-Man, oder Breakout. Atari ist eine Spielkonsole aus den 1980' Jahren.
 
-Diese Bibliothek stellt jedoch nicht nur zweidimensionale Umwelten zu Verfügung. Auch einige dreidimensionale Umgebungen, wie ``Humanoid'', bei welchem man einer Figur das Gehen beibringen muss, sind zur Auswahl.
+Diese Bibliothek stellt jedoch nicht nur zweidimensionale Umwelten zu Verfügung. Auch einige dreidimensionale Umgebungen, wie ``Humanoid'', bei welchem einer Figur das Gehen beigebracht werden muss, sind zur Auswahl.
 
 Somit ist es für jeden möglich sich spielerisch mit dem Thema der Künstlichen Intelligenz auseinanderzusetzen. Es ist bereits mit einigen, wenigen Code-Zeilen möglich die ``Library'' einzubinden und ein simples Programm umzusetzen.
 \begin{lstlisting}[language=Python,label=lst:maap:simpleGym,caption=Simples OpenAI-Gym Programm]
@@ -941,7 +943,7 @@ In diesem Environment (Spielumgebung) wird versucht ein Stab mithilfe einer bewe
 
 Es ist jedoch möglich dieses Programm so zu erweitern, dass dieses auch dazulernt.
 
-Außerdem kann man mit ``OpenAI-Gym'' ein eigenes Spiel erstellen. Dies funktioniert objektorientiert. Dabei müssen folgende Funktionen eingebunden werden:
+Außerdem kann mit ``OpenAI-Gym'' ein eigenes Spiel erstellt werden. Dies funktioniert objektorientiert. Dabei müssen folgende Funktionen eingebunden werden:
 
 %Quelle: https://gym.openai.com/docs/
 
@@ -1025,7 +1027,7 @@ Die Klasse CustomEnv, welche von ``gym.Env'' erbt wird wie folgt implementiert:
 \end{lstlisting}
 
 
-Eine weitere Bibliothek basierend auf Python, welche beim Erstellen der Reinforcement-Learning KI verwendet wurde, ist ``Stable-baselines-3''. Diese bietet auf eine zuverlässige Art und Weise die Implementierung von mathematischen Reinforcement-Learning Modellen. Dabei werden viele Algorithmen, wie zum Beispiel ``A2C'', ``DQN'', oder ``PPO'', zur Verfügung gestellt. Während dieser Arbeit wurden die Algorithmen ``A2C'' und ``PPO'' verglichen. In dem Fall der ``Scribble-Fight'' Künstlichen Intelligenz, welche ziemlich komplex ist, hat die Recherche ergeben, dass diese zwei Arten, Modelle zu trainieren, am besten geeignet sind.
+Eine weitere Bibliothek basierend auf Python, welche beim Erstellen der Reinforcement-Learning KI verwendet wurde, ist ``Stable-baselines-3''. Diese bietet auf eine zuverlässige Art und Weise die Implementierung von mathematischen Reinforcement-Learning Modellen. Dabei werden viele Algorithmen, wie zum Beispiel ``A2C'', ``DQN'', oder ``PPO'', zur Verfügung gestellt. Während dieser Arbeit wurden die Algorithmen ``A2C'' und ``PPO'' verglichen. In dem Fall der ``ScribbleFight'' Künstlichen Intelligenz, welche ziemlich komplex ist, hat die Recherche ergeben, dass diese zwei Arten, Modelle zu trainieren, am besten geeignet sind.
 
 Eingebunden wird die Bibliothek wie folgt:
 \begin{lstlisting}[language=Python,label=lst:maap:pposampleone,caption=Stable-Baselines3 Beispiel]
@@ -1089,7 +1091,7 @@ Das Ziel bestand darin eine Künstliche Intelligenz zu erschaffen, welche auf ei
 \end{compactitem}
 Im Laufe der Ausarbeitung der Künstlichen Intelligenz wurde jedoch klar, dass dies Ziele sind, welche im Zuge einer Diplomarbeit, in diesem Ausmaß, nicht erreichbar waren. Die Künstliche Intelligenz lernte jedoch schnurstracks und am schnellsten Wege die Plattform zu verlassen.
 
-Damit die Maschine lernen kann, stellt das Scribble-Fight-Frontend, welches mit Webtechnologien, wie HTML und JavaScript umgesetzt wurde, Informationen über den Spieler beziehungsweise Agenten zur Verfügung. Diese werden in einem ``myPlayer''-Objekt gespeichert. Das Objekt sieht wie folgt aus:
+Damit die Maschine lernen kann, stellt das ScribbleFight-Frontend, welches mit Webtechnologien, wie HTML und JavaScript umgesetzt wurde, Informationen über den Spieler beziehungsweise Agenten zur Verfügung. Diese werden in einem ``myPlayer''-Objekt gespeichert. Das Objekt sieht wie folgt aus:
 
 \begin{figure}[H]
     \centering
@@ -1098,7 +1100,7 @@ Damit die Maschine lernen kann, stellt das Scribble-Fight-Frontend, welches mit 
     \label{fig:ai:myPlayerPic}
 \end{figure}
 
-Für die Künstliche Intelligenz sind Daten, wie ``death'' (Tode), ``dmgDealt'' (verteilten Schaden), ``kills'' (Anzahl an Spieler, welche von diesem Agenten von der Plattform gestoßen wurden) und ``knockback'' (Rückstoß, welchen man erleidet) von Bedeutung.
+Für die Künstliche Intelligenz sind Daten, wie ``death'' (Tode), ``dmgDealt'' (verteilten Schaden), ``kills'' (Anzahl an Spieler, welche von diesem Agenten von der Plattform gestoßen wurden) und ``knockback'' (Rückstoß, welcher der Spieler erleidet) von Bedeutung.
 Damit die Werte des Objekts ausgelesen werden können wurde in Python folgende Funktion implementiert:
 
 \begin{lstlisting}[language=Python,label=lst:maap:getstats,caption=Informationen über den Spieler]
@@ -1199,7 +1201,7 @@ Spielelement (``Sprite''), zu der KI-Sicht hinzugefügt wird.
     }
 \end{lstlisting}
 
-Lässt man sich nun die bearbeitete Kopie des ``visual''-Arrays ausgeben, so sieht man die Sicht der ``ScribbleFight'' Künstlichen Intelligenz. In der folgenden Abbildung wurden die Ziffern von null bis zehn in Farben umgewandelt. Das Bild \ref{maai:ai:visCopy:input} ist die Sicht des Spielers und das Bild \ref{maai:ai:visCopy:output} ist die Sicht der KI.
+Wird nun die bearbeitete Kopie des ``visual''-Arrays ausgeben, so ist der Output die Sicht der ``ScribbleFight'' Künstlichen Intelligenz. In der folgenden Abbildung wurden die Ziffern von null bis zehn in Farben umgewandelt. Das Bild \ref{maai:ai:visCopy:input} ist die Sicht des Spielers und das Bild \ref{maai:ai:visCopy:output} ist die Sicht der KI.
 
 \begin{figure}[H]
     \centering
@@ -1513,7 +1515,7 @@ wodurch insgesamt vier Spieler an einem ScribbleFight Spiel beteiligt waren.
 Die mit OpenAI-Gym und Stable Baselines3 erlernten Modelle können via einem ``TensorBoard'' visualisiert und analysiert werden.
 
 Die Graphen, welche aus den erlernten Modellen entsprungen sind und diverse Informationen über die Leistung und Kompetenz beinhalten,
-zeigen, dass \textit{der \underline{PPO Algorithmus} besser für eine künstliche Intelligenz, welche das Spiel ScribbleFight erlernen soll, geeignet ist als der A2C Algorithmus.}
+zeigen, dass \textit{der \underline{PPO Algorithmus} besser für eine Künstliche Intelligenz, welche das Spiel ScribbleFight erlernen soll, geeignet ist als der A2C Algorithmus.}
 
 \subsubsection{A2C [H]}
 
