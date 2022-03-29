@@ -5,12 +5,12 @@ Abstimmung freizugeben. Das passiert, indem er oder sie einen QR-Code (``Quick R
 Mitte der Lobby befindet, mit einem mobilen Endgerät, das über eine Kamera verfügt, abscannt. Somit wird
 er auf eine Webseite geleitet, welche wieder auf die Kamera zugreift. Auf dieser ist bereits eine Objekterkennung
 vorprogrammiert. Auf die Funktionsweise und auf die technische Umsetzung wird im folgenden eingegangen. Wenn der Spieler
-merkt, dass die Objekterkennung das Blatt erkannt hat, kann dieser ein Bild aufnehmen. Im nächsten Schritt ist es nochmals möglich
+merkt, dass die Objekterkennung das Blatt erkannt hat, kann dieser ein Bild aufnehmen. Im nächsten Schritt ist es nochmals möglich,
 die erkannten Kanten zu verschieben. Wenn sich der User für das Foto als Map entscheidet, so kann er den ausgewählten Teil in eine
 top-down-2d-Perspektive
-umwandeln. Kurzgesagt werden dabei die vier ausgewählten Ecken, welche über die Kanten des Blatt Papiers liegen,
+umwandeln. Kurz gesagt werden dabei die vier ausgewählten Ecken, welche über die Kanten des Blatt Papiers liegen,
 für eine Perspektiven-Transformation
-mit OpenCV2 herangezogen. Wenn der Spieler dann so weit ist, kann er dieses Bild beziehungsweise diese Map bestätigen und
+mit OpenCV2 herangezogen. Wenn der Spieler dann so weit ist, kann er dieses Bild beziehungsweise die Map bestätigen und
 sendet sie somit zurück an die Lobby. Dann kann die Abstimmung beginnen.
 
 \begin{figure}[H]
@@ -32,20 +32,20 @@ Die Objekterkennung wird zum Beispiel bei komplexen und großen Paketdiensten ei
 reicht bereits ein Farbsensor. Das ist in den meisten Fällen jedoch nicht genügend.
 Vielmals werden Pakete auf Strichcodes oder Adressen überprüft.
 Wenn also unterschieden werden muss, wo welches Paket landen soll, so ist eine Kamera nötig. Diese muss
-ein genügend gut auflösendes Bild aufnehmen, dass daraus Informationen gewonnen werden können. Diese Daten müssen zur Auswertung
+ein genügend gut auflösendes Bild aufnehmen, dass daraus Informationen gewonnen werden können. Die Daten müssen zur Auswertung
 mathematisch beschrieben werden. Zur Übersetzung werden Verfahren, wie Kantenerkennung, Transformationen oder Größen- und Farberkennung,
 aber auch künstliche Intelligenzen
 eingesetzt. In dieser Arbeit wurden Kanten zur Objekterkennung herangezogen.
 Die Korrektheit des Ergebnisses ist abhängig von der Korrektheit der bereitgestellten Daten und wie genau das Objekt mathematisch
 beschrieben werden kann.
 \\
-Ein weiteres Beispiel, wo Objekterkennung eingesetzt wird, ist in
-Fahrerassistenzsysteme oder autonomes Fahren. Bereits in der ersten Stufe des autonomen Fahrens (dem assistierten Fahren)
+Ein weiteres Beispiel, wo Objekterkennung eingesetzt wird, sind in
+Fahrerassistenzsysteme oder autonomes Fahren. Bereits in der ersten Stufe des autonomen Fahrens (dem assistierten Fahren),
 werden zur Hilfe Kameras außerhalb des Fahrzeugs angebracht. In einem Auto, welches als Stufe eins autonomes Assistenzsystem
 eingestuft wird, werden diese Kameras für einen automatischen Spurhalteassistenten eingesetzt. Via Bildanalyse und Objekterkennung
 werden die Linien auf der Straße erkannt. \\
 In höheren Stufen ist die Objekterkennung nicht mehr wegzudenken. Es müssen Verkehrsschilder und Personen auf der Straße erkannt
-werden um daraufhin entsprechen zu agieren.
+werden, um daraufhin entsprechen zu agieren.
 
 Andere Beispiele:
 \begin{compactitem}
