@@ -1,8 +1,8 @@
 
 \section{Java-Script [R] [W]}
 \subsection{Wieso Java-Script?}
-Ein Stand-alone-Programm ist ein Programm, dass selbständig arbeiten kann.
-Das Web-Game sollte kein Stand-alone-Programm werden, sondern im Browser erreichbar sein. Deswegen wurde JavaScript für die Programmierung am Client, sowie auch am Server ausgewählt.
+Ein Stand-alone-Programm ist ein Programm, dass selbständig ohne Hilfsmittel ausgeführt werden kann.
+Das Web-Game sollte kein Stand-alone-Programm werden, sondern im Browser spielbar sein. Deswegen wurde JavaScript für die Programmierung am Client, sowie auch am Server ausgewählt.
 Der Vorteil davon ist, dass nur eine Programmiersprache benutzt werden muss, um eine Client-Server-Architektur zu bewerkstelligen.
 Außerdem besteht kein Aufwand, um ScribbleFight spielen zu können - ein Browser ist alles, was benötigt wird.
 \setauthor{Rafetseder Tobias}
@@ -10,19 +10,19 @@ Außerdem besteht kein Aufwand, um ScribbleFight spielen zu können - ein Browse
 \label{subsection:p5js}\cite{p5js}
 p5.js ist eine open-source JavaScript-Library, die für Kreation von Spielen genutzt wird.
 p5.play ist eine Library für p5.js, mit der visuelle Objekte verwaltet werden können. Außerdem beinhaltet es Features wie Animation-Support,
-Kollisionserkennung, sowie aber auch Funktionen für Maus- und Tastatur-Interaktionen.
+Kollisionserkennung, sowie auch Funktionen für Maus- und Tastatur-Interaktionen.
 p5.play ist für barrierefreies und simples Programmieren gedacht, nicht für performantes.
 Es ist keine eigene Engine, und unterstützt auch keine 3D-Spiele.
 
 \subsubsection{Einbindung}
-Der einfachste Weg p5.js einzubinden, ist auf ein JavaScript File online zu verweisen.
+Ein schneller Weg um p5.js einzubinden, ist auf ein JavaScript File online zu verweisen.
 
 \begin{lstlisting}
     <script 
     src="https://cdn.jsdelivr.net/npm/p5@1.4.0/lib/p5.js">
     </script>
 \end{lstlisting}
-Die p5.js Library kann aber auch
+Alternativ kann die p5.js Library aber auch
 unter \url{https://p5js.org/download/} lokal heruntergeladen werden.
 Dann kann einfach auf das lokale File verwiesen werden.
 
@@ -53,7 +53,7 @@ Wenn diese abgeschlossen ist, wird die Draw-Methode wiederholt aufgerufen und ak
 
 %https://www.sitepoint.com/processing-js-vs-p5-js-whats-difference/
 \subsubsection{P5.js vs Processing}
-p5.js ähnelt sich sehr stark mit Processing, eine Programmiersprache, die als eine stark vereinfachte Version von Java definiert werden kann.
+Zwischen p5.js und Processing, eine Programmiersprache, die als eine stark vereinfachte Version von Java definiert werden kann, bestehen viele Ähnlichkeiten.
 Der Unterschied liegt darin, dass Processing eine Umgebung, basierend auf der Java Programmiersprache ist, während p5.js eine Bibliothek, basierend auf der JavaScript Programmiersprache ist.
 Processing ist dafür geeignet, lokale Applikationen zu bauen, hingegen dazu kann p5.js nur im Browser ausgeführt werden.
 
@@ -62,7 +62,7 @@ p5.js ist sozusagen ein direkter JavaScript Port für die Processing Programmier
 Vorteile von p5.js:
 \begin{compactitem}
     \item Die Programme, die mit p5.js umgesetzt werden, funktionieren in jedem modernen Browser (plattformunabhängig)
-    \item Das Programm ist nicht nur lokal auf dem eigenen Gerät verfügbar, was das Teilen sehr viel leichter macht
+    \item Das Programm ist nicht nur lokal auf dem eigenen Gerät verfügbar, was das Teilen sehr viel einfacher macht
     \item Es besteht die Option, den p5.js Editor im Web zu verwenden: Überhaupt kein Aufwand, um loszuprogrammieren
 \end{compactitem}
 
