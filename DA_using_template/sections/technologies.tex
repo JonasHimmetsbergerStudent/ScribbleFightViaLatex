@@ -1,28 +1,28 @@
 
 \section{Java-Script [R] [W]}
 \subsection{Wieso Java-Script?}
-Ein Stand-alone-Programm ist ein Programm, dass selbständig ohne Hilfsmittel ausgeführt werden kann.
-Das Web-Game sollte kein Stand-alone-Programm werden, sondern im Browser spielbar sein. Deswegen wurde JavaScript für die Programmierung am Client, sowie auch am Server ausgewählt.
+Ein Stand-alone-Programm ist ein Programm, dass selbständig arbeiten kann.
+Das Web-Game sollte kein Stand-alone-Programm werden, sondern im Browser erreichbar sein. Deswegen wurde JavaScript für die Programmierung am Client, sowie auch am Server ausgewählt.
 Der Vorteil davon ist, dass nur eine Programmiersprache benutzt werden muss, um eine Client-Server-Architektur zu bewerkstelligen.
-Außerdem besteht kein Aufwand, um ScribbleFight spielen zu können - ein Browser ist alles, was benötigt wird.
+Außerdem besteht kein Aufwand, um Scribble-Fight spielen zu können - ein Browser ist alles, was benötigt wird.
 \setauthor{Rafetseder Tobias}
 \subsection{p5.js / p5.play [R]}
 \label{subsection:p5js}\cite{p5js}
 p5.js ist eine open-source JavaScript-Library, die für Kreation von Spielen genutzt wird.
 p5.play ist eine Library für p5.js, mit der visuelle Objekte verwaltet werden können. Außerdem beinhaltet es Features wie Animation-Support,
-Kollisionserkennung, sowie auch Funktionen für Maus- und Tastatur-Interaktionen.
+Kollisionserkennung, sowie aber auch Funktionen für Maus- und Tastatur-Interaktionen.
 p5.play ist für barrierefreies und simples Programmieren gedacht, nicht für performantes.
 Es ist keine eigene Engine, und unterstützt auch keine 3D-Spiele.
 
 \subsubsection{Einbindung}
-Ein schneller Weg um p5.js einzubinden, ist auf ein JavaScript File online zu verweisen.
+Der einfachste Weg p5.js einzubinden, ist auf ein JavaScript File online zu verweisen.
 
 \begin{lstlisting}
     <script 
     src="https://cdn.jsdelivr.net/npm/p5@1.4.0/lib/p5.js">
     </script>
 \end{lstlisting}
-Alternativ kann die p5.js Library aber auch
+Die p5.js Library kann aber auch
 unter \url{https://p5js.org/download/} lokal heruntergeladen werden.
 Dann kann einfach auf das lokale File verwiesen werden.
 
@@ -53,7 +53,7 @@ Wenn diese abgeschlossen ist, wird die Draw-Methode wiederholt aufgerufen und ak
 
 %https://www.sitepoint.com/processing-js-vs-p5-js-whats-difference/
 \subsubsection{P5.js vs Processing}
-Zwischen p5.js und Processing, eine Programmiersprache, die als eine stark vereinfachte Version von Java definiert werden kann, bestehen viele Ähnlichkeiten.
+p5.js ähnelt sich sehr stark mit Processing, eine Programmiersprache, die als eine stark vereinfachte Version von Java definiert werden kann.
 Der Unterschied liegt darin, dass Processing eine Umgebung, basierend auf der Java Programmiersprache ist, während p5.js eine Bibliothek, basierend auf der JavaScript Programmiersprache ist.
 Processing ist dafür geeignet, lokale Applikationen zu bauen, hingegen dazu kann p5.js nur im Browser ausgeführt werden.
 
@@ -62,7 +62,7 @@ p5.js ist sozusagen ein direkter JavaScript Port für die Processing Programmier
 Vorteile von p5.js:
 \begin{compactitem}
     \item Die Programme, die mit p5.js umgesetzt werden, funktionieren in jedem modernen Browser (plattformunabhängig)
-    \item Das Programm ist nicht nur lokal auf dem eigenen Gerät verfügbar, was das Teilen sehr viel einfacher macht
+    \item Das Programm ist nicht nur lokal auf dem eigenen Gerät verfügbar, was das Teilen sehr viel leichter macht
     \item Es besteht die Option, den p5.js Editor im Web zu verwenden: Überhaupt kein Aufwand, um loszuprogrammieren
 \end{compactitem}
 
@@ -111,7 +111,7 @@ Die Struktur eines package.json-Files sieht wie folgt aus:
 \begin{figure}[H]
     \centering
     \includegraphics[scale=1]{pics/package json.PNG}
-    \caption{Package.json des ScribbleFight Backends}
+    \caption{Package.json des Scribble-Fight Backends}
 \end{figure}
 
 \subsubsection{Express}
@@ -370,7 +370,7 @@ von Daten muss als Parameter das Diagramm, der Name des Labels und die Daten mit
 
 
 \section{Deployment [R]}
-Das ScribbleFight Browser-Game wurde in die Leocloud, ein Cloud-System der HTL-Leonding, unter \url{https://student.cloud.htl-leonding.ac.at/t.rafetseder/scribble-fight/} deployed.
+Das Scribble-Fight Browser-Game wurde in die Leocloud, ein Cloud-System der HTL-Leonding, unter \url{https://student.cloud.htl-leonding.ac.at/t.rafetseder/scribble-fight/} deployed.
 Zuerst wurde mithilfe von der Docker-Technologie ein Docker-Image erstellt und auf die Leocloud hochgeladen. Das Deployment wurde dann mithilfe von Kubernetes umgesetzt.
 Nähere Beschreibung zu Docker und Kubernetes folgt in den nächsten Kapiteln.
 \subsection{Docker [R]} \label{tech:docker}
@@ -426,7 +426,7 @@ Die Programmiersprache Python
 fand in unserer Arbeit zwei Haupteinsatzgebiete. \\
 Erstens zur Erkennung des Blatt Papiers und der Umwandlung der Zeichnung in eine spielbare Map
 und zweitens, um die Künstliche Intelligenz zu erschaffen. \\
-Die kostenlosen Bibliotheken, dabei in Verwendung sind, werden im Folgenden gelistet und näher
+Die kostenlosen Bibliotheken, welche wir dabei in Verwendung haben, werden im folgenden gelistet und näher
 erklärt.
 Der Vorteil von Python, und auch der Grund warum die Sprache den Einsatz in dieser Arbeit fand, ist, weil
 viele Hilfestellungen und Bibliotheken verfügbar sind.
@@ -435,7 +435,7 @@ viele Hilfestellungen und Bibliotheken verfügbar sind.
 \subsection{Flask [H]}
 Flask ist das am wohl häufigste verwendete Python Web-Framework. Somit gibt es viele Tutorials,
 Tools und Bibliotheken. Diese sind sehr gut bis gut dokumentiert und teilweise geprüft.
-Aus diesen Gründen wurde der Teil der Bild- und Maperkennung, welche
+Aus diesen Gründen haben wir den Teil der Bild- und Maperkennung, welche
 als Webanwendung funktioniert, mittels Flask umgesetzt. In Kombination mit Flask-SocketIO werden Bilder von der Webcam
 in Echtzeit direkt an den Server geschickt, welcher dann via OpenCV2 Informationen aus dem Bild
 generiert. Genau wie bei SocketIO in JavaScript, agiert Flask-SocketIO als bidirektionale
@@ -582,7 +582,7 @@ Genauso funktioniert auch ein Neuronales Netz. Auf eine Eingabe folgt über eine
     \label{fig:tech:eba}
 \end{figure}
 
-Ein einfaches mathematisches Beispiel hierfür wäre, wenn man einen einfachen Faktor mit zwei Nachkommastellen herausfinden möchte. Beispiel: Euro in USD umrechnen. Hierfür ist ein Faktor kleiner 1 nötig. Bevor der ganze Prozess des Lernens startet, muss man mit einer Eingabe starten. Dies ist zum Beispiel die Zahl 1. Somit wird der künstlichen Intelligenz im übertragenen Sinne erklärt: ``Bitte errechne mir wie viele USD in meiner Hand liegen.''. Es wurde also ein Input für die KI gefunden. Dieser Input wird über eine nicht ganz zufällig gewählte Gewichtung in eine Berechnung umgewandelt. Angenommen, die Gewichtung sei ein Faktor <1 also 0,99. ``Nicht ganz zufällig gewählt'', weil der Anwender, welcher die KI schreibt im Vorhinein schon wusste, dass ein USD weniger Wert ist, als ein Euro; der genaue Wert war jedoch unbekannt. Nach dieser Berechnung kommt ein Wert raus – nämlich 0.99 – welcher falsch ist. Damit die Künstliche Intelligenz jedoch weiß, ob sie richtig oder falsch rechnet, muss sie ein Feedback bekommen. Das heißt, dass der errechnete Wert und die Abweichung vom tatsächlichen Ergebnis (wenn dieses bekannt ist) zurückgegeben wird. In den meisten Fällen ist das Ergebnis bei präparierten Daten bereits bekannt, da diese als Trainingsdaten agieren. Wenn die Künstliche Intelligenz jedoch selbst Entscheidungen vorhersagen muss, muss diese bereits mit solchen Daten trainiert worden sein, um ein akkurates Ergebnis liefern zu können. In dieser Phase lernt sie jedoch auch nicht mehr dazu. Sind die Ergebnisse unbekannt, kann zum Beispiel das zuvor erklärte Reinforcement Learning als Lernstrategie herangezogen werden. Diese Abweichung wird nun mit einer weiteren Berechnung rückpropagiert und die Gewichte werden aktualisiert. Dieses Prozedere (Eingabe $\rightarrow$ Berechnung $\rightarrow$ Ausgabe $\rightarrow$ Fehler $\rightarrow$ Fehler rückpropagieren $\rightarrow$ Gewichte anpassen) wird so oft mit weiteren Trainingsdaten wiederholt, bis die KI einen minimalen Fehler (Differenz zwischen dem tatsächlichen Ergebnis und der Vorhersage) erreicht.
+Ein einfaches mathematisches Beispiel hierfür wäre, wenn man einen einfachen Faktor mit zwei Nachkommastellen herausfinden möchte. Beispiel: Euro in USD umrechnen. Hierfür ist ein Faktor kleiner 1 nötig. Bevor der ganze Prozess des Lernens startet, muss man mit einer Eingabe starten. Dies ist zum Beispiel die Zahl 1. Somit erkläre ich der künstlichen Intelligenz im übertragenen Sinne: ``Bitte errechne mir wie viele USD in meiner Hand liegen.''. Es wurde also ein Input für die KI gefunden. Dieser Input wird über eine nicht ganz zufällig gewählte Gewichtung in eine Berechnung umgewandelt. Nehmen wir an, diese Gewichtung sei ein Faktor <1 also 0,99. ``Nicht ganz zufällig gewählt'', weil der Anwender, welcher die KI schreibt im Vorhinein schon wusste, dass ein USD weniger Wert ist, als ein Euro; der genaue Wert war jedoch unbekannt. Nach dieser Berechnung kommt ein Wert raus – nämlich 0.99 – welcher falsch ist. Damit die Künstliche Intelligenz jedoch weiß, ob sie richtig oder falsch rechnet, muss sie ein Feedback bekommen. Das heißt, dass der errechnete Wert und die Abweichung vom tatsächlichen Ergebnis (wenn dieses bekannt ist) zurückgegeben wird. In den meisten Fällen ist das Ergebnis bei präparierten Daten bereits bekannt, da diese als Trainingsdaten agieren. Wenn die Künstliche Intelligenz jedoch selbst Entscheidungen vorhersagen muss, muss diese bereits mit solchen Daten trainiert worden sein, um ein akkurates Ergebnis liefern zu können. In dieser Phase lernt sie jedoch auch nicht mehr dazu. Sind die Ergebnisse unbekannt, kann zum Beispiel das zuvor erklärte Reinforcement Learning als Lernstrategie herangezogen werden. Diese Abweichung wird nun mit einer weiteren Berechnung rückpropagiert und die Gewichte werden aktualisiert. Dieses Prozedere (Eingabe $\rightarrow$ Berechnung $\rightarrow$ Ausgabe $\rightarrow$ Fehler $\rightarrow$ Fehler rückpropagieren $\rightarrow$ Gewichte anpassen) wird so oft mit weiteren Trainingsdaten wiederholt, bis die KI einen minimalen Fehler (Differenz zwischen dem tatsächlichen Ergebnis und der Vorhersage) erreicht.
 Allerdings können hier einige Faktoren zusätzliche beeinflusst werden, bevor die KI tatsächlich zu lernen beginnt, um ein maximal genaues Ergebnis zu erzielen. Beispielsweise beträgt der Wechselkurs von Euro zu USD 0,89. Also ein USD ist nur 0,89 so viel wert wie ein Euro. Wenn man es der KI ermöglicht, sich nur in zehntel-Schritten an die Lösung anzupassen, so passiert folgendes:
 Die KI wird das tatsächliche Ergebnis von 0,89 nie erreichen. Die von der KI errechnete Lösung beträgt entweder 0,9 oder 0,8. Wenn man diesen Anpassungswert jedoch kleiner ansetzt, auf ein Hundertstel zum Beispiel, so wird diese den Wert zwar langsamer erreichen, jedoch wird er genau dem Ziel entsprechen.
 Dieser Wert darf jedoch auch nie zu klein gewählt werden. Schaut man sich das an einem etwas komplexeren Beispiel an, so ist klar zu erkennen, dass in der folgenden Kurve der tatsächliche minimale Fehler nie erreicht wird. Um dies zu vermeiden, gibt es verschiedene Methoden. Als Exempel kann eine Art Fehler-Abtastungs-Beschleunigung herangezogen werden. Hier wird der Faktor, um welchen die Abweichung korrigiert wird, in einer Art Beschleunigung angepasst. Es muss sich also den aktuellen Wert wie einen Ball vorgestellt werden, welcher über einen Berg hinunterrollt.
@@ -595,8 +595,8 @@ Dieser Wert darf jedoch auch nie zu klein gewählt werden. Schaut man sich das a
 \end{figure}
 
 Durch das Momentum kann der Ball nachfolgende Hindernisse überwinden. Die Gefahr dabei besteht jedoch, dass der Ball, wenn er nicht noch einmal angeschubst wird, in einem höheren Tal zum Stehen kommt, weil das Momentum zum Zurück- oder Weiterkommen fehlt. Es kann aber auch sein, dass der Ball nie genug Momentum hatte, da er zu wenig stark losbewegt wurde. All das und VIELES mehr fällt unter dem Begriff ``Hyperparameter Tuning''. Es muss also schon zu Beginn, bevor das Neuronale Netz überhaupt zu lernen beginnt, darauf geachtet werden, dass die Parameter stimmen, damit das Ergebnis einer perfekten Lösung am ähnlichsten ist.
-Auch bei der Auswahl der Trainingsdaten ist enorme Vorsicht geboten. So ist es in einem amerikanischen Experiment dazu gekommen, dass eine Künstliche Intelligenz rassistisch wurde. Diese Software sollte Richtern dabei helfen, Häftlinge nach ihrer Entlassung zu beurteilen, wie hoch die Wahrscheinlichkeit sei, dass diese eine Wiederholungsstraftat begehen. Dabei kam heraus, dass dunkel-häutige Menschen weitaus gefährlicher eingestuft wurden als alle anderen. Das passierte nicht, weil diese tatsächlich eine höhere Gefahr darstellen, sondern weil in den USA dunkel-häutige Menschen öfter verhaftet werden. So stimmten auch die Proportionen in den für die KI vorliegenden Trainingsdatensätzen nicht. Daraufhin meinte ein beteiligter Journalist: ``Künstliche Intelligenz hat keine Meinung oder ein Bewusstsein, sondern handelt nach dem, was wir ihr vorgeben. Diese Daten und Informationen sind oft ein Spiegel der Gesellschaft und reproduzieren so auch Vorurteile, zum Beispiel durch Über- und Unterrepräsentation''.
-Zitat \textbf{Tobias Matzner}\\
+Auch bei der Auswahl der Trainingsdaten ist enorme Vorsicht geboten. So ist es in einem amerikanischen Experiment dazu gekommen, dass eine Künstliche Intelligenz rassistisch wurde. Diese Software sollte Richtern dabei helfen, Häftlinge nach ihrer Entlassung zu beurteilen, wie hoch die Wahrscheinlichkeit sei, dass diese eine Wiederholungsstraftat begehen. Dabei kam heraus, dass dunkel-häutige Menschen weitaus gefährlicher eingestuft wurden als alle anderen. Das passierte nicht, weil diese tatsächlich eine höhere Gefahr darstellen, sondern weil in den USA dunkel-häutige Menschen öfter verhaftet werden. So stimmten auch die Proportionen in den für die KI vorliegenden Trainingsdatensätzen nicht. Daraufhin meinte ein beteiligter Journalist: „Künstliche Intelligenz hat keine Meinung oder ein Bewusstsein, sondern handelt nach dem, was wir ihr vorgeben. Diese Daten und Informationen sind oft ein Spiegel der Gesellschaft und reproduzieren so auch Vorurteile, zum Beispiel durch Über- und Unterrepräsentation“.
+Zitat \textbf{Tobias Matzner}
 % Quelle: https://www.rnd.de/wissen/wie-kuenstliche-intelligenz-rassismus-befoerdert-TZFL7KPOYRHFRBAA66OVOFS6QI.html%
 \\
 Und dass man mit Mathematik auch tatsächlich Spiele gewinnen kann, beziehungsweise, dass eine KI, welche immer wieder eine Gewichtung einer Eingabe aktualisiert, auch wirklich schlauer wird, wird im folgenden Beispiel erklärt. Hier geht es um ein Spiel in welchem man mit Mathematik eine Gewinnchance erhöht. Dies wird erzielt, indem man wiederholt Berechnungen ausführt und Gewichte aktualisiert. Somit wird die Gewinnchance in dem Spiel erhöht.
@@ -633,17 +633,17 @@ So hat \textit{Martin Gardner} bewiesen, dass man Spiele mit Mathematik gewinnen
 \setauthor{Weinzierl Ben}
 \newpage
 \section{Photoshop [W]}
-Für die Character Animation wurde Adobe Photoshop benutzt. Photoshop ist ein Programm mit dem
-im professionellen wie im Amateurbereich gearbeitet wird um Bilder zu bearbeiten.
-Aufgrund der unglaublich zahlreichen Einsatzbereiche und Funktionen von Photoshop ist es
-eines der beliebtesten Programme der Design- und Bildbearbeitungsbranche.
-Durch den großen Funktionsumfang ist Photoshop zwar sehr einsteigerunfreundlich, jedoch
+Für die Character Animation wurde Adobe Photoshop benutzt. Photoshop ist ein Programm mit dem 
+im professionellen wie im Amateurbereich gearbeitet wird um Bilder zu bearbeiten. 
+Aufgrund der unglaublich zahlreichen Einsatzbereiche und Funktionen von Photoshop ist es 
+eines der beliebtesten Programme der Design- und Bildbearbeitungsbranche. 
+Durch den großen Funktionsumfang ist Photoshop zwar sehr einsteigerunfreundlich, jedoch 
 hat es sich trotzdem durchgesetzt. Mit ca. 90 Prozent Marktanteil ist es das mit Abstand größte
 Bildbearbeitungsprogramm. Dadurch ist der Preis mit 24€ pro Monat für die Software sehr hoch, wobei dazugesagt werden muss,
-dass laut einer Umfrage im Jahr 2007 ca. 58 Prozent der User und Userinnen das Programm als Schwarzkopie verwenden.
+dass laut einer Umfrage im Jahr 2007 ca. 58 Prozent der User und Userinnen das Programm als Schwarzkopie verwenden. 
 
 Eine wichtige Funktion, welche bei dieser Arbeit viel verwendet wurde, ist das "Form erzeugen" Werkzeug. Ausgewählt wird es mit dem Shortcut "U". Damit können Formen erstellt und verändert werden. Um zum Beispiel ein Viereck zu erstellen, muss das Unterwerkzeug "Rechteck-Werkzeug" auswählen. Danach
-kann eine beliebig große Fläche aufgezogen werden.
+kann eine beliebig große Fläche aufgezogen werden. 
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.7]{pics/erzeugen.png}
@@ -651,21 +651,21 @@ kann eine beliebig große Fläche aufgezogen werden.
 \end{figure}
 
 Um die Formen in die richtige Position zu bekommen, wurde mit dem "Transformieren" Werkzeug
-gearbeitet. Verwendet wird es unter dem Reiter "Bearbeiten -> Transformieren".
+gearbeitet. Verwendet wird es unter dem Reiter "Bearbeiten -> Transformieren". 
 Um die Fläche zu skalieren wird an den Ecken mit der Maus die Größe verändert. Sollen die Proportionen des Bildes erhalten bleiben
-kann dabei die Umschalt-Taste gedrückt werden. Damit die Ebene gedreht werden kann, muss an den Rändern gehovert werden bis das Drehsymbol erscheint.
+kann dabei die Umschalt-Taste gedrückt werden. Damit die Ebene gedreht werden kann, muss an den Rändern gehovert werden bis das Drehsymbol erscheint. 
 Um die Ebene zu spiegeln oder auf den Kopf zu stellen kann der Befehl 'Horizontal Spiegeln' bzw. 'Um 180° drehen'.
 
 \subsection{12 Prinzipien der Animation}
-Im Jahr 1981 haben die beiden Disney Animatoren Ollie Johnston und Frank Thomas in ihrem Buch ''Disney Animation: Die Illusion des Lebens'' die Animationsindustrie revolutioniert.
-Darin haben sie 12 Prinzipien der Animation vorgestellt welche seit den 1930er Jahren von Disney in ihren Animationsfilmen angewendet wurden.
-Die Grundlagen dieser Prinzipien bestehen darin, Animationen zu erzeugen, welche den Gesetzen der Physik folgen, doch auch mit Timing, Emotionen etc.
+Im Jahr 1981 haben die beiden Disney Animatoren Ollie Johnston und Frank Thomas in ihrem Buch ''Disney Animation: Die Illusion des Lebens'' die Animationsindustrie revolutioniert. 
+Darin haben sie 12 Prinzipien der Animation vorgestellt welche seit den 1930er Jahren von Disney in ihren Animationsfilmen angewendet wurden. 
+Die Grundlagen dieser Prinzipien bestehen darin, Animationen zu erzeugen, welche den Gesetzen der Physik folgen, doch auch mit Timing, Emotionen etc. 
 
 \subsubsection{1. Squash and Stretch}
 Dieses Prinzip beruht darauf, dass animierte Objekte länger bzw. flacher werden um ihre Geschwindigkeit, Masse oder ihr Momentum zu betonen.
-Wie stark ein Objekt sich dehnt und zusammendrückt sagt viel über die Masse des Objekts aus. Umso mehr Dehnung umso leichter ist das Objekt.
-Dies wird auch auf animierte Charaktere angewandt. Wenn ein Charakter nach unten fällt, dehnt sich sein Körper und wenn er landet wird er zusammendrückt, bevor er in einer stabilen Position stehen bleibt (Abbildung \ref{fig:tech:SqashAndStretch}).
-Dabei muss jedoch beachtet werden, dass das Volumen des Objekts immer gleich bleiben muss. Wird ein Objekt nach unten zusammengedrückt muss es sich in die Breite dehnen (Abbildung \ref{fig:tech:SqashAndStretchCube}).
+Wie stark ein Objekt sich dehnt und zusammendrückt sagt viel über die Masse des Objekts aus. Umso mehr Dehnung umso leichter ist das Objekt. 
+Dies wird auch auf animierte Charaktere angewandt. Wenn ein Charakter nach unten fällt, dehnt sich sein Körper und wenn er landet wird er zusammendrückt, bevor er in einer stabilen Position stehen bleibt (Abbildung \ref{fig:tech:SqashAndStretch}).    
+Dabei muss jedoch beachtet werden, dass das Volumen des Objekts immer gleich bleiben muss. Wird ein Objekt nach unten zusammengedrückt muss es sich in die Breite dehnen (Abbildung \ref{fig:tech:SqashAndStretchCube}). 
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.5]{pics/SqashAndStretch.png}
@@ -680,15 +680,9 @@ Dabei muss jedoch beachtet werden, dass das Volumen des Objekts immer gleich ble
     \label{fig:tech:SqashAndStretchCube}
 \end{figure}
 
-<<<<<<< HEAD
 \subsubsection{2. Anticipation}
 Dieses Prinzip soll dem Zuschauer einen Hinweis darauf geben welche Aktion als nächstes passiert. Außerdem soll dies die Aktion mehr realistischer machen. 
 Das klassische Beispiel hierzu ist ein Sprung. Bevor der Charakter in die Luft springt muss er sich erst nach unten beugen, um Energie aufzubauen. Dies kann mit einer Feder verglichen werden, welche zusammengedrückt wird, und dann schnell losgelassen wird (Abbildung \ref{fig:tech:Spring}). 
-=======
-\subsubsection{2. Erwartungen}
-Dieses Prinzip soll dem Zuschauer einen Hinweis darauf geben welche Aktion als nächstes passiert. Außerdem soll dies die Aktion mehr realistischer machen.
-Das klassische Beispiel hierzu ist ein Sprung. Bevor der Charakter in die Luft springt muss er sich erst nach unten beugen, um Energie aufzubauen. Dies kann mit einer Feder verglichen werden, welche zusammengedrückt wird, und dann schnell losgelassen wird (Abbildung \ref{fig:tech:Spring}).
->>>>>>> 0aa351d3e64f3e12d57bc3db4c08b73de013183f
 Ein weiteres Beispiel ist ein Schlag. Um den Schlag realistischer darzustellen und dem Zuseher zu signalisieren, dass gleich etwas wichtiges passieren wird, holt ein animierter Charakter überdramatisch aus(Abbildung \ref{fig:tech:Punch}).
 \begin{figure}[H]
     \centering
@@ -769,7 +763,7 @@ Soll ein Charakter fröhlich sein, wird er übertrieben fröhlich dargestellt. �
 verzerrter sondern überzeugender. Bei schnellen Animationen muss die Übertreibung größer sein um bemerkt zu werden. 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.18]{pics/sad.png}
+    \includegraphics[scale=0.4]{pics/sad.png}
     \caption{Übertreibung}
     \label{fig:tech:ex}
 \end{figure}
