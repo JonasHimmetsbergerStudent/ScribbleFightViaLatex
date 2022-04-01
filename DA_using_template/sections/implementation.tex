@@ -1708,11 +1708,145 @@ In das Diagramm werden dann noch die Player eingefügt und es wird jeweils das g
 
 
     })
+\end{lstlisting}
 
+Der nächste Abschnitt wird aufgerufen wenn ein User abgestimmt hat. Der Server wird benachrichtigt und überprüft mit einer Schleife ob der User 
+schon einmal gevoted hat. Hat er dies nicht getan, wird ein boolean auf true gesetzt. 
+Danach wird der User aus dem playerVotes.clients-Array herausgelöscht, um ihn nicht nocheinmal abstimmen zu lassen. Die Zeichnung für die abgestimmt wurde(voteGame.vote[votedPlayer]) wird um 1 erhöht und alle User in der Lobby werden benachrichtigt. 
+Ist im playerVotes.clients-Array kein Client mehr vorhanden, bedeutet das, dass alle User gevoted haben und es muss ein Gewinner festgestellt werden. 
+Dafür werden alle Zeichnungen durchgegangen und es wird sich der Wert der Votes in ``arr'' gemerkt. Daraufhin wird der Index des höchsten Werts des Arrays herausgefunden. TODO
+Damit kann die Gewinnermap in der game Variable gespeichert werden und allen Usern wird vermittelt, dass das Spiel starten kann. 
+\begin{lstlisting}[language=html,caption= User voted]
+    
+    Server:
+    socket.on('voted', message => {
+        const gameId = message.gameId;
+        const game = games[gameId];
+        const votedPlayer = message.votedPlayer;
+        const voteGame = voteGames[gameId];
+        const player = message.player;
+        var i = 0;
+        var bool = false;
+        playerVotes[gameId].clients.forEach(c => {
+            if (playerVotes[gameId].clients[i].clientId == player) {
+                bool = true
+            }
+            i++;
+        })
+        if (bool) {
+            i = 0;
+            playerVotes[gameId].clients.forEach(c => {
+                if (playerVotes[gameId].clients[i].clientId == player) {
+                    playerVotes[gameId].clients.splice(i, 1)
+                }
+                i++;
+            })
+            voteGame.votes[votedPlayer].amount++;
+            const payLoad = {
+                "method": "voted",
+                "voteGame": voteGames[gameId],
+                "game": game,
+                "votedPlayer": votedPlayer
+            }
+            let gameString = "" + gameId
+            io.in(gameString).emit('voted', payLoad)
+            if (!playerVotes[gameId].clients[0]) {
+                var arr = [];
+                for (var i = 0; i < voteGame.votes.length; i++) {
+                    arr[i] = voteGame.votes[i].amount;
+                }
+                var winner = arr.reduce((iMax, x, i, a) => x > a[iMax] ? i : iMax, 0);
+                let gewinner = games[gameId].clients[winner].img;
+                let gewinnerMap = games[gameId].clients[winner].map
+                games[gameId].winner = gewinner;
+                games[gameId].winnerMap = gewinnerMap;
+                var payLoad2 = {
+                    "method": "startGame",
+                    "game": game,
+                }
+                let gameString = "" + gameId
+                console.log(gameString);
+                io.in(gameString).emit('startGame', payLoad2)
+            } else {
+                console.log("Still Players remaining")
+            }
+        } else {
+            var payLoad2 = {
+                "method": "error",
+                "message": "user has already voted"
+            }
+            let gameString = "" + gameId
+            console.log(gameString);
+            io.in(gameString).emit('error', payLoad)
+        }
+    })
+    
+
+
+    Client:
+    socket.on('voted', response => {
+        const myChart = Chart.getChart('myChart')
+        var voteGame = response.voteGame;
+        var i = response.votedPlayer;
+        myChart.data.datasets[0].data[i] = voteGame.votes[i].amount;
+        myChart.update();
+    })
+
+    socket.on('startGame', response => {
+        const game = response.game;
+        const gameId = game.id;
+        window.location.href = 'http://localhost:3000/' + gameId;
+    })
+    
+\end{lstlisting}
+Im Frontend wird zuerst das Diagramm geupdatet und sollten alle User gevoted haben, wird auf das Spiel verlinkt, mit der GameId als Parameter.
+
+\subsection{Game Socketverbindung zur Lobby}
+Bei der Initialisierung des Webgames wird eine Funktion namens ``getGame()'' aufgerufen. Diese holt sich aus der URL den GameID Parameter und benachrichtigt den Server. 
+Der Server schickt dann dem Client das Gewinnerbild mit dem zugehörigen Map-Array. 
+Hat der Client die Response erhalten, setzt er das Hintergrundbild und der Kampf kann beginnen.
+\begin{lstlisting}[language=html,caption=Webgame Socket]
+    
+    Server:
+    socket.on('rafi_game', message => {
+        const gameId = message.gameId;
+        const game = games[gameId];
+        const img = games[gameId].winner;
+        const map = games[gameId].winnerMap;
+        const payLoad = {
+            "method": "rafi_game",
+            "img": img,
+            "map": map
+        }
+        socket.emit('rafi_game', payLoad)
+    })
+
+
+    Client:
+    function getGame() {
+        var pathArray = window.location.pathname.split('/');
+        var gameId = pathArray[1];
+        console.log("")
+        const payLoad = {
+            "method": "rafi_game",
+            "gameId": gameId,
+        }
+        lobbySocket.emit('rafi_game', payLoad)
+    }
+
+    dummy = message.img;
+    dummyMap = message.map;
+    pixel_clumps = JSON.parse(dummyMap);
+    var path_image_dummy = 'data:image/png;base64,' + dummy;
+    var backgroundImage = new Image();
+    backgroundImage.src = 'data:image/png;base64,' + dummy;
+  
+    backgroundImage.onload = function () {
+        ...
+    }
     
 \end{lstlisting}
 
-\newpage
 \setauthor{Himmetsberger Jonas}
 \input{./sections/Jonas/mapandai.tex}
 
