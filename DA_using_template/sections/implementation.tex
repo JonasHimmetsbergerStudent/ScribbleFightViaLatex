@@ -1834,18 +1834,29 @@ Hat der Client die Response erhalten, setzt er das Hintergrundbild und der Kampf
         lobbySocket.emit('rafi_game', payLoad)
     }
 
-    dummy = message.img;
-    dummyMap = message.map;
-    pixel_clumps = JSON.parse(dummyMap);
-    var path_image_dummy = 'data:image/png;base64,' + dummy;
-    var backgroundImage = new Image();
-    backgroundImage.src = 'data:image/png;base64,' + dummy;
-  
-    backgroundImage.onload = function () {
-        ...
-    }
+    lobbySocket.on("rafi_game", message => {
+        dummy = message.img;
+        dummyMap = message.map;
+        pixel_clumps = JSON.parse(dummyMap);
+        var path_image_dummy = 'data:image/png;base64,' + dummy;
+        var backgroundImage = new Image();
+        backgroundImage.src = 'data:image/png;base64,' + dummy;
     
+        backgroundImage.onload = function () {
+            ...
+        }
+    }
 \end{lstlisting}
+
+\section{Animationen}
+Für das Spiel wurden verschiedene Animationen gebraucht. Eine Standardpose bei der der Spieler still steht ist bei Abbildung 
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.3]{pics/AnimationSheet.png}
+    \caption{Animation Sheet}
+    \label{AnimationSheet}
+\end{figure}
+
 
 \setauthor{Himmetsberger Jonas}
 \input{./sections/Jonas/mapandai.tex}
