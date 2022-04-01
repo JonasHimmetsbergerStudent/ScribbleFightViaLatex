@@ -554,7 +554,7 @@ welcher lernen soll einen Stecken zu apportieren.
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.6]{pics/reinforcementLearningConcept.png}
-    \caption{Veranschaulichung bestärkendes Lernen}
+    \caption{Veranschaulichung bestärkendes Lernen \cite{tech:reinforcementlearningDog:cite}}
     \label{tech:fig:reinfconcept}
 \end{figure}
 
@@ -569,7 +569,7 @@ Künstliche Intelligenz funktioniert im Grunde genommen wie das menschliche Gehi
 \begin{figure}[H]
     \centering
     \includegraphics[scale=1]{pics/Neuron.png}
-    \caption{Neuron}
+    \caption{Neuron \cite{tech:neuron:cite}}
     \label{fig:tech:Neuron}
 \end{figure}
 
@@ -577,8 +577,8 @@ Genauso funktioniert auch ein Neuronales Netz. Auf eine Eingabe folgt über eine
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=1]{pics/eba.png}
-    \caption{Eingabe $\rightarrow$ Berechnung $\rightarrow$ Ausgabe}
+    \includegraphics[scale=0.3]{pics/eba.png}
+    \caption{Künstliches Neuron}
     \label{fig:tech:eba}
 \end{figure}
 
@@ -589,8 +589,8 @@ Dieser Wert darf jedoch auch nie zu klein gewählt werden. Schaut man sich das a
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=1]{pics/fehler.png}
-    \caption{Fehlerkurve}
+    \includegraphics[scale=1]{pics/ai/fehlerkurve.png}
+    \caption{Fehlerkurve \cite{tech:fehlerkurve:cite}}
     \label{fig:tech:Fehler}
 \end{figure}
 
@@ -609,7 +609,7 @@ Das Spiel ist wie folgt aufgebaut: ein 3x3 Schachbrett bildet den Untergrund des
 \begin{figure}[H]
     \centering
     \includegraphics[scale=1]{pics/hexapawn/hexapawn_setup.png}
-    \caption{Hexapawn Spielumgebung}
+    \caption{Hexapawn Spielumgebung \cite{tech:hexapawnsetup:cite}}
     \label{fig:tech:HexapawnSetup}
 \end{figure}
 
@@ -621,7 +621,7 @@ Um einen solchen ``Hexapawn''-Computer zu bauen braucht man vierundzwanzig Strei
 \begin{figure}[H]
     \centering
     \includegraphics[scale=1]{pics/hexapawn/hexapawn_zuege.jpg}
-    \caption{Hexapawn mögliche Züge}
+    \caption{Hexapawn mögliche Züge \cite{tech:hexapawn:cite}}
     \label{fig:tech:HexapawnZuege}
 \end{figure}
 
@@ -681,8 +681,18 @@ Dabei muss jedoch beachtet werden, dass das Volumen des Objekts immer gleich ble
 \end{figure}
 
 \subsubsection{2. Anticipation}
+<<<<<<< HEAD
 Dieses Prinzip soll dem Zuschauer einen Hinweis darauf geben welche Aktion als nächstes passiert. Außerdem soll dies die Aktion mehr realistischer machen. 
 Das klassische Beispiel hierzu ist ein Sprung. Bevor der Charakter in die Luft springt muss er sich erst nach unten beugen, um Energie aufzubauen. Dies kann mit einer Feder verglichen werden, welche zusammengedrückt wird, und dann schnell losgelassen wird (Abbildung \ref{fig:tech:Spring}). 
+=======
+Dieses Prinzip soll dem Zuschauer einen Hinweis darauf geben welche Aktion als nächstes passiert. Außerdem soll dies die Aktion mehr realistischer machen.
+Das klassische Beispiel hierzu ist ein Sprung. Bevor der Charakter in die Luft springt muss er sich erst nach unten beugen, um Energie aufzubauen. Dies kann mit einer Feder verglichen werden, welche zusammengedrückt wird, und dann schnell losgelassen wird (Abbildung \ref{fig:tech:Spring}).
+=======
+\subsubsection{2. Erwartungen}
+Dieses Prinzip soll dem Zuschauer einen Hinweis darauf geben welche Aktion als nächstes passiert. Außerdem soll dies die Aktion mehr realistischer machen.
+Das klassische Beispiel hierzu ist ein Sprung. Bevor der Charakter in die Luft springt muss er sich erst nach unten beugen, um Energie aufzubauen. Dies kann mit einer Feder verglichen werden, welche zusammengedrückt wird, und dann schnell losgelassen wird (Abbildung \ref{fig:tech:Spring}).
+>>>>>>> 0aa351d3e64f3e12d57bc3db4c08b73de013183f
+>>>>>>> f15311088d0b620f5fb5fdc2d13bb94206162bca
 Ein weiteres Beispiel ist ein Schlag. Um den Schlag realistischer darzustellen und dem Zuseher zu signalisieren, dass gleich etwas wichtiges passieren wird, holt ein animierter Charakter überdramatisch aus(Abbildung \ref{fig:tech:Punch}).
 \begin{figure}[H]
     \centering
@@ -699,7 +709,7 @@ Ein weiteres Beispiel ist ein Schlag. Um den Schlag realistischer darzustellen u
 
 \subsubsection{3. Staging}
 Staging ist die unmissverständliche Präsentation einer Idee einer Aktion. Dieses Prinzip ist sehr breit gefächert, weil es so viele verschiedene
-Teile der Animation abdeckt. Dabei soll dem Zuseher immer klar sein wo er hinschauen soll.  
+Teile der Animation abdeckt. Dabei soll dem Zuseher immer klar sein wo er hinschauen soll.
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.2]{pics/Staging.png}
@@ -708,8 +718,8 @@ Teile der Animation abdeckt. Dabei soll dem Zuseher immer klar sein wo er hinsch
 \end{figure}
 
 \subsubsection{4. Straight Ahead and Pose to Pose}
-Diese beiden Begriffe sind Methoden zum animieren von Zeichnungen. Bei Straight Ahead wird jede Pose hintereinander gezeichnet. Bei Pose to Pose wird die Anfangspose und die Endpose gezeichnet. Danach werden die Frames (Bilder) dazwischen gezeichnet.   
-Pose to Pose ist dabei die einfachere Variante, weil genau klar ist, wo sich das Objekt am Schluss befinden wird. Straigt Ahead ist dafür besser geeignet, wenn eine überaschende Aktion ausgeführt werden soll (Wassertropfen, Explosion, etc.).   
+Diese beiden Begriffe sind Methoden zum animieren von Zeichnungen. Bei Straight Ahead wird jede Pose hintereinander gezeichnet. Bei Pose to Pose wird die Anfangspose und die Endpose gezeichnet. Danach werden die Frames (Bilder) dazwischen gezeichnet.
+Pose to Pose ist dabei die einfachere Variante, weil genau klar ist, wo sich das Objekt am Schluss befinden wird. Straigt Ahead ist dafür besser geeignet, wenn eine überaschende Aktion ausgeführt werden soll (Wassertropfen, Explosion, etc.).
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.4]{pics/StraightAhead.png}
@@ -734,11 +744,11 @@ Dieses Prinzip besagt, dass manche Körperteile und Anhängsel vom Körper hinte
 
 \subsubsection{6. Slow In and Slow Out}
 Im Animationsbereich ist es so, dass fast alle Animationen langsam beginnen, schnell werden und langsam enden. Dies bringt sehr viel Leben in eine Animation.
-Jedoch kann dieses Prinzip nicht überall verwendet werden. Bei zum Beispiel einer fallenden Bowlingkugel, ergibt es keinen Sinn, die Animation zum Ende hin langsamer zu machen. 
+Jedoch kann dieses Prinzip nicht überall verwendet werden. Bei zum Beispiel einer fallenden Bowlingkugel, ergibt es keinen Sinn, die Animation zum Ende hin langsamer zu machen.
 
 \subsubsection{7. Arcs}
-Die meisten Objekte in der Welt folgen in runden Kreisbahnen, sogenannten Arcs (Bögen). Es ist nicht möglich, einfach zwischen einem Anfangs- und Endframe Frames hinzuzufügen, sondern es muss ein runder Bogen erstellt werden, um die 
-Animation realistisch wirken zu lassen. Hierbei sollte auch das Slow In and Slow Out Prinzip nicht vergessen werden. 
+Die meisten Objekte in der Welt folgen in runden Kreisbahnen, sogenannten Arcs (Bögen). Es ist nicht möglich, einfach zwischen einem Anfangs- und Endframe Frames hinzuzufügen, sondern es muss ein runder Bogen erstellt werden, um die
+Animation realistisch wirken zu lassen. Hierbei sollte auch das Slow In and Slow Out Prinzip nicht vergessen werden.
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.18]{pics/Arc.png}
@@ -747,20 +757,20 @@ Animation realistisch wirken zu lassen. Hierbei sollte auch das Slow In and Slow
 \end{figure}
 
 \subsubsection{8. Secondary Action}
-Secondary Action wird oft mit Overlapping Action verwechselt. 
-Laut Frank und Ollie bedeutet Secondary Action aber: Gesten, die die Haupthandlung unterstützen, um der Charakteranimation mehr Dimension zu verleihen. 
-Damit meinen sie, dass die Hauptaktion durch eine zweite Aktion unterstützt werden soll. Möchte man dem Zuseher vermitteln, dass sich ein 
-Charakter auf den ersten Biss in seinen Burger freut, soll sich der Charakter zuerst über die Lippe lecken um die Haupthandlung zu unterstützen. 
+Secondary Action wird oft mit Overlapping Action verwechselt.
+Laut Frank und Ollie bedeutet Secondary Action aber: Gesten, die die Haupthandlung unterstützen, um der Charakteranimation mehr Dimension zu verleihen.
+Damit meinen sie, dass die Hauptaktion durch eine zweite Aktion unterstützt werden soll. Möchte man dem Zuseher vermitteln, dass sich ein
+Charakter auf den ersten Biss in seinen Burger freut, soll sich der Charakter zuerst über die Lippe lecken um die Haupthandlung zu unterstützen.
 
 \subsubsection{9. Timing}
 Dieses Prinzip besagt, dass die Persönlichkeit und Natur einer Animation sehr stark davon beeinflusst wird, wie viele Frames zwischen jeder Aktion
- vorhanden sind. Sind viele Frames, die sich ähnlich sehen nebeneinander, wirkt die Animation langsam. Sind wenige Frames vorhanden wirkt die Animation sehr schnell. 
-Eine Aktion kann viele Verschiedene Bedeutungen haben, je nachdem ob sie viele oder wenige Frames hat.   
+vorhanden sind. Sind viele Frames, die sich ähnlich sehen nebeneinander, wirkt die Animation langsam. Sind wenige Frames vorhanden wirkt die Animation sehr schnell.
+Eine Aktion kann viele Verschiedene Bedeutungen haben, je nachdem ob sie viele oder wenige Frames hat.
 
 \subsubsection{10. Exaggeration}
-Jede Form von Handlung kann so übertrieben werden, dass sie eine andere Wirkung auf den Zuseher hat. Soll ein Charakter traurig sein, wird er übertrieben traurig dargestellt. 
-Soll ein Charakter fröhlich sein, wird er übertrieben fröhlich dargestellt. Übertreibung bedeutet hierbei jedoch nicht 
-verzerrter sondern überzeugender. Bei schnellen Animationen muss die Übertreibung größer sein um bemerkt zu werden. 
+Jede Form von Handlung kann so übertrieben werden, dass sie eine andere Wirkung auf den Zuseher hat. Soll ein Charakter traurig sein, wird er übertrieben traurig dargestellt.
+Soll ein Charakter fröhlich sein, wird er übertrieben fröhlich dargestellt. Übertreibung bedeutet hierbei jedoch nicht
+verzerrter sondern überzeugender. Bei schnellen Animationen muss die Übertreibung größer sein um bemerkt zu werden.
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.4]{pics/sad.png}
@@ -769,10 +779,10 @@ verzerrter sondern überzeugender. Bei schnellen Animationen muss die Übertreib
 \end{figure}
 
 \subsubsection{11. Solid Drawing}
-Beim Solid Drawing (Festkörperzeichnung) geht es darum, dass Objekte und Animationen sich 3-dimensional anfühlen. 
-Die 3 Hauptparameter dafür sind: Volumen Gewicht und Balance. Dabei ist es wichtig die Objekte korrekt in 3 Dimensionen darzustellen.  
+Beim Solid Drawing (Festkörperzeichnung) geht es darum, dass Objekte und Animationen sich 3-dimensional anfühlen.
+Die 3 Hauptparameter dafür sind: Volumen Gewicht und Balance. Dabei ist es wichtig die Objekte korrekt in 3 Dimensionen darzustellen.
 
 \subsubsection{12. Appeal}
-Grundsätzlich besagt dieses Prinzip, dass Charaktere und Objekte ansprechend sein sollen. Sie sollten einen charismatischen 
-Aspekt an sich haben, der sympathisch ist. Dabei ist nicht nur gutes Aussehen gemeint, sondern auch interessantes Aussehen. Der Bösewicht sollte zum Beispiel sympathisch sein, im Sinne, dass man ihn gerne ansieht. 
-Da aber jeder Mensch einen eigenen Geschmack hat, kann es schwierig sein, viele Menschen anzusprechen. Deshalb ist es sinnvoll, einem Charakter ein dynamisch interessantes Design zu geben. 
+Grundsätzlich besagt dieses Prinzip, dass Charaktere und Objekte ansprechend sein sollen. Sie sollten einen charismatischen
+Aspekt an sich haben, der sympathisch ist. Dabei ist nicht nur gutes Aussehen gemeint, sondern auch interessantes Aussehen. Der Bösewicht sollte zum Beispiel sympathisch sein, im Sinne, dass man ihn gerne ansieht.
+Da aber jeder Mensch einen eigenen Geschmack hat, kann es schwierig sein, viele Menschen anzusprechen. Deshalb ist es sinnvoll, einem Charakter ein dynamisch interessantes Design zu geben.
