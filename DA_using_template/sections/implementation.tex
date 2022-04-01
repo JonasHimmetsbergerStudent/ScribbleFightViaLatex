@@ -41,7 +41,7 @@ Für den Spieler, der in dem Canvas angezeigt werden soll, wird diese Sprite-Kla
 Zum Erstellen der Player-Klasse wird zwar ein Sprite benötigt, damit der Player am Bildschirm angezeigt wird, aber es werden noch einige Attribute ergänzt:
 \begin{compactitem}
     \item id: Zur eindeutigen Identifizierung
-    \item knockback: Wert, der erhöht wird, desto öfter der Spieler getroffen wird; desto höher der Wert, desto weiter wird der Spieler von Projektilen weggestoßen
+    \item knockback: Wert, der erhöht wird, desto öfter der Spieler getroffen wird; je höher der Wert, desto weiter wird der Spieler von Projektilen weggestoßen
     \item death: Anzahl, wie oft der Spieler gestorben ist
     \item kills: Anzahl an Kills, die der Spieler gemacht hat (Abschüsse, die dazu geführt haben, dass der Gegner hinuntergefallen ist)
     \item dmgDealt: Anzahl, wie oft der Spieler jemanden getroffen hat
@@ -49,7 +49,7 @@ Zum Erstellen der Player-Klasse wird zwar ein Sprite benötigt, damit der Player
     \item direction: String, der die Richtung angibt, in die der Spieler gerade schaut (links oder rechts)
 \end{compactitem}
 
-Während des Spiels werden auf der Map Items gespawned. Welcher Algorithmus dahinter steckt, wird im Kapitel \ref{impl:xCoordinates} genauer beschrieben.
+Während des Spiels werden auf der Map Items erstellt. Welcher Algorithmus dahinter steckt, wird im Kapitel \ref{impl:xCoordinates} genauer beschrieben.
 Es wird zwischen 5 unterschiedlichen Items entschieden. Eine Item-Klasse hat ähnlich wie die Player-Klasse als Hauptbestandteil einen Sprite, doch auch hier werden noch weitere Attribute benötigt.
 
 \begin{figure}[H]
@@ -76,11 +76,11 @@ Bei den anderen Items kann immer nur ein Sprite davon existieren.
 
 \subsubsection{Die Items}  \label{impl:items}
 Grundsätzlich gibt es 5 unterschiedliche Items in ScribbleFight. Je nachdem, welches Item der Spieler aufgesammelt hat, kann er oder sie verschiedene Fähigkeiten aktivieren.
-Für jedes Item existiert eine Physik-Methode, die in der Draw-Funktion aufgerufen wird. Diese ist dafür verantwortlich, die physischen Eigenschaften der Items darzustellen. (zum Beispiel Gravitation)
+Für jedes Item existiert eine Physik-Methode, die in der Draw-Funktion aufgerufen wird. Diese ist dafür verantwortlich, die physischen Eigenschaften der Items darzustellen (zum Beispiel Gravitation).
 
 \textbf{Keyboard-Access}
 \\
-Die Items werden alle durch Tasten auf der Tastatur ausgelöst. Durch p5.js kann sehr leicht auf die Tastatur zugriffen werden.
+Die Items werden alle durch Tasten auf der Tastatur ausgelöst. Durch p5.js kann sehr einfach auf die Tastatur zugegriffen werden.
 Mit der p5.js Methode <keyWentDown(Key)> wird überprüft, ob eine Taste gerade gedrückt wurde. (Als Parameter wird der ASCII-Code der gewünschten Taste übergeben)
 
 \begin{lstlisting}[caption=Keyboard-Access,language=Java,label=lst:impl:keyboard-access]
@@ -223,8 +223,8 @@ Wenn eine Mine aktiviert worden ist, und ein Spieler in Berührung mit dem Item 
 \\
 \textit{Das Size-Reduction-Item wird mit der Taste <F> aktiviert.}
 \\
-Dieses Item ist das einzige, das keinen eigenen Sprite hat. Das einzige was diese Item macht, ist, den Spieler-Sprite zu verkleinern. Dadurch wird dieser schwieriger zu treffen.
-Wenn das Item aktiviert wird, wird der Sprite des Spielers verkleinert und ein Counter wird gestartet. Dieser wird alle 60 Frames um eins verringert. Ist der Counter 0, wird der Sprite wieder in seine Originalgröße gebracht.
+Dieses Item ist das einzige, das keinen eigenen Sprite hat. Das einzige was es macht, ist, den Spieler-Sprite zu verkleinern. Dadurch wird dieser schwieriger zu treffen.
+Wird dieses Item aktiviert, so wird der Sprite des Spielers oder der Spielerin verkleinert und ein Counter wird gestartet. Dieser wird alle 60 Frames um eins verringert. Ist der Counter 0, wird der Sprite wieder in seine Originalgröße gebracht.
 Der Code, der dies umsetzt, sieht vereinfacht so aus:
 \\
 \begin{lstlisting}[caption=Size-Reduction,language=Java,label=lst:impl:sizeReduc]
@@ -262,7 +262,7 @@ function smallChecker() {
 \\
 \textit{Die Default-Attacke wird mit <Left-Click> aktiviert.}
 \\
-p5.js bietet sehr leicht die Möglichkeit, auf User-Input zu überprüfen. Das einzige, was nötig ist um zu erkennen, ob der User gerade die linke Maustaste geklickt hat, ist die Funktion <mouseClicked()>.
+p5.js bietet sehr einfach die Möglichkeit, auf User-Input zu überprüfen. Das einzige, was nötig ist um zu erkennen, ob der User gerade die linke Maustaste geklickt hat, ist die Funktion <mouseClicked()>.
 Mit dieser Funktion wird nun zu dem Punkt, auf dem der Spieler gerade die Maus hält und die Default-Attacke aktiviert, ein Projektil abgeschossen. Um die Information zu erhalten, auf welcher X- und Y-Position sich die Maus befindet,
 werden die von p5.js vordefinierten Eigenschaft <camera.mouseX> und <camera.mouseY> verwendet.
 \\
@@ -287,7 +287,7 @@ Es gibt 3 fundamentale Bewegungsmöglichkeiten in ScribbleFight. Springen, links
 \textbf{Springen}
 \\
 In dem Web-Game kann der Spieler mittels Leertaste springen. Genau wie bei den Item-Aktivierungen, wird mithilfe von p5.js Methoden der User-Input ermittelt.
-Bei dem Springbewegung wird einfach die vertikale Geschwindigkeit des Spieler-Sprites so verändert, dass dieser etwas nach oben springt.
+Bei der Springbewegung wird die vertikale Geschwindigkeit des Spieler-Sprites so verändert, dass dieser etwas nach oben springt.
 \\
 \begin{lstlisting}[caption=Jumping,language=Java,label=lst:impl:jumping]
     // check if user pressed spacebar
@@ -307,7 +307,7 @@ Bei dem Springbewegung wird einfach die vertikale Geschwindigkeit des Spieler-Sp
 
 \textbf{Links/Rechts Laufen}
 \\
-Das Prinzip des Links oder Rechts Bewegens ist sehr simpel. Es wird einfach die horizontale Geschwindigkeit des Player-Sprites auf eine konstante Variable gesetzt.
+Das Prinzip des Links oder Rechts Bewegens ist sehr simpel. Es wird die horizontale Geschwindigkeit des Player-Sprites auf eine konstante Variable gesetzt.
 Wenn sich der Spieler nach rechts bewegt, ist diese Konstante positiv, bei einer Linksbewegung negativ. Im Gegensatz zur Springbewegung wird diesmal aber die Methode <keyIsDown(key)> verwendet, und nicht <keyWentDown(key)>.
 Der Grund dafür ist, dass die Bewegung so lange anhalten soll, wie der User die Taste drückt, und nicht nur einmal pro Tastendruck.
 
@@ -335,12 +335,12 @@ Der Grund dafür ist, dass die Bewegung so lange anhalten soll, wie der User die
 \\
 Die Bewegung auf der Spielumgebung wird durch die Methode <collisions()> bestimmt. Diese wird in der draw-Methode aufgerufen und wird somit 60 mal die Sekunde ausgeführt.
 Berührt der Sprite des Players nichts, fällt er er mit konstanter Geschwindigkeit nach unten.
-Findet jedoch eine Kollision mit der Spielumgebung statt, dann wird überprüft, welche Art von Berührung gerade stattfindet:
+Findet jedoch eine Kollision mit der Spielumgebung statt, wird überprüft, welche Art von Berührung gerade stattfindet:
 
 \begin{compactitem}
-    \item Falls Berührung seitlich stattfindet: Player-Sprite bekommt eine Klettergeschwindigkeit und behält diese so lange, wie die Berührung stattfindet
-    \item Falls Berührung unten stattfindet: Die vertikale Geschwindigkeit des Player-Sprites wird auf 0 gesetzt und der Sprung-Counter zurückgesetzt
-    \item Falls Berührung oben stattfindet: Mit einer Berührung die zwischen Spielumgebung und Sprite stattfindet, kann der Spieler oder die Spielerin weder 'klettern' noch wird der Sprung-Counter zurückgesetzt
+    \item Bei seitlicher Berührung: Player-Sprite bekommt eine Klettergeschwindigkeit und behält diese so lange, wie die Berührung stattfindet
+    \item Bei Berührung von unten: Die vertikale Geschwindigkeit des Player-Sprites wird auf 0 gesetzt und der Sprung-Counter zurückgesetzt
+    \item Bei Berührung von oben: Der Spieler oder die Spielerin kann weder 'klettern' noch wird der Sprung-Counter zurückgesetzt
 \end{compactitem}
 
 \begin{lstlisting}[caption=Bewegung auf der Spielumgebung,language=Java,label=lst:impl:collisions]
@@ -364,7 +364,7 @@ Findet jedoch eine Kollision mit der Spielumgebung statt, dann wird überprüft,
 \textbf{Knockback-Bewegung} \\
 Wenn der Spieler von einem Projektil getroffen wurde, wird der eigene Player-Sprite für kurze Zeit bewegungsunfähig und prallt von der Spielumgebung ab.
 Wie lang dieses Knockback-Movement andauert, kommt auf die Art des Projektils und auf den Wert des Knockbacks des Players an.
-Soll der Player-Sprite also nun diese Bewegung ausführen, wird das mit einer Funktion namens <sendHimFlying()> bewerkstelligt.
+Soll der Player-Sprite diese Bewegung ausführen, wird das mit einer Funktion namens <sendHimFlying()> bewerkstelligt.
 Bevor diese aufgerufen wird, muss noch der Countdown, wie lange der Sprite nun in dieser Bewegung bleiben soll, festgelegt werden. Bei jedem draw-Zyklus wird dieser Countdown um den Wert eins verringert.
 Hinzu kommt, dass wenn der Spieler getroffen wurde, er kurz etwas verlangsamt wird. Es soll so wirken, als wäre er gerade etwas betäubt worden.
 \begin{lstlisting}[caption=Knockback-Bewegung,language=Java,label=lst:impl:knockbackMov]
@@ -392,7 +392,7 @@ function sendHimFlying() {
 \\
 Ein weiterer wichtiger Aspekt bei der Bewegung des Player-Sprites ist, dass sich auch die Orientierung des Bildes ändern muss, wenn dieser die Richtung wechselt.
 Auch für diese Problemstellung stellt p5.play.js eine Lösung zu Verfügung. Mit der Methode <mirrorX()> wird der Sprite entlang seiner vertikalen Achse gespiegelt.
-Jedes mal, wenn der User nun also die Richtung seines Player-Sprites wechselt, wird auch der Sprites passend seiner Bewegung gespiegelt.
+Jedes mal, wenn der User die Richtung seines Player-Sprites wechselt, wird auch der Sprites passend seiner Bewegung gespiegelt.
 
 \begin{lstlisting}[caption=Sprite Richtungswechsel,language=Java,label=lst:impl:mirrorSprite]
     function mirrorSprite() {
@@ -424,15 +424,15 @@ Jedes mal, wenn der User nun also die Richtung seines Player-Sprites wechselt, w
 \end{lstlisting}
 
 \subsubsection{Wie gewinne ich?} \label{impl:win}
-Um in ScribbleFight zu gewinnen, muss der Spieler oder die Spielerin seinen Gegner/seine Gegner drei mal erfolgreich von der Spielumgebung schießen, so, dass der Sprite des Gegners ins 'Nichts' fällt.
+Um in ScribbleFight zu gewinnen, muss der Spieler oder die Spielerin die Gegner drei mal erfolgreich von der Spielumgebung schießen, so, dass der Sprite des Gegners ins 'Nichts' fällt.
 Dies ist durch die Attacken, die in Kapitel \ref{impl:items} genau beschreiben werden, möglich.
-Um zu überprüfen, ob der Sprite nun hinuntergefallen und somit 'gestorben' ist, wird in der draw-Methode die Funktion <deathCheck()> aufgerufen.
+Um zu überprüfen, ob der Sprite hinuntergefallen und somit 'gestorben' ist, wird in der draw-Methode die Funktion <deathCheck()> aufgerufen.
 Diese hat einige Aufgaben:
 \begin{compactitem}
     \item Überprüfen ob sich der Player-Sprite außerhalb des Bildschirms befindet
     \item Falls ja, überprüfen ob der Player noch mindestens ein Leben hat
     \item Falls der Player keine Leben mehr hat, wird sein Sprite zerstört
-    \item Hat der Player noch weitere Leben, dann wird er nach drei Sekunden an einem zufälligen Punkt, an dem er nicht direkt wieder aus dem Bildschirm fällt, gespawned
+    \item Hat der Player noch weitere Leben, dann wird er nach drei Sekunden an einem zufälligen Punkt, an dem er nicht direkt wieder aus dem Bildschirm fällt, neu erstellt - der Vorgang wird "to respawn" genannt
     \item Wird der Player respawned, werden ihm alle seine Items, die er eventuell noch hatte, wieder genommen
     \item Wird der Player respawned, wird sein Knockback wieder zurückgesetzt
 \end{compactitem}
@@ -463,7 +463,7 @@ function youDied() {
 \end{lstlisting}
 
 Außerdem zählt es auch als Tod, wenn der Knockback des eigenen Players über einen gewissen Wert ansteigt. Dies wird mit der <fatalHit()>-Methode überprüft.
-Diese Methode wird immer dann aufgerufen, wenn der eigene Player von irgendeinem Projekil getroffen wurde.
+Diese Methode wird immer dann aufgerufen, wenn der eigene Player von irgendeinem Projektil getroffen wurde.
 \begin{lstlisting}[caption=Fatal Hit,language=Java,label=lst:impl:fatalHit]
     function fatalHit() {
         if (myPlayer.knockback > MAX_KNOCKBACK) {
@@ -472,9 +472,9 @@ Diese Methode wird immer dann aufgerufen, wenn der eigene Player von irgendeinem
     } 
 \end{lstlisting}
 Ein Indikator, ob der Spieler gut abgeschnitten hat, sind die Kills, die er erzielen konnte.
-In ScribbleFight kann der Spieler Kills sammeln, indem er jemanden mit jeglicher Art von Projektil trifft, und dieser innerhalb von 3 Sekunden aus der Spielumgebung fliegt.
-Dies funktioniert so, dass wenn jemand meinen player-Sprite trifft, in meinem Player-Objekt abgespeichert wird, welcher Spieler mich gerade getroffen hat.
-Diese Information wird aber alle 3 Sekunden wieder gelöscht.
+In ScribbleFight kann der Spieler Kills sammeln, indem er Gegner mit jeglicher Art von Projektil trifft, und dieser innerhalb von 3 Sekunden aus der Spielumgebung fliegt.
+Dies funktioniert so, dass wenn jemand den player-Sprite des Spielers trifft, in dem Player-Objekt abgespeichert wird, welcher Spieler den player-Sprite gerade getroffen hat.
+Diese Information wird aber alle drei Sekunden wieder gelöscht.
 
 \begin{lstlisting}[,language=Java]
     function draw() {
@@ -498,8 +498,8 @@ Wenn ich nun sterbe, und die Information, dass mich jemand getroffen hat in mein
 
 
 \subsubsection{Erstellung der Spielumgebung} \label{impl:Spielumgebung}
-Um sich auch auf dem Bild, das der User gezeichnet hat, bewegen zu können, müssen einiges Schritte durchgeführt werden. Mittels Objekterkennung kann das Bild abfotografiert,
-und daraus ein Array mit Bildaten erstellt werden, aus dem dann die Spielumgebung kreiert wird. Wie genau dieser Array zustande kommt, wird in Kapitel \ref{maai:udbifdsbd:head} beschrieben.
+Um sich auch auf dem Bild, das der User gezeichnet hat, bewegen zu können, müssen einige Schritte durchgeführt werden. Das Bild kann abfotografiert werden, und mittels Objekterkennung wird daraus ein Array mit Bilddaten erstellt, 
+aus dem dann die Spielumgebung kreiert wird. Wie genau dieser Array zustande kommt, wird in Kapitel \ref{maai:udbifdsbd:head} beschrieben.
 \\
 \begin{lstlisting}[caption=Vereinfachte Darstellung eines Bilddaten-Arrays,language=Java,label=lst:impl:bilddaten]
     [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0],
@@ -511,17 +511,17 @@ und daraus ein Array mit Bildaten erstellt werden, aus dem dann die Spielumgebun
     [174, 174, 174, 0], [255, 255, 255, 0], [173, 173, 173, 0],
     [226, 226, 226, 0], [255, 255, 255, 0], [253, 253, 253, 0],
     [163, 163, 163, 0], [254, 254, 254, 0], [255, 255, 255, 0],
-    [0, 0, 0, 0], [0, 0, 0, 0], [[0, 0, 0, 0],
+    [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
 \end{lstlisting}
 
 
-Desto genauer dieser Array ist, desto genauer werden auch die Hitboxen der Spielumgebung, denn die gezeichneten Formen werden mit Rechteck-Hitboxen nachgestellt.
+Je genauer dieser Array ist, desto genauer werden auch die Hitboxen der Spielumgebung, denn die gezeichneten Formen werden mit Rechteck-Hitboxen nachgestellt.
 Eine Hitbox ist ein Bereich, der für die Berechnung für Kollision benutzt wird.
 Hat ein Eintrag des Arrays an Stelle vier mehr als 0 als Wert, wird dort ein Pixel erstellt. Das liegt daran, dass an der vierten Stelle eines solchen Eintrags die Deckkraft der Bildstelle angegeben wird. Das bedeutet, der User hat dort etwas gezeichnet.
 Natürlich muss der Sprite-Pixel noch einen richtigen X- und Y-Wert bekommen. Diese Koordinate muss auch mit dem Punkt des Bildes übereinstimmen, an den der Sprite als Hitbox agieren soll.
-Aus Perfomance-Gründen (Es wird durchgehend auf Kollidierung zwischen Player und Spielumgebung geprüft) werden die Sprite-Pixel entlang der X-Achse noch zusammengefasst.
-Wurden nun alle Sprite-Pixel ausfindig gemacht, mit richtigen Koordinaten versehen und entlang der horizontalen Achse zusammengefasst, werden alle einer p5-Group-Variable hinzugefügt.
-Das macht das Überprüfen auf Kollision sehr leicht. \\
+Aus Perfomance-Gründen (es wird durchgehend auf Kollidierung zwischen Player und Spielumgebung geprüft) werden die Sprite-Pixel entlang der X-Achse noch zusammengefasst.
+Wurden alle Sprite-Pixel ausfindig gemacht, mit richtigen Koordinaten versehen und entlang der horizontalen Achse zusammengefasst, werden alle einer p5-Group-Variable hinzugefügt.
+Das macht das Überprüfen auf Kollision einfach. \\
 Die nächsten drei Bilder sollen den Ablauf bildlich darstellen.
 
 Zuerst das originale, vom User gezeichnete Bild.
@@ -540,8 +540,8 @@ die Pixel für die Spielumgebung erstellt, sind diese noch viel zu klein und an 
     \caption{Bilddaten-Array bildich dargestellt}
 \end{figure}
 
-Um die richtigen Koordinaten für die Sprite-Pixel zu bestimmen, werden noch einige andere Faktoren miteinbezogen und daraus dann die richtige Position der Pixel am Bildschirm ermittelt.
-Außerdem werden sie noch entlang der X-Achse kombiniert.
+Um die richtigen Koordinaten für die Sprite-Pixel zu bestimmen, werden noch einige andere Faktoren miteinbezogen und daraus die richtige Position der Pixel am Bildschirm ermittelt.
+Außerdem werden sie entlang der X-Achse kombiniert.
 
 \begin{figure}[H]
     \centering
@@ -549,7 +549,7 @@ Außerdem werden sie noch entlang der X-Achse kombiniert.
     \caption{Spielumgebung}
 \end{figure}
 
-Natürlich werden dann diese Sprites versteckt. Es soll ja so wirken, also würde sich der User auf dem, was er gerade gezeichnet hat, bewegen können.
+Die Sichtbarkeit dieser Sprites wird entfernt. Es soll so wirken, also würde sich der User auf dem, was er gerade gezeichnet hat, bewegen können.
 Im Folgenden wird der Algorithmus zum Aufbereiten der Spielumgebung vereinfacht dargestellt.
 \begin{lstlisting}[,language=Java,label=lst:impl:createEnv]
     environment = new Group();
@@ -581,7 +581,7 @@ Im Folgenden wird der Algorithmus zum Aufbereiten der Spielumgebung vereinfacht 
 
 \subsubsection{Item-Spawns} \label{impl:itemSpawnF}
 Alle 10 Sekunden wird ein Item erstellt.
-Es wird an oberster Stelle des Bildschirms kreiert (y-Koordiante = 0); die x-Position dieses Items wird dann zufällig ausgewählt.
+Es wird an oberster Stelle des Bildschirms posiitoniert (y-Koordiante = 0); die x-Position dieses Items wird dann zufällig ausgewählt.
 Wichtig dabei ist jedoch, dass das Items auf keiner Position spawnen darf, bei der es einfach oben auftaucht und dann aus dem Bildschirm fällt.
 Wie diese x-Koordiaten berechnet werden, wird in Kapitel \ref{impl:xCoordinates} genau beschrieben.
 Damit die Items voneinander unterschieden werden können, wird jede Art von Item farblich gekennzeichnet:
@@ -594,7 +594,7 @@ Damit die Items voneinander unterschieden werden können, wird jede Art von Item
     \item Grün: Size-Reduction
 \end{compactitem}
 
-Den Input, wann ein Item genau erstellt wird, (muss bei jedem User der gerade spielt gleich sein) liefert der Server. Genauere Details wie der Server von des Web-Games funktioniert, wird in Kapitel \ref{impl:itemSpawnB} beschrieben.
+Den Input, wann ein Item erstellt wird, (muss bei jedem User der gerade spielt gleich sein) liefert der Server. Genauere Details wie der Server von des Web-Games funktioniert, wird in Kapitel \ref{impl:itemSpawnB} beschrieben.
 \\
 
 \begin{lstlisting}[caption=Erstellen eines Items,language=Java,label=lst:impl:createItem]
@@ -635,7 +635,7 @@ funciton createItem(data) {
     }
 \end{lstlisting}
 
-Nachdem nun das Item erstellt wurde, braucht dieses natürlich auch so wie zum Beispiel die Projektile oder der Player eine eigene Physik-Methode. Diese wird, so wie die anderen Physik-Methoden auch, in der Draw-Methode aufgerufen.
+Nachdem nun das Item erstellt wurde, benötigt dieses natürlich auch so wie zum Beispiel die Projektile oder der Player eine eigene Physik-Methode. Diese wird, so wie die anderen Physik-Methoden auch, in der Draw-Methode aufgerufen.
 Die Methode funktioniert so, dass das Item so lange fällt, bis es irgenwo auf der Spielumgebung landet. Jeder Player kann jeder Zeit das Item berühren und somit eine neue Fähigkeit bekommen.
 
 \begin{lstlisting}[caption=Item-Physik,language=Java,label=lst:impl:itemPhy]
@@ -663,8 +663,8 @@ Die Methode funktioniert so, dass das Item so lange fällt, bis es irgenwo auf d
 \textbf{Bestimmung von gültigen X-Koordinaten} \label{impl:xCoordinates}
 \\
 Mit gültiger X-Koordinaten sind jene X-Koordinaten gemeint, bei denen ein Sprite erstellt werden kann, und dieser dann irgendwo auf der Spielumgebung landet und nicht sofort aus dem Bildschirm fliegt.
-Bei dem Algorithmus wird zuerst überprüft, auf welchen Stellen Sprite-Pixel (Pixel aus denen die Spielumgebung besteht) vorhanden sind. Von diesen kann schon der Mittelpunkt als gültige X-Koordiaten genommen werden, solange dieser Pixel eine gewisse Breite aufweist.
-Doch damit bei einem sehr breiten Pixel nicht nur eine einzige X-Koordinate ausgewählt wird, wird schrittweise überprüft, ob noch Stellen vor oder hinter dem Mittelpunkt des Sprites in Frage kommen.
+Bei dem Algorithmus wird zuerst überprüft, auf welchen Stellen Sprite-Pixel (Pixel aus denen die Spielumgebung besteht) vorhanden sind. Von diesen kann schon der Mittelpunkt als gültige X-Koordiate genommen werden, solange dieser Pixel eine gewisse Breite aufweist.
+Damit bei einem sehr breiten Pixel nicht nur eine einzige X-Koordinate ausgewählt wird, wird schrittweise überprüft, ob noch Stellen vor oder hinter dem Mittelpunkt des Sprites in Frage kommen.
 Dazu wird dieser Sprite-Pixel nach vorne und nach hinten abgetastet, ob noch genügend Platz da ist, ein Item dort landen zu lassen.
 Es können höchstens halb so viele X-Koordiaten pro Sprite-Pixel ausgewählt werden, wie der Pixel (in Pixel-Width gemessen) breit ist.
 Die Funktion wird im Setup von ScribbleFight aufgerufen.
@@ -704,11 +704,11 @@ Die Funktion wird im Setup von ScribbleFight aufgerufen.
 
 \textbf{Progressbar} \label{impl:progressbar} \\
 Um dem Spieler Feedback zu geben, wie oft er getroffen wurde, wird eine Progressbar am oberen Rand des Bildschirms eingefügt. Je öfter man getroffen wurde, desto mehr füllt sich diese.
-Wenn die Progressbar komplett aufgefüllt ist, wird der nächste Treffer eines Projektils den Spieler umbringen.
-Umgesetzt wurde dieses Feature, indem man den derzeitigen Knockback des Spieler auf den Bereich zwischen 0 bis zur Hintergrundsbild-Breite mapped. Dazu wurde die von p5.js vordefinierte Funktion \texttt{map} verwendet.
+Wenn die Progressbar komplett aufgefüllt ist, wird der nächste Treffer eines Projektils den Spieler ein Leben kosten.
+Umgesetzt wurde dieses Feature, indem der derzeitigen Knockback des Spieler (ein Wert dafür, wie oft er oder sie schon getroffen wurde) auf den Bereich zwischen 0 bis zur Hintergrundsbildbreite gemapped wird. Dazu wurde die von p5.js vordefinierte Funktion \texttt{map} verwendet.
 Als Parameter nimmt diese Funktion:
 \begin{compactitem}
-    \item Der umzuwandelnde Wert
+    \item Den umzuwandelnden Wert
     \item Start-Wert des ersten Bereichs
     \item End-Wert des ersten Bereichs
     \item Start-Wert des zweiten Bereichs
@@ -733,7 +733,7 @@ function updateUI() {
 \end{lstlisting}
 
 \subsection{Server [R]}
-Der Server von des Spiels ist ein einfacher Web-Server, der mit Node.js und express.js umgesetzt wurde.
+Der Server des Spiels ist ein Web-Server, der mit Node.js und express.js umgesetzt wurde.
 Dieser hostet statische Files, auf denen sich der Code für das Frontend befindet (HTML Files, p5.js library, etc).
 Viele Teile dieses Codes werden im vorherigen Kapitel detailliert erklärt.
 Durch SocketIO können multiple Clients eine Verbindung mit dem Server aufbauen.
@@ -751,10 +751,11 @@ Ist dies gegeben, kann ein neuen Ordner erstellt, und in diesem dann der Befehl 
 Dort wird dann ein package.json File für das Node-Projekt erstellt. Nähere Infos zu diesem File kann in Kapitel \ref{NPM} nachgelesen werden.
 Danach kann entweder durch eine Entwicklungsumgebung ein neues JavaScript File erstellt, oder im Terminal der Befehl \texttt{touch server.js} eingegeben werden.
 In dem Backend von ScribbleFight werden express.js und SocketIO benutzt, deshalb müssen die Befehle \texttt{npm install express --save} für express.js, und
-\texttt{npm install socket.io} für SocketIO im Terminal ausgeführt werden. Dies installiert die Module und fügt die Dependencies zu dem package.json-File hinzu.
+\texttt{npm install socket.io} für SocketIO im Terminal ausgeführt werden. Dies installiert die Module und fügt die Abhängigkeiten zu dem package.json-File hinzu.
 
-Wurde all das berücksichtigt, wird jetzt die Logik des server.js-Files umgesetzt. Zuerst wird eine Instanz von express.js erstellt.
-Danach wird ein HTTP-Server-Objekt und eine SocketIO Instanz angelegt, die das HTTP-Server-Objekt als Paramter nimmt. Zusätzlich wird noch Cross-Origin Resource Sharing freigegeben.
+Wurde all das berücksichtigt, kann die Logik des server.js-Files umgesetzt werden. Zuerst wird eine Instanz von express.js erstellt.
+Danach wird ein HTTP-Server-Objekt und eine SocketIO Instanz angelegt, die das HTTP-Server-Objekt als Paramter nimmt. Zusätzlich wird noch Cross-Origin Resource Sharing freigegeben. 
+Dies ist ein Mechanismus, der festlegt, welche Quellen aus dem Internet Resourcen von dem Server laden darf. \cite{cors}
 Der Code sieht also so aus:
 
 \begin{lstlisting}[caption=,language=Java,label=lst:impl:socketIO]
@@ -768,21 +769,21 @@ Der Code sieht also so aus:
     });
 \end{lstlisting}
 
-Das war aber nur ein Teil, um einen funktionierenden SocketIO-Webserver zu erstellen. Bei unserem Web-Game müssen, wie vorher schon erwähnt, das Frontend als statische Files gehostet werden.
+Bei dem Web-Game muss, wie vorher schon erwähnt, das Frontend in Form von statischen Files gehostet werden.
 Für dieses Problem wurde das Paths-Module von Node.js verwendet. Dieses stellt Funktionen für das Arbeiten mit File-und Directory-Pfaden zur Verfügung. Darauf zugegriffen werden wird mit:
 
 \begin{lstlisting}[caption=,language=Java,label=lst:impl:socketIO]
     const path = require('path');
 \end{lstlisting}
 
-Nun können die Files einfach mit \\
+Nun können die Files mit \\
 
 \begin{lstlisting}[caption=,language=Java,label=lst:impl:socketIO]
     // path.join is used to get the right path 
     app.use(express.static(path.join(__dirname, '/../p5_frontend/src')));
 \end{lstlisting}
 
-gehostet werden. (Diese befinden sich in dem Folder <src>);
+gehostet werden (Diese befinden sich in dem Folder <src>).
 
 Als letzten Schritt wird noch der Port bei dem HTTP-Server-Objekt angegeben, im Fall von unserem Server ist dieser 3000.
 \begin{lstlisting}[caption=,language=Java,label=lst:impl:socketIO]
@@ -793,8 +794,8 @@ Als letzten Schritt wird noch der Port bei dem HTTP-Server-Objekt angegeben, im 
 Ist das alles abgeschlossen, wird nun die SocketIO Logik umgesetzt.
 
 \subsubsection{SocketIO Logik}
-Der nun funktionierende Web-Server soll nun SocketIO-Verbindungen, die vom Browser kommen, annehmen können.
-Mit der SocketIO Instanz, die im letzten Abschnitt erstellt worden ist, kann dieses Problem sehr leicht gelöst werden:
+Der funktionierende Web-Server soll SocketIO-Verbindungen, die vom Browser kommen, annehmen können.
+Mit der SocketIO Instanz, die im letzten Abschnitt erstellt worden ist, kann dieses Problem gelöst werden:
 
 \begin{lstlisting}[caption=,language=Java,label=lst:impl:socketIO]
     io.sockets.on('connection', newConnection);
@@ -806,17 +807,17 @@ Mit der SocketIO Instanz, die im letzten Abschnitt erstellt worden ist, kann die
 
 Findet nun eine Verbindung zu dem Server von einem Client statt, wird die Methode <newConnection(socket)> aufgerufen.
 Der Parameter der Methode ist eine Socket-Instanz, die sehr viele Informationen und Funktionalitäten der gerade bestehenden Verbindung enthält.
-Wie der Client eine Verbindung zu diesem Server aufbauen kann, ist von Programmiersprache zu Programmiersprache unterschiedlich. Im Frontend von ScribbleFight wird JavaScritp benutzt.
+Wie der Client eine Verbindung zu diesem Server aufbauen kann, ist von Programmiersprache zu Programmiersprache unterschiedlich. Im Frontend von ScribbleFight wird JavaScript benutzt.
 
 \textbf{SocketIO im Frontend}
 
-Um im Frontend eine SocketIO-Verbindung aufzubauen, wird zuerst in dem index.html File die SocketIO Library verlinkt:
+Um im Frontend eine SocketIO-Verbindung aufzubauen, wird in dem index.html File die SocketIO Library verlinkt:
 \begin{lstlisting}[,language=Java,label=lst:impl:socketIO]
     // link SocketIO in index.html
     <script src="https://cdn.socket.io/4.1.2/socket.io.min.js"></script>
 \end{lstlisting}
 
-Jetzt kann einfach eine neue Socket-Instanz erstellt werden mit der der Client Events empfangen, aber auch aussenden kann.
+Jetzt kann eine neue Socket-Instanz erstellt werden, mit deren Hilfe der Client Events empfangen, aber auch aussenden kann.
 Da der Server von ScribbleFight nicht mehr lokal läuft, sondern auf einem Kubernetes-Cluster, wird hierbei noch ein Pfad definiert, um eine korrekte Instanz zu erstellen.
 
 \begin{lstlisting}[,language=Java,label=lst:impl:socketIO]
@@ -825,32 +826,32 @@ Da der Server von ScribbleFight nicht mehr lokal läuft, sondern auf einem Kuber
       }); 
 \end{lstlisting}
 
-Einfach nur der Befehl \texttt{io()} würde die Pfad-Parameter (/t.rafetseder/scribble-fight/socket.io) der derzeiten Domaine einfach ignorieren und die Verbindung könnte nicht hergestellt werden.
+Der Befehl \texttt{io()} alleine würde die Pfad-Parameter (/t.rafetseder/scribble-fight/socket.io) der derzeiten Domaine einfach ignorieren und die Verbindung könnte nicht hergestellt werden.
 \\
 Nun können mit dem Befehl
-\texttt{socket.on('event',funciton)} Events empfangen, und mit \texttt{socket.emit('event')} Events ausgelöst werden.
+\texttt{socket.on('event',function)} Events empfangen, und mit \texttt{socket.emit('event')} Events ausgelöst werden.
 
 \textbf{SocketIO Events} \\
-Nachdem nun eine aufrechte Verbindunge hergestellt werden konnte, gibt es 10 Events, die passieren können.
+Nachdem nun eine aufrechte Verbindunge hergestellt werden konnte, gibt es 10 Events, die auftreten können:
 \begin{compactitem}
     \item Ein neuer Spieler soll erstellt werden
     \item Abruf von schon bestehenden Spielern
-    \item Die Position von meinem Sprite soll aktualisiert werden
-    \item Die Richtung, in die mein Sprite schaut, soll aktualisiert werden
+    \item Die Position des eigenen Sprites soll aktualisiert werden
+    \item Die Richtung, in die der Sprite des Spielers schaut, soll aktualisiert werden
     \item Ein Item wurde aufgehoben, also soll es bei jedem entfernt werden
     \item Jemand hat eine Attacke ausgeführt, also soll bei jedem ein Projektil erstellt werden
     \item Jemand hat einen Kill erzielt
     \item Ein Spieler wurde von einem Projektil getroffen, das heißt das Projektil, das getroffen hat, muss bei jedem entfernt werden
     \item Jemand ist gestorben
-    \item Es soll ein neues Item erstellt werden (Passiert alle 10 Sekunden)
+    \item Es soll ein neues Item erstellt werden (Event wird alle 10 Sekunden ausgelöst)
 \end{compactitem}
 
 Diese Events werden im Folgenden genau erklärt.
 
-\textbf{Erstellen eines neuen Spielers und Abrufen von vorhandenen Spieler} \\
-Führt der Spieler das Frontend aus, stellt dieses sofort eine Verbindung mit dem Sever her. Um nun schon vorhandene Spieler, die gerade auch verbunden sind zu erhalten, wird ein Event <getPlayers> emittiert.
-Danach muss dem Server noch mitgeteilt werden, dass der Spieler nun selbst auch eine spielbare Figur erhlaten möchte. Dies wird mit dem <newPlayer>-Event bewerkstelligt.
-Wird nun das Event <newPlayer> vom Server ausgelöst, wird ein neues Player-Objekt dem Player-Array des Frontends hinzugefügt. Der Konstruktur von diesem Player-Objekt benötigt nur einen Sprite, der auch neu erstellt wird.
+\textbf{Erstellen eines neuen Spielers und Abrufen von vorhandenen Spielern} \\
+Führt der Spieler das Frontend aus, stellt dieses sofort eine Verbindung mit dem Server her. Um nun schon vorhandene Spieler, die gerade auch verbunden sind zu erhalten, wird ein Event <getPlayers> ausgelöst.
+Danach muss dem Server noch mitgeteilt werden, dass der Spieler nun selbst auch eine spielbare Figur erhalten möchte. Dies wird mit dem <newPlayer>-Event bewerkstelligt.
+Wird nun das Event <newPlayer> vom Server ausgelöst, wird ein neues Player-Objekt dem Player-Array des Frontends hinzugefügt. Der Konstruktor von diesem Player-Objekt benötigt nur einen Sprite, der auch neu erstellt wird.
 \begin{lstlisting}[,language=Java,label=lst:impl:socketIO]
     // listen to an event from the server
     socket.on('newPlayer',createNewPlayer);
@@ -865,9 +866,9 @@ Wird nun das Event <newPlayer> vom Server ausgelöst, wird ein neues Player-Obje
     }
 \end{lstlisting}
 
-Im Server sieht das Ganze etwas komplizierter aus. Grundsätzlich speichert der Server alle Player-Objekte in einem Map-Objekt ab.
-Die ID für jedes dieser Player-Objekte dient einfach die ID der Socket-Verbindung. Will ein Client nun alle schon vorhandenen Spieler, wird die Map (falls Spieler vorhanden) durchlaufen, und die ID von jedem der Spieler an den anfragenden Client geschickt.
-Dieser erstellt dann einen neuen Player / mehrere neue Player mit der dazugehörigen ID.
+Grundsätzlich speichert der Server alle Player-Objekte in einem Map-Objekt ab.
+Für die ID für jedes dieser Player-Objekte wird einfach die ID der Socket-Verbindung verwendet. Will ein Client nun alle schon vorhandenen Spieler, wird die Map (falls Spieler vorhanden) durchlaufen, und die ID von jedem der Spieler an den anfragenden Client geschickt.
+Dieser erstellt dann einen, beziehungsweise mehrere neue Player mit der dazugehörigen ID.
 
 \begin{lstlisting}[,language=Java,label=lst:impl:socketIO]
     socket.on('getPlayers',sendPlayers);
@@ -885,7 +886,7 @@ Dieser erstellt dann einen neuen Player / mehrere neue Player mit der dazugehör
     }
 \end{lstlisting}
 
-Nachdem nun der Server alle schon vorhanden Spieler dem Client mitgeteilt hat, muss noch ein neuer Spieler für diesen Client erstellt werden.
+Nachdem nun der Server alle schon vorhandenen Spieler dem Client mitgeteilt hat, muss noch ein neuer Spieler für diesen Client erstellt werden.
 
 \begin{lstlisting}[,language=Java,label=lst:impl:socketIO]
     socket.on('newPlayer',createPlayer);  
@@ -904,8 +905,8 @@ Der Client erstellt nun genau gleich wie bei dem <getPlayers>-Event den Spieler.
 
 \textbf{Update Position and Update Direction}
 
-Die Postion des Sprites von jedem Spieler soll in jedem Draw-Zyklus geupdatet werden. Die Orientierung des Sprites soll nur dann aktualisiert werden, wenn der Spieler die Richtung seines Sprites wechselt. (Beschrieben in Kapitel \ref{directionChange})
-Leider ergibt sich beim Aktualisieren von Positionen von Sprites ein Problem. Die Koordinaten in p5.js weden in Pixel angeben. Das bedeuet, haben unterschiedliche Client unterschiedlich große Endgeräte, befinden sich Sprites mit gleichen Koordinaten an unterschiedlichen Stellen.
+Die Postion des Sprites von jedem Spieler soll in jedem Draw-Zyklus aktualisiert werden. Die Orientierung des Sprites soll nur dann aktualisiert werden, wenn der Spieler die Richtung seines Sprites wechselt. (Beschrieben in Kapitel \ref{directionChange})
+Leider ergibt sich beim Aktualisieren von Positionen von Sprites ein Problem. Die Koordinaten in p5.js werden in Pixel angegeben. Das bedeutet, verwenden unterschiedliche Clients unterschiedlich große Endgeräte, befinden sich Sprites mit gleichen Koordinaten an unterschiedlichen Stellen.
 
 \begin{figure}[H]
     \centering
@@ -913,7 +914,7 @@ Leider ergibt sich beim Aktualisieren von Positionen von Sprites ein Problem. Di
     \caption{Pixel-Unterschied}
 \end{figure}
 
-Aus diesem Grund können nicht einfach nur die rohen Koordinaten an alle Clients geschickt werden, sie müssen in Relation zu dem Bildschirm des Endgeräts und der Größe der Map, also dem Bild auf dem gerade gespielt wird, gesetzt werden.
+Aus diesem Grund können nicht nur die rohen Koordinaten an alle Clients geschickt werden, sie müssen in Relation zu dem Bildschirm des Endgeräts und der Größe der Map, also dem Bild auf dem gerade gespielt wird, gesetzt werden.
 (Dies ist nicht nur bei den Spieler-Koordintaten, sondern auch bei z.B. Items der Fall)
 Der Code am Ende von jedem Draw-Zyklus sieht also so aus:
 
@@ -944,7 +945,7 @@ socket.on('update',updatePosition)
     }
 \end{lstlisting}
 
-Empfängt ein Client die Koordinaten, muss er diese dann wieder für sein Endgerät richtig umwandeln:
+Empfängt ein Client die Koordinaten, muss er diese wieder für sein Endgerät richtig umwandeln:
 
 
 \begin{lstlisting}[,language=Java,label=lst:impl:socketIO]
@@ -961,7 +962,7 @@ socket.on('updatePosition',updatePosition);
 \end{lstlisting}
 
 Das Aktualisieren der Richtung des Sprites ist hingegen leichter. Dort spielt es keine Rolle, wie groß das Endgerät ist.
-Beim Drücken von A oder D auf der Tastatur, wird einfach ein Event ausgelöst, dass die Richtung des Sprites bei jedem verbundenen Spieler ändert.
+Beim Drücken von A oder D auf der Tastatur, wird einfach ein Event ausgelöst, das die Richtung des Sprites bei jedem verbundenen Spieler ändert.
 
 
 \begin{lstlisting}[,language=Java,label=lst:impl:socketIO]
@@ -975,7 +976,7 @@ Beim Drücken von A oder D auf der Tastatur, wird einfach ein Event ausgelöst, 
     }
 \end{lstlisting}
 
-Im Server wird die Information nun einfach an alle Clients verteilt:
+Im Server wird die Information an alle Clients verteilt:
 
 \begin{lstlisting}[,language=Java,label=lst:impl:socketIO]
    socket.on('updateDirection',updateDirection);
@@ -998,11 +999,11 @@ Im Server wird die Information nun einfach an alle Clients verteilt:
 Wird vom Client nun das <updateDirection>-Event empfangen, wird einfach die Orientierung des Sprites geändert.
 
 \textbf{Synchronisieren von Projektilen oder Items} \\
-Wenn ein Item aufgesammelt wird, soll dieses natürlich für die anderen Spieler nicht mehr verfügbar sein. Genauso soll, wenn eine Attacke ausgeführt wird, diese bei allen anderen Spielern auch ausgeführt werden.
+Wenn ein Item aufgesammelt wird, soll dieses für die anderen Spieler nicht mehr verfügbar sein. Genauso soll, wenn eine Attacke ausgeführt wird, diese bei allen anderen Spielern auch ausgeführt werden.
 Die Logik dazu ist relativ simpel. Jedes Item bekommt beim Erstellen eine eigene unique ID. Sammelt nun irgendein Spieler dieses Item auf, wird an den Server eine Benachrichtigung gesendet, dass jemand dieses Item aufgesammelt hat.
-Dieser verteilt diese Information einfach an alle Spieler, und das Item mit der richtigen ID wird bei jedem gelöscht.
+Dieser verteilt diese Information an alle Spieler, und das Item mit der richtigen ID wird bei jedem gelöscht.
 Bei den Projektilen ist es ähnlich. Wenn ein Spieler eine Attacke ausführt, wird auch das dem Server mitgeteilt. Der verteilt nun wieder die Information an alle Spieler, und bei jedem wird ein neues Projekil mit der gleichen ID erstellt.
-Wenn irgendeiner der Spieler eine Kollision zwischen Player-Sprite und einem Projekil feststellt, wird das dem Server mitgeilt und dieser teilt wieder allen anderen Spielern mit, dass das Projektil bei jedem gelöscht werden muss.
+Wenn einer der Spieler eine Kollision zwischen Player-Sprite und einem Projektil feststellt, wird das dem Server mitgeilt und dieser teilt allen anderen Spielern mit, dass das Projektil bei jedem gelöscht werden muss.
 Der Server hat einen Array mit Item-Objekten gespeichert. Vereinfacht sieht die Logik so auf der Server-Seite aus:
 
 \begin{lstlisting}[,language=Java,label=lst:impl:socketIO]
@@ -1033,7 +1034,7 @@ Der Server hat einen Array mit Item-Objekten gespeichert. Vereinfacht sieht die 
 
  \end{lstlisting}
 
-Im Frontend werden einfach die bestimmten Events am richtigen Ort ausgelöst.
+Im Frontend werden die bestimmten Events am richtigen Ort ausgelöst.
 Zum Beispiel, wenn eine Bombe erstellt wird:
 
 \begin{lstlisting}[,language=Java,label=lst:impl:socketIO]
@@ -1105,11 +1106,9 @@ Natürlich befindet sich auch die Logik, um die vom Server ausgelösten Events z
 
  \end{lstlisting}
 
-Somit ist schon die meiste Logik des Servers gegeben. Was aber noch wichtiges fehlt, ist, dass wenn jemand aus der Spielumgebung fällt, immer auf Gewinner überprüft und Kills abgespeichert werden müssen.
-
 \textbf{Tode und Kills} \\
-Wie der Spieler in ScribbleFight gewinnt, wann er 'stirbt' und wie er Kills sammelt wird alles auf der Client-Seite in Kapitel \ref{impl:win} beschrieben.
-Doch natürlich muss der Client auch mit dem Server kommunizieren, damit dieser alle diese Events auch an alle anderen Spieler mitteilen kann.
+Wie der Spieler in ScribbleFight gewinnt, wann er 'stirbt' und wie er Kills sammelt wird auf der Client-Seite in Kapitel \ref{impl:win} beschrieben.
+Doch muss der Client auch mit dem Server kommunizieren, damit dieser alle diese Events auch an alle anderen Spieler mitteilen kann.
 Stirbt ein Spieler, teilt er dies dem Server mit. Dieser speichert die Information ab und überprüft, ob der Spieler noch weiter mitspielen darf.
 Ist er jedoch schon zum dritten Mal gestorben, ist dies nicht mehr der Fall und der Spieler wird aus der Spieler-Map vom Server gelöscht.
 Ist ab dem Zeitpunkt nur mehr ein einziger Spieler in dem Map-Objekt gespeichert, hat dieser gewonnen.
@@ -1135,8 +1134,8 @@ Ist ab dem Zeitpunkt nur mehr ein einziger Spieler in dem Map-Objekt gespeichert
     }
  \end{lstlisting}
 
-Der Client muss natürlich jetzt auf beide Events, also falls er gerade vom Spiel ausgeschieden wurde, oder gerade gewonnen hat, reagieren können.
-Bekommt er die Benachrichtigung, dass gerade jemand ausgeschieden wurde, wird überprüft, ob es sich um ihn selbst handelt.
+Der Client muss jetzt auf beide Events, also falls er gerade vom Spiel ausgeschieden wurde, oder gerade gewonnen hat, reagieren können.
+Bekommt er die Benachrichtigung, dass jemand ausgeschieden wurde, wird überprüft, ob es sich um ihn selbst handelt.
 Falls ja, wird die draw-Methode gestoppt, ihm wird mitgeilt, dass er verloren hat und eine kurze Übersicht von seinen Spiel-Statistiken wird angezeigt.
 Die Übersicht beinhaltet:
 \begin{compactitem}
@@ -1164,7 +1163,7 @@ Falls es sich nicht um ihn handelt, passiert nichts.
 }
  \end{lstlisting}
 
-Bekommt der Spieler nun aber die Benachrichtigung, dass er gewonnen hat, wird diese Nachrichte ausgegeben und auch hier wird wieder eine kurze Übersicht der Spiel-Statistiken gezeigt.
+Bekommt der Spieler nun aber die Benachrichtigung, dass er gewonnen hat, wird diese Nachricht ausgegeben und auch hier wird wieder eine kurze Übersicht der Spiel-Statistiken gezeigt.
 Diesmal aber inklusive den Toden, da sie dieses Mal nicht mit Sicherheit drei sind.
 
 \begin{lstlisting}[,language=Java,label=lst:impl:socketIO]
@@ -1179,7 +1178,7 @@ Diesmal aber inklusive den Toden, da sie dieses Mal nicht mit Sicherheit drei si
     }
  \end{lstlisting}
 
-Wird im Client bestimmt, dass gerade ein Kill erzielt worden ist, speichert der Sever diese Information ab, damit sie immer abrufbar ist.
+Wird im Client bestimmt, dass gerade ein Kill erzielt worden ist, speichert der Server diese Information ab, damit sie abrufbar ist.
 \begin{lstlisting}[,language=Java,label=lst:impl:socketIO]
     socket.on('kill',kill);
     
@@ -1192,13 +1191,13 @@ Wird im Client bestimmt, dass gerade ein Kill erzielt worden ist, speichert der 
 
  \end{lstlisting}
 
-Nun hat der Server schon fast die ganze Funktionalität, die er benötigt, damit das Web-Game funktionert.
-Das Einzige, was fehlt, ist dass der Server allen Spielern immer mitteilen muss, wann ein neues Item erscheinen soll.
+Es wurde schon fast alles beschrieben, was der Server benötigt, damit das Web-Game funktionert.
+Das einzige, was fehlt, ist dass der Server allen Spielern mitteilen muss, wann ein neues Item erscheinen soll.
 
 \textbf{Item-Spawn-Event} \label{impl:itemSpawnB} \\
 Items werden in ScribbleFight alle 10 Sekunden gespawned, falls ein Spieler mit dem Server verbunden ist.
-Auf der Server-Seite ist das leicht umzusetzen. Mit der Methode \texttt{setIntervall()} kann einfach ein Intervall definiert werden, in dem eine Funktion ausgeführt werden soll.
-Das Intervall wird auf 10 Sekunden gesetzt. Nun wird, solange ein Spieler vorhanden ist, alle 10 Sekunde ein Event ausgelöst, dass allen verbundenen Spielern mitteilt, wo, welche Art von Item erstellt werden soll.
+Mit der Methode \texttt{setIntervall()} kann ein Intervall definiert werden, in dem eine Funktion ausgeführt werden soll.
+Das Intervall wird auf 10 Sekunden gesetzt. Nun wird, solange ein Spieler vorhanden ist, alle 10 Sekunde ein Event ausgelöst, dass allen verbundenen Spielern mitteilt, wo welche Art von Item erstellt werden soll.
 Wie die x-Koodinaten berechnet werden, die für die Item-Spawns in Frage kommen, wird in Kapitel \ref{impl:xCoordinates} beschrieben.
 Auf der Server-Seite sieht der Code also so aus:
 \begin{lstlisting}[,language=Java,label=lst:impl:socketIO]
@@ -1223,7 +1222,7 @@ Auf der Server-Seite sieht der Code also so aus:
 
  \end{lstlisting}
 
-Der Client muss jetzt nur mehr beim Empfangen dieses Events ein Item am richtigen Ort erstellen.
+Der Client muss jetzt beim Empfangen dieses Events ein Item am richtigen Ort erstellen.
 Wie Items am Client erstellt werden, kann in Kapitel \ref{impl:itemSpawnF} nachgelesen werden.\\
 Vereinfacht sieht der Code am Client also so aus:
 
@@ -1237,7 +1236,7 @@ Vereinfacht sieht der Code am Client also so aus:
     }
  \end{lstlisting}
 
-Das waren allen Funktionalitäten des ScribbleFight-Web-Servers. Dieser läuft allerdings nicht mehr lokal, sondern auf einem Kubernetes-Cluster: Der Leocloud.
+Somit wurde der komplette Umfang des ScribbleFight-Web-Servers beschrieben. Dieser läuft allerdings nicht mehr lokal, sondern auf einem Kubernetes-Cluster, der von der HTL Leonding bereitgestellt wurde.
 Wie der Server deployed werden konnte, wird in dem nächsten Kapitel beschrieben.
 
 
@@ -1245,7 +1244,7 @@ Wie der Server deployed werden konnte, wird in dem nächsten Kapitel beschrieben
 \setauthor{Rafetseder Tobias}
 Die Grundlage, um etwas auf einen Kubernetes-Cluster deployen zu können, ist ein Docker-Image. Näheres zu der Docker-Technologie wird in Kapitel \ref{tech:docker} beschrieben.
 \subsection{Docker-Image [R]}
-Da es sich bei dem Server, der für das Web-Spiel notwendig ist, nur um einen Web-Server, der statische Files hostet, handelt, und keine Datenbank nötig ist, ist das Docker-File relativ simpel.
+Da es sich bei dem Server, der für das Web-Spiel notwendig ist, um einen Web-Server, der statische Files hostet, handelt, und keine Datenbank nötig ist, ist das Docker-File relativ simpel.
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.85]{pics/dockerfile_scribble.PNG}
@@ -1255,27 +1254,27 @@ Die Zeilen Code werden im Folgenden genauer erläutert. \\
 \begin{lstlisting}
     FROM node:16
 \end{lstlisting}
-Da Docker-Images von anderen Docker-Images erben können, wird nicht ein eigenes Base-Images verwendet, sondern das offizielle Node.js Image, das schon die Tools und Packages hat, die benötigt werden, um eine Node.js-Applikation auszuführen.
+Da Docker-Images von anderen Docker-Images erben können, wird nicht ein eigenes Base-Image verwendet, sondern das offizielle Node.js Image, das schon die Tools und Packages hat, die benötigt werden, um eine Node.js-Applikation auszuführen.
 \\
 \begin{lstlisting}
     WORKDIR /usr/src/app
 \end{lstlisting}
 Es wird ein neues Verzeichnis erstellt, von wo aus gearbeitet wird.
-In diesem Verzeichnis werden alle folgenden Befehle ausgeführt. Der Vorteil davon ist, dass keine absoluten File-Paths benutzt werden müssen, sondern relativ zu diesem Verzeichnis relativ-Paths benutzt werden können. \\
+In diesem Verzeichnis werden alle nachfolgenden Befehle ausgeführt. Der Vorteil davon ist, dass keine absoluten File-Pfade benutzt werden müssen, sondern Pfade, relativ zu diesem Verzeichnis benutzt werden können. \\
 
 
 \begin{lstlisting}
     COPY ./p5_backend/package*.json ./p5_backend/
 \end{lstlisting}
 Bevor \texttt{npm install} ausgeführt werden kann, muss das package.json File und package-lock.json File auf das Image kopiert werden.
-Um das machen zu können, wird \texttt{COPY} benutzt. Dieser Befehl nimmt zwei Parameter: Source und Destination. Es werden package.json und package-lock.json in einen neuen Ordner des vorherig erstellen Arbeits-Verzeichnis kopiert. \\
+Dazu wird \texttt{COPY} benutzt. Dieser Befehl nimmt zwei Parameter: Source und Destination. Es werden package.json und package-lock.json in einen neuen Ordner des vorherig erstellen Arbeits-Verzeichnis kopiert. \\
 
 \begin{lstlisting}
     WORKDIR /usr/src/app/p5_backend
     RUN npm install
 \end{lstlisting}
-Es wird nun das Verzeichnis, in das das package.json-und package-lock.json File kopiert worden sind, als Arbeits-Verzeichnis definiert.
-Da dort diese Files vorhanden sind, kann \texttt{npm install} ausgeführt werden und alle nötigen Dependencies werden heruntegeladen. \\
+Es wird das Verzeichnis, in das das package.json-und package-lock.json File kopiert worden sind, als Arbeits-Verzeichnis definiert.
+Da dort diese Files vorhanden sind, kann \texttt{npm install} ausgeführt werden und alle nötigen Abhängigkeiten werden heruntegeladen. \\
 
 \begin{lstlisting}
     WORKDIR /usr/src/app
@@ -1283,7 +1282,7 @@ Da dort diese Files vorhanden sind, kann \texttt{npm install} ausgeführt werden
     COPY ./p5_frontend ./p5_frontend
 \end{lstlisting}
 
-Nun wird wieder das ursprüngliche Verzeichnis als Arbeits-Verzeichnis definiert. Dorthin werden die Files, die der Server zum Funktionieren braucht und auch die Files für das Frontend, die der Server hostet, kopiert. \\
+Es wird wieder das ursprüngliche Verzeichnis als Arbeits-Verzeichnis definiert. Dorthin werden die Files, die der Server zum Funktionieren braucht und auch die Files für das Frontend, die der Server hostet, kopiert. \\
 
 \begin{lstlisting}
     EXPOSE 3000
@@ -1294,14 +1293,14 @@ Zuletzt wird nur mehr der Port, den der ScribbleFight-Server akzeptiert, nach au
 
 \subsection{Leo-Cloud [R]}
 Die Leo-Cloud ist eine Cloud-Computing-Umgebung der HTL Leonding.
-Da nun ein funktionierendes Image des Web-Servers vorhanden ist, kann an dem Deployment an die Leo-Cloud gearbeitet werden.
+Da ein funktionierendes Image des Web-Servers vorhanden ist, kann an dem Deployment an die Leo-Cloud gearbeitet werden.
 
 Zuerst muss das Image, das für das Deployment verwendet werden soll, in das Docker-Registry der HTL Leonding geladen werden.
 Dazu kann der Befehl \texttt{docker login registry.cloud.htl-leonding.ac.at} benutzt werden, um sich mit den eigenen Anmeldedaten dort einzuloggen.
-Danach wird das Image einfach mit dem Befehl \texttt{docker push registry.cloud.htl-leonding.ac.at/t.rafetseder/<image-name>/<image-version>} hochgeladen.
+Danach wird das Image einfach mit dem Befehl \texttt{docker push <registry-name>} hochgeladen.
 
 Um das Deployment umzusetzten, werden drei YAML-Files benötigt.
-YAML ist eine Daten-Serialisierungs-Sprache, die gerne benutzt wird, um Konfigurations-Files zu schreiben.
+YAML ist eine Daten-Serialisierungs-Sprache, die benutzt wird, um Konfigurations-Files zu schreiben.
 
 Diese drei Files sind:
 \begin{compactitem}
@@ -1310,8 +1309,8 @@ Diese drei Files sind:
     \item Ingress-File
 \end{compactitem}
 
-In dem Deployment-File kann die Konfigurationen zum eigentlichen Deployment festgelegt werden, zum Beispiel welches Image verwendet werden soll,
-welche Anzahl an Pods (Linux-Containern) verwendet werden sollen, oder welcher Port benutzt werden soll.
+In dem Deployment-File kann die Konfiguration zum eigentlichen Deployment festgelegt werden, zum Beispiel welches Image verwendet werden soll,
+welche Anzahl an Pods (Linux-Containern) verwendet werden soll, oder welcher Port benutzt werden soll.
 
 \begin{figure}[H]
     \centering
@@ -1319,8 +1318,8 @@ welche Anzahl an Pods (Linux-Containern) verwendet werden sollen, oder welcher P
     \caption{ScribbleFight Deployment.yaml}
 \end{figure}
 
-Auf einem Kubernetes-Cluster laufen viele Pods. Diese müssen in einer Weise verbindet werden. Das ist der Job von Service-Files.
-Service abstrahiert die IP-Adresse eines Pods zu einem statischen Service-Name, sodass externe Requests zu multiplen Pods geleitet werden können.
+Auf einem Kubernetes-Cluster laufen viele Pods. Ein Service erlaubt Usern, auf eine Gruppe von Pods zuzugreifen.
+Dazu wird die IP-Adresse eines Pods zu einem statischen Service-Name abstrahiert, sodass externe Requests zu verschiedenen Pods geleitet werden können.
 \\
 Das Weiterleiten von Requests zu dem erwünschten Pod basiert auf der \texttt{selector}-spec am Service, der mit dem Metadaten-Label des Pods zusammenpassen muss.
 
@@ -1331,7 +1330,7 @@ Das Weiterleiten von Requests zu dem erwünschten Pod basiert auf der \texttt{se
 \end{figure}
 
 Zusätzlich muss noch konfiguriert werden, wie Services in einem Cluster via IP-Adresse oder URL erreicht werden können.
-Dazu werden Ingress-Files verwendet. Ein Ingress ist eine Ansammlung von Regeln, die einkommende Verbindungen erlauben, Cluster-Servives zu erreichen.
+Dazu werden Ingress-Files verwendet. Ein Ingress ist eine Ansammlung von Regeln, die einkommende Verbindungen erlauben, Cluster-Services zu erreichen.
 Das Ingress-Spec-Field stellt einen Service-Namen und Service-Port bereit, der gemeinsam mit der URL-Route von dem Service exposed wird.
 
 \begin{figure}[H]
