@@ -1344,6 +1344,376 @@ Das Ingress-Spec-Field stellt einen Service-Namen und Service-Port bereit, der g
 
 % Ben dein teil kommt hier herein
 
+
+\section{Lobby [W]}
+\setauthor{Weinzierl Ben}
+\subsection{Aufbau}
+Bei dieser Arbeit gab es drei Teile. Das Spiel, die Map-Erkennung und die Lobby. Diese wurden im Frontend alle mit HTML, CSS und JavaScript umgesetzt. 
+Für das Backend haben die Lobby und das Spiel jeweils einen Node.js Server verwendet. Die Bilderkennung hat dafür einen Python-Flask Server verwendet. Die Lobby, welche als Mittelteil fungierte, hat mittels Socket.io die Kommunikation zwischen den Teilen dargestellt. 
+Um die Spieler und Spielerinnen miteinander spielen zu lassen wird ein 4-stelliger Code, die Game-ID generiert. Dieser kann dann an die Mitspieler und Mitspielerinnen geschickt werden. In der Lobby wird auch ein QR-Code dargestellt welcher auf die Bilderkennung verlinkt. 
+Wird dort (auf dem Python Server) ein Bild hochgeladen wird dies an die Lobby weitergeleitet. Sind alle Spieler und Spielerinnen fertig mit dem Upload, wird das Voting gestartet. Steht ein Gewinner fest (bei gleichstand wird zufällig gewählt), wird auf das Spiel verlinkt. Dabei wird das Gewinnerbild mitgeschickt und die Spieler und Spielerinnen können anfangen, sich zu bekämpfen.
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.3]{pics/architektur.png}
+    \caption{Aufbau von ScribbleFight}
+\end{figure}  
+
+\subsection{Lobby Sockets}
+Wird die Seite aufgerufen, wird dem User erstmal eine ID zugewiesen. ``guid()'' ist eine Funktion welche eine zufällige 4-stellige Zahl erszeugt. 
+Beim Client wird die ID noch im Localstorage gespeichert.
+\begin{lstlisting}[language=html,caption=Socket Connection]
+    
+    Server:
+    io.on('connection', socket => {
+
+        const clientId = guid();
+        socket.id.clientId = clientId;
+        socket.clientId = clientId;
+        const payLoad = {
+            "clientId": clientId
+        }
+        socket.emit("connecting", payLoad)
+    });
+
+    Client:
+    socket.on('connecting', response => {
+        clientId = response.clientId;
+        localStorage.setItem("localClient", clientId)
+        console.log("Client id succesfully set" + clientId);
+    });
+
+
+\end{lstlisting}
+
+Der User oder die Userin hat dann 2 Möglichkeiten. Es wird entweder ein Spiel ``created'' oder ``gejoined''.
+Wird ersteres ausgewählt bekommt der Server eine Nachricht, dass dieser Spieler ein Spiel erstellen möchte. 
+Dabei werden einige JSON Variablen initialisiert, welche später gebraucht werden. Die Game-ID wird, wie die Client-ID, 
+mit der Funktion guid() initialisatiert. Danach wird der User, benachrichtigt, dass sein Spiel erstellt wurde. Im Frontend wird dann der Gamecode ausgegeben, und
+damit der User, der die Lobby erstellt hat, dieser auch beitritt, wird noch die ``join'' Funktion aufgerufen. 
+\begin{lstlisting}[language=html,caption=Create Game]
+    
+    Server:
+    socket.on('create', message => {
+        const clientId = message.clientId;
+        const gameId = guid();
+        games[gameId] = {
+            "id": gameId,
+            "clients": [],
+        }
+        picGames[gameId] = {
+            "id": gameId,
+            "clients": []
+        }
+        voteGames[gameId] = {
+            "id": gameId,
+            "clients": [],
+            "votes": []
+        }
+        playerVotes[gameId] = {
+            "id": gameId,
+            "clients": [],
+        }
+
+        const payLoad = {
+            "method": "create",
+            "game": games[gameId]
+        }
+        socket.emit("create", payLoad)
+    });
+
+
+    Client:
+    socket.on('create', response => {
+        console.log("Game succesfully created with " + response.game.id);
+        let gamecode = document.getElementById("gamecode");
+        gameId = response.game.id;
+        gamecode.innerHTML = "Gamecode: " + gameId;
+        const message = {
+            "method": "join",
+            "clientId": clientId,
+            "gameId": gameId
+        }
+        socket.emit('join', message)
+    })
+
+
+\end{lstlisting}
+
+
+Das Beitreten beginnt damit, dass überprüft wird ob der mitgeschickte Gamecode existiert.
+Tut er das nicht, oder sind schon zu viele Spieler in der Lobby, wird ein Error ausgegeben. Ist alles gut gegangen, wird den im ``create'' initialisierten JSON-Arrays die ClientId hinzugefügt und der User tritt dem Socket-Raum bei. Danach wird der User, welcher gerade gejoined ist, mit socket.emit,
+benachrichtigt. Alle anderen Spieler dieser Lobby werden dann noch mit io.in benachrichtigt,
+dass ein neuer User gejoined ist. Auf der Clientseite wird im ``newClient'' der QR-Code initialisiert. 
+Im ``join'' des Frontends werden alle gejointen Spieler und Spielerinnen ausgegeben. 
+\begin{lstlisting}[language=html,caption=Join Game]
+    
+    Server:
+    socket.on('join', message => {
+        if (games[message.gameId]) {
+            const clientId = message.clientId;
+            const gameId = message.gameId;
+            const game = games[gameId];
+            const clients = io.sockets.adapter.rooms.get(gameId);
+
+            if (game.clients.length >= 8) {
+                console.log("Maximal 8 Spieleer")
+                const payLoad = {
+                    "method": "error",
+                    "message": "Too many players in lobby"
+                }
+                io.to(gameId).emit(payLoad)
+            } else {
+                games[gameId].clients.push({
+                    "clientId": clientId
+                })
+                picGames[gameId].clients.push({
+                    "clientId": clientId
+                })
+                voteGames[gameId].clients.push({
+                    "clientId": clientId,
+                })
+                voteGames[gameId].votes.push({
+                    "amount": 0,
+                })
+                playerVotes[gameId].clients.push({
+                    "clientId": clientId,
+                })
+                const payLoadNew = {
+                    "method": "newClient",
+                    "newClient": clientId,
+                    "gameId": games[gameId].id
+                }
+                socket.emit('newClient', payLoadNew)
+                const payLoad = {
+                    "method": "join",
+                    "game": games[gameId]
+                }
+
+                let gameString = "" + gameId
+                console.log(gameString);
+                socket.join(gameString, () => console.log("RoomID: " + socket.rooms))
+                io.in(gameString).emit('join', payLoad)
+            }
+        } else {
+            console.log("error")
+            const payLoad = {
+                "method": "error",
+                "message": "Gamecode does not exist!"
+            }
+            let gameString = "" + gameId
+                console.log(gameString);
+                socket.join(gameString, () => console.log("RoomID: " + socket.rooms))
+                io.in(gameString).emit('join', payLoad)
+        }
+    })
+
+
+    Client:
+    socket.on('newClient', response => {
+        var localClient = response.newClient;
+        const qrLink = document.getElementById("qrLink");
+        qrLink.href += response.gameId + "/" + response.newClient
+        initQr(response.gameId, response.newClient)
+    })
+
+    socket.on('join', response => {
+        const game = response.game;
+        let gamecode = document.getElementById("gamecode");
+        var gameId = response.game.id;
+        gamecode.innerHTML = "Gamecode: " + gameId;
+        var i = 0;
+        const playerlist = document.getElementById('playerlist');
+        playerlist.innerHTML = "<br>";
+        game.clients.forEach(c => {
+            playerlist.innerHTML +=
+            "<div><p>Player " + (i + 1) + "</p></div>"
+            i++
+        });
+    })
+\end{lstlisting}
+
+Hat ein User seine gezeichnete Map hochgeladen wird der Server benachrichtigt (\ref*{PythonSocket}). 
+Sobald der Server die Nachricht bekommen hat, wird der User der das Bild hochgeladen hat, als ready eingestuft. Dies wird durch das herauslöschen aus dem picGame.clients-Array gemacht.
+Danach wird das Bild unter der richtigen clientId abgespeichert und es wird allen Usern der Lobby mitgeteilt, dass ein Bild hochgeladen wurde. 
+Dort wird überprüft ob schon alle User ihre Bilder hochgeladen haben. Ist das der Fall erscheint ein Button welcher das Voting starten lässt.
+\begin{lstlisting}[language=html,caption=picUploaded]
+    
+    Server:
+    socket.on('picUploaded', message => {
+        const gameId = message.gameId;
+        const game = games[gameId];
+        const img = message.img;
+        const map = message.map;
+        const clientId = message.clientId;
+        var i = 0;
+        picGames[message.gameId].clients.forEach(c => {
+            if (picGames[message.gameId].clients[i].clientId == message.clientId) {
+                console.log("yesss")
+                picGames[message.gameId].clients.splice(i, 1)
+            }
+            i++;
+        })
+        i = 0;
+        game.clients.forEach(c => {
+            if (c.clientId == message.clientId) {
+                games[gameId].clients[i].img = img;
+                games[gameId].clients[i].map = map;
+            } else {
+                console.log("noooo")
+            }
+            i++;
+        })
+
+        const payLoad = {
+            "method": "picUploaded",
+            "game": games[gameId],
+            "picGame": picGames[gameId],
+        }
+
+        let gameString = "" + gameId
+        io.in(gameString).emit('picUploaded', payLoad)
+    })
+
+
+
+    Client:
+    socket.on('picUploaded', response => {
+        var picGame = response.picGame
+        var game = response.game
+        var img = response.img;
+        var missingPlayers = document.getElementById("missingPlayers");
+        var info = document.getElementById("info");
+        info.innerHTML = game.id
+        var x = game.clients.length;
+        i = 0;
+        var miss = [];
+        missingPlayers.innerHTML = "Still Players missing!"
+        picGame.clients.forEach(c => {
+            if(picGame.clients[i].clientId == game.clients[i].clientId){
+                miss[i] = true;
+            } else {
+                miss[i] = false;
+            }
+            i++;
+        })
+        // Wenn alle User was hochgeladen haben soll Button erscheinen (i=0)
+        var buttonBox = document.getElementById("buttonBox");
+        if (i == 0) {
+            missingPlayers.innerHTML = "Ready to start the voting!"
+            buttonBox.innerHTML =
+            '<button id="startVoting" onClick="startVoting()">Start Voting</button>'
+        } else {
+            buttonBox.innerHTML = ''
+        }
+
+    })
+    
+\end{lstlisting}
+
+Wurde das Voting gestartet werden alle User benachrichtigt.
+Daraufhin wird bei allen Usern der Lobby im Frontend ein Balkendiagramm initialisatiert. Die Parameter dieses Diagramms wurden in \ref*{ChartJs} erläutert. 
+In das Diagramm werden dann noch die Player eingefügt und es wird jeweils das gezeichnete Bild und ein Votingbutton dargestellt. 
+\begin{lstlisting}[language=html,caption=Start Voting]
+    
+    Server:
+    socket.on('startVoting, message => {
+        const game = message.game;
+        const myClient = socket.clientId
+        const payLoad = {
+            "method": "startVoting2",
+            "game": game,
+            "myClient": myClient
+        }
+        socket.emit('startVoting', payLoad)
+    })
+
+
+    Client:
+    socket.on('startVoting', response => {
+        var info = document.getElementById("info")
+        var game = response.game;
+        var gameId = game.id;
+        var myClient = response.myClient;
+        var infoArray = info.innerHTML.split(',')
+        var playerlistArray = playerlist.innerHTML.split(',')
+        var body = document.getElementById("body")
+        var clients = infoArray.splice(0, 1);
+
+        //Voting Chart
+        const ctx = document.getElementById('myChart').getContext('2d');
+        const myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: [],
+                datasets: [{
+                label: '# of Votes',
+                data: [],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+                }]
+            },
+            options: {
+                plugins: {
+                legend: {
+                    display: false
+                }
+            },
+                scales: {
+                    y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1
+                    },
+                    max: 8
+                    }   
+                }
+            }
+        });
+
+
+        var chartContainer = document.getElementById("myChart");
+        chartContainer.style.visibility = "visible";
+        var i = 0;
+                    
+        infoArray.forEach(c => {
+            myChart.data.labels.push('Player' + (i+1))
+            myChart.data.datasets.forEach((dataset) => {
+            dataset.data.push(0);
+            });
+            body.innerHTML += 
+                "<div class='voting'><div class='votingPicture'><img src='data:image/png;base64," + game.clients[i].img +
+                "' alt='Red dot'/ id='img'></div><br>" + 
+                "<div class='votingBox'><button class='votingButton' onclick=voted(" +
+                i + "," + myClient + ")>Vote for Player" + (i+1) + "</div></div>";
+
+                localStorage.setItem("gameId", gameId)
+                i++;
+        })
+        myChart.update();
+
+
+    })
+
+    
+\end{lstlisting}
+
+\newpage
+\setauthor{Himmetsberger Jonas}
 \input{./sections/Jonas/mapandai.tex}
 
 
