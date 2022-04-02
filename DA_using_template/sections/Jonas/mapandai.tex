@@ -14,10 +14,10 @@ mit OpenCV2 herangezogen. Wenn der Spieler dann so weit ist, kann er dieses Bild
 sendet sie somit zurück an die Lobby. Dann kann die Abstimmung beginnen.
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.4]{pics/demo_maperkennung/sammlung_1.png}
-    \caption{Screenshots der Maperkennungsanwenung}
-    \label{fig:map:maperkennungsprozess}
+  \centering
+  \includegraphics[scale=0.4]{pics/demo_maperkennung/sammlung_1.png}
+  \caption{Screenshots der Maperkennungsanwenung}
+  \label{fig:map:maperkennungsprozess}
 \end{figure}
 
 \setauthor{Himmetsberger Jonas}
@@ -37,7 +37,7 @@ mathematisch beschrieben werden. Zur Übersetzung werden Verfahren, wie Kantener
 aber auch künstliche Intelligenzen
 eingesetzt. In dieser Arbeit wurden Kanten zur Objekterkennung herangezogen.
 Die Korrektheit des Ergebnisses ist abhängig von der Korrektheit der bereitgestellten Daten und wie genau das Objekt mathematisch
-beschrieben werden kann.
+beschrieben werden kann. \cite{objecterkennung}
 \\
 Ein weiteres Beispiel, wo Objekterkennung eingesetzt wird, sind in
 Fahrerassistenzsysteme oder autonomes Fahren. Bereits in der ersten Stufe des autonomen Fahrens (dem assistierten Fahren),
@@ -49,9 +49,9 @@ werden, um daraufhin entsprechend zu agieren. \cite{selfdriving}
 
 Andere Beispiele:
 \begin{compactitem}
-    \item Gesichtserkennung, um das Smartphone zu entsperren.
-    \item Qualitätskontrolle, zur Erkennung und automatischen Entfernung von kaputten oder beschädigten Teilen.
-    \item Personenerkennung, um Menschenmassen zu analysieren.
+  \item Gesichtserkennung, um das Smartphone zu entsperren.
+  \item Qualitätskontrolle, zur Erkennung und automatischen Entfernung von kaputten oder beschädigten Teilen.
+  \item Personenerkennung, um Menschenmassen zu analysieren.
 \end{compactitem}
 
 \subsubsection{Beschreibung der Funktionalität [H]}\label{maai:beschrFunktionalitaet}
@@ -110,10 +110,10 @@ und danach die größte herausfindet.
 Wie die Funktion ``biggestContour(\dots)'' funktioniert ist in diesem Codeblock \ref{lst:impl:findBiggestContour} beschrieben. Danach wird in ``getEdges(\dots)'' ein Numpy-Array von den Eckpunkten erzeugt, in eine anderer Reihenfolge, welche für den Perspektiven Transform relevant ist, umgewandelt und dann als Return-Wert zurückgegeben.
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[scale=1]{pics/maperkennung/documentscanner.png}
-    \caption{Documenten Scanner \cite{maai:documentscannerYoutube:cite}}
-    \label{fig:map:documentscanner}
+  \centering
+  \includegraphics[scale=1]{pics/maperkennung/documentscanner.png}
+  \caption{Documenten Scanner \cite{maai:documentscannerYoutube:cite}}
+  \label{fig:map:documentscanner}
 \end{figure}
 
 Aus diesen Konturen, welche OpenCV2 erkennt, wird die größte, geschlossene Umrandung herausgesucht. Es wird davon ausgegangen, dass sich hier das fokussierte Objekt, also das Blatt Papier, befindet. Um nun die vier Eckpunkte lokalisieren zu können, wird eine vorgefertigte Funktion namens ``approxPolyDP'' angewendet. Diese legt, mit den übergebenen Parametern, ein Viereck über die Konturen. Danach werden aus diesem Viereck die 4 Eckpunkte extrahiert und als Array wieder an den Client zurückgesendet.
@@ -180,7 +180,7 @@ Im folgenden Code-Block wird zuerst im Grunde genommen genau dasselbe ausgeführ
 
 Die errechnete maximale Höhe wird noch mit einem realistischen Faktor multipliziert, um ein akkurateres Ergebnis der Perspektiventransformation erzielen zu können. Dieser ``realistische Faktor'' wird errechnet, indem der Winkel zwischen den beiden größten orthogonal zueinander liegenden Linien in folgende Formel miteinbezogen wird:
 \[ factor
-    = \dfrac{90}{(180-angle)}
+  = \dfrac{90}{(180-angle)}
 \]
 Dieser errechnete Faktor staucht die Höhe eines Bildes, welches von der unteren Blattkante aufgenommen wurde und streckt die Höhe von jene, welche von oben Blattkante aufgenommen wurden.
 
@@ -223,12 +223,12 @@ Im letzten Teil der Funktion wird das Bild in die richtige Perspektive transform
 Bildverarbeitungsalgorithmen sind Grundbausteine für die Bild- beziehungsweise Map-Erkennung. Ohne diesen können keine, oder nur wenige Daten aus Bildern ausgelesen werden. Somit würde jedes Bild nur Informationen über die Helligkeit und die Farbe/Farbhelligkeit jedes Bildpunktes beinhalten. Deshalb ist es wichtig Bildverarbeitungsalgorithmen zu verwenden um mehr Informationen aus den Bildern, welche dem Python-Server zur Verfügung gestellt werden, zu erkennen und zu erhalten. In dieser Arbeit wurden folgende Methoden von OpenCV2 verwendet, welche das Erkennen des Blatt Papiers ermöglichten. Im Folgenden wird näher auf die Funktionsweise der einzelnen Algorithmen eingegangen. Diese sind:
 
 \begin{compactitem}
-    \item cv2.cvtColor(image, cv2.COLOR\_BGR2GRAY) (``Grayscaling''): Diese Funktion bewirkt eine Graustufenkonvertierung eines gegebenen Bildes.
-    \item cv2.GaussianBlur(\dots) (``Blurring''): Mit dieser Funktion wird ein gegebenes Bild unscharf gezeichnet und somit unnötig genaue Informationen entfernt.
-    \item cv2.adaptiveThreshold(\dots) (``Adaptive Thresholding''): Hier wird die Schwellwertbildung adaptiv festgelegt. Es wird das gegebene Bild in Raster unterteilt und für jeden dieser Raster ein Schwellwert gebildet. Somit werden Farbübergänge eliminiert und es kommt ein reines Schwarz-Weiß-Bild mit harten Kanten heraus.
-    \item cv2.canny(\dots) (``Canny'' Kantenerkennung): Die Kantenerkennung liefert automatisch erkannte Kanten aus einem gegebenen Bild.
-    \item cv2.approxPolyDP(\dots) (``ApproxPolyDP''): Diese Funktion vergröbert die erkannten Konturen um einen angegebenen Grad. Die erkannten Konturen werden auf wenige Punkte minimiert. Somit kann zum Beispiel über eine Kontur ein Vieleck gelegt werden.
-    \item cv2.warpPerspective(\dots) (Perspektiven-Korrektur): Mit ``wrapPerspective'' kann ein Bild, welches in der dritten Dimension aufgenommen wurde und somit einer Perspektive unterlag Perspektiven-korrigiert werden.
+  \item cv2.cvtColor(image, cv2.COLOR\_BGR2GRAY) (``Grayscaling''): Diese Funktion bewirkt eine Graustufenkonvertierung eines gegebenen Bildes.
+  \item cv2.GaussianBlur(\dots) (``Blurring''): Mit dieser Funktion wird ein gegebenes Bild unscharf gezeichnet und somit unnötig genaue Informationen entfernt.
+  \item cv2.adaptiveThreshold(\dots) (``Adaptive Thresholding''): Hier wird die Schwellwertbildung adaptiv festgelegt. Es wird das gegebene Bild in Raster unterteilt und für jeden dieser Raster ein Schwellwert gebildet. Somit werden Farbübergänge eliminiert und es kommt ein reines Schwarz-Weiß-Bild mit harten Kanten heraus.
+  \item cv2.canny(\dots) (``Canny'' Kantenerkennung): Die Kantenerkennung liefert automatisch erkannte Kanten aus einem gegebenen Bild.
+  \item cv2.approxPolyDP(\dots) (``ApproxPolyDP''): Diese Funktion vergröbert die erkannten Konturen um einen angegebenen Grad. Die erkannten Konturen werden auf wenige Punkte minimiert. Somit kann zum Beispiel über eine Kontur ein Vieleck gelegt werden.
+  \item cv2.warpPerspective(\dots) (Perspektiven-Korrektur): Mit ``wrapPerspective'' kann ein Bild, welches in der dritten Dimension aufgenommen wurde und somit einer Perspektive unterlag Perspektiven-korrigiert werden.
 \end{compactitem}
 
 Nur einige der verwendeten Bildbearbeitungsalgorithmen sind basierend auf Pixelmanipulation. Andere Algorithmen, wie zum Beispiel ``ApproxPolyDP'', sind reines Auslesen von Bildwerten beziehungsweise -daten, welche durch Vorarbeit extrahiert wurden.
@@ -242,7 +242,7 @@ Die Lichtintensität ist die Menge an Licht(stärke) pro Pixel. Diese Lichtstär
 Für eine Umwandlung eines Bilds in dessen Graustufen wird für jeden Pixel also die Lichtintensität der drei Farben (Rot, Grün und Blau) beziehungsweise der Farbkombination dieser drei Farben gemessen und über eine Gewichtung der drei Werte ein ``Mittelwert'' errechnet. Diese Gewichtung kann über verschiedene Faktoren erfolgen. Daher ist es nicht gegeben, dass auch OpenCV2 die folgende Formel zur Umrechnung eines Bildes, welches aus einem RGB(A)-Farbraum (Rot (R); Grün (G); Blau (B); Opazität (A)) in Graustufen konvertiert werden soll, verwendet. Die Formel dient deswegen nur als Exempel, um alle drei Werte auf eine lineare Gleichgültigkeit für das menschliche Auge zu setzen, um somit ein Graustufenbild zu erzeugen:
 
 \[
-    Y_{ linear } = 0,2126 * R_{ linear } + 0.7152 * G_{ linear } + 0.0722 * B_{ linear }
+  Y_{ linear } = 0,2126 * R_{ linear } + 0.7152 * G_{ linear } + 0.0722 * B_{ linear }
 \]
 
 Aus dieser Formel ist erkennbar, dass die Farbe Grün mehr gewichtet wird als Rot und Blau. Dies resultiert daraus, dass das Auge die meiste Lichtinformation aus der Farbe Grün extrahieren kann. Somit wirkt auch diese Farbe am hellsten für das menschliche Auge. Deshalb wird sie am höchsten gewichtet, damit ein scheinbar ausgeglichener Wert der Lichtintensität der Farbkombination der drei Farben herauskommt. Dieser gewichtete Wert (Y), welcher auch als Luminanz bezeichnet wird, ist die Basis für die Graustufenkonvertierung.
@@ -272,20 +272,20 @@ Im folgendem Code-Beispiel \ref{maai:grayscaling} wird die Umsetzung einer Graus
 Dieses Stück Programmcode führt zu folgendem Ergebnis:
 
 \begin{figure}[htb]
+  \centering
+  \begin{minipage}[t]{0.45\linewidth}
     \centering
-    \begin{minipage}[t]{0.45\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{pics/bildverarbeitungsalgos/input.png}
-        \caption{Input \cite{maai:input:cite}}
-        \label{maai:grayscaling:input}
-    \end{minipage}
-    \hfill
-    \begin{minipage}[t]{0.45\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{pics/bildverarbeitungsalgos/grayscaling_output.png}
-        \caption{Output}
-        \label{maai:grayscaling:output}
-    \end{minipage}
+    \includegraphics[width=\linewidth]{pics/bildverarbeitungsalgos/input.png}
+    \caption{Input \cite{maai:input:cite}}
+    \label{maai:grayscaling:input}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[t]{0.45\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{pics/bildverarbeitungsalgos/grayscaling_output.png}
+    \caption{Output}
+    \label{maai:grayscaling:output}
+  \end{minipage}
 \end{figure}
 %Quelle: https://s3.envato.com/files/16109405/index.html
 
@@ -297,7 +297,7 @@ Um eine Unschärfe zu erzielen, muss eine mathematische Operation der Faltung ei
 
 Mathematisch gesehen ist Konvolution, also die Faltung zweier Matrizen, A mit der Größe a \(\times\) b und B mit der Größe c \(\times\) d, eine \((a + c -1) \times (b + d - 1)\) Matrix C mit folgenden Einträgen:
 \[
-    C_{ rs } = \sum_{i+k=r+1, j+l=s+1}^{r=a+c-1,s = b + d - 1} A_{ ij }B_{ kl }
+  C_{ rs } = \sum_{i+k=r+1, j+l=s+1}^{r=a+c-1,s = b + d - 1} A_{ ij }B_{ kl }
 \]
 Aus dieser Formel ist ersichtlich, dass das Falten beziehungsweise die Konvolution zweier Matrizen A und B eine neue Matrix C erzeugt. In dieser werden die Einträge durch die Summe des Produkts der Einträge der Matrix A mit den am gleich liegenden zweidimensionalen Index entsprechenden Einträgen der anderen Matrix B gebildet. Alle diese Produkte werden im Zweidimensionalen, also entlang den Zeilen und Spalten, berechnet.
 
@@ -309,17 +309,17 @@ In dieser Diplomarbeit wurde häufig der ``Gauß'sche'' Weichzeichnungsfilter ve
 
 Diese Gewichtung nimmt mit der Distanz zu dem betrachteten Pixel ab. Somit hat theoretisch jeder Pixel in der Bild-Matrix eine eigene Gewichtung. Da diese jedoch mit der Distanz so stark abnehmen werden diese nicht mehr berücksichtigt. Die theoretische Formel zur Berechnung der Gewichte der Pixelwerte rund um einen fokussierten Bildpunkt sieht wie folgt aus:
 \[
-    G(x,y)=\frac{ 1 }{ 2*\pi*\sigma^2 }*e^{ - \frac{ x^2 + y^2 }{ 2*\sigma^2 } }
+  G(x,y)=\frac{ 1 }{ 2*\pi*\sigma^2 }*e^{ - \frac{ x^2 + y^2 }{ 2*\sigma^2 } }
 \]
 Wobei x und y der horizontale und vertikale Abstand zum untersuchten Bildpunkt ist. Sigma ist die Standardabweichung (je höher der Wert von Sigma, desto stärker ist auch der Weichzeichnungseffekt).
 
 In der Realität werden jedoch die Werte dieser ``Gaus'schen'' Funktion mittels der Werte im Kernel genähert. Dabei macht es wenig Sinn, dass die Kernel-Matrix groß gewählt wird, da der Wert eines Eintrags im Kernel mit der Distanz zum Mittelpunkt abnimmt. Dabei wird oft das \(\sigma\) der Funktion in der Programmierung ignoriert und vom Programm auf Basis der angegebenen Größe des Kernels selbst entschieden. Somit sieht eine Näherung an die ``Gaus'sche'' Formel durch eine Kernel Matrix wie folgt aus:
 \[
-    \frac{ 1 }{ 16 } * \left[\begin{array}{rrr}
-            1 & 2 & 1 \\
-            2 & 4 & 2 \\
-            1 & 2 & 1 \\
-        \end{array}\right]
+  \frac{ 1 }{ 16 } * \left[\begin{array}{rrr}
+      1 & 2 & 1 \\
+      2 & 4 & 2 \\
+      1 & 2 & 1 \\
+    \end{array}\right]
 \]
 OpenCV2 stellt jedoch bereits Funktionen zur Verfügung, welche das Kalkulieren des Kernels abnimmt. Im folgendem Codeblock (\ref{maai:gaussianblur}) wird gezeigt, wie diese Funktion in dieser Arbeit verwendet wurde.
 
@@ -347,20 +347,20 @@ OpenCV2 stellt jedoch bereits Funktionen zur Verfügung, welche das Kalkulieren 
 Wird der Programmcode ausgeführt, so erzeugt dieser folgenden Effekt:
 
 \begin{figure}[htb]
+  \centering
+  \begin{minipage}[t]{0.45\linewidth}
     \centering
-    \begin{minipage}[t]{0.45\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{pics/bildverarbeitungsalgos/input.png}
-        \caption{Input \cite{maai:input:cite}}
-        \label{maai:gaussianblur:input}
-    \end{minipage}
-    \hfill
-    \begin{minipage}[t]{0.45\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{pics/bildverarbeitungsalgos/gaussianblur_output.png}
-        \caption{Output}
-        \label{maai:gaussianblur:output}
-    \end{minipage}
+    \includegraphics[width=\linewidth]{pics/bildverarbeitungsalgos/input.png}
+    \caption{Input \cite{maai:input:cite}}
+    \label{maai:gaussianblur:input}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[t]{0.45\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{pics/bildverarbeitungsalgos/gaussianblur_output.png}
+    \caption{Output}
+    \label{maai:gaussianblur:output}
+  \end{minipage}
 \end{figure}
 
 % Quelle: https://www.tutorialkart.com/opencv/python/opencv-python-gaussian-image-smoothing/
@@ -378,20 +378,20 @@ Ziel ist es, aus einem Farb- beziehungsweise Graustufenbild eine Segmentierung z
 Durch das ``Thresholding'' gibt es die Möglichkeit ein Histogramm zu erstellen, um die Helligkeitswerte eines Bildes zu analysieren. Ein aus dem Graustufenbild (\ref{maai:thresholding:input}) erzeugtes Histogramm (\ref{maai:thresholding:histogramm}) sieht wie folgt aus:
 
 \begin{figure}[htb]
+  \centering
+  \begin{minipage}[t]{0.45\linewidth}
     \centering
-    \begin{minipage}[t]{0.45\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{pics/bildverarbeitungsalgos/grayscaling_output.png}
-        \caption{Input}
-        \label{maai:thresholding:input}
-    \end{minipage}
-    \hfill
-    \begin{minipage}[t]{0.45\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{pics/bildverarbeitungsalgos/thresholding_histogram.png}
-        \caption{Helligkeitsverteilung}
-        \label{maai:thresholding:histogramm}
-    \end{minipage}
+    \includegraphics[width=\linewidth]{pics/bildverarbeitungsalgos/grayscaling_output.png}
+    \caption{Input}
+    \label{maai:thresholding:input}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[t]{0.45\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{pics/bildverarbeitungsalgos/thresholding_histogram.png}
+    \caption{Helligkeitsverteilung}
+    \label{maai:thresholding:histogramm}
+  \end{minipage}
 \end{figure}
 
 Das Histogramm veranschaulicht die Helligkeitsverteilung aller Pixel von den Werten 0 (null) (schwarz), welcher der Wert ganz links auf der X-Achse im Histogramm ist, bis 255 (weiß), welches dem äußersten X-Wert entspricht. Auf der Y-Achse befindet sich die Häufigkeit der vorkommenden Pixel mit der entsprechenden Helligkeit.
@@ -399,20 +399,20 @@ Es kann also erkannt und analysiert werden, dass überwiegend Hintergrund (dunkl
 
 
 \begin{figure}[htb]
+  \centering
+  \begin{minipage}[t]{0.45\linewidth}
     \centering
-    \begin{minipage}[t]{0.45\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{pics/bildverarbeitungsalgos/grayscaling_output.png}
-        \caption{Input}
-        \label{maai:thresholding:input:second}
-    \end{minipage}
-    \hfill
-    \begin{minipage}[t]{0.45\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{pics/bildverarbeitungsalgos/thresholding_output.png}
-        \caption{Output}
-        \label{maai:thresholding:output}
-    \end{minipage}
+    \includegraphics[width=\linewidth]{pics/bildverarbeitungsalgos/grayscaling_output.png}
+    \caption{Input}
+    \label{maai:thresholding:input:second}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[t]{0.45\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{pics/bildverarbeitungsalgos/thresholding_output.png}
+    \caption{Output}
+    \label{maai:thresholding:output}
+  \end{minipage}
 \end{figure}
 %Quelle: https://www.youtube.com/watch?v=8TkligJJCAQ&ab_channel=Apeer_micro
 %Quelle: https://datacarpentry.org/image-processing/07-thresholding/
@@ -460,20 +460,20 @@ Dieser Code erzeugt aus einem Input-Bild (\ref{maai:thresholding:input:thrid}) f
 
 
 \begin{figure}[htb]
+  \centering
+  \begin{minipage}[t]{0.45\linewidth}
     \centering
-    \begin{minipage}[t]{0.45\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{pics/bildverarbeitungsalgos/grayscaling_output.png}
-        \caption{Input}
-        \label{maai:thresholding:input:thrid}
-    \end{minipage}
-    \hfill
-    \begin{minipage}[t]{0.45\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{pics/bildverarbeitungsalgos/gaussian_thresholding.png}
-        \caption{Output}
-        \label{maai:gaussianthresholding:output}
-    \end{minipage}
+    \includegraphics[width=\linewidth]{pics/bildverarbeitungsalgos/grayscaling_output.png}
+    \caption{Input}
+    \label{maai:thresholding:input:thrid}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[t]{0.45\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{pics/bildverarbeitungsalgos/gaussian_thresholding.png}
+    \caption{Output}
+    \label{maai:gaussianthresholding:output}
+  \end{minipage}
 \end{figure}
 
 \subsubsection{Detecting Contours}
@@ -485,11 +485,11 @@ Die Kantenerkennung schafft eine Basis für die Bildverarbeitung und Form Erkenn
 Die Kantenerkennung funktioniert wie folgt. Für die ``Edge-Detection'' (Kantenerkennung) ist wie beim Weichzeichnungsalgorithmus (\ref{maai:blurring}) eine Konvolution nötig; vor allem, um hochauflösende Bilder zu verarbeiten. Oft wird dazu der sogenannte ``Sobel''-Operator herangezogen. Dieser erzeugt für die Kantenerkennung zwei Kernel, welche in x- und y-Richtung unterteilt sind. Der Kernel in x-Richtung sieht wie folgt aus:
 
 \[
-    \left[\begin{array}{rrr}
-            -1 & 0 & 1 \\
-            -2 & 0 & 2 \\
-            -1 & 0 & 1 \\
-        \end{array}\right]
+  \left[\begin{array}{rrr}
+      -1 & 0 & 1 \\
+      -2 & 0 & 2 \\
+      -1 & 0 & 1 \\
+    \end{array}\right]
 \]
 
 
@@ -500,12 +500,12 @@ Das Ziel ist dabei einen Unterschied zwischen der Farb-/Lichtintensität des lin
 Anhand eines Beispiels wird diese Operation klarer:
 
 \[
-    \left[\begin{array}{rrrr}
-            0 & 0 & 255 & 255 \\
-            0 & 0 & 255 & 255 \\
-            0 & 0 & 255 & 255 \\
-            0 & 0 & 255 & 255 \\
-        \end{array}\right]
+  \left[\begin{array}{rrrr}
+      0 & 0 & 255 & 255 \\
+      0 & 0 & 255 & 255 \\
+      0 & 0 & 255 & 255 \\
+      0 & 0 & 255 & 255 \\
+    \end{array}\right]
 \]
 
 Hier existiert eine für einen Menschen klar erkennbare Kante; jedoch tut sich bei dem Erkennen die Maschine schwerer. Dazu muss der zuvor genannte Kernel über die Pixel gelegt werden. Das Ergebnis ist die Summe der Multiplikationen der einzelnen Werte des Kernels mit den entsprechenden Werten der Matrix des Bildes. Diese ergibt in diesem Beispiel 1025. Ist dieser Wert über einen zuvor definierten Schwellwert, so existiert an dieser Position eine Kante.
@@ -557,20 +557,20 @@ Dieser Programmcode erzeugt folgendes Bild:
 
 
 \begin{figure}[htb]
+  \centering
+  \begin{minipage}[t]{0.45\linewidth}
     \centering
-    \begin{minipage}[t]{0.45\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{pics/bildverarbeitungsalgos/input.png}
-        \caption{Input \cite{maai:input:cite}}
-        \label{maai:getcounturs:input}
-    \end{minipage}
-    \hfill
-    \begin{minipage}[t]{0.45\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{pics/bildverarbeitungsalgos/getcounturs_output.png}
-        \caption{Output}
-        \label{maai:getcounturs:output}
-    \end{minipage}
+    \includegraphics[width=\linewidth]{pics/bildverarbeitungsalgos/input.png}
+    \caption{Input \cite{maai:input:cite}}
+    \label{maai:getcounturs:input}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[t]{0.45\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{pics/bildverarbeitungsalgos/getcounturs_output.png}
+    \caption{Output}
+    \label{maai:getcounturs:output}
+  \end{minipage}
 \end{figure}
 
 \subsubsection{ApproxPolyDP}\label{maai:approxpolydp:header}
@@ -583,10 +583,10 @@ Diese Kontur Näherung, welche den ``Ramer–Douglas–Peucker'' Algorithmus (ab
 
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.5]{pics/bildverarbeitungsalgos/The-Ramer-Douglas-Peucker-algorithm.png}
-    \caption{Der Ramer–Douglas–Peucker Algorithmus \cite{maai:rdpa:cite}}
-    \label{fig:map:rdpalgo}
+  \centering
+  \includegraphics[scale=0.5]{pics/bildverarbeitungsalgos/The-Ramer-Douglas-Peucker-algorithm.png}
+  \caption{Der Ramer–Douglas–Peucker Algorithmus \cite{maai:rdpa:cite}}
+  \label{fig:map:rdpalgo}
 \end{figure}
 % Quelle: https://www.researchgate.net/figure/The-Ramer-Douglas-Peucker-algorithm_fig6_332499235
 
@@ -637,20 +637,20 @@ Dieser Programmcode führt zu folgendem Ergebnis:
 
 
 \begin{figure}[htb]
+  \centering
+  \begin{minipage}[t]{0.45\linewidth}
     \centering
-    \begin{minipage}[t]{0.45\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{pics/bildverarbeitungsalgos/ApproxPolyDP_input.png}
-        \caption{Input}
-        \label{maai:approxpolydp:input}
-    \end{minipage}
-    \hfill
-    \begin{minipage}[t]{0.45\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{pics/bildverarbeitungsalgos/ApproxPolyDP_output.png}
-        \caption{Erster Output des Programmcodes}
-        \label{maai:approxpolydp:output}
-    \end{minipage}
+    \includegraphics[width=\linewidth]{pics/bildverarbeitungsalgos/ApproxPolyDP_input.png}
+    \caption{Input}
+    \label{maai:approxpolydp:input}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[t]{0.45\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{pics/bildverarbeitungsalgos/ApproxPolyDP_output.png}
+    \caption{Erster Output des Programmcodes}
+    \label{maai:approxpolydp:output}
+  \end{minipage}
 \end{figure}
 
 
@@ -662,21 +662,21 @@ Durch die Perspektiventransformation werden Winkel, Parallelität und Längen ve
 
 Der Algorithmus zur Transformation der Perspektive kann wie folgt beschrieben werden:
 \[
-    \left[\begin{array}{r}
-            ti\_x' \\
-            ti\_y' \\
-            ti     \\
-        \end{array}\right]
-    = \left[\begin{array}{rrr}
-            a_{ 1 } & a_{ 2 } & b_{ 1 } \\
-            a_{ 3 } & a_{ 4 } & b_{ 2 } \\
-            c_{ 1 } & c_{ 2 } & 1       \\
-        \end{array}\right]
-    * \left[\begin{array}{r}
-            x \\
-            y \\
-            1 \\
-        \end{array}\right]
+  \left[\begin{array}{r}
+      ti\_x' \\
+      ti\_y' \\
+      ti     \\
+    \end{array}\right]
+  = \left[\begin{array}{rrr}
+      a_{ 1 } & a_{ 2 } & b_{ 1 } \\
+      a_{ 3 } & a_{ 4 } & b_{ 2 } \\
+      c_{ 1 } & c_{ 2 } & 1       \\
+    \end{array}\right]
+  * \left[\begin{array}{r}
+      x \\
+      y \\
+      1 \\
+    \end{array}\right]
 \]
 Auf der rechten Seite der Gleichung befindet sich die Transformationsmatrix als erster Faktor und der Input \(x\) und \(y\) als Vektor und 1 als zweiter Faktor.
 
@@ -684,30 +684,30 @@ Das Produkt daraus, also die linke Seite der Gleichung, gibt den Skalierungsfakt
 
 Die Transformationsmatrix ist eine Kombination aus folgenden Werten:
 \[
-    \left[\begin{array}{rr}
-            a_{ 1 } & a_{ 2 } \\
-            a_{ 3 } & a_{ 4 } \\
-        \end{array}
-        \right]
-    \to
-    \text{ Transformation hinsichtlich Rotation, Skalierung, etc. }
+  \left[\begin{array}{rr}
+      a_{ 1 } & a_{ 2 } \\
+      a_{ 3 } & a_{ 4 } \\
+    \end{array}
+    \right]
+  \to
+  \text{ Transformation hinsichtlich Rotation, Skalierung, etc. }
 \]
 \[
-    \left[\begin{array}{r}
-            b_{ 1 } \\
-            b_{ 2 } \\
-        \end{array}
-        \right]
-    \to
-    \text{ Verschiebungsvektor }
+  \left[\begin{array}{r}
+      b_{ 1 } \\
+      b_{ 2 } \\
+    \end{array}
+    \right]
+  \to
+  \text{ Verschiebungsvektor }
 \]
 \[
-    \left[\begin{array}{rr}
-            c_{ 1 } & c_{ 2 } \\
-        \end{array}
-        \right]
-    \to
-    \text{ Projektionsvektor }
+  \left[\begin{array}{rr}
+      c_{ 1 } & c_{ 2 } \\
+    \end{array}
+    \right]
+  \to
+  \text{ Projektionsvektor }
 \]
 
 Die acht Unbekannten in der Transformationsmatrix geben die Freiheitsgrade im Raum an.
@@ -752,20 +752,20 @@ Dieser Programmcode führt zu folgendem Ergebnis:
 
 
 \begin{figure}[H]
+  \centering
+  \begin{minipage}[t]{0.45\linewidth}
     \centering
-    \begin{minipage}[t]{0.45\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{pics/bildverarbeitungsalgos/ApproxPolyDP_input.png}
-        \caption{Input}
-        \label{maai:wrapperspective:input}
-    \end{minipage}
-    \hfill
-    \begin{minipage}[t]{0.45\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{pics/bildverarbeitungsalgos/wrapperspective.png}
-        \caption{perspektiventransformiert}
-        \label{maai:wrapperspective:output}
-    \end{minipage}
+    \includegraphics[width=\linewidth]{pics/bildverarbeitungsalgos/ApproxPolyDP_input.png}
+    \caption{Input}
+    \label{maai:wrapperspective:input}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[t]{0.45\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{pics/bildverarbeitungsalgos/wrapperspective.png}
+    \caption{perspektiventransformiert}
+    \label{maai:wrapperspective:output}
+  \end{minipage}
 \end{figure}
 
 \subsubsection{Umwandlung der Bilder in für das Spiel geeignete Daten [H]}\label{maai:udbifdsbd:head}
@@ -811,7 +811,7 @@ Im nächsten Schritt wird der Array berechnet, welcher als Grundlage für die sp
 Jedoch wird zuerst das transformierte Bild in den Array umgewandelt. Dafür wird aus diesem adaptiven Threshold-Bild (Schwellwert-Bild) ein Faktor ausgerechnet, mit welchem die Bildpunkte zusammengefasst werden müssen, um insgesamt nicht mehr als \(\approx\)3025 Pixel zu überschreiten. Die dabei verwendete Formel wird im Folgenden an einem einfachen Beispiel erklärt. Diese lautet:
 
 \[
-    n \approx math.ceil(\sqrt{ \frac{ rows * columns }{ meshes } })
+  n \approx math.ceil(\sqrt{ \frac{ rows * columns }{ meshes } })
 \]
 
 Wird nun eine Bildbreite und eine Bildhöhe in ``rows'' und ``columns'' eingesetzt, so ist das Ergebnis der ganzzahlige Faktor, mit welchem die angegebene Bildbreite und Höhe multipliziert werden muss, um maximal \(\approx\)3025 Pixel zu erreichen.
@@ -886,19 +886,19 @@ Sobald die User auf den QR-Code clicken, bzw. diesen scannen, werden sie zu der 
 Dabei werden 2 Parameter mitgeschickt; Die Game-ID und die Client-ID. Damit der Python-Server diese Parameter entgegennehmen kann wird eine neue Route definiert. Danach werden die Pfadparameter abgespeichert,
 und die HTML-Seite wird geladen (\ref*{PythonParam}). Daraufhin werden die Parameter im Localstorage gespeichert (\ref*{localstorage_map}). Dafür wird der Pfad der URL ausgelesen. Dieser wird aufgesplitet und dann im Localstorage abgespeichert.
 \begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.85]{pics/python_Params.png}
-    \caption{Python Path Parameter}
-    \label{PythonParam}
+  \centering
+  \includegraphics[scale=0.85]{pics/python_Params.png}
+  \caption{Python Path Parameter}
+  \label{PythonParam}
 \end{figure}
 
 
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.85]{pics/localStorage.png}
-    \caption{Localstorage}
-    \label{localstorage_map}
+  \centering
+  \includegraphics[scale=0.85]{pics/localStorage.png}
+  \caption{Localstorage}
+  \label{localstorage_map}
 \end{figure}
 
 Um nun die Multiuserfähigkeit zu gewährleisten wird nach jedem ``socket.on'' geprüft,
@@ -1001,10 +1001,10 @@ Außerdem kann mit ``OpenAI-Gym'' ein eigenes Spiel erstellt werden. Dies funkti
 %Quelle: https://gym.openai.com/docs/
 
 \begin{compactenum}
-    \item \_\_init\_\_(self): diese Funktion wird aufgerufen, wenn ein Objekt der Klasse erstellt wird. Diese Methode wird auch ``Konstruktor'' genannt. Hier werden alle Parameter des Objekts initialisiert.
-    \item step(self): Step(\dots) ist das Herzstück der Klasse. Hier wird jeder Schritt der Künstlichen Intelligenz definiert. Dazu wird zunächst eine Aktion definiert, welche die Maschine ausführen soll. Danach wird observiert, was sich in der Umgebung verändert hat und daraus ein Schluss gezogen, ob die Aktion zu einem guten, schlechten oder gar keinem Ergebnis führte; es wird also die Belohnung errechnet. Der Rückgabewert besteht dann aus den Observationen, der Belohnung, dem Status der Episode, welche die Künstliche Intelligenz zurzeit erlernt und einer beliebigen Zusatzinformation.
-    \item render(self): Render(\dots) kann optional implementiert werden. Diese Funktion dient dazu dem Anwender den Lernfortschritt visuell darzustellen.
-    \item reset(): die vierte und letzte Funktion ist Reset(\dots). Diese wird dazu verwendet um nach einer Episode die Umgebung und alle dazugehörigen Variablen auf einen gewünschten Stand zurückzusetzen. Als return Wert wird der aktuelle Stand der Künstlichen Intelligenz (die ``Observation'') zurückgegeben.
+  \item \_\_init\_\_(self): diese Funktion wird aufgerufen, wenn ein Objekt der Klasse erstellt wird. Diese Methode wird auch ``Konstruktor'' genannt. Hier werden alle Parameter des Objekts initialisiert.
+  \item step(self): Step(\dots) ist das Herzstück der Klasse. Hier wird jeder Schritt der Künstlichen Intelligenz definiert. Dazu wird zunächst eine Aktion definiert, welche die Maschine ausführen soll. Danach wird observiert, was sich in der Umgebung verändert hat und daraus ein Schluss gezogen, ob die Aktion zu einem guten, schlechten oder gar keinem Ergebnis führte; es wird also die Belohnung errechnet. Der Rückgabewert besteht dann aus den Observationen, der Belohnung, dem Status der Episode, welche die Künstliche Intelligenz zurzeit erlernt und einer beliebigen Zusatzinformation.
+  \item render(self): Render(\dots) kann optional implementiert werden. Diese Funktion dient dazu dem Anwender den Lernfortschritt visuell darzustellen.
+  \item reset(): die vierte und letzte Funktion ist Reset(\dots). Diese wird dazu verwendet um nach einer Episode die Umgebung und alle dazugehörigen Variablen auf einen gewünschten Stand zurückzusetzen. Als return Wert wird der aktuelle Stand der Künstlichen Intelligenz (die ``Observation'') zurückgegeben.
 \end{compactenum}
 
 Für die Beschreibung einzelner Begriffe empfiehlt es sich folgendes Kapitel zu lesen: ``Künstliche Intelligenz allgemein'' (\ref {tech:ki:head})
@@ -1136,21 +1136,21 @@ Die KI wurde auf einem ``Apple IMac 2017'' trainiert.
 
 Das Ziel bestand darin eine Künstliche Intelligenz zu erschaffen, welche auf einem, für einen durchschnittlich guten, menschlichen Spieler, herausfordernden Niveau spielt. Dabei sollte diese:
 \begin{compactitem}
-    \item Alle möglichen Attacken erlernen,
-    \item erlernen, in welchem Winkel ein Schuss abgefeuert werden muss, um einen Gegner zu treffen,
-    \item lernen, wann eine Attacke, oder ein Schuss abgefeuert werden muss, um einen Gegner zu treffen,
-    \item erlernen, wie ein Agent auf der Plattform bleibt, beziehungsweise was und wo diese ist,
-    \item gegnerische Kugeln beziehungsweise Attacken erkennen und ausweichen.
+  \item Alle möglichen Attacken erlernen,
+  \item erlernen, in welchem Winkel ein Schuss abgefeuert werden muss, um einen Gegner zu treffen,
+  \item lernen, wann eine Attacke, oder ein Schuss abgefeuert werden muss, um einen Gegner zu treffen,
+  \item erlernen, wie ein Agent auf der Plattform bleibt, beziehungsweise was und wo diese ist,
+  \item gegnerische Kugeln beziehungsweise Attacken erkennen und ausweichen.
 \end{compactitem}
 Im Laufe der Ausarbeitung der Künstlichen Intelligenz wurde jedoch klar, dass dies Ziele sind, welche im Zuge einer Diplomarbeit, in diesem Ausmaß, nicht erreichbar waren. %Die Künstliche Intelligenz lernte jedoch am schnellsten Wege die Plattform zu verlassen.
 
 Damit die Maschine lernen kann, stellt das ScribbleFight-Frontend, welches mit Webtechnologien, wie HTML und JavaScript umgesetzt wurde, Informationen über den Spieler beziehungsweise Agenten zur Verfügung. Diese werden in einem ``myPlayer''-Objekt gespeichert. Das Objekt sieht wie folgt aus:
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[scale=1]{pics/ai/myPlayer.png}
-    \caption{``myPlayer''-Objekt}
-    \label{fig:ai:myPlayerPic}
+  \centering
+  \includegraphics[scale=1]{pics/ai/myPlayer.png}
+  \caption{``myPlayer''-Objekt}
+  \label{fig:ai:myPlayerPic}
 \end{figure}
 
 Für die Künstliche Intelligenz sind Daten, wie ``death'' (Tode), ``dmgDealt'' (verteilten Schaden), ``kills'' (Anzahl an Spieler, welche von diesem Agenten von der Plattform gestoßen wurden) und ``knockback'' (Rückstoß, welcher der Spieler erleidet) von Bedeutung.
@@ -1174,34 +1174,34 @@ Die Funktion extrahiert den für die KI relevanten Inhalt und gibt diese als ret
 \subsubsection{Beschreibung der Funktionalität [H]}
 Ein weiterer, zentraler Punkt der Ausarbeitung ist, wie die ``ScribbleFight''-KI zu sehen hat. Dies passiert mit einem zweidimensionalen Array, welcher ``visCopy'' im Frontend genannt wird. Die Einträge in diesem Feld sind die Zahlen von null bis zehn. Dieser wird erstellt, basierend auf den Inhalt des Spiels, welchen auch ein menschlicher Spieler sehen würde. Somit ist es für die KI nicht möglich, Daten zu manipulieren, auf welche ein Gegenspieler keinen Zugriff hätte. Dabei wird das Sichtfeld wie folgt codiert:
 \begin{compactitem}\label{mappedPixels}
-    \item 0: Hintergrund
-    \item 1: Plattform
-    \item 2: eigener Agent
-    \item 3: Gegner
-    \item 4: eigenes Projektil
-    \item 5: gegnerisches Projektil
-    \item 6: Bombe
-    \item 7: Schwarzes Loch
-    \item 8: Verkleinerung
-    \item 9: Miene
-    \item 10: Piano
+  \item 0: Hintergrund
+  \item 1: Plattform
+  \item 2: eigener Agent
+  \item 3: Gegner
+  \item 4: eigenes Projektil
+  \item 5: gegnerisches Projektil
+  \item 6: Bombe
+  \item 7: Schwarzes Loch
+  \item 8: Verkleinerung
+  \item 9: Miene
+  \item 10: Piano
 \end{compactitem}
 
 \begin{figure}[H]
+  \centering
+  \begin{minipage}[t]{0.45\linewidth}
     \centering
-    \begin{minipage}[t]{0.45\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{pics/ai/newView.png}
-        \caption{Spieler Sicht}
-        \label{maai:ai:newView}
-    \end{minipage}
-    \hfill
-    \begin{minipage}[t]{0.45\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{pics/ai/KIView.png}
-        \caption{KI Sicht}
-        \label{maai:ai:KIView}
-    \end{minipage}
+    \includegraphics[width=\linewidth]{pics/ai/newView.png}
+    \caption{Spieler Sicht}
+    \label{maai:ai:newView}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[t]{0.45\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{pics/ai/KIView.png}
+    \caption{KI Sicht}
+    \label{maai:ai:KIView}
+  \end{minipage}
 \end{figure}
 
 Der ``Pixelclump'' ist ein zweidimensionaler Array von Pixelwerten (schwarz oder transparent, weiß) und wird von der Map-Erkennung (\ref{maai:maperkennung:head}) als Output zurückgeliefert. Dieses zweidimensionale Feld dient als Basis für den Untergrund, auf welchem sich die Spieler bewegen können. Um das Spiel in eine, für die Künstliche Intelligenz sichtbare Welt umzuwandeln, wird zunächst der ``Pixelclump'', um das Dreifache vergrößert. Gleichzeitig werden die Pixelwerte durch die oben angeführten Zahlen (von null bis zehn; Bedeutung: \ref{mappedPixels}) ausgetauscht. Durch die dreifache Skalierung der Spielumgebung von 55x55 auf 165x165 Werten, ist es möglich, dass die Künstliche Intelligenz dreimal genauer sieht, als ein Bildpunkt der Map aufgetragen wird. Somit kann genauer agiert werden und Spieler und Attacken besser erkannt werden (in der Theorie).
@@ -1257,20 +1257,20 @@ Spielelement (``Sprite'') zu der KI-Sicht hinzugefügt wird.
 Wird nun die bearbeitete Kopie des ``visual''-Arrays ausgeben, so ist der Output die Sicht der ``ScribbleFight'' Künstlichen Intelligenz. In der folgenden Abbildung wurden die Ziffern von null bis zehn in Farben umgewandelt. Das Bild \ref{maai:ai:visCopy:input} ist die Sicht des Spielers und das Bild \ref{maai:ai:visCopy:output} ist die Sicht der KI.
 
 \begin{figure}[H]
+  \centering
+  \begin{minipage}[t]{0.45\linewidth}
     \centering
-    \begin{minipage}[t]{0.45\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{pics/ai/screenshots.png}
-        \caption{Spieler Sicht}
-        \label{maai:ai:visCopy:input}
-    \end{minipage}
-    \hfill
-    \begin{minipage}[t]{0.45\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{pics/ai/newImg.png}
-        \caption{KI Sicht}
-        \label{maai:ai:visCopy:output}
-    \end{minipage}
+    \includegraphics[width=\linewidth]{pics/ai/screenshots.png}
+    \caption{Spieler Sicht}
+    \label{maai:ai:visCopy:input}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[t]{0.45\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{pics/ai/newImg.png}
+    \caption{KI Sicht}
+    \label{maai:ai:visCopy:output}
+  \end{minipage}
 \end{figure}
 
 \subsection{ScribbleFight Reinforcement Learning Implementierung [H]}
@@ -1461,10 +1461,10 @@ In der ``action''-Funktion wird zunächst überprüft, ob das Spiel läuft. Dana
 
 Nachdem die vordefinierte Handlung der KI ausgeführt wurde, ist beim verstärkten Lernen der nächste Schritt, die Umwelt zu observieren. Der wohl wichtigste Schritt passiert danach. In der Funktion ``evaluate'' wird der Reward beziehungsweise die Belohnung berechnet. Dieser wurde wie folgt vergeben:
 \begin{compactitem}
-    \item hat der Agent der Künstlichen Intelligenz Schaden ausgeteilt (einem gegnerischem Spieler Schaden hinzugefügt), so wird der Belohnung eins addiert.
-    \item erleidet der Agent Schaden, so wird der Belohnung eins subtrahiert.
-    \item hat der Agent einen Spieler von der Plattform gestoßen beziehungsweise diesem so viel Schaden zugefügt, dass er stirbt, so wird als Belohnung eintausend Punkte vergeben.
-    \item stirbt der Agent selbst, so wird eine negative Belohnung von 990 vergeben. Der Unterschied von zehn Punkten in der Entlohnung zwischen ``Gegner töten'' und ``selbst sterben'', wurde in der Hoffnung festgelegt, dass sich der Agent für einen ``Kill'' opfert.
+  \item hat der Agent der Künstlichen Intelligenz Schaden ausgeteilt (einem gegnerischem Spieler Schaden hinzugefügt), so wird der Belohnung eins addiert.
+  \item erleidet der Agent Schaden, so wird der Belohnung eins subtrahiert.
+  \item hat der Agent einen Spieler von der Plattform gestoßen beziehungsweise diesem so viel Schaden zugefügt, dass er stirbt, so wird als Belohnung eintausend Punkte vergeben.
+  \item stirbt der Agent selbst, so wird eine negative Belohnung von 990 vergeben. Der Unterschied von zehn Punkten in der Entlohnung zwischen ``Gegner töten'' und ``selbst sterben'', wurde in der Hoffnung festgelegt, dass sich der Agent für einen ``Kill'' opfert.
 \end{compactitem}
 
 
@@ -1475,10 +1475,10 @@ Erreicht diese Variable eine gewisse Zahl erreicht hat, welche zuvor als Episode
 Im folgenden Flussdiagramm wird dies etwas verständlicher erklärt.
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.73]{pics/ai/Fluss.png}
-    \caption{Ablauf des Lernens}
-    \label{fig:maai:fluss}
+  \centering
+  \includegraphics[scale=0.73]{pics/ai/Fluss.png}
+  \caption{Ablauf des Lernens}
+  \label{fig:maai:fluss}
 \end{figure}
 
 
@@ -1598,10 +1598,10 @@ Wegen eines Fehlers im Spiel ``ScribbleFight'', welcher die KI stoppte, wurde ``
 Da jedoch zu dieser Zeit schon ersichtlich war, dass dieses Modell für den Anwendungsfall nicht geeignet ist wird das Ergebnis trotzdem präsentiert.
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.7]{pics/Tensorboard/A2C/entropy_loss.png}
-    \caption{Entropieverlust}
-    \label{fig:a2c:entropyloss}
+  \centering
+  \includegraphics[scale=0.7]{pics/Tensorboard/A2C/entropy_loss.png}
+  \caption{Entropieverlust}
+  \label{fig:a2c:entropyloss}
 \end{figure}
 
 
@@ -1611,10 +1611,10 @@ festgelegt.
 Die folgende Funktion stellt die Lernrate der ``ScribbleFight'' Künstlichen Intelligenz dar.
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.7]{pics/Tensorboard/A2C/learning_rate.png}
-    \caption{Lernrate}
-    \label{fig:a2c:learningrate}
+  \centering
+  \includegraphics[scale=0.7]{pics/Tensorboard/A2C/learning_rate.png}
+  \caption{Lernrate}
+  \label{fig:a2c:learningrate}
 \end{figure}
 
 Auch im Falle des Wertverlusts ist kein klarer Trend erkennbar.
@@ -1623,10 +1623,10 @@ so spricht das dafür, dass die Künstliche Intelligenz ausgelernt hat und die B
 nahezu gleich bleibend ist.
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.7]{pics/Tensorboard/A2C/value_loss_new.png}
-    \caption{Wertverlust}
-    \label{fig:a2c:valueLoss}
+  \centering
+  \includegraphics[scale=0.7]{pics/Tensorboard/A2C/value_loss_new.png}
+  \caption{Wertverlust}
+  \label{fig:a2c:valueLoss}
 \end{figure}
 
 Aus diesen Graphen ist es klar ersichtlich, dass der A2C Algorithmus für den Anwendungsfall nicht geeignet ist.
@@ -1657,10 +1657,10 @@ Die Funktion des Entropieverlusts zeigt, dass die Aktionen, welche die KI durchf
 wurden.
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.6]{pics/Tensorboard/PPO/entropy_loss.png}
-    \caption{Entropieverlust}
-    \label{fig:ppo:entropyloss}
+  \centering
+  \includegraphics[scale=0.6]{pics/Tensorboard/PPO/entropy_loss.png}
+  \caption{Entropieverlust}
+  \label{fig:ppo:entropyloss}
 \end{figure}
 
 In der folgenden Grafik wird die Änderung der ``Policy-Loss''-Funktion beschrieben.
@@ -1672,10 +1672,10 @@ Die Aufgabe des mathematische Modells ist es, dass sich nur in Summe das Erlernt
 Im Allgemeinen sollten die Werte der ``Policy-Loss''-Funktion kleiner als 1,0 sein.
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.7]{pics/Tensorboard/PPO/policy_loss_new.png}
-    \caption{Policy Graident Loss}
-    \label{fig:ppo:pgl}
+  \centering
+  \includegraphics[scale=0.7]{pics/Tensorboard/PPO/policy_loss_new.png}
+  \caption{Policy Graident Loss}
+  \label{fig:ppo:pgl}
 \end{figure}
 
 Wie der ``Stable Baselines3''-Dokumentation %Site: \url{https://stable-baselines3.readthedocs.io/en/master/modules/ppo.html}
@@ -1683,10 +1683,10 @@ zu entnehmen ist, ist die Lernrate bei dem PPO Algorithmus eine Konstante.
 Diese hat den Wert \(3*e^{-4}\).
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.7]{pics/Tensorboard/PPO/learning_rate_new.png}
-    \caption{Lernrate}
-    \label{fig:ppo:learningrate}
+  \centering
+  \includegraphics[scale=0.7]{pics/Tensorboard/PPO/learning_rate_new.png}
+  \caption{Lernrate}
+  \label{fig:ppo:learningrate}
 \end{figure}
 
 Obwohl das Modell, welches mit dem PPO-Algorithmus erlernt wurde,
