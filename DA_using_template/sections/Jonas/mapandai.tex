@@ -482,7 +482,6 @@ Dieser Code erzeugt aus einem Input-Bild (\ref{maai:thresholding:input:thrid}) f
 \end{figure}
 
 \subsubsection{Detecting Contours}
-
 Kantenerkennung ist wie die Graustufenkonvertierung (\ref{maai:grayscale}) oder das Weichzeichnen (\ref{maai:blurring}) ein Bildverarbeitungsalgorithmus, welcher dazu verwendet wird, um Diskontinuitäten zu identifizieren. Hierzu werden scharfe Änderungen der Bildfarbe/der Bildintensität herausgefiltert. Punkte, wo dieser Wert stark variiert, werden als Kante markiert.
 
 Die Kantenerkennung schafft eine Basis für die Bildverarbeitung und Form Erkennung der Bild- und Objekterkennung. Für die Konturenerkennung sind jedoch nur geschlossene Kanten von Bedeutung.
@@ -578,8 +577,11 @@ Dieser Programmcode erzeugt folgendes Bild:
     \end{minipage}
 \end{figure}
 
+Die Quelle zu diesem Unterkapitel ist ein ``YouTube''-Video mit dem Titel ``Canny Edge Detector - Computerphile'' von dem Kanal ``Computerphile''. \cite{cannyedge:cite}
+
 \subsubsection{ApproxPolyDP}\label{maai:approxpolydp:header}
 
+Das Wissen zum folgenden Unterkapitel entspringt aus dem Blogpost von ``Devjyoti Chakraborty'' mit dem Namen ``OpenCV Contour Approximation''. \cite{approx:cite}
 %Quelle: https://pyimagesearch.com/2021/10/06/opencv-contour-approximation/
 
 Um nun aus den gewonnenen Konturen ein Blatt Papier zu erkennen, müssen die vier Eckpunkte des Blattes herausgefunden werden für eine Perspektiventransformation. Diese vier Punkte werden über die Open-Computer-Vision-Funktion ``approxPolyDp(\dots)'' (``approxymation of Polygon Points'' englisch für Annäherung von Polygonen) gewonnen. Die Funktion gibt aus einem übergebenen Konturen-Array (Array = Ansammlung an Daten; in diesem Fall eine Sammlung an Positionsdaten der Kontur-Eckpunkte), eine Annäherung der Eckpunkte zurück. In dem Feld werden die Punkte der Konturen als Vektoren angegeben. Die Annäherung an diese Punkte erfolgt mit einer übergebenen Genauigkeit, welche als Parameter der Funktion spezifiziert wird.
@@ -589,7 +591,7 @@ Diese Kontur Näherung, welche den ``Ramer–Douglas–Peucker'' Algorithmus (ab
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.5]{pics/bildverarbeitungsalgos/The-Ramer-Douglas-Peucker-algorithm.png}
+    \includegraphics[scale=0.3]{pics/bildverarbeitungsalgos/The-Ramer-Douglas-Peucker-algorithm.png}
     \caption{Der Ramer–Douglas–Peucker Algorithmus \cite{maai:rdpa:cite}}
     \label{fig:map:rdpalgo}
 \end{figure}
