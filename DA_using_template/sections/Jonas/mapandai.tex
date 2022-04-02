@@ -992,7 +992,7 @@ Somit ist es für jeden möglich sich spielerisch mit dem Thema der Künstlichen
 \end{lstlisting}
 
 
-In diesem Environment (Spielumgebung) wird versucht ein Stab mithilfe einer beweglichen Plattform zu balancieren. Die Plattform kann sich dabei nur in einer Dimension (auf der X-Achse) bewegen. Mit diesem Beispielcode (\ref{lst:maap:simpleGym}) wird jedoch noch keine Künstliche Intelligenz trainiert. Hier werden zunächst zufällige Aktionen in dem Spiel ausgeführt, was selbstverständlich noch nicht zu einem gewünschten Ergebnis führt. Die Schwierigkeit dabei ist, dass sich die Plattform nicht nach links bewegt, wenn der Stab nach links fällt, oder umgekehrt, sondern den Stab wirklich balanciert. Diesen Ablauf der Bewegung findet der Algorithmus binnen weniger Sekunden heraus.
+In diesem Environment (Spielumgebung) wird versucht einen Stab mithilfe einer beweglichen Plattform zu balancieren. Die Plattform kann sich dabei nur in einer Dimension (auf der X-Achse) bewegen. Mit diesem Beispielcode (\ref{lst:maap:simpleGym}) wird jedoch noch keine Künstliche Intelligenz trainiert. Hier werden zunächst zufällige Aktionen in dem Spiel ausgeführt, was selbstverständlich noch nicht zu einem gewünschten Ergebnis führt. Die Schwierigkeit dabei ist, dass sich die Plattform nicht nach links bewegt, wenn der Stab nach links fällt, oder umgekehrt, sondern den Stab wirklich balanciert. Diesen Ablauf der Bewegung findet der Algorithmus binnen weniger Sekunden heraus.
 
 Es ist jedoch möglich dieses Programm so zu erweitern, dass dieses auch dazulernt.
 
@@ -1080,7 +1080,7 @@ Die Klasse CustomEnv, welche von ``gym.Env'' erbt wird wie folgt implementiert:
 \end{lstlisting}
 
 
-Eine weitere Bibliothek basierend auf Python, welche beim Erstellen der Reinforcement-Learning KI verwendet wurde, ist ``Stable-baselines-3''. Diese bietet auf eine zuverlässige Art und Weise die Implementierung von mathematischen Reinforcement-Learning Modellen. Dabei werden viele Algorithmen, wie zum Beispiel ``A2C'', ``DQN'', oder ``PPO'', zur Verfügung gestellt. Während dieser Arbeit wurden die Algorithmen ``A2C'' und ``PPO'' verglichen. In dem Fall der ``ScribbleFight'' Künstlichen Intelligenz, welche ziemlich komplex ist, hat die Recherche ergeben, dass diese zwei Arten, Modelle zu trainieren, am besten geeignet sind.
+Eine weitere Bibliothek basierend auf Python, welche beim Erstellen der Reinforcement-Learning KI verwendet wurde, ist ``Stable-baselines-3''. Diese bietet auf eine zuverlässige Art und Weise die Implementierung von mathematischen Reinforcement-Learning Modellen. Dabei werden viele Algorithmen, wie zum Beispiel ``A2C'', ``DQN'', oder ``PPO'', zur Verfügung gestellt. Während dieser Arbeit wurden die Algorithmen ``A2C'' und ``PPO'' verglichen. In dem Fall der ``ScribbleFight'' KI, welche ziemlich komplex ist, hat die Recherche ergeben, dass diese zwei Arten, Modelle zu trainieren, am besten geeignet sind.
 
 Eingebunden wird die Bibliothek wie folgt:
 \begin{lstlisting}[language=Python,label=lst:maap:pposampleone,caption=Stable-Baselines3 Beispiel]
@@ -1136,13 +1136,13 @@ Die KI wurde auf einem ``Apple IMac 2017'' trainiert.
 
 Das Ziel bestand darin eine Künstliche Intelligenz zu erschaffen, welche auf einem, für einen durchschnittlich guten, menschlichen Spieler, herausfordernden Niveau spielt. Dabei sollte diese:
 \begin{compactitem}
-    \item Alle möglichen Attacken erlernen.
-    \item erlernen, in welchem Winkel ein Schuss abgefeuert werden muss, um einen Gegner zu treffen.
-    \item lernen, wann eine Attacke, oder ein Schuss abgefeuert werden muss, um einen Gegner zu treffen.
-    \item erlernen, wie ein Agent auf der Plattform bleibt, beziehungsweise was und wo diese ist.
+    \item Alle möglichen Attacken erlernen,
+    \item erlernen, in welchem Winkel ein Schuss abgefeuert werden muss, um einen Gegner zu treffen,
+    \item lernen, wann eine Attacke, oder ein Schuss abgefeuert werden muss, um einen Gegner zu treffen,
+    \item erlernen, wie ein Agent auf der Plattform bleibt, beziehungsweise was und wo diese ist,
     \item gegnerische Kugeln beziehungsweise Attacken erkennen und ausweichen.
 \end{compactitem}
-Im Laufe der Ausarbeitung der Künstlichen Intelligenz wurde jedoch klar, dass dies Ziele sind, welche im Zuge einer Diplomarbeit, in diesem Ausmaß, nicht erreichbar waren. Die Künstliche Intelligenz lernte jedoch schnurstracks und am schnellsten Wege die Plattform zu verlassen.
+Im Laufe der Ausarbeitung der Künstlichen Intelligenz wurde jedoch klar, dass dies Ziele sind, welche im Zuge einer Diplomarbeit, in diesem Ausmaß, nicht erreichbar waren. %Die Künstliche Intelligenz lernte jedoch am schnellsten Wege die Plattform zu verlassen.
 
 Damit die Maschine lernen kann, stellt das ScribbleFight-Frontend, welches mit Webtechnologien, wie HTML und JavaScript umgesetzt wurde, Informationen über den Spieler beziehungsweise Agenten zur Verfügung. Diese werden in einem ``myPlayer''-Objekt gespeichert. Das Objekt sieht wie folgt aus:
 
@@ -1166,7 +1166,7 @@ def getStats(driver):
     return dmgDealt, knockback, deaths, kills
 \end{lstlisting}
 
-Die Funktion extrahiert den für die Künstliche Intelligenz relevanten Inhalt und gibt diese als return Wert wieder zurück. Dadurch wird die Maschine bei jedem Schritt über den Status des Spielers informiert.
+Die Funktion extrahiert den für die KI relevanten Inhalt und gibt diese als return Wert wieder zurück. Dadurch wird die Maschine bei jedem Schritt über den Status des Spielers informiert.
 
 % Ziele
 % Umsetzung
@@ -1231,9 +1231,9 @@ function getVisualMap(paramarr) {
   return visual
 }
 \end{lstlisting}
-Mit jeder Bewegung und Aktualisierung von Status wird der ``visual''-Array in einen ``visCopy''-Array eingetragen. Dabei werden alle Entitäten neu hinzugefügt. Das Feld wird jedoch durch die Kopie nur an den Positionen verändert, wo auch eine Änderung passiert ist. Dadurch wird dieses nicht immer neu erstellt, und die Effizienz wird gesteigert. Außerdem, dadurch, dass Javascript zur kalkulation komplexer Berechnungen mehrere Threads zur Verfügung hat, kann das Verarbeiten dieses Arrays in einer Zeit passieren, welche die Bilder pro Sekunde des Spiels nicht verringert und somit für den Spieler nicht bemerkbar.
+Mit jeder Bewegung und Aktualisierung von Status wird der ``visual''-Array in einen ``visCopy''-Array eingetragen. Dabei werden alle Entitäten neu hinzugefügt. Das Feld wird jedoch durch die Kopie nur an den Positionen verändert, wo auch eine Änderung passiert ist. Dadurch wird dieses nicht immer neu erstellt, und die Effizienz wird gesteigert. Außerdem, dadurch, dass Javascript zur kalkulation komplexer Berechnungen mehrere Threads zur Verfügung hat, kann das Verarbeiten dieses Arrays in einer Zeit passieren, welche die Bilder pro Sekunde des Spiels nicht verringert und somit für den Spieler nicht bemerkbar ist.
 Der Codeblock \ref{lst:maap:addspritetovisual} beschreibt die Funktion mit welcher ein
-Spielelement (``Sprite''), zu der KI-Sicht hinzugefügt wird.
+Spielelement (``Sprite'') zu der KI-Sicht hinzugefügt wird.
 
 \begin{lstlisting}[label=lst:maap:addspritetovisual,caption=Sprite in ``visCopy''-Array eintragen]
     function addSpriteToVisual(sprite, num) {
@@ -1274,11 +1274,11 @@ Wird nun die bearbeitete Kopie des ``visual''-Arrays ausgeben, so ist der Output
 \end{figure}
 
 \subsection{ScribbleFight Reinforcement Learning Implementierung [H]}
-Wie bereits in dem Kapitel ``Reinforcement Learning'' (\ref{tech:fig:reinfconcept}) erklärt, basiert diese Art des Lernens auf unpräparierte Daten. Das heißt, dass kein Trainingsset an Daten existiert, welches zum Lernen und Vergleichen verwendet wird, sondern ein Agent in eine ihm unbenannte Umwelt gesetzt wird und rein über ausprobieren lernt. Das einzige Ziel besteht darin, dass eine maximale Höhe an Belohnung erreicht werden soll.
+Wie bereits in dem Kapitel ``Reinforcement Learning'' (\ref{tech:fig:reinfconcept}) erklärt, basiert diese Art des Lernens auf unpräparierte Daten. Das heißt, dass kein Trainingsset an Daten existiert, welches zum Lernen und Vergleichen verwendet wird, sondern ein Agent in eine ihm unbenannte Umwelt gesetzt wird und rein über ausprobieren lernt. Das einzige Ziel besteht darin, dass eine maximale Höhe an Belohnungen erreicht werden soll.
 
 Im folgenden wird der Programmcode (\ref{lst:maai:game}), welcher diese Forderungen umsetzt, beschrieben.
 
-Bevor die KI implementiert werden kann, muss eine Referenz auf das Browserspiel erzeugt werden. Dies passiert mit der Bibliothek namens ``Selenium''. Selenium ermöglicht es mit einem Python-Code ein Browser-Fenster zu öffnen, in welchem diverse Keyboard-Events und vieles mehr ausgeführt werden können. Dafür wird zunächst die Optionen, welche beim Öffnen ein Browserfenster berücksichtig werden erstellt. Die Optionen besagen zum Beispiel, dass sich das Fenster an die Bildschirmgröße mit ``start-maximized'' anpasst. Die ``Url'' auf welche navigiert werden soll ist `` http://localhost:3000'', da hier das Spiel auf einem Node-Server, als lokale Instanz auf das Spiel, zur Verfügung gestellt wird.
+Bevor die KI implementiert werden kann, muss eine Referenz auf das Browserspiel erzeugt werden. Dies passiert mit der Bibliothek namens ``Selenium''. Selenium ermöglicht es mit einem Python-Code ein Browser-Fenster zu öffnen, in welchem diverse Keyboard-Events und vieles mehr ausgeführt werden können. Dafür werdeh zunächst die Optionen, welche beim Öffnen ein Browserfenster berücksichtig werden, erstellt. Die Optionen besagen zum Beispiel, dass sich das Fenster an die Bildschirmgröße mit ``start-maximized'' anpasst. Die ``Url'' auf welche navigiert werden soll ist `` http://localhost:3000'', da hier das Spiel auf einem Node-Server, als lokale Instanz auf das Spiel, zur Verfügung gestellt wird.
 
 \begin{lstlisting}[language=Python,label=lst:maai:game,caption=Implementation der Logik der Reinforcement Learning KI]
 '''DEPENDENCIES'''
@@ -1308,7 +1308,7 @@ url = 'http://localhost:%s' % (port)
 
 Im folgenden Programmcode wird eine Klasse namens ``ScribbleFight'' erstellt.
 
-In der \_\_init\_\_ Funktion, also dem Konstruktor der Klasse ``ScribbleFight'' werden alle Variablen und Konstanten initiiert und somit auf einen Startwert gesetzt. Dabei werden alle, für das Spiel relevanten Parameter auf einen ``Null-Wert'' gesetzt, da noch keine Daten gewonnen wurden. Auch Wahrheitsoperatoren, wie der ``readystate'', also ob das Browserfenster gestartet wurde oder nicht werden hier gesetzt. Nach dem Kreieren wird das Fenster und somit das Spiel gestartet.
+In der \_\_init\_\_ Funktion, also dem Konstruktor der Klasse ``ScribbleFight'' werden alle Variablen und Konstanten initiiert und somit auf einen Startwert gesetzt. Dabei werden alle, für das Spiel relevanten Parameter auf einen ``Null-Wert'' gesetzt, da noch keine Daten gewonnen wurden. Auch Wahrheitsoperatoren, wie der ``readystate'', also ob das Browserfenster gestartet wurde oder nicht, werden hier gesetzt. Nach dem Erstellen wird das Fenster und somit das Spiel gestartet.
 
 \begin{lstlisting}[language=Python,firstnumber=25]
 class ScribbleFight:
