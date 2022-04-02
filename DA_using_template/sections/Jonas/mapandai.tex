@@ -8,7 +8,7 @@ vorprogrammiert. Auf die Funktionsweise und auf die technische Umsetzung wird im
 merkt, dass die Objekterkennung das Blatt erkannt hat, kann dieser ein Bild aufnehmen. Im nächsten Schritt ist es nochmals möglich,
 die erkannten Kanten zu verschieben. Wenn sich der User für das Foto als Map entscheidet, so kann er den ausgewählten Teil in eine
 top-down-2d-Perspektive
-umwandeln. Kurz gesagt werden dabei die vier ausgewählten Ecken, welche über die Kanten des Blatt Papiers liegen,
+umwandeln. Es werden also dabei die vier ausgewählten Ecken, welche über die Kanten des Blatt Papiers liegen,
 für eine Perspektiven-Transformation
 mit OpenCV2 herangezogen. Wenn der Spieler dann so weit ist, kann er dieses Bild beziehungsweise die Map bestätigen und
 sendet sie somit zurück an die Lobby. Dann kann die Abstimmung beginnen.
@@ -22,10 +22,10 @@ sendet sie somit zurück an die Lobby. Dann kann die Abstimmung beginnen.
 
 \setauthor{Himmetsberger Jonas}
 \subsection{Objekterkennung [H]}
-Das Thema ``Objekterkennung'' ist ein extrem schnell wachsendes und sich verbesserndes Feld in der Welt der Bildverarbeitung beziehungsweise
+Das Thema ``Objekterkennung'' ist ein schnell wachsendes und sich verbesserndes Feld in der Welt der Bildverarbeitung beziehungsweise
 Bildanalyse. \\
 Die Objekterkennung ist ein großer Teil unserer Arbeit. Hier wird aus dem live Footage der Kamera das Blatt Papier und anschließend
-in einer fertigen Aufnahme die Map erkannt.
+in einer Aufnahme die Map erkannt.
 \\
 \\
 Die Objekterkennung wird zum Beispiel bei komplexen und großen Paketdiensten eingesetzt. Sollen Pakete nach Farbe gruppiert werden, so
