@@ -176,7 +176,7 @@ Das heißt, Socket.IO ist ein Wrapper rund um die WebSocket API. \cite{socketio}
 \setauthor{Weinzierl Ben}
 \subsection{qrcode.js [W]}
 
-\subsubsection{Was ist ein QR-Code?} 
+\subsubsection{Was ist ein QR-Code?}
 Ein QR-Code ist ein Matrix-Barcode welcher meistens auf eine bestimmte URL verweist. Die Bezeichnung QR steht für Quick Response,
 also schnelle Antwort. Für die Codierung verwendet der QR-Code 4 Methoden: Numerisch, Alphanumerisch, Byte/Bit und Kanji.
 Besonders populär wurde das QR-Code System dank seiner
@@ -254,7 +254,7 @@ Das Resultat dieser Veränderung sieht so aus:
 Bei dieser Arbeit wurde der QR-Code verwendet mit dem Handy zugriff auf den Mapscanner und
 das Hochladen der Zeichnung zu gewährleisten.
 
-\subsection{Chart.js [W]} \cite{chartJs} \label{ChartJs} 
+\subsection{Chart.js [W]} \cite{chartJs} \label{ChartJs}
 Chart.js ist eine Open-Source JavaScript Bibliothek welche es ermöglicht einfach und schnell Diagramme
 in eine Webseite einzubauen. Die Bibliothek kann entweder mit dem Shell-Befehl \textit{npm i chart.js} eingebunden werden oder via Github unter
 \textit{https://github.com/chartjs/Chart.js} gedownloaded werden. Chart.js stellt einem sehr
@@ -632,7 +632,7 @@ Das Spiel ist wie folgt aufgebaut: ein 3x3 Schachbrett bildet den Untergrund des
 
 Diese drei Figuren sind gleichwertig und dürfen sich Verhalten wie ein ``Bauer'' im Spiel Schach (also nur nach vor oder zum Schlagen nach links und rechts). \textit{Martin Gardner} setzt dabei die Regel fest, dass der Mensch, auf welcher Seite er auch immer spielt, den ersten Zug macht. Somit ist der Mensch immer in den ungeraden Zügen dran (1, 3, 5, 7) und der Computer/die Künstliche Intelligenz/die Mathematik immer in den geraden Zügen (2, 4, 6) an der Reihe. Nach acht Zügen gibt es garantiert immer einen Gewinner. Das Ziel des Spiels ist es, dass alle gegnerischen Figuren geschmissen werden.
 \\
-Um einen solchen ``Hexapawn''-Computer zu bauen, werden vierundzwanzig Streichholzschachteln benötigt. Auf jeder dieser Streichholzschachteln sind alle möglichen ``Hexapawn''-Züge aufgezeichnet, und wie auf diese reagiert werden kann. Dies wird in der nachstehenden Grafik veranschaulicht. Seitlich haben diese Schachteln eine Öffnung.
+Um einen solchen ``Hexapawn''-Computer zu bauen, werden vierundzwanzig Streichholzschachteln benötigt. Auf jeder dieser Schachteln sind alle möglichen ``Hexapawn''-Züge aufgezeichnet, und wie auf diese reagiert werden kann. Dies wird in der nachstehenden Grafik veranschaulicht. Seitlich haben diese Schachteln eine Öffnung.
 
 
 \begin{figure}[H]
@@ -643,7 +643,9 @@ Um einen solchen ``Hexapawn''-Computer zu bauen, werden vierundzwanzig Streichho
 \end{figure}
 
 
-Wählt der Mensch und Gegner der Maschine den ersten Zug, so ist dieser garantiert auf einen der beiden ersten Abbildungen zu sehen. In den Streichholzschachteln befinden sich farbige Kugeln. Werden diese nun geschüttelt, und eine Kugel wird seitlich aus der Öffnung extrahiert, so wird der Zug gewählt, bei welchem die Pfeilfarbe der Kugelfarbe entspricht. So wird das Spiel zu Ende gespielt, bis es nach dem achten Zug einen garantierten Gewinner gibt. Danach wird ein Resultat gezogen. Das heißt, wenn die KI gewonnen hat, kann die Gewinnchance bei einem nächsten Spiel erhöht werden. Dies wird erreicht, indem alle farbigen Kugeln, welche aus der Streichholzschachtel fielen, doppelt zurückgelegt werden. Wenn es also in der ersten Schachtel grün, rot und blau gibt und grün als erster Zug eines Spiels gewählt wurde, welches zu einem Sieg führte, so wird in die erste Schachtel eine zweite grüne Kugel gelegt. Somit wird die Wahrscheinlichkeit, dass bei einem nächsten Spiel einen Zug passiert, welcher schon einmal zu einem Sieg führte, erhöht. Ähnlich kann dies auch bei Zügen gemacht werden, welche dazu führten, das Spiel zu verlieren. Hier kann die Wahrscheinlichkeit zu verlieren verringert werden, indem die farbige Kugel aus dem Spiel entnommen wird.
+Wählt der Mensch und Gegner der Maschine den ersten Zug, so ist dieser garantiert auf einen der beiden ersten Abbildungen zu sehen. In den Streichholzschachteln befinden sich farbige Kugeln. Werden diese nun geschüttelt, und eine Kugel wird seitlich aus der Öffnung extrahiert, so wird der Zug gewählt, bei welchem die Pfeilfarbe der Kugelfarbe entspricht. So wird das Spiel zu Ende gespielt, bis es nach dem achten Zug einen garantierten Gewinner gibt. Danach wird ein Resultat gezogen.
+
+Das heißt, wenn die KI gewonnen hat, kann die Gewinnchance bei einem nächsten Spiel erhöht werden. Dies wird erreicht, indem alle farbigen Kugeln, welche aus der Streichholzschachtel fielen, doppelt zurückgelegt werden. Wenn es also in der ersten Schachtel grün, rot und blau gibt und grün als erster Zug eines Spiels gewählt wurde, welches zu einem Sieg führte, so wird in die erste Schachtel eine zweite grüne Kugel gelegt. Somit wird die Wahrscheinlichkeit, dass bei einem nächsten Spiel einen Zug passiert, welcher schon einmal zu einem Sieg führte, erhöht. Ähnlich kann dies auch bei Zügen gemacht werden, welche dazu führten, das Spiel zu verlieren. Hier kann die Wahrscheinlichkeit zu verlieren verringert werden, indem die farbige Kugel aus dem Spiel entnommen wird.\\
 \\
 So hat \textit{Martin Gardner} bewiesen, dass Spiele mit Mathematik gewonnen werden können. Auf diesem Prinzip basieren auch viele andere Künstliche Intelligenzen. Natürlich können in dem Spiel ``Hexapawn'' binnen weniger Augenblicke alle möglichen Kombinationen errechnet werden und somit eine perfekte Spielstrategie entwickelt werden. Anders ist dies bei Spielen wie ``Schach'' oder ``GO''. Bei diesen Spielen gibt es unzählige Kombinationsmöglichkeiten, bei welchen es selbst für eine Maschine nahezu unmöglich ist, alle Spielkombinationen auszuprobieren. Jedoch ist es für einen Computer möglich in kürzester Zeit extrem viele Berechnungen durchzuführen. Ein tage-/monate-/jahrelanges Lernen in einer Geschwindigkeit, welche für Menschen unmöglich ist, führt für die KI also auch zu einer immer höheren Gewinnchance für jedes Spiel. Dadurch ist es für die sogenannte ``AlphaGo''-KI möglich gewesen selbst die besten Spieler der Welt im Spiel ``GO'' zu besiegen. Durch die vielen Kombinationsmöglichkeiten ist es trotzdem nicht gegeben, dass die KI pro Zug die perfekte Auswahl trifft. Jedoch werden immer Züge gewählt, welche in bisherigen Spielen zu der höchsten Gewinnchance führten. Somit ist es also auch für eine Maschine möglich, nicht deterministische Ereignisse mit einer gewissen Wahrscheinlichkeit, welche oft der realen Zukunft entspricht, vorherzusagen (Beispiel: Wettervorhersage).
 
