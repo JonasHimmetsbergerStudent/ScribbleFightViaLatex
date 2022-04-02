@@ -1476,10 +1476,11 @@ Im folgenden Flussdiagramm wird dies etwas verständlicher erklärt.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.7]{pics/ai/Fluss.png}
+    \includegraphics[scale=0.73]{pics/ai/Fluss.png}
     \caption{Ablauf des Lernens}
     \label{fig:maai:fluss}
 \end{figure}
+
 
 \begin{lstlisting}[language=Python,firstnumber=138]
     def observe(self):
@@ -1568,7 +1569,7 @@ mit welchem die Maschine hätte lernen sollen, 25 mal ausgeführt. Dabei wurden 
 Allerdings wurden nur in 8 Fällen länger als ein Tag trainiert, da zu Testzwecken das Training abgebrochen wurde.
 Im folgenden werden die zwei Reinforcement Learning Algorithmen ``A2C'' und ``PPO'' verglichen und die besten Modelle
 und deren Ergebnisse präsentiert. Wegen der Komplexität des Spiels und der limitierten Ressourcen, wie Zeit und Rechenleistung,
-war schnell klar, dass das erlernte Modell nicht die gesetzten Ziele (Kapitel ``Die ScribbleFight-KI'' \ref{maai:scribblefightki}) erreichne wird.
+war schnell klar, dass das erlernte Modell nicht die gesetzten Ziele (Kapitel ``Die ScribbleFight-KI'' \ref{maai:scribblefightki}) erreichen wird.
 
 Zum Lernen trainierten zwei Künstliche Intelligenzen in Form von ``Competitive Self-Play''. Dies bedeutet,
 dass mehrere Instanzen der KI dasselbe Modell erlernen und auf dieses schreiben. Eine trainierte dabei basierend auf dem
@@ -1578,7 +1579,7 @@ wodurch insgesamt vier Spieler an einem ScribbleFight Spiel beteiligt waren.
 Die mit OpenAI-Gym und Stable Baselines3 erlernten Modelle können via einem ``TensorBoard'' visualisiert und analysiert werden.
 
 Die Graphen, welche aus den erlernten Modellen entsprungen sind und diverse Informationen über die Leistung und Kompetenz beinhalten,
-zeigen, dass \textit{der \underline{PPO Algorithmus} besser für eine Künstliche Intelligenz, welche das Spiel ScribbleFight erlernen soll, geeignet ist als der A2C Algorithmus.}
+zeigen, dass \textit{der \underline{PPO Algorithmus} besser geeignet ist als der A2C Algorithmus.}
 
 \subsubsection{A2C [H]}
 % Die Quellen zu den nachfolgenden drei Absätzen sind [1][2][...].
@@ -1590,8 +1591,7 @@ der Agent direkt ein Verhalten erlernt, was bedeutet dass dieser lernt eine Eing
 Andererseits das ``Value-Based Reinforcement Learning''. Hier erlernt das Modell Handlungen so auszuwählen, dass
 diese der Vorhersage der Eingabe gleicht.
 
-Wie schon in der Evaluation erwähnt zeigen die Graphen, welche aus den Modellen entsprungen sind, dass der A2C Algorithmus für
-die Künstliche Intelligenz nicht geeignet ist. Beispielsweise ist in folgender Grafik erkennbar, dass die Entropie, also Zufälligkeit, mit welcher die Künstliche Intelligenz
+Wie schon in der Evaluation erwähnt zeigen die Graphen, welche aus den Modellen entsprungen sind, dass der A2C Algorithmus nicht geeignet ist. Beispielsweise ist in folgender Grafik erkennbar, dass die Entropie, also Zufälligkeit, mit welcher die Künstliche Intelligenz
 entscheidungen trifft zwar anfänglich stark abfällt, jedoch später wieder steigt.
 
 Wegen eines Fehlers im Spiel ``ScribbleFight'', welcher die KI stoppte, wurde ``nur'' für 22.000 Schritte trainiert.
@@ -1640,17 +1640,17 @@ Nachdem die ``policy'' erneuert wurde, werden die gesammelten Erfahrungen verwor
 Dieser Ansatz wird auch ``on-policy learning'' genannt.
 
 Der PPO-Algorithmus kümmert sich nun darum, dass die neue Vorgehensweise nicht zusehr von der alten abweicht.
-Somit passiert weniger Varianz im Training der Künstlichen Intelligenz, wodurch einerseits ein schnelles Vortschreiten
-beim Lernen verhindert wird, andererseits wird dabei sichergestellt, dass die Künstliche Intelligenz nichts ``falsches''
-erlernt und somit nicht von einem gewünschtem Ziel abweicht.
+Somit passiert weniger Varianz im Training der Künstlichen Intelligenz, wodurch einerseits ein schnelles Fortschreiten
+beim Lernen verhindert wird, andererseits wird dabei sichergestellt, dass nichts ``falsches''
+erlernt wird und somit nicht von einem gewünschtem Ziel abweicht.
 
 % Quelle Diesmal wirklich zitat: https://towardsdatascience.com/proximal-policy-optimization-tutorial-part-1-actor-critic-method-d53f9afffbf6
 
-Dass dieser Algorithmus besser funktioniert hat um die ScribbleFight KI zu trainieren wird durch folgdenden
+Dass dieser Algorithmus besser funktioniert hat um die ScribbleFight KI zu trainieren wird durch folgenden
 Graphen klar erkennbar.
 
 Nach 900.000 Schritten passierte auch hier im Spiel ein Fehler, wordurch das Lernen abgebrochen ist.
-Allerdings liesen sich dieses Ergebnisse im laufe der 25 Trainings, wobei die Hälfte mit dem PPO Algorithmus durchgeführt wurden,
+Allerdings ließen sich dieses Ergebnisse im laufe der 25 Trainings, wobei die Hälfte mit dem PPO Algorithmus durchgeführt wurden,
 jedes Mal replizieren.
 
 Die Funktion des Entropieverlusts zeigt, dass die Aktionen, welche die KI durchführt, immer weniger zufällig
@@ -1702,4 +1702,3 @@ auf dem Erlernten basieren soll, einem menschlichen Spieler gleicht.
 % Grafen beschreiben
 % Quellen
 % Ziel der KI beschreiben beim Difensio
-% KI grafiken beschreiben
