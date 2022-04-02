@@ -1,4 +1,5 @@
 
+\newpage
 \section{Map-Erkennung [H]}\label{maai:maperkennung:head}
 Nachdem der Spieler der Lobby beigetreten ist, wird es Zeit für ihn die Spielumgebung zu zeichnen und diese für die
 Abstimmung freizugeben. Das passiert, indem er oder sie einen QR-Code (``Quick Response''), welcher sich in der
@@ -215,6 +216,7 @@ Im letzten Teil der Funktion wird das Bild in die richtige Perspektive transform
     return dst
 \end{lstlisting}
 
+Das Wissen, welches dazu benötigt wurde, diesen Programmcode zu schreiben entspringt aus einer Video-Erklärung auf der Plattfrom ``YouTube'' namens ``Document Scanner OPENCV PYTHON | Beginner Project.'' des Kanals ``Murtaza's Workshop - Robotics and AI''. \cite{maai:documentscannerYoutube:cite}
 
 \subsection{Open-CV2 [H]}
 \subsubsection{Bildverarbeitungsalgorithmen} \label{maai:alogs}
@@ -230,10 +232,12 @@ Bildverarbeitungsalgorithmen sind Grundbausteine für die Bild- beziehungsweise 
     \item cv2.warpPerspective(\dots) (Perspektiven-Korrektur): Mit ``wrapPerspective'' kann ein Bild, welches in der dritten Dimension aufgenommen wurde und somit einer Perspektive unterlag Perspektiven-korrigiert werden.
 \end{compactitem}
 
-Nur einige der verwendeten Bildbearbeitungsalgorithmen sind basierend auf Pixelmanipulation. Andere Algorithmen, wie zum Beispiel ``ApproxPolyDP'', sind reines Auslesen von Bildwerten beziehungsweise -daten, welche durch Vorarbeit extrahiert wurden.
+Nur einige der verwendeten Bildbearbeitungsalgorithmen sind basierend auf Pixelmanipulation. Andere Algorithmen, wie zum Beispiel ``ApproxPolyDP'', sind reines Auslesen von Bildwerten beziehungsweise -daten, welche durch Vorarbeit extrahiert wurden. \cite{opencvdocs}
 
 
 \subsubsection{Grayscale}\label{maai:grayscale}
+Die Quelle zu folgendem Unterabschnitt ist eine Erklärung der Graustufenbildung von ``Wikipedia.org'' \cite{grascale:cite}
+
 Beim ``grayscaling'' werden Informationen über die Lichtintensität aus den einzelnen Pixeln extrahiert und über eine Gewichtung der drei Farben Rot, Grün und Blau gleichmäßig gewertet. Somit entsteht ein Bild, welches rein Informationen über die Helligkeit/Lichtintensität enthält.
 
 Die Lichtintensität ist die Menge an Licht(stärke) pro Pixel. Diese Lichtstärke kann in einem 8-Bit System von den Farben Rot, Grün und Blau von 0-255 reichen. Der Kontrast geht somit von ganz schwarz, was einer Lichtintensität von 0 entspricht (es wird aus diesem Pixel kein Licht emittiert), bis ganz weiß, was in einem 8-Bit System 255 entspricht.
@@ -289,6 +293,7 @@ Dieses Stück Programmcode führt zu folgendem Ergebnis:
 %Quelle: https://s3.envato.com/files/16109405/index.html
 
 \subsubsection{Blurring}\label{maai:blurring}
+Die Quelle zu folgendem Unterabschnitt ist eine Erklärung wie man Bilder weichzeichnet von``Akeyla Pradia Naufal'' \cite{blurring:cite}
 
 Soll ein Bild ``geblurred'' (engl. für verwischen/verschwommen) werden, so ist das Ziel eine Unschärfe. Ähnlich, wie das ``Grayscaling'' ist auch das unscharf Zeichnen eines Bildes reine Pixelmanipulation. Hier wird jedoch nicht ein einzelner Pixel zur Berechnung der Unschärfe herangezogen, sondern eine zweidimensionale Matrix an umliegenden Bildpunkten. Somit wird jeder Pixel basierend auf dessen benachbarten Bildzellen manipuliert.
 
@@ -365,6 +370,7 @@ Wird der Programmcode ausgeführt, so erzeugt dieser folgenden Effekt:
 % Quelle: https://www.tutorialkart.com/opencv/python/opencv-python-gaussian-image-smoothing/
 
 \subsubsection{Thresholding}
+Die Quelle zu folgendem Unterabschnitt ist eine Erklärung wie man ein Schwellwert-Bild erzeugt von dem ``YouTube-Kanal'' ``Apeer\_micro'' \cite{thresholding:cite}
 
 Das ``Image-Thresholding'' also die Schwellwertbildung eines Bilds ist basierend auf die ``Image-Segmentation''. Diese erzeugt eine Unterteilung eines Bildes in mehrere Segmente.
 
