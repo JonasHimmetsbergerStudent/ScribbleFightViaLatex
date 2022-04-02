@@ -434,7 +434,7 @@ Die Programmiersprache Python
 fand in unserer Arbeit zwei Haupteinsatzgebiete. \\
 Erstens zur Erkennung des Blatt Papiers und der Umwandlung der Zeichnung in eine spielbare Map
 und zweitens, um die Künstliche Intelligenz zu erschaffen. \\
-Die kostenlosen Bibliotheken, welche wir dabei in Verwendung haben, werden im folgenden gelistet und näher
+Die kostenlosen Bibliotheken, welche dabei verwendet werden, sind im Folgenden gelistet und näher
 erklärt.
 Der Vorteil von Python, und auch der Grund warum die Sprache den Einsatz in dieser Arbeit fand,
 ist, die Verfügbarkeit vieler Hilfestellungen und Bibliotheken.
@@ -443,11 +443,11 @@ ist, die Verfügbarkeit vieler Hilfestellungen und Bibliotheken.
 \subsection{Flask [H]}
 Flask ist ein weitverbreitetes Python Web-Framework. Somit gibt es viele Tutorials,
 Tools und Bibliotheken. Diese sind sehr gut bis gut dokumentiert und teilweise geprüft.
-Aus diesen Gründen haben wir den Teil der Bild- und Maperkennung, welche
-als Webanwendung funktioniert, mittels Flask umgesetzt. In Kombination mit Flask-SocketIO werden Bilder von der Webcam
+Aus diesen Gründen ist der Teil der Bild- und Maperkennung, welche
+als Webanwendung funktioniert, mittels Flask umgesetzt worden. In Kombination mit Flask-SocketIO werden Bilder von der Webcam
 in Echtzeit direkt an den Server geschickt, welcher dann via OpenCV2 Informationen aus dem Bild
 generiert. Genau wie bei SocketIO in JavaScript, agiert Flask-SocketIO als bidirektionale
-Kommunikation zwischen Server und Client. Die extrem geringe Latenzzeit, welche dabei auftritt,
+Kommunikation zwischen Server und Client. Die geringe Latenzzeit, welche dabei auftritt,
 ist wichtig um eine flüssige Verarbeitung der Bilder zu gewährleisten.
 
 \subsection{OpenCV2 [H]}
@@ -467,7 +467,7 @@ Folgende wurden bei der Maperkennung eingesetzt:
 \end{compactitem}
 Auf die Funktionsweise dieser Algorithmen wird im Folgenden (\ref{maai:alogs}) genauer eingegangen.
 \\
-Um zum Beispiel ein beliebiges Bild unscharf zu zeichnen würde so vorgegangen werden:
+Um zum Beispiel ein beliebiges Bild unscharf zu zeichnen würde so vorgegangen werden:\cite{opencvdoc}
 \\
 
 \begin{lstlisting}[language=Python,caption=OpenCV Demo,label=lst:tech:gaussianBlur]
@@ -502,7 +502,7 @@ Dateiformate: PPM, PNG, JPEG, GIF, TIFF, und BMP. Pixelmanipulation bedeutet, da
 gegebenem Bild angepasst werden kann. Beispiele hierfür sind zum Beispiel das Aufhellen oder Abdunkeln von
 Bildern oder das Anpassen der Sättigung. Auch Kontrast- oder Schärfeeinstellungen können mit
 Pixelmanipulation erzielt werden. Dafür werden Matrizen und/oder Formeln pro Pixel verwendet, um
-deren Farbwerte anzupassen
+deren Farbwerte anzupassen \cite{pil}
 \\
 
 
@@ -522,6 +522,8 @@ deren Farbwerte anzupassen
 
 
 \subsection{TensorFlow und Keras [H]}
+Die Quelle zu diesem Kapitel ist ein Buch namens ``Neuronale Netze selbst programmieren'' von Tariq Rashid. \cite{nnselbst}
+
 TensorFlow ist eine Python Bibliothek, welche beim Erstellen von Projekten, die maschinelles Lernen
 in irgend einer Art und Weise eingebunden haben, unterstützt.
 Wie der Name schon vermuten lässt, basiert TensorFlow auf zwei Grundlagen: Tensoren und Graphen (Flow
@@ -543,7 +545,7 @@ wurde mittels OpenAI Gym implementiert.
 
 \subsection{OpenAI Gym [H]}
 OpenAI Gym ist ein Toolkit, mit welchem das Erlernen und Erstellen von reinforcement learning Algorithmen
-sehr leicht fällt. ``reinforcement learning'' wird im folgenden
+sehr leicht fällt. \cite{openaigym} ``Reinforcement learning'' wird im folgenden
 kurz erläutert.
 
 \subsubsection{Reinforcement Learning [H]}\label{tech:reinfLearning:header}
@@ -590,7 +592,7 @@ Künstliche Intelligenz funktioniert im Grunde genommen wie das menschliche Gehi
     \label{fig:tech:eba}
 \end{figure}
 
-Ein einfaches mathematisches Beispiel hierfür wäre, wenn einen einfachen Faktor mit zwei Nachkommastellen ermittelt werden soll. Beispiel: Euro in USD umrechnen. Hierfür ist ein Faktor kleiner 1 nötig. Bevor der ganze Prozess des Lernens startet, muss mit einer Eingabe gestartet werden. Dies ist zum Beispiel die Zahl 1. Somit wird der Künstlichen Intelligenz im übertragenen Sinne erklärt: ``Bitte errechne mir wie viele USD in meiner Hand liegen''. Es wurde also ein Input für die KI gefunden. Dieser Input wird über eine nicht ganz zufällig gewählte Gewichtung in eine Berechnung umgewandelt. Nehmen wir an, diese Gewichtung sei ein Faktor <1 also 0,99.
+Ein einfaches mathematisches Beispiel hierfür wäre, wenn einen einfachen Faktor mit zwei Nachkommastellen ermittelt werden soll. Beispiel: Euro in USD umrechnen. Hierfür ist ein Faktor kleiner 1 nötig. Bevor der ganze Prozess des Lernens startet, muss mit einer Eingabe gestartet werden. Dies ist zum Beispiel die Zahl 1. Somit wird der Künstlichen Intelligenz im übertragenen Sinne erklärt: ``Bitte errechne mir wie viele USD in meiner Hand liegen''. Es wurde also ein Input für die KI gefunden. Dieser Input wird über eine nicht ganz zufällig gewählte Gewichtung in eine Berechnung umgewandelt. Es wird angenommen, dass diese Gewichtung ein Faktor <1 also 0,99 sei.
 
 ``Nicht ganz zufällig gewählt'', weil der Anwender, welcher die KI schreibt im Vorhinein schon wusste, dass ein USD weniger Wert ist, als ein Euro; der genaue Wert war jedoch unbekannt. Nach dieser Berechnung kommt ein Wert raus – nämlich 0.99 – welcher falsch ist. Damit die Künstliche Intelligenz jedoch weiß, ob sie richtig oder falsch rechnet, muss sie ein Feedback bekommen. Das bedeutet, dass der errechnete Wert und die Abweichung vom tatsächlichen Ergebnis (wenn dieses bekannt ist) zurückgegeben wird.
 
