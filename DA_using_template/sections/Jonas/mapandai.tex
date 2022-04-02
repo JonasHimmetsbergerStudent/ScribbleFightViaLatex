@@ -945,14 +945,14 @@ PICUPLOADED
 
 \section{KI [H]}\label{maai:ai:title}
 \setauthor{Himmetsberger Jonas}
-Die Vorstellung von Künstlichen Intelligenzen gibt es schon seit Mitte des zwanzigsten Jahrhunderts. Bei einer Konferenz von Wissenschaftlern am Dartmouth College im US-Bundesstaat New Hampshire im Jahr 1956 wird das erste Mal bewiesen, dass es möglich ist mit Mathematik menschliche Intelligenz zu simulieren.
+Die Vorstellung von Künstlichen Intelligenzen gibt es schon seit Mitte des zwanzigsten Jahrhunderts. Bei einer Konferenz von Wissenschaftlern am Dartmouth College im US-Bundesstaat New Hampshire im Jahr 1956 wird das erste Mal bewiesen, dass es möglich ist mit Mathematik menschliche Intelligenz zu simulieren. \cite{kigeschichte}
 
 %Quelle: https://www.bosch.com/de/stories/geschichte-der-kuenstlichen-intelligenz/
 Der Gedanke, dass eine von Menschenhand erschaffene Intelligenz, welche keine biologische Abstammung hat und den Menschen bei der Arbeit unterstützen, oder diese ganz abnehmen kann, wird seit diesem Ereignis angestrebt. Dabei ist das Feld, in welchem ``Artificial Intelligence'' (AI) beziehungsweise Künstliche Intelligenz (KI) eingesetzt werden kann, scheinbar unbegrenzt.
 
 Das Einzige, das gegeben sein muss, ist, dass in einem komplexen System, in welcher die Künstliche Intelligenz operiert, Daten extrahiert und gesammelt werden können. Weiters sind Ressourcen, wie Hardware oder Zeit, ein wichtiger Aspekt. Die intelligente Maschine kann mehrere Millionen Schritte pro Tag ausführen und mit mehreren ``Gehirnen'' (mehrere Instanzen des Lernumfelds) gleichzeitig lernen. Trotzdem ist dies limitiert, durch die Geschwindigkeit und der Rechenleistung, die zu diesem Zeitpunkt aufgebracht werden kann, mit welcher die Aktionen ausgeführt werden und somit zu einem ``Lernen'' führen.
 
-Die zuvor genannte Lerntechnik ``Reinforcement Learning'' (Kapitel \ref{tech:reinfLearning:header}), funktioniert ähnlich wie die Lern-Art von biologischen Organismen. Die Idee ist, dass simple, Lebensformen, welche nicht mehr als Instinkte zum Futter sammeln, Prädatoren ausweichen und im Generellen zum Überleben haben, sollten von einer Maschine ``leicht'' simuliert werden können. Ein Beispiel hierfür wäre ein Fadenwurm. Das ZNS (Zentrale Nervensystem) baut sich aus dreihundertzwei Nervenzellen zusammen. Weitere chemische Verbindungsstellen und Kanäle erhöhen die Komplexität dieses Lebewesens nur wenig. Dies ist mit modernen Computern bereits simulierbar.
+Die zuvor genannte Lerntechnik ``Reinforcement Learning'' (Kapitel \ref{tech:reinfLearning:header}), funktioniert ähnlich wie die Lern-Art von biologischen Organismen. Die Idee ist, dass simple, Lebensformen, welche nicht mehr als Instinkte zum Futter sammeln, Prädatoren ausweichen und im Generellen zum Überleben haben, sollten von einer Maschine ``leicht'' simuliert werden können. Ein Beispiel hierfür wäre ein Fadenwurm. Das ZNS (Zentrale Nervensystem) baut sich aus dreihundertzwei Nervenzellen zusammen. Weitere chemische Verbindungsstellen und Kanäle erhöhen die Komplexität dieses Lebewesens nur wenig. Dies ist mit modernen Computern bereits simulierbar. \cite{worm}
 %Quelle: https://www.sueddeutsche.de/wissen/gehirngroesse-von-0-bis-11-000-000-000-neuronen-1.1850384
 
 Dazu müssen jedoch gewisse mathematische Modelle angewandt werden, um dieses Ergebnis zu erreichen und den Organismus zu simulieren.
@@ -978,7 +978,7 @@ Dabei stellt ``OpenAI-Gym'' viele vorab entwickelte Videospiele zur Verfügung. 
 
 Diese Bibliothek stellt jedoch nicht nur zweidimensionale Umwelten zu Verfügung. Auch einige dreidimensionale Umgebungen, wie ``Humanoid'', bei welchem einer Figur das Gehen beigebracht werden muss, sind zur Auswahl.
 
-Somit ist es für jeden möglich sich spielerisch mit dem Thema der Künstlichen Intelligenz auseinanderzusetzen. Es ist bereits mit einigen, wenigen Code-Zeilen möglich die ``Library'' einzubinden und ein simples Programm umzusetzen.
+Somit ist es für jeden möglich sich spielerisch mit dem Thema der Künstlichen Intelligenz auseinanderzusetzen. Es ist bereits mit einigen, wenigen Code-Zeilen möglich die ``Library'' einzubinden und ein simples Programm umzusetzen. \cite{ooaigymdocs}
 \begin{lstlisting}[language=Python,label=lst:maap:simpleGym,caption=Simples OpenAI-Gym Programm]
     # import dependencies
     import gym 
@@ -1005,7 +1005,7 @@ In diesem Environment (Spielumgebung) wird versucht einen Stab mithilfe einer be
 
 Es ist jedoch möglich dieses Programm so zu erweitern, dass dieses auch dazulernt.
 
-Außerdem kann mit ``OpenAI-Gym'' ein eigenes Spiel erstellt werden. Dies funktioniert objektorientiert. Dabei müssen folgende Funktionen eingebunden werden:
+Außerdem kann mit ``OpenAI-Gym'' ein eigenes Spiel erstellt werden \cite{ooaigymdocs}. Dies funktioniert objektorientiert. Dabei müssen folgende Funktionen eingebunden werden:
 
 %Quelle: https://gym.openai.com/docs/
 
@@ -1100,7 +1100,7 @@ from stable_baselines3.common.env_util import make_vec_env
 
 \end{lstlisting}
 
-OpenAI-Gym kann verwendet werden, um ein Spielumgebung zu erschaffen. In diesem Beispiel wird wieder (wie in \ref{lst:maap:simpleGym}) die ``CartPole''-Welt verwendet. Damit die Effizienz des Lernens erhöht wird, kann durch das Erstellen der Umgebung mittels ``vec\_env'' eine Anzahl an Umgebungen gleichzeitig kreiert werden. Diese Anzahl wird als Parameter übergeben. Im folgenden Fall werden vier Umwelten gleichzeitig erstellt. All diese lernen auf dasselbe Modell. Dies wird auch ``Competitive Self-Play'' genannt. Danach wird dieses Environment an den PPO-Algorithmus übergeben. PPO steht für ``Proximal Policy Optimization''. Danach lernt die Maschine für 25.000 Schritte. Die Anzahl der Schritte haben nichts mit der Episodendauer zu tun. Ein Schritt ist entweder eine Bewegung nach links oder rechts.
+OpenAI-Gym kann verwendet werden, um ein Spielumgebung zu erschaffen. In diesem Beispiel wird wieder (wie in \ref{lst:maap:simpleGym}) die ``CartPole''-Welt verwendet. Damit die Effizienz des Lernens erhöht wird, kann durch das Erstellen der Umgebung mittels ``vec\_env'' eine Anzahl an Umgebungen gleichzeitig kreiert werden. Diese Anzahl wird als Parameter übergeben. Im folgenden Fall werden vier Umwelten gleichzeitig erstellt. All diese lernen auf dasselbe Modell. Dies wird auch ``Competitive Self-Play'' genannt. Danach wird dieses Environment an den PPO-Algorithmus übergeben. PPO steht für ``Proximal Policy Optimization''. Danach lernt die Maschine für 25.000 Schritte. Die Anzahl der Schritte haben nichts mit der Episodendauer zu tun. Ein Schritt ist entweder eine Bewegung nach links oder rechts. \cite{ppo}
 
 %Quelle: https://openai.com/blog/openai-baselines-ppo/
 
@@ -1157,7 +1157,7 @@ Damit die Maschine lernen kann, stellt das ScribbleFight-Frontend, welches mit W
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=1]{pics/ai/myPlayer.png}
+    \includegraphics[scale=0.65]{pics/ai/myPlayer.png}
     \caption{``myPlayer''-Objekt}
     \label{fig:ai:myPlayerPic}
 \end{figure}
