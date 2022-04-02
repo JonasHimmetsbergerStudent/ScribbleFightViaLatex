@@ -305,7 +305,7 @@ Der zuvor genannte (Begriff) Kernel kann als Matrix beschrieben werden. Diese di
 
 Da der Kernel eine Matrix mit einem Mittelpunkt ist, muss die Kernel Größe einer ungeraden Zahl, zum Beispiel \([5*5]\), entsprechen.
 
-In dieser Diplomarbeit wurde häufig der ``Gauß'scher'' Weichzeichnungsfilter verwendet. Dieser Filter gibt jedem Bildpunkt, welche um einen betrachteten Pixel liegen, eine Gewichtung.
+In dieser Diplomarbeit wurde häufig der ``Gauß'sche'' Weichzeichnungsfilter verwendet. Dieser Filter gibt jedem Bildpunkt, welche um einen betrachteten Pixel liegen, eine Gewichtung.
 
 Diese Gewichtung nimmt mit der Distanz zu dem betrachteten Pixel ab. Somit hat theoretisch jeder Pixel in der Bild-Matrix eine eigene Gewichtung. Da diese jedoch mit der Distanz so stark abnehmen werden diese nicht mehr berücksichtigt. Die theoretische Formel zur Berechnung der Gewichte der Pixelwerte rund um einen fokussierten Bildpunkt sieht wie folgt aus:
 \[
@@ -373,9 +373,9 @@ Das ``Image-Thresholding'' ist eine einfache Form der Segmentierung. Das ``Thres
 
 ``Thresholding'' ist, wie auch die Graustufenkonvertierung (Kapitel ``Grayscaling'' \ref{maai:grayscale}), das Weichzeichnen von Bildern (Kapitel ``Blurring'' \ref{maai:blurring}) und viele andere Methoden der Bildverarbeitung, eine Art der Pixelmanipulation. Die Pixel sollen beim ``Image-Thresholding'' beziehungsweise bei der Schwellwertbildung so angepasst werden, dass Bilder und deren Pixel einfacher zu analysieren sind. In dieser Arbeit legte das Schwellwert-Bild den Grundbaustein zur Konturen-/Kantenerkennung.
 
-Ziel ist es also, aus einem Farb- beziehungsweise Graustufenbild eine Segmentierung zu erzeugen. Durch dieses Verfahren wird also, wie zuvor erwähnt, ein binäres Bild erzeugt, welches nur noch Schwarz- und Weißwerte beinhaltet. Dies wird zum Beispiel dafür verwendet, dass ein Hintergrund vom Vordergrund getrennt wird. Somit werden sogenannte ``Regions Of Interest'' erkannt. ``Region Of Interest'' bedeutet ``Bereich von Interesse''. Hierzu werden spezielle Bereiche aus einem Histogramm, also einer Messkurve, ausgewertet beziehungsweise ausgewählt und nach dem zuvor definierten Schwellwert in Gruppen unterteilt. Somit gibt die ``Region Of Interest'' die fokussierten/für die Auswertung Interessanten Bereiche eines Bildes wieder. Dem Hintergrund wird in einem binären Bild der Wert 0 (null) zugewiesen und dem Vordergrund der Wert 1. Diese Werte werden in einem Bild als 0 (null) - schwarz und als 1 – Weiß dargestellt.
+Ziel ist es, aus einem Farb- beziehungsweise Graustufenbild eine Segmentierung zu erzeugen. Durch dieses Verfahren wird, wie zuvor erwähnt, ein binäres Bild erzeugt, welches nur noch Schwarz- und Weißwerte beinhaltet. Dies wird zum Beispiel dafür verwendet, dass ein Hintergrund vom Vordergrund getrennt wird. Somit werden sogenannte ``Regions Of Interest'' erkannt. ``Region Of Interest'' bedeutet ``Bereich von Interesse''. Hierzu werden spezielle Bereiche aus einem Histogramm, also einer Messkurve, ausgewertet beziehungsweise ausgewählt und nach dem zuvor definierten Schwellwert in Gruppen unterteilt. Somit gibt die ``Region Of Interest'' die fokussierten/für die Auswertung Interessanten Bereiche eines Bildes wieder. Dem Hintergrund wird in einem binären Bild der Wert 0 (null) zugewiesen und dem Vordergrund der Wert 1. Diese Werte werden in einem Bild als 0 (null) - schwarz und als 1 – Weiß dargestellt.
 
-Durch das ``Thresholding'' gibt es die Möglichkeit ein Histogramm zu erstellen, um die Helligkeitswerte eines Bildes zu analysieren. Ein aus dem Graustufenbild (\ref{maai:thresholding:input}) erzeugtes Histogramm (\ref{maai:thresholding:histogramm}) sieht es wie folgt aus:
+Durch das ``Thresholding'' gibt es die Möglichkeit ein Histogramm zu erstellen, um die Helligkeitswerte eines Bildes zu analysieren. Ein aus dem Graustufenbild (\ref{maai:thresholding:input}) erzeugtes Histogramm (\ref{maai:thresholding:histogramm}) sieht wie folgt aus:
 
 \begin{figure}[htb]
     \centering
@@ -394,7 +394,7 @@ Durch das ``Thresholding'' gibt es die Möglichkeit ein Histogramm zu erstellen,
     \end{minipage}
 \end{figure}
 
-Das Histogramm veranschaulicht die Helligkeitsverteilung aller Pixel von den Werten 0 (null) (schwarz), welcher der Wert ganz Links auf der X-Achse im Histogramm ist, bis 255 (weiß), welches dem äußersten X-Wert entspricht. Auf der Y-Achse befindet sich die Häufigkeit der vorkommenden Pixel mit der entsprechenden Helligkeit.
+Das Histogramm veranschaulicht die Helligkeitsverteilung aller Pixel von den Werten 0 (null) (schwarz), welcher der Wert ganz links auf der X-Achse im Histogramm ist, bis 255 (weiß), welches dem äußersten X-Wert entspricht. Auf der Y-Achse befindet sich die Häufigkeit der vorkommenden Pixel mit der entsprechenden Helligkeit.
 Es kann also erkannt und analysiert werden, dass überwiegend Hintergrund (dunkle Helligkeitswerte) in diesem Bild existiert. Damit aus dem Histogramm auch ein Schwellwert-Bild (das binäre Bild) erzeugt werden kann, wird ein zuvor definierter Schwellwert zur Verarbeitung der Pixel herangezogen. Somit werden global (!) nur alle Pixel über einem gewissen Helligkeitswert in den Wert 1 (Vordergrund) umgewandelt. Alle anderen bleiben Schwarz. In folgendem Bild (\ref{maai:thresholding:output}) an, kann durch die Schwellwertbildung erkannt werden, dass sich das interessante Objekt in der Bildmitte befindet:
 
 
@@ -418,7 +418,7 @@ Es kann also erkannt und analysiert werden, dass überwiegend Hintergrund (dunkl
 %Quelle: https://datacarpentry.org/image-processing/07-thresholding/
 
 
-Für dieses Bild wurde ein globaler Schwellwert verwendet. Dies ist jedoch keine gute Entscheidung, wenn der Helligkeitseinfall im Bild unterschiedlich stark ist. In unserer Arbeit wurde daher ein adaptiver Schwellwert verwendet. Dieser wird somit durch einen Algorithmus für einen Pixel basierend auf einem kleinen Bereich um ihn herum gebildet. Dadurch werden unterschiedliche Schwellwerte in unterschiedlichen Regionen des Bildes gebildet, um eine ungleichmäßige Beleuchtung zu korrigieren.
+Für dieses Bild wurde ein globaler Schwellwert verwendet. Dies ist jedoch keine gute Entscheidung, wenn der Helligkeitseinfall im Bild unterschiedlich stark ist. Deshlab kann ein adaptiver Schwellwert zum Einsatz kommen. Dieser wird somit durch einen Algorithmus für einen Pixel basierend auf einem kleinen Bereich um ihn herum gebildet. Dadurch werden unterschiedliche Schwellwerte in unterschiedlichen Regionen des Bildes gebildet, um eine ungleichmäßige Beleuchtung zu korrigieren.
 
 %Quelle: https://docs.opencv.org/4.x/d7/d4d/tutorial_py_thresholding.html
 Programmiertechnisch wurde dies wie folgt umgesetzt:
@@ -478,9 +478,9 @@ Dieser Code erzeugt aus einem Input-Bild (\ref{maai:thresholding:input:thrid}) f
 
 \subsubsection{Detecting Contours}
 
-Kantenerkennung ist wie die Graustufenkonvertierung (\ref{maai:grayscale}) oder das Weichzeichnen (\ref{maai:blurring}) ein Bildverarbeitungsalgorithmus, welcher dazu verwendet wird, um Diskontinuitäten zu identifizieren. Hierzu werden scharfe Änderungen der Bildfarbe/der Bildintensität herausgefiltert. Punkte, wo dieser Wert stark variiert, wird als Kante abgestempelt.
+Kantenerkennung ist wie die Graustufenkonvertierung (\ref{maai:grayscale}) oder das Weichzeichnen (\ref{maai:blurring}) ein Bildverarbeitungsalgorithmus, welcher dazu verwendet wird, um Diskontinuitäten zu identifizieren. Hierzu werden scharfe Änderungen der Bildfarbe/der Bildintensität herausgefiltert. Punkte, wo dieser Wert stark variiert, werden als Kante markiert.
 
-Das Kanten erkennen schafft eine Basis für die Bildverarbeitung und Form Erkennung der Bild- und Objekterkennung. Für die Konturenerkennung sind jedoch nur geschlossene Kanten von Bedeutung.
+Die Kantenerkennung schafft eine Basis für die Bildverarbeitung und Form Erkennung der Bild- und Objekterkennung. Für die Konturenerkennung sind jedoch nur geschlossene Kanten von Bedeutung.
 
 Die Kantenerkennung funktioniert wie folgt. Für die ``Edge-Detection'' (Kantenerkennung) ist wie beim Weichzeichnungsalgorithmus (\ref{maai:blurring}) eine Konvolution nötig; vor allem, um hochauflösende Bilder zu verarbeiten. Oft wird dazu der sogenannte ``Sobel''-Operator herangezogen. Dieser erzeugt für die Kantenerkennung zwei Kernel, welche in x- und y-Richtung unterteilt sind. Der Kernel in x-Richtung sieht wie folgt aus:
 
@@ -508,9 +508,9 @@ Anhand eines Beispiels wird diese Operation klarer:
         \end{array}\right]
 \]
 
-Hier existiert eine für einen Menschen klar erkennbare Kante; jedoch tut sich bei dem Erkennen die Maschine etwas schwerer. Dazu muss der zuvor genannte Kernel über die Pixel gelegt werden. Das Ergebnis ist die Summe der Multiplikationen der einzelnen Werte des Kernels mit den entsprechenden Werten der Matrix des Bildes. Diese ergibt in diesem Beispiel 1025. Ist dieser Wert über einen zuvor definierten Schwellwert, so existiert an dieser Position eine Kante.
+Hier existiert eine für einen Menschen klar erkennbare Kante; jedoch tut sich bei dem Erkennen die Maschine schwerer. Dazu muss der zuvor genannte Kernel über die Pixel gelegt werden. Das Ergebnis ist die Summe der Multiplikationen der einzelnen Werte des Kernels mit den entsprechenden Werten der Matrix des Bildes. Diese ergibt in diesem Beispiel 1025. Ist dieser Wert über einen zuvor definierten Schwellwert, so existiert an dieser Position eine Kante.
 
-Für die Konturenerkennung wird ein Bereich von geschlossenen Kanten herangezogen. Diese geschlossenen Kanten werden erkannt, indem eine Kante in einem zuvor definierten Kernel rund um eine weitere Kante existiert. Führt dieser Pfad wieder zurück zur Ausgangskante, so kann mit Sicherheit gesagt werden, dass es sich um eine Geschlossene Kontur handelt.
+Für die Konturenerkennung wird ein Bereich von geschlossenen Kanten herangezogen. Diese geschlossenen Kanten werden erkannt, indem eine Kante in einem zuvor definierten Kernel rund um eine weitere Kante existiert. Führt dieser Pfad wieder zurück zur Ausgangskante, so kann mit Sicherheit gesagt werden, dass es sich um eine geschlossene Kontur handelt.
 
 %Quelle:https://www.geeksforgeeks.org/find-and-draw-contours-using-opencv-python/
 
