@@ -60,9 +60,9 @@ Wie schon erwähnt kann aus Bildern Daten erkannt werden. Viele Pixel bilden ins
 \\
 Bevor darauf eingegangen wird wieso die Konturenerkennung als Art der Bilderkennung verwendet wurde, ist es noch entscheidend zu wissen, wie der Mensch Objekte erkennt.
 \\
-In unserem Auge passiert die Farberkennung via den Zapfen. Auch hier wird die Wellenlänge des Lichts in ein Gemisch aus Rot, Grün und Blau aufgeteilt. Allerdings wird das reine Farbsehen nicht benötigt, um Objekte zu erkennen. Es reicht schon, wenn nur Informationen über die Helligkeit empfunden werden. Somit künnen zum Beispiel auch in Schwarz-Weiß-Bildern, oder in der Dunkelheit bei wenig Licht, Objekte erkannt werden. Ein Mensch erkennt einen Unterschied zwischen Objekten, welche sich in einem dreidimensionalen Raum befinden leicht, indem das eine Objekt sich in der Helligkeit von dem anderen Objekt unterscheidet. Das heißt, dass wenn z.B. ein Würfel auf einem Boden liegt, ist dieser erkennbar, weil er anders viel Licht reflektiert als der Boden. An der Stelle, wo der Würfel aufhört, kann eine Kontur erkannt werden. Hier ist der Unterschied zwischen Boden und Würfel erkennbar.
+In dem menschlichen Auge passiert die Farberkennung via den Zapfen. Auch hier wird die Wellenlänge des Lichts in ein Gemisch aus Rot, Grün und Blau aufgeteilt. Allerdings wird das reine Farbsehen nicht benötigt, um Objekte zu erkennen. Es reicht schon, wenn nur Informationen über die Helligkeit empfunden werden. Somit künnen zum Beispiel auch in Schwarz-Weiß-Bildern, oder in der Dunkelheit bei wenig Licht, Objekte erkannt werden. Ein Mensch erkennt einen Unterschied zwischen Objekten, welche sich in einem dreidimensionalen Raum befinden leicht, indem das eine Objekt sich in der Helligkeit von dem anderen Objekt unterscheidet. Das heißt, dass wenn z.B. ein Würfel auf einem Boden liegt, ist dieser erkennbar, weil er anders viel Licht reflektiert als der Boden. An der Stelle, wo der Würfel aufhört, kann eine Kontur erkannt werden. Hier ist der Unterschied zwischen Boden und Würfel erkennbar.
 \\
-Und genau so passiert auch die Objekterkennung in unserem Spiel ScribbleFight. Hier wird zuerst aus der Live-View, welche vom Client zur Verfügung gestellt wird, das Farbbild in Graustufen konvertiert. Das passiert, indem für jeden Pixel ein ``Durchschnitts-Wert'' der Helligkeit von allen drei Farbwerte (Rot, Grün, Blau), welche in einem 8-Bit System von 0 bis 255 geht, gebildet wird. Wie dies jedoch genauer funktioniert, wird im Kapitel Bildverarbeitungsalgorithmen
+Und genau so passiert auch die Objekterkennung in dem Spiel ScribbleFight. Hier wird zuerst aus der Live-View, welche vom Client zur Verfügung gestellt wird, das Farbbild in Graustufen konvertiert. Das passiert, indem für jeden Pixel ein ``Durchschnitts-Wert'' der Helligkeit von allen drei Farbwerte (Rot, Grün, Blau), welche in einem 8-Bit System von 0 bis 255 geht, gebildet wird. Wie dies jedoch genauer funktioniert, wird im Kapitel Bildverarbeitungsalgorithmen
 \ref{maai:alogs}
 genauer erklärt.
 
@@ -84,7 +84,7 @@ genauer erklärt.
 
 
 Nachdem das Bild in ein Schwarz-Weiß-Bild umgewandelt wurde, muss vor der Konturenerkennung noch ein Schwellwert-Bild eines unscharfen Bildes erzeugt werden.
-Das dritte Bild von links, oben in der Abbildung \ref{fig:map:documentscanner}. Das Schwellwert-Bild dient dazu, maximal viel Information aus dem Bild zu entfernen. Somit bleiben nur die relevanten Informationen über, welche OpenCV2 braucht um Konturen bilden zu können.\\
+Das dritte Bild von links, oben in der Abbildung \ref{fig:map:documentscanner}. Das Schwellwert-Bild dient dazu, maximal viel Information aus dem Bild zu entfernen. Somit bleiben nur die relevanten Informationen übrig, welche OpenCV2 braucht um Konturen bilden zu können.\\
 \\
 \begin{lstlisting}[caption=Erhalten von Konturen,language=Python,label=lst:impl:getContours]
         ...
@@ -116,7 +116,7 @@ Wie die Funktion ``biggestContour(\dots)'' funktioniert ist in diesem Codeblock 
     \label{fig:map:documentscanner}
 \end{figure}
 
-Aus diesen Konturen, welche OpenCV2 erkennt, wird die größte, geschlossene Umrandung herausgesucht. Es wird davon ausgegangen, dass sich hier das fokussierte Objekt, also das Blatt Papier, befindet. Um nun die vier Eckpunkte lokalisieren zu können, wird eine vorgefertigte Funktion namens ``approxPolyDP'' angewendet. Diese legt, mit den übergebenen Parametern ein Viereck über die Konturen. Danach werden aus diesem Viereck die 4 Eckpunkte extrahiert und als Array wieder an den Client zurückgesendet.
+Aus diesen Konturen, welche OpenCV2 erkennt, wird die größte, geschlossene Umrandung herausgesucht. Es wird davon ausgegangen, dass sich hier das fokussierte Objekt, also das Blatt Papier, befindet. Um nun die vier Eckpunkte lokalisieren zu können, wird eine vorgefertigte Funktion namens ``approxPolyDP'' angewendet. Diese legt, mit den übergebenen Parametern, ein Viereck über die Konturen. Danach werden aus diesem Viereck die 4 Eckpunkte extrahiert und als Array wieder an den Client zurückgesendet.
 
 
 \begin{lstlisting}[caption=approxPolyDP,language=Python,label=lst:impl:findBiggestContour]
@@ -136,11 +136,11 @@ Aus diesen Konturen, welche OpenCV2 erkennt, wird die größte, geschlossene Umr
         return biggest, max_area
 \end{lstlisting}
 
-In der folgenden Funktion namens ``getWrappedImg(\dots)'', wird das Bild, welches aufgenommen wurde in eine zwei-dimensionale top-down Ansicht umgewandelt. Allerdings geschieht dies nur da, wo zuerst die Eckpunkte beziehungsweise das Blatt Papier (also die Spielumgebung) gefunden wurden. Wie dies funktioniert ist im folgenden Codeblock
+In der folgenden Funktion namens ``getWrappedImg(\dots)'', wird das Bild, welches aufgenommen wurde, in eine zwei-dimensionale top-down Ansicht umgewandelt. Allerdings geschieht dies nur da, wo zuerst die Eckpunkte beziehungsweise das Blatt Papier (also die Spielumgebung) gefunden wurden. Wie dies funktioniert ist im folgenden Codeblock
 \ref{lst:impl:convertPoints} ersichtlich.
 
 
-Zuerst wird aus dem übergebenen ``snipset''-Parameter, welcher als Array vorliegt, die Daten ausgelesen und auf die Variablen ``pt\_A'' bis ``pt\_D'' geschrieben. Diese vier Buchstaben geben die Eckpunkte an. Aus diesen Eckpunkten wird im Folgenden dann ein Vektor erzeugt. Für weitere Berechnungen wird dann noch die länge zwischen den wahrscheinlich parallel zueinanderliegenden Vektoren AD und BC berechnet. Dies ist wichtig, um im späteren Code herauszufinden, in welcher Orientierung das Blatt Papier zu der Kamera liegt.
+Zuerst wird aus dem übergebenen ``snipset''-Parameter, welcher als Array vorliegt, die Daten ausgelesen und auf die Variablen ``pt\_A'' bis ``pt\_D'' geschrieben. Diese vier Buchstaben geben die Eckpunkte an. Aus diesen Eckpunkten wird im Folgenden dann ein Vektor erzeugt. Für weitere Berechnungen wird dann noch die Länge zwischen den wahrscheinlich parallel zueinanderliegenden Vektoren AD und BC berechnet. Dies ist wichtig, um im späteren Code herauszufinden, in welcher Orientierung das Blatt Papier zu der Kamera liegt.
 
 \begin{lstlisting}[caption=Bild in Vogelperspektive umwandeln,language=Python,label=lst:impl:convertPoints]
 def getWrappedImg(img, snipset):
@@ -159,7 +159,7 @@ def getWrappedImg(img, snipset):
     width_AD = np.sqrt(((pt_A[0] - pt_D[0]) ** 2) + ((pt_A[1] - pt_D[1]) ** 2))
     width_BC = np.sqrt(((pt_B[0] - pt_C[0]) ** 2) + ((pt_B[1] - pt_C[1]) ** 2))
 \end{lstlisting}
-Im folgenden Code-Block passiert zuerst im Grunde genommen genau dasselbe, wie im zuvor erklärtem Code-Block \ref{lst:impl:convertPoints}. Hier wird die größere Länge der beiden Vektoren AB und CD, welche wahrscheinlich in der Realität parallel zueinander liegen, errechnet. Dabei wird angenommen, dass diese beiden Längen die Höhe des Blatt Papiers sind.
+Im folgenden Code-Block wird zuerst im Grunde genommen genau dasselbe ausgeführt, wie im zuvor erklärtem Code-Block \ref{lst:impl:convertPoints}. Hier wird die größere Länge der beiden Vektoren AB und CD, welche wahrscheinlich in der Realität parallel zueinander liegen, errechnet. Dabei wird angenommen, dass diese beiden Längen die Höhe des Blatt Papiers sind.
 \begin{lstlisting}[language=Python,label=lst:impl:findBiggestLine,firstnumber=16]
     maxHeight = max(int(width_AD), int(width_BC))
     if maxHeight == width_AD:
@@ -178,11 +178,11 @@ Im folgenden Code-Block passiert zuerst im Grunde genommen genau dasselbe, wie i
         lineB = lineCD
 \end{lstlisting}
 
-Die nun errechnete maximale Höhe wird nun noch mit einem realistischen Faktor multipliziert, um noch ein akkurateres Ergebnis der Perspektiventransformation erzielen zu können. Dieser ``realistische Faktor'' wird errechnet, indem der Winkel zwischen den beiden größten orthogonal zueinander liegenden Linien in folgende Formel miteinbezogen wird:
+Die errechnete maximale Höhe wird noch mit einem realistischen Faktor multipliziert, um ein akkurateres Ergebnis der Perspektiventransformation erzielen zu können. Dieser ``realistische Faktor'' wird errechnet, indem der Winkel zwischen den beiden größten orthogonal zueinander liegenden Linien in folgende Formel miteinbezogen wird:
 \[ factor
     = \dfrac{90}{(180-angle)}
 \]
-Dieser errechnete Faktor staucht die Höhe eines Bildes, welches von der unteren Blattkante aufgenommen wurde und streckt die Höhe von jene, welche, wieso auch immer, von oben Blattkante aufgenommen wurden.
+Dieser errechnete Faktor staucht die Höhe eines Bildes, welches von der unteren Blattkante aufgenommen wurde und streckt die Höhe von jene, welche von oben Blattkante aufgenommen wurden.
 
 
 \begin{lstlisting}[language=Python,label=lst:impl:angle,firstnumber=31]
@@ -197,7 +197,7 @@ Dieser errechnete Faktor staucht die Höhe eines Bildes, welches von der unteren
     maxHeight *= factor
 \end{lstlisting}
 
-Im letzten Teil der Funktion wird lediglich nur noch das Bild in die richtige Perspektive transformiert. Dies wird erzielt, indem die beiden vorgefertigten Funktionen ``cv2.getPerspectiveTransform(\dots)'' und ``cv2.warpPerspective(\dots)'' verwendet werden. Als Return-Wert liefert die genannte Funktion ein Bild mit dem Datentypen OpenCV2, welches dann im späteren Verlauf noch umcodiert werden muss.
+Im letzten Teil der Funktion wird das Bild in die richtige Perspektive transformiert. Dies wird erzielt, indem die beiden vorgefertigten Funktionen ``cv2.getPerspectiveTransform(\dots)'' und ``cv2.warpPerspective(\dots)'' verwendet werden. Als Return-Wert liefert die genannte Funktion ein Bild mit dem Datentypen OpenCV2, welches dann im späteren Verlauf noch umcodiert werden muss.
 
 \begin{lstlisting}[language=Python,label=lst:impl:wrapPerspective,firstnumber=40]
     m = np.array([pt_A, pt_B, pt_C, pt_D])
