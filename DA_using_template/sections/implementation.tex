@@ -1134,16 +1134,16 @@ Ist ab dem Zeitpunkt nur mehr ein einziger Spieler in dem Map-Objekt gespeichert
     }
  \end{lstlisting}
 
-Der Client muss jetzt auf beide Events, also falls er gerade vom Spiel ausgeschieden wurde, oder gerade gewonnen hat, reagieren können.
-Bekommt er die Benachrichtigung, dass jemand ausgeschieden wurde, wird überprüft, ob es sich um ihn selbst handelt.
-Falls ja, wird die draw-Methode gestoppt, ihm wird mitgeilt, dass er verloren hat und eine kurze Übersicht von seinen Spiel-Statistiken wird angezeigt.
-Die Übersicht beinhaltet:
-\begin{compactitem}
-    \item Den Schaden, den er an alle anderen Spieler ausgeteilt hat
-    \item Anzahl an Kills, die erzielt worden sind
-    \item Der eigene Knockback, also ein Indikator wie oft der Spieler getroffen worden ist
-\end{compactitem}
-Falls es sich nicht um ihn handelt, passiert nichts.
+% Der Client muss jetzt auf beide Events, also falls er gerade vom Spiel ausgeschieden wurde, oder gerade gewonnen hat, reagieren können.
+% Bekommt er die Benachrichtigung, dass jemand ausgeschieden wurde, wird überprüft, ob es sich um ihn selbst handelt.
+% Falls ja, wird die draw-Methode gestoppt, ihm wird mitgeilt, dass er verloren hat und eine kurze Übersicht von seinen Spiel-Statistiken wird angezeigt.
+% Die Übersicht beinhaltet:
+% \begin{compactitem}
+%     \item Den Schaden, den er an alle anderen Spieler ausgeteilt hat
+%     \item Anzahl an Kills, die erzielt worden sind
+%     \item Der eigene Knockback, also ein Indikator wie oft der Spieler getroffen worden ist
+% \end{compactitem}
+% Falls es sich nicht um ihn handelt, passiert nichts.
 
 \begin{lstlisting}[,language=Java,label=lst:impl:socketIO]
     socket.on('death',someoneDied);
@@ -1349,7 +1349,8 @@ Das Ingress-Spec-Field stellt einen Service-Namen und Service-Port bereit, der g
 \subsection{Einfaches Lobby-System}
 Die Grundstruktur des Lobbysystems dieser Arbeit wurde auf den
 Grundbausteinen eines simplen Websocket-Spiels gebaut.
-Dieses kann unter \cite{gameLobby} gefunden werden.
+Dieses kann unter %\cite{gameLobby} 
+gefunden werden.
 gefunden werden. Auf das Spiel wird hier nicht eingegangen, da für
 diese Arbeit nur die Lobby relevant ist. Das Lobbysystem dieses Spiels hat 4 Funktionen, welche später in ähnlicher Form in der ScribbleFight Lobby verwendet wurden: ``connect'', ``create'', ``join'' und ``play''.
 Hat sich ein User oder eine Userin ``connectet'' erstellt der Server für diese eine zufällig generierte clientId.
