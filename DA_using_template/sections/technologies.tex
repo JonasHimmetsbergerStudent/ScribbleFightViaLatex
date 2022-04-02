@@ -96,17 +96,17 @@ Nachteile von Node.js: \cite{nodejs_nachteile}
     \item Nicht rückwärtskompatibel, das heißt Code von alten Node.js Versionen muss gegebenenfalls auf neue Node.js Versionen angepasst werden
 \end{compactitem}
 
-% In dem folgenden "Hello World"-Beispiel, können viele Verbindung gleichzeitig behandelt werden. Bei jeder Verbindung wird die Callback-Funktion ausgeführt, aber wenn keine Arbeit zu erledigen ist, schläft Node.js.
+In dem folgenden "Hello World"-Beispiel, können viele Verbindung gleichzeitig behandelt werden. Bei jeder Verbindung wird die Callback-Funktion ausgeführt, aber wenn keine Arbeit zu erledigen ist, schläft Node.js.
 
-% \begin{figure}[H]
-%     \centering
-%     \includegraphics[scale=1]{pics/node js.PNG}
-%     \caption{Sehr simpler Node.js Server}
-% \end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=1]{pics/node js.PNG}
+    \caption{Sehr simpler Node.js Server}
+\end{figure}
 
-% M-an merkt den Unterschied zu den heutzutage weit verbreiteten Concurrency-Modellen, die mit OS-Threads arbeiten. Der Vorteil von Node.js hierbei ist, dass
-% m-an sich keine Sorgen über dead-locking machen muss, da fast keine Node.js Funktion direkte I/O Operationen durchführt. Also ist der ganze Prozess so gut wie nie blockiert, ausser
-% wenn synchrone Methoden der Node.js Standard Library benutzt wird.
+M-an merkt den Unterschied zu den heutzutage weit verbreiteten Concurrency-Modellen, die mit OS-Threads arbeiten. Der Vorteil von Node.js hierbei ist, dass
+m-an sich keine Sorgen über dead-locking machen muss, da fast keine Node.js Funktion direkte I/O Operationen durchführt. Also ist der ganze Prozess so gut wie nie blockiert, ausser
+wenn synchrone Methoden der Node.js Standard Library benutzt wird.
 
 \subsubsection{Node Package Manager}\label{NPM}
 Neben Node.js an sich, ist NPM (Node Package Manager) das wichtigste Werkzeug für Node.js Applikationen. Mit NPM können alle Packages, die das Projekt benötigt, geholt werden.
