@@ -1467,9 +1467,19 @@ Nachdem die vordefinierte Handlung der KI ausgeführt wurde, ist beim verstärkt
     \item stirbt der Agent selbst, so wird eine negative Belohnung von 990 vergeben. Der Unterschied von zehn Punkten in der Entlohnung zwischen ``Gegner töten'' und ``selbst sterben'', wurde in der Hoffnung festgelegt, dass sich der Agent für einen ``Kill'' opfert.
 \end{compactitem}
 
+
 Nach der Evaluation der Belohnung wird überprüft, ob sich im Spiel etwas geändert hat. Wenn der Agent keinen ``Reward'' (null) erzielt hat, was bedeutet, dass er weder Schaden zugefügt, noch erlitten hat, keinen von der Plattform gestoßen hat und nicht selbst gestorben ist, so wird der Wert der Variable ``nothingChanged'' um eins erhöht.
 
 Erreicht diese Variable eine gewisse Zahl erreicht hat, welche zuvor als Episodendauer definiert wurde (``min\_game\_length''), so wird in der Funktion der Wahrheitswert ``true'' (wahr) zurückgegeben, was so viel bedeutet, wie dass eine Episode beendet wurde. Die Variable ``min\_game\_length'' wurde als 30 * der Bilder pro Sekunde definiert. Dadurch wird eine Episode, in welcher sich für 30 Sekunden nichts ändert, abgebrochen. Eine Episode ist auch vorbei, wenn der Agent gewonnen hat, oder gestorben ist.
+\newpage
+Im folgenden Flussdiagramm wird dies etwas verständlicher erklärt.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.7]{pics/ai/Fluss.png}
+    \caption{Ablauf des Lernens}
+    \label{fig:maai:fluss}
+\end{figure}
 
 \begin{lstlisting}[language=Python,firstnumber=138]
     def observe(self):
