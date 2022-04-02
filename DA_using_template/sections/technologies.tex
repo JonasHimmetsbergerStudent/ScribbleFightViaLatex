@@ -175,6 +175,8 @@ Das heißt, Socket.IO ist ein Wrapper rund um die WebSocket API. \cite{socketio}
 
 \setauthor{Weinzierl Ben}
 \subsection{qrcode.js [W]}
+
+\subsubsection{Was ist ein QR-Code?} 
 Ein QR-Code ist ein Matrix-Barcode welcher meistens auf eine bestimmte URL verweist. Die Bezeichnung QR steht für Quick Response,
 also schnelle Antwort. Für die Codierung verwendet der QR-Code 4 Methoden: Numerisch, Alphanumerisch, Byte/Bit und Kanji.
 Besonders populär wurde das QR-Code System dank seiner
@@ -187,7 +189,7 @@ Das Design basiert auf den schwarzen und weißen Spielfiguren des Go-Spiels.
 Ursprünglich wurde das System zum tracken von Fahrzeugen während der Herstellung verwendet.
 Heutzutage werden QR-Codes vor allem im Werbebereich verwendet. Oft wird der
 potenzielle Kunde dazu eingeladen  sein Smartphone herauszuholen und einfach den QR-Code zu Scannen um
-ihn dann auf der Webseite Produkte anzubieten.
+ihn dann auf der Webseite Produkte anzubieten.\cite{qrCodeWiki}
 
 \begin{figure}[H]
     \centering
@@ -203,10 +205,10 @@ ihn dann auf der Webseite Produkte anzubieten.
     \label{fig:tech:barcode}
 \end{figure}
 
-
+\subsubsection{QR-Code Implementierung}
 Hier ist ein einfaches Beispiel wie qrcode.js in eine Webseite eingefügt werden kann.
 Dieser verweist auf https://www.google.com. Wichtig ist hierbei anzumerken, dass dafür die qrcode.js Javascript Bibliothek einzubinden ist.
-Diese kann unter http://davidshimjs.github.io/qrcodejs/ gedownloaded werden.
+Diese kann unter http://davidshimjs.github.io/qrcodejs/ gedownloaded werden. \cite{qrCode.js}
 \begin{lstlisting}[language=html,caption=QR-Code Demo,label=lst:tech:gaussianBlur]
 <html lang="en">
 
@@ -252,12 +254,12 @@ Das Resultat dieser Veränderung sieht so aus:
 Bei dieser Arbeit wurde der QR-Code verwendet mit dem Handy zugriff auf den Mapscanner und
 das Hochladen der Zeichnung zu gewährleisten.
 
-\subsection{Chart.js [W]}\label{ChartJs}
+\subsection{Chart.js [W]} \cite{chartJs} \label{ChartJs} 
 Chart.js ist eine Open-Source JavaScript Bibliothek welche es ermöglicht einfach und schnell Diagramme
 in eine Webseite einzubauen. Die Bibliothek kann entweder mit dem Shell-Befehl \textit{npm i chart.js} eingebunden werden oder via Github unter
 \textit{https://github.com/chartjs/Chart.js} gedownloaded werden. Chart.js stellt einem sehr
 viele Möglichkeiten zur Verfügung um die Diagramme zu personalisieren.
-Ihre Bibliothek hat alle denkbaren Diagrammtypen (Balkendiagramm, Kuchendiagramm, Liniendiagramm, ..., Abbildung \ref{fig:tech:barchart}, \ref{fig:tech:linechart})
+Ihre Bibliothek hat alle denkbaren Diagrammtypen (Balkendiagramm, Kuchendiagramm, Liniendiagramm, ..., Abbildung \ref{fig:tech:barchart} bis \ref{fig:tech:linechart})
 Eine einfaches Beispiel für ein Balkendiagramm sieht so aus:
 \begin{lstlisting}[language=html,caption=Balkendiagramm HTML Code,label=lst:tech:gaussianBlur]
 <html lang="en">
@@ -340,7 +342,7 @@ Mit Veränderung des type Parameters können sehr einfach die Diagrammtypen ver�
 \end{figure}
 
 Chart.js stellt noch viele weitere hilfreiche Optionen zur Verfügung. Wird
-zum Beispiel ein logarithmischer Graph benötigt kann dies mit options.scales.myscale.type = "logarithmic" eingestellt werden
+zum Beispiel ein logarithmischer Graph benötigt kann dies mit options.scales.myscale.type = ``logarithmic'' eingestellt werden
 
 \begin{figure}[H]
     \centering
