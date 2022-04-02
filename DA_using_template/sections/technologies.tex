@@ -434,12 +434,12 @@ Erstens zur Erkennung des Blatt Papiers und der Umwandlung der Zeichnung in eine
 und zweitens, um die Künstliche Intelligenz zu erschaffen. \\
 Die kostenlosen Bibliotheken, welche wir dabei in Verwendung haben, werden im folgenden gelistet und näher
 erklärt.
-Der Vorteil von Python, und auch der Grund warum die Sprache den Einsatz in dieser Arbeit fand, ist, weil
-viele Hilfestellungen und Bibliotheken verfügbar sind.
+Der Vorteil von Python, und auch der Grund warum die Sprache den Einsatz in dieser Arbeit fand,
+ist, die Verfügbarkeit vieler Hilfestellungen und Bibliotheken.
 \setauthor{Himmetsberger Jonas}
 
 \subsection{Flask [H]}
-Flask ist das am wohl häufigste verwendete Python Web-Framework. Somit gibt es viele Tutorials,
+Flask ist ein weitverbreitetes Python Web-Framework. Somit gibt es viele Tutorials,
 Tools und Bibliotheken. Diese sind sehr gut bis gut dokumentiert und teilweise geprüft.
 Aus diesen Gründen haben wir den Teil der Bild- und Maperkennung, welche
 als Webanwendung funktioniert, mittels Flask umgesetzt. In Kombination mit Flask-SocketIO werden Bilder von der Webcam
@@ -461,11 +461,11 @@ Folgende wurden bei der Maperkennung eingesetzt:
         \item Gaussian-Blur
     \end{compactitem}
     \item adaptive Schwellenwertbildung von Pixelwerten
-    \item Konvertierung eines Zahlen Arrays in eine ``.png'' datei
+    \item Konvertierung eines Zahlen Arrays in eine ``.png''-Datei
 \end{compactitem}
 Auf die Funktionsweise dieser Algorithmen wird im Folgenden (\ref{maai:alogs}) genauer eingegangen.
 \\
-Um zum Beispiel ein beliebiges Bild unscharf zu zeichnen würde man so vorgehen:
+Um zum Beispiel ein beliebiges Bild unscharf zu zeichnen würde so vorgegangen werden:
 \\
 
 \begin{lstlisting}[language=Python,caption=OpenCV Demo,label=lst:tech:gaussianBlur]
@@ -496,10 +496,10 @@ Um zum Beispiel ein beliebiges Bild unscharf zu zeichnen würde man so vorgehen:
 \subsection{PIL [H]}
 PIL (Python Image Library) ist, wie Flask und OpenCV2, eine kostenlose Zusatzbibliothek für Python.
 PIL wird verwendet, um Bilder zu speichern und einzelne Pixel zu manipulieren. Dabei unterstützt PIL diese
-Dateiformate: PPM, PNG, JPEG, GIF, TIFF, und BMP. Pixel manipulation bedeutet, dass jeder Pixel auf einem
-Input Bild angepasst werden kann. Beispiele hierfür sind zum Beispiel das Aufhellen oder Abdunkeln von
+Dateiformate: PPM, PNG, JPEG, GIF, TIFF, und BMP. Pixelmanipulation bedeutet, dass jeder Pixel auf einem
+gegebenem Bild angepasst werden kann. Beispiele hierfür sind zum Beispiel das Aufhellen oder Abdunkeln von
 Bildern oder das Anpassen der Sättigung. Auch Kontrast- oder Schärfeeinstellungen können mit
-Pixelmanipulation erzielt werden. Dafür werden meistens Matrizen und/oder Formeln pro Pixel verwendet, um
+Pixelmanipulation erzielt werden. Dafür werden Matrizen und/oder Formeln pro Pixel verwendet, um
 deren Farbwerte anzupassen
 \\
 
@@ -520,20 +520,20 @@ deren Farbwerte anzupassen
 
 
 \subsection{TensorFlow und Keras [H]}
-TensorFlow ist eine Python Bibliothek, welche beim erstellen von Projekten, die maschinelles Lernen
-in irgend einer Art und Weise eingebunden haben, extrem unterstütz.
+TensorFlow ist eine Python Bibliothek, welche beim Erstellen von Projekten, die maschinelles Lernen
+in irgend einer Art und Weise eingebunden haben, unterstützt.
 Wie der Name schon vermuten lässt, basiert TensorFlow auf zwei Grundlagen: Tensoren und Graphen (Flow
-vom Wort dataflow). \\
-Tensoren sind besser bekannt als Skalare, Vektoren oder Matrizen. Tensoren sind also
+vom englischen Wort ``dataflow''). \\
+Tensoren sind besser bekannt als Skalare, Vektoren oder Matrizen. Sie sind also
 null-, ein- oder mehrdimensionale Daten-Tupel.
-TensorFlow bietet alles von der effizienten Ausführung von
+TensorFlow bietet Dienste, von der effizienten Ausführung von
 Befehlen auf der CPU oder GPU, über der Skalierung von Berechnungen auf viele Endgeräte bis hin
-zur Visualisierung der gelernten Daten mittels dem sogenannten ``TensorBoard''. TensorFlow ist also ein
+zur Visualisierung der gelernten Daten mittels dem sogenannten ``TensorBoard''. TensorFlow ist ein
 sehr mächtiges Framework, das viele Möglichkeiten bietet, Künstliche Intelligenzen zu trainieren und
-analysieren.\\
+zu analysieren.\\
 Jedoch ist die Benutzerfreundlichkeit von TensorFlow sehr eingeschränkt. Viele Entwickler empfanden
 es als ungeeignet für schnelles Prototyping und verwendeten daher das auf TensorFlow basierende Keras. \\
-Keras verwendet standardmäßig die GPU zum ausführen von Code und ist somit um einiges schneller als TensorFlow.
+Keras verwendet standardmäßig die GPU zum Ausführen von Code und ist somit um einiges performanter als TensorFlow.
 In dieser Diplomarbeit wurden zwei der von TensorFlow (Stable-Baselines3) bereits vorgefertigten Algorithmen,
 namens ``A2C'' und ``PPO'', verwendet, um die KI zu trainieren. Auf die Auswertung wird im Kapitel \ref{maai:scribblefightki} näher
 eingegangen. Die Logik hinter der Künstlichen Intelligenz
@@ -541,21 +541,21 @@ wurde mittels OpenAI Gym implementiert.
 
 \subsection{OpenAI Gym [H]}
 OpenAI Gym ist ein Toolkit, mit welchem das Erlernen und Erstellen von reinforcement learning Algorithmen
-sehr leicht fällt. Da viele Menschen nicht wissen, was ``reinforcement learning'' ist, wird es im folgenden
+sehr leicht fällt. ``reinforcement learning'' wird im folgenden
 kurz erläutert.
 
 \subsubsection{Reinforcement Learning [H]}\label{tech:reinfLearning:header}
-Reinforcement learning bedeutet auf deutsch so viel wie bestärkendes Lernen oder verstärkendes Lernen.
+Reinforcement learning bedeutet so viel wie bestärkendes Lernen oder verstärkendes Lernen.
 Diese Art und Weise zu lernen ist der, wie ein Lebewesen mit einem biologischen Gehirn
 lernt, am ähnlichsten.
 Dabei basiert es auf folgendem Konzept: \\
 Ein Agent, welcher etwas erlernen soll, wird in eine ihm unbekannte Umwelt gesetzt. Dieser kennt nicht mehr
 als seinen eigenen Zustand und welche Aktionen er ausführen kann. Bewegt sich die Entität nun in der
-Umwelt, so passieren ihm Dinge, welche nach einer Observation entweder zu einer negativem (-), oder einer
+Umwelt, so passieren ihm Dinge, welche nach einer Beobachtung entweder zu einer negativem (-), oder einer
 positivem (+) Belohnung führen können. Das einzige Ziel des Agenten besteht nun darin sein Tun so anzupassen, dass
 er so viel und so
 effizient wie möglich an diese Belohnung gelangt. Folgende Grafik erläutert das Beispiel an einem Hund,
-welcher lernen soll einen Stecken zu apportieren.
+welcher lernen soll einen Stock zu apportieren.
 
 \begin{figure}[H]
     \centering
@@ -564,9 +564,9 @@ welcher lernen soll einen Stecken zu apportieren.
     \label{tech:fig:reinfconcept}
 \end{figure}
 
-OpenAI Gym hat also einen mehr oder weniger vorgegebenen Bauplan, und vorgegebene Regeln, nach welchen
+OpenAI Gym hat einen mehr oder weniger vorgegebenen Bauplan, und vorgegebene Regeln, nach welchen
 so eine Künstliche Intelligenz aufgebaut werden muss. \\
-Weitere, weit verbreitete Formen von machine learning sind supervised und unsupervised learning.
+Weitere, weit verbreitete Formen von Machine Learning sind supervised und unsupervised learning.
 % Auf diese wird nur weiter eingegangen, wenn zu wenig Text für eine positive Note für die Diplomarbeit vorliegen sollte.
 
 \subsection{Künstliche Intelligenz allgemein [H]}\label{tech:ki:head}
@@ -579,7 +579,7 @@ Künstliche Intelligenz funktioniert im Grunde genommen wie das menschliche Gehi
     \label{fig:tech:Neuron}
 \end{figure}
 
-Genauso funktioniert auch ein Neuronales Netz. Auf eine Eingabe folgt über eine Verarbeitung der Eingabe eine Ausgabe. Und genau wie bei einem Menschen, welcher etwas Neues kennenlernt, weiß auch das Neuronale Netz nicht, was die korrekte Antwort auf ein Problem ist. Es muss sich also an die Lösung herantasten.
+Ähnlich funktioniert auch ein Neuronales Netz. Auf eine Eingabe folgt über eine Verarbeitung der Eingabe eine Ausgabe. Und wie bei einem Menschen, welcher etwas Neues kennenlernt, weiß auch das Neuronale Netz nicht, was die korrekte Antwort auf ein Problem ist. Es muss sich also an die Lösung herantasten.
 
 \begin{figure}[H]
     \centering
@@ -588,8 +588,8 @@ Genauso funktioniert auch ein Neuronales Netz. Auf eine Eingabe folgt über eine
     \label{fig:tech:eba}
 \end{figure}
 
-Ein einfaches mathematisches Beispiel hierfür wäre, wenn man einen einfachen Faktor mit zwei Nachkommastellen herausfinden möchte. Beispiel: Euro in USD umrechnen. Hierfür ist ein Faktor kleiner 1 nötig. Bevor der ganze Prozess des Lernens startet, muss man mit einer Eingabe starten. Dies ist zum Beispiel die Zahl 1. Somit erkläre ich der künstlichen Intelligenz im übertragenen Sinne: ``Bitte errechne mir wie viele USD in meiner Hand liegen.''. Es wurde also ein Input für die KI gefunden. Dieser Input wird über eine nicht ganz zufällig gewählte Gewichtung in eine Berechnung umgewandelt. Nehmen wir an, diese Gewichtung sei ein Faktor <1 also 0,99. ``Nicht ganz zufällig gewählt'', weil der Anwender, welcher die KI schreibt im Vorhinein schon wusste, dass ein USD weniger Wert ist, als ein Euro; der genaue Wert war jedoch unbekannt. Nach dieser Berechnung kommt ein Wert raus – nämlich 0.99 – welcher falsch ist. Damit die Künstliche Intelligenz jedoch weiß, ob sie richtig oder falsch rechnet, muss sie ein Feedback bekommen. Das heißt, dass der errechnete Wert und die Abweichung vom tatsächlichen Ergebnis (wenn dieses bekannt ist) zurückgegeben wird. In den meisten Fällen ist das Ergebnis bei präparierten Daten bereits bekannt, da diese als Trainingsdaten agieren. Wenn die Künstliche Intelligenz jedoch selbst Entscheidungen vorhersagen muss, muss diese bereits mit solchen Daten trainiert worden sein, um ein akkurates Ergebnis liefern zu können. In dieser Phase lernt sie jedoch auch nicht mehr dazu. Sind die Ergebnisse unbekannt, kann zum Beispiel das zuvor erklärte Reinforcement Learning als Lernstrategie herangezogen werden. Diese Abweichung wird nun mit einer weiteren Berechnung rückpropagiert und die Gewichte werden aktualisiert. Dieses Prozedere (Eingabe $\rightarrow$ Berechnung $\rightarrow$ Ausgabe $\rightarrow$ Fehler $\rightarrow$ Fehler rückpropagieren $\rightarrow$ Gewichte anpassen) wird so oft mit weiteren Trainingsdaten wiederholt, bis die KI einen minimalen Fehler (Differenz zwischen dem tatsächlichen Ergebnis und der Vorhersage) erreicht.
-Allerdings können hier einige Faktoren zusätzliche beeinflusst werden, bevor die KI tatsächlich zu lernen beginnt, um ein maximal genaues Ergebnis zu erzielen. Beispielsweise beträgt der Wechselkurs von Euro zu USD 0,89. Also ein USD ist nur 0,89 so viel wert wie ein Euro. Wenn man es der KI ermöglicht, sich nur in zehntel-Schritten an die Lösung anzupassen, so passiert folgendes:
+Ein einfaches mathematisches Beispiel hierfür wäre, wenn man einen einfachen Faktor mit zwei Nachkommastellen herausfinden möchte. Beispiel: Euro in USD umrechnen. Hierfür ist ein Faktor kleiner 1 nötig. Bevor der ganze Prozess des Lernens startet, muss mit einer Eingabe gestartet werden. Dies ist zum Beispiel die Zahl 1. Somit wird der Künstlichen Intelligenz im übertragenen Sinne erklärt: ``Bitte errechne mir wie viele USD in meiner Hand liegen''. Es wurde also ein Input für die KI gefunden. Dieser Input wird über eine nicht ganz zufällig gewählte Gewichtung in eine Berechnung umgewandelt. Nehmen wir an, diese Gewichtung sei ein Faktor <1 also 0,99. ``Nicht ganz zufällig gewählt'', weil der Anwender, welcher die KI schreibt im Vorhinein schon wusste, dass ein USD weniger Wert ist, als ein Euro; der genaue Wert war jedoch unbekannt. Nach dieser Berechnung kommt ein Wert raus – nämlich 0.99 – welcher falsch ist. Damit die Künstliche Intelligenz jedoch weiß, ob sie richtig oder falsch rechnet, muss sie ein Feedback bekommen. Das heißt, dass der errechnete Wert und die Abweichung vom tatsächlichen Ergebnis (wenn dieses bekannt ist) zurückgegeben wird. In den meisten Fällen ist das Ergebnis bei präparierten Daten bereits bekannt, da diese als Trainingsdaten agieren. Wenn die Künstliche Intelligenz jedoch selbst Entscheidungen vorhersagen muss, muss diese bereits mit solchen Daten trainiert worden sein, um ein akkurates Ergebnis liefern zu können. In dieser Phase lernt sie jedoch auch nicht mehr dazu. Sind die Ergebnisse unbekannt, kann zum Beispiel das zuvor erklärte Reinforcement Learning als Lernstrategie herangezogen werden. Diese Abweichung wird nun mit einer weiteren Berechnung rückpropagiert und die Gewichte werden aktualisiert. Dieses Prozedere (Eingabe $\rightarrow$ Berechnung $\rightarrow$ Ausgabe $\rightarrow$ Fehler $\rightarrow$ Fehler rückpropagieren $\rightarrow$ Gewichte anpassen) wird so oft mit weiteren Trainingsdaten wiederholt, bis die KI einen minimalen Fehler (Differenz zwischen dem tatsächlichen Ergebnis und der Vorhersage) erreicht.
+Allerdings können hier einige Faktoren zusätzliche beeinflusst werden, bevor die KI tatsächlich zu lernen beginnt, um ein maximal genaues Ergebnis zu erzielen. Beispielsweise beträgt der Wechselkurs von Euro zu USD 0,89. Also ein USD ist nur 0,89 so viel wert wie ein Euro. Wenn es der KI ermöglicht wird, sich nur in zehntel-Schritten an die Lösung anzupassen, so passiert folgendes:
 Die KI wird das tatsächliche Ergebnis von 0,89 nie erreichen. Die von der KI errechnete Lösung beträgt entweder 0,9 oder 0,8. Wenn man diesen Anpassungswert jedoch kleiner ansetzt, auf ein Hundertstel zum Beispiel, so wird diese den Wert zwar langsamer erreichen, jedoch wird er genau dem Ziel entsprechen.
 Dieser Wert darf jedoch auch nie zu klein gewählt werden. Schaut man sich das an einem etwas komplexeren Beispiel an, so ist klar zu erkennen, dass in der folgenden Kurve der tatsächliche minimale Fehler nie erreicht wird. Um dies zu vermeiden, gibt es verschiedene Methoden. Als Exempel kann eine Art Fehler-Abtastungs-Beschleunigung herangezogen werden. Hier wird der Faktor, um welchen die Abweichung korrigiert wird, in einer Art Beschleunigung angepasst. Es muss sich also den aktuellen Wert wie einen Ball vorgestellt werden, welcher über einen Berg hinunterrollt.
 
@@ -639,17 +639,17 @@ So hat \textit{Martin Gardner} bewiesen, dass man Spiele mit Mathematik gewinnen
 \setauthor{Weinzierl Ben}
 \newpage
 \section{Photoshop [W]}
-Für die Character Animation wurde Adobe Photoshop benutzt. Photoshop ist ein Programm mit dem 
-im professionellen wie im Amateurbereich gearbeitet wird um Bilder zu bearbeiten. 
-Aufgrund der unglaublich zahlreichen Einsatzbereiche und Funktionen von Photoshop ist es 
-eines der beliebtesten Programme der Design- und Bildbearbeitungsbranche. 
-Durch den großen Funktionsumfang ist Photoshop zwar sehr einsteigerunfreundlich, jedoch 
+Für die Character Animation wurde Adobe Photoshop benutzt. Photoshop ist ein Programm mit dem
+im professionellen wie im Amateurbereich gearbeitet wird um Bilder zu bearbeiten.
+Aufgrund der unglaublich zahlreichen Einsatzbereiche und Funktionen von Photoshop ist es
+eines der beliebtesten Programme der Design- und Bildbearbeitungsbranche.
+Durch den großen Funktionsumfang ist Photoshop zwar sehr einsteigerunfreundlich, jedoch
 hat es sich trotzdem durchgesetzt. Mit ca. 90 Prozent Marktanteil ist es das mit Abstand größte
 Bildbearbeitungsprogramm. Dadurch ist der Preis mit 24€ pro Monat für die Software sehr hoch, wobei dazugesagt werden muss,
-dass laut einer Umfrage im Jahr 2007 ca. 58 Prozent der User und Userinnen das Programm als Schwarzkopie verwenden. 
+dass laut einer Umfrage im Jahr 2007 ca. 58 Prozent der User und Userinnen das Programm als Schwarzkopie verwenden.
 
 Eine wichtige Funktion, welche bei dieser Arbeit viel verwendet wurde, ist das "Form erzeugen" Werkzeug. Ausgewählt wird es mit dem Shortcut "U". Damit können Formen erstellt und verändert werden. Um zum Beispiel ein Viereck zu erstellen, muss das Unterwerkzeug "Rechteck-Werkzeug" auswählen. Danach
-kann eine beliebig große Fläche aufgezogen werden. 
+kann eine beliebig große Fläche aufgezogen werden.
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.7]{pics/erzeugen.png}
@@ -657,21 +657,21 @@ kann eine beliebig große Fläche aufgezogen werden.
 \end{figure}
 
 Um die Formen in die richtige Position zu bekommen, wurde mit dem "Transformieren" Werkzeug
-gearbeitet. Verwendet wird es unter dem Reiter "Bearbeiten -> Transformieren". 
+gearbeitet. Verwendet wird es unter dem Reiter "Bearbeiten -> Transformieren".
 Um die Fläche zu skalieren wird an den Ecken mit der Maus die Größe verändert. Sollen die Proportionen des Bildes erhalten bleiben
-kann dabei die Umschalt-Taste gedrückt werden. Damit die Ebene gedreht werden kann, muss an den Rändern gehovert werden bis das Drehsymbol erscheint. 
+kann dabei die Umschalt-Taste gedrückt werden. Damit die Ebene gedreht werden kann, muss an den Rändern gehovert werden bis das Drehsymbol erscheint.
 Um die Ebene zu spiegeln oder auf den Kopf zu stellen kann der Befehl 'Horizontal Spiegeln' bzw. 'Um 180° drehen'.
 
 \subsection{12 Prinzipien der Animation}
-Im Jahr 1981 haben die beiden Disney Animatoren Ollie Johnston und Frank Thomas in ihrem Buch ''Disney Animation: Die Illusion des Lebens'' die Animationsindustrie revolutioniert. 
-Darin haben sie 12 Prinzipien der Animation vorgestellt welche seit den 1930er Jahren von Disney in ihren Animationsfilmen angewendet wurden. 
-Die Grundlagen dieser Prinzipien bestehen darin, Animationen zu erzeugen, welche den Gesetzen der Physik folgen, doch auch mit Timing, Emotionen etc. 
+Im Jahr 1981 haben die beiden Disney Animatoren Ollie Johnston und Frank Thomas in ihrem Buch ''Disney Animation: Die Illusion des Lebens'' die Animationsindustrie revolutioniert.
+Darin haben sie 12 Prinzipien der Animation vorgestellt welche seit den 1930er Jahren von Disney in ihren Animationsfilmen angewendet wurden.
+Die Grundlagen dieser Prinzipien bestehen darin, Animationen zu erzeugen, welche den Gesetzen der Physik folgen, doch auch mit Timing, Emotionen etc.
 
 \subsubsection{1. Squash and Stretch}
 Dieses Prinzip beruht darauf, dass animierte Objekte länger bzw. flacher werden um ihre Geschwindigkeit, Masse oder ihr Momentum zu betonen.
-Wie stark ein Objekt sich dehnt und zusammendrückt sagt viel über die Masse des Objekts aus. Umso mehr Dehnung umso leichter ist das Objekt. 
-Dies wird auch auf animierte Charaktere angewandt. Wenn ein Charakter nach unten fällt, dehnt sich sein Körper und wenn er landet wird er zusammendrückt, bevor er in einer stabilen Position stehen bleibt (Abbildung \ref{fig:tech:SqashAndStretch}).    
-Dabei muss jedoch beachtet werden, dass das Volumen des Objekts immer gleich bleiben muss. Wird ein Objekt nach unten zusammengedrückt muss es sich in die Breite dehnen (Abbildung \ref{fig:tech:SqashAndStretchCube}). 
+Wie stark ein Objekt sich dehnt und zusammendrückt sagt viel über die Masse des Objekts aus. Umso mehr Dehnung umso leichter ist das Objekt.
+Dies wird auch auf animierte Charaktere angewandt. Wenn ein Charakter nach unten fällt, dehnt sich sein Körper und wenn er landet wird er zusammendrückt, bevor er in einer stabilen Position stehen bleibt (Abbildung \ref{fig:tech:SqashAndStretch}).
+Dabei muss jedoch beachtet werden, dass das Volumen des Objekts immer gleich bleiben muss. Wird ein Objekt nach unten zusammengedrückt muss es sich in die Breite dehnen (Abbildung \ref{fig:tech:SqashAndStretchCube}).
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.5]{pics/SqashAndStretch.png}
@@ -687,8 +687,8 @@ Dabei muss jedoch beachtet werden, dass das Volumen des Objekts immer gleich ble
 \end{figure}
 
 \subsubsection{2. Anticipation}
-Dieses Prinzip soll dem Zuschauer einen Hinweis darauf geben welche Aktion als nächstes passiert. Außerdem soll dies die Aktion mehr realistischer machen. 
-Das klassische Beispiel hierzu ist ein Sprung. Bevor der Charakter in die Luft springt muss er sich erst nach unten beugen, um Energie aufzubauen. Dies kann mit einer Feder verglichen werden, welche zusammengedrückt wird, und dann schnell losgelassen wird (Abbildung \ref{fig:tech:Spring}). 
+Dieses Prinzip soll dem Zuschauer einen Hinweis darauf geben welche Aktion als nächstes passiert. Außerdem soll dies die Aktion mehr realistischer machen.
+Das klassische Beispiel hierzu ist ein Sprung. Bevor der Charakter in die Luft springt muss er sich erst nach unten beugen, um Energie aufzubauen. Dies kann mit einer Feder verglichen werden, welche zusammengedrückt wird, und dann schnell losgelassen wird (Abbildung \ref{fig:tech:Spring}).
 Ein weiteres Beispiel ist ein Schlag. Um den Schlag realistischer darzustellen und dem Zuseher zu signalisieren, dass gleich etwas wichtiges passieren wird, holt ein animierter Charakter überdramatisch aus(Abbildung \ref{fig:tech:Punch}).
 \begin{figure}[H]
     \centering
