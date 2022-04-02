@@ -902,7 +902,7 @@ und die HTML-Seite wird geladen (\ref*{PythonParam}). Daraufhin werden die Param
 \end{figure}
 
 Um nun die Multiuserfähigkeit zu gewährleisten wird nach jedem ``socket.on'' geprüft,
-von welcher Game-ID und welchem Client der Request kommt. Dafür werden die gameId und clientId der msg mit der des Localstorages verglichen. 
+von welcher Game-ID und welchem Client der Request kommt. Dafür werden die gameId und clientId der msg mit der des Localstorages verglichen.
 
 \begin{lstlisting}[language=Python,caption= Socket.on Beispielüberprüfung]
     socket.on('perspective transformed', function (msg) {
@@ -917,7 +917,7 @@ von welcher Game-ID und welchem Client der Request kommt. Dafür werden die game
         }
 \end{lstlisting}
 
-Sobald eine spielbare Map erstellt worden ist, wird eine SocketVerbindung zur Lobby hergestellt und dieser wird das Hintergrundbild und der mapstring geschickt. 
+Sobald eine spielbare Map erstellt worden ist, wird eine SocketVerbindung zur Lobby hergestellt und dieser wird das Hintergrundbild und der mapstring geschickt.
 
 \begin{lstlisting}[language=Python,caption=Map wird an Lobby geschickt]
     const lobbySocket = io('http://localhost:3001')
@@ -1571,6 +1571,7 @@ Die Graphen, welche aus den erlernten Modellen entsprungen sind und diverse Info
 zeigen, dass \textit{der \underline{PPO Algorithmus} besser für eine Künstliche Intelligenz, welche das Spiel ScribbleFight erlernen soll, geeignet ist als der A2C Algorithmus.}
 
 \subsubsection{A2C [H]}
+% Die Quellen zu den nachfolgenden drei Absätzen sind [1][2][...].
 
 A2C ist einer der zwei Algorithmen, mit welchem die ScribbleFight Künstliche Intelligenz trainiert wurde.
 A2C steht für ``Advantage Actor Critic''. Dabei ist dies ein ``Reinforcement Learning'' Algorithmus, welcher
