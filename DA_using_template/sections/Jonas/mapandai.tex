@@ -220,15 +220,15 @@ Im letzten Teil der Funktion wird das Bild in die richtige Perspektive transform
 \subsection{Open-CV2 [H]}
 \subsubsection{Bildverarbeitungsalgorithmen} \label{maai:alogs}
 
-Bildverarbeitungsalgorithmen sind Grundbausteine für die Bild- beziehungsweise Map-Erkennung. Ohne diesen können keine, oder nur wenige Daten aus Bildern ausgelesen werden. Somit würde jedes Bild nur Informationen über die Helligkeit und die Farbe/Farbhelligkeit jedes Bildpunktes beinhalten. Deshalb ist es wichtig Bildverarbeitungsalgorithmen zu verwenden um mehr Informationen aus den Bildern, welche dem Python-Server zur Verfügung gestellt werden, zu erkennen und zu erhalten. In dieser Arbeit wurden folgende Methoden von OpenCV2 verwendet, welche das Erkennen des Blatt Papiers ermöglichten. Im Folgenden (\ref{maai:grayscale}-\ref{maai:wrapPerspective}) wird näher auf die Funktionsweise der einzelnen Algorithmen eingegangen. Diese sind:
+Bildverarbeitungsalgorithmen sind Grundbausteine für die Bild- beziehungsweise Map-Erkennung. Ohne diesen können keine, oder nur wenige Daten aus Bildern ausgelesen werden. Somit würde jedes Bild nur Informationen über die Helligkeit und die Farbe/Farbhelligkeit jedes Bildpunktes beinhalten. Deshalb ist es wichtig Bildverarbeitungsalgorithmen zu verwenden um mehr Informationen aus den Bildern, welche dem Python-Server zur Verfügung gestellt werden, zu erkennen und zu erhalten. In dieser Arbeit wurden folgende Methoden von OpenCV2 verwendet, welche das Erkennen des Blatt Papiers ermöglichten. Im Folgenden wird näher auf die Funktionsweise der einzelnen Algorithmen eingegangen. Diese sind:
 
 \begin{compactitem}
-    \item cv2.cvtColor(image, cv2.COLOR\_BGR2GRAY) (``Grayscaling''): Diese Funktion bewirkt eine Graustufenkonvertierung eines gegebenen Bilds.
+    \item cv2.cvtColor(image, cv2.COLOR\_BGR2GRAY) (``Grayscaling''): Diese Funktion bewirkt eine Graustufenkonvertierung eines gegebenen Bildes.
     \item cv2.GaussianBlur(\dots) (``Blurring''): Mit dieser Funktion wird ein gegebenes Bild unscharf gezeichnet und somit unnötig genaue Informationen entfernt.
-    \item cv2.adaptiveThreshold(\dots) (``Adaptive Thresholding''): Hier wird die Schwellwertbildung adaptiv festgelegt. Es wird das gegeben Bild in Raster unterteilt und für jeden dieser Raster ein Schwellwert gebildet. Somit werden Farbübergänge eliminiert und es bleibt ein reines Schwarz-Weiß-Bild mit harten Kanten über.
+    \item cv2.adaptiveThreshold(\dots) (``Adaptive Thresholding''): Hier wird die Schwellwertbildung adaptiv festgelegt. Es wird das gegebene Bild in Raster unterteilt und für jeden dieser Raster ein Schwellwert gebildet. Somit werden Farbübergänge eliminiert und es kommt ein reines Schwarz-Weiß-Bild mit harten Kanten heraus.
     \item cv2.canny(\dots) (``Canny'' Kantenerkennung): Die Kantenerkennung liefert automatisch erkannte Kanten aus einem gegebenen Bild.
     \item cv2.approxPolyDP(\dots) (``ApproxPolyDP''): Diese Funktion vergröbert die erkannten Konturen um einen angegebenen Grad. Die erkannten Konturen werden auf wenige Punkte minimiert. Somit kann zum Beispiel über eine Kontur ein Vieleck gelegt werden.
-    \item cv2.warpPerspective(\dots) (Perspektiven-Korrektur): Mit ``wrapPerspective'' kann ein Bild, welches in einer weiteren Dimension aufgenommen wurde und somit einer Perspektive unterlag Perspektiven-korrigiert werden.
+    \item cv2.warpPerspective(\dots) (Perspektiven-Korrektur): Mit ``wrapPerspective'' kann ein Bild, welches in der dritten Dimension aufgenommen wurde und somit einer Perspektive unterlag Perspektiven-korrigiert werden.
 \end{compactitem}
 
 Nur einige der verwendeten Bildbearbeitungsalgorithmen sind basierend auf Pixelmanipulation. Andere Algorithmen, wie zum Beispiel ``ApproxPolyDP'', sind reines Auslesen von Bildwerten beziehungsweise -daten, welche durch Vorarbeit extrahiert wurden.
@@ -291,7 +291,7 @@ Dieses Stück Programmcode führt zu folgendem Ergebnis:
 
 \subsubsection{Blurring}\label{maai:blurring}
 
-Soll ein Bild ``geblurred'' (engl. für verwischen/verschwommen) werden, so ist das Ziel eine Unschärfe. Ähnlich, wie das ``Grayscaling'' ist auch das unscharf-Zeichnen eines Bildes reine Pixelmanipulation. Hier wird jedoch nicht ein einzelner Pixel zur Berechnung der Unschärfe herangezogen, sondern eine zweidimensionale Matrix an umliegenden Bildpunkten. Somit wird jeder Pixel basierend auf dessen benachbarten Bildzellen manipuliert.
+Soll ein Bild ``geblurred'' (engl. für verwischen/verschwommen) werden, so ist das Ziel eine Unschärfe. Ähnlich, wie das ``Grayscaling'' ist auch das unscharf Zeichnen eines Bildes reine Pixelmanipulation. Hier wird jedoch nicht ein einzelner Pixel zur Berechnung der Unschärfe herangezogen, sondern eine zweidimensionale Matrix an umliegenden Bildpunkten. Somit wird jeder Pixel basierend auf dessen benachbarten Bildzellen manipuliert.
 
 Um eine Unschärfe zu erzielen, muss eine mathematische Operation der Faltung einer spezialisierten Matrix, genannt Kernel, auf die Matrix des Bildes angewandt werden. Dabei wird diese Faltungsoperation auch ``Konvolution'' genannt.
 
@@ -299,7 +299,7 @@ Mathematisch gesehen ist Konvolution, also die Faltung zweier Matrizen, A mit de
 \[
     C_{ rs } = \sum_{i+k=r+1, j+l=s+1}^{r=a+c-1,s = b + d - 1} A_{ ij }B_{ kl }
 \]
-Aus dieser Formel ist ersichtlich, dass das Falten beziehungsweise die Konvolution zweier Matrizen A und B eine neue Matrix C, in welcher die Einträgen durch die Summe des Produkts der Einträge der Matrix A mit den am gleich liegenden zweidimensionalen Indexe entsprechenden Einträgen der anderen Matrix B gebildet werden, erzeugt. Alle diese Produkte werden im zweidimensionalen, also entlang den Zeilen und Spalten, berechnet.
+Aus dieser Formel ist ersichtlich, dass das Falten beziehungsweise die Konvolution zweier Matrizen A und B eine neue Matrix C erzeugt. In dieser werden die Einträge durch die Summe des Produkts der Einträge der Matrix A mit den am gleich liegenden zweidimensionalen Index entsprechenden Einträgen der anderen Matrix B gebildet. Alle diese Produkte werden im Zweidimensionalen, also entlang den Zeilen und Spalten, berechnet.
 
 Der zuvor genannte (Begriff) Kernel kann als Matrix beschrieben werden. Diese dient dazu ein Bild in dessen Aussehen zu verändern. Somit ist der Begriff nicht nur auf das Weichzeichnen von Bildern begrenzt. Ein Kernel kann zum Beispiel auch dazu verwendet werden, um Kanten in Bildern zu schärfen.
 
