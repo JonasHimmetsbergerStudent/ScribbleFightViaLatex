@@ -36,9 +36,9 @@ Jedoch muss das Projekt dann auf einem lokalen Server (z.B. welcher mit Node.js 
 Die Struktur ist sehr simpel. Im Ganzen ist es nur ein \texttt{index.html} File und ein \texttt{sketch.js} File. In dem HTML File wird die p5-Library und auch das sketch.js File eingebunden.
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[scale=1]{pics/index html.PNG}
-    \caption{Aufbau index.html}
+  \centering
+  \includegraphics[scale=1]{pics/index html.PNG}
+  \caption{Aufbau index.html}
 \end{figure}
 
 So können in dem sketch.js File die p5.js Methoden genutzt werden. Die wichtigsten Methoden sind die Setup- und die Draw-Methode.
@@ -46,9 +46,9 @@ Die Setup-Methode wird vor der Draw-Methode aufgerufen um das Spiel zu initialis
 Wenn diese abgeschlossen ist, wird die Draw-Methode wiederholt aufgerufen und aktualisiert jedes mal den Bildschirm.
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[scale=1]{pics/sketch.PNG}
-    \caption{Simples sketch.js Beispiel}
+  \centering
+  \includegraphics[scale=1]{pics/sketch.PNG}
+  \caption{Simples sketch.js Beispiel}
 \end{figure}
 
 %https://www.sitepoint.com/processing-js-vs-p5-js-whats-difference/
@@ -61,14 +61,14 @@ Zusammenfassend ist p5.js ein direkter JavaScript Port für die Processing Progr
 
 Vorteile von p5.js:
 \begin{compactitem}
-    \item Die Programme, die mit p5.js umgesetzt werden, funktionieren in jedem modernen Browser (plattformunabhängig)
-    \item Das Programm ist nicht nur lokal auf dem eigenen Gerät verfügbar, was das Teilen sehr viel leichter macht
-    \item Es besteht die Option, den p5.js Editor im Web zu verwenden: Kein Aufwand, um loszuprogrammieren
+  \item Die Programme, die mit p5.js umgesetzt werden, funktionieren in jedem modernen Browser (plattformunabhängig)
+  \item Das Programm ist nicht nur lokal auf dem eigenen Gerät verfügbar, was das Teilen sehr viel leichter macht
+  \item Es besteht die Option, den p5.js Editor im Web zu verwenden: Kein Aufwand, um loszuprogrammieren
 \end{compactitem}
 
 Nachteile von p5.js:
 \begin{compactitem}
-    \item Es kann kein Stand-alone-Programm entwickelt werden, d.h. ein Browser wird benötigt
+  \item Es kann kein Stand-alone-Programm entwickelt werden, d.h. ein Browser wird benötigt
 \end{compactitem}
 
 
@@ -81,27 +81,27 @@ Die Laufzeitumgebung wurde darauf spezialisiert, leicht skalierbare Server zu ba
 Vorteile von Node.js: \cite{nodejs_vorteile}
 
 \begin{compactitem}
-    \item Starke Performance. Node.js ist mit Fokus auf Optimierung des Datentransport und der Skalierbarkeit bei Web-Applikationen designet worden
-    \item Da mit JavaScript entwickelt wird, wird nur eine Sprache für Client und Server benötigt
-    \item Da JavaScript eine relativ neue Programmiersprache ist, profitiert diese auch von Verbesserungen bei Programmiersprachen-Design (im Vergleich zu anderen Web-Server-Sprachen wie PHP oder Python)
-    \item Durch den Node-Package-Manager (NPM) kann auf sehr viele Bibliotheken zugegriffen werden
-    \item Es ist nicht wichtig, welches Betriebssystem verwendet wird. Node.js ist kompatibel mit Microsoft Windows, macOS, Linux, Solaris, FreeBSD, OpenBSD etc.
-    \item Hinter Node.js steht eine große Entwickler-Community, die bereit ist, in Problemfällen zu helfen
+  \item Starke Performance. Node.js ist mit Fokus auf Optimierung des Datentransport und der Skalierbarkeit bei Web-Applikationen designet worden
+  \item Da mit JavaScript entwickelt wird, wird nur eine Sprache für Client und Server benötigt
+  \item Da JavaScript eine relativ neue Programmiersprache ist, profitiert diese auch von Verbesserungen bei Programmiersprachen-Design (im Vergleich zu anderen Web-Server-Sprachen wie PHP oder Python)
+  \item Durch den Node-Package-Manager (NPM) kann auf sehr viele Bibliotheken zugegriffen werden
+  \item Es ist nicht wichtig, welches Betriebssystem verwendet wird. Node.js ist kompatibel mit Microsoft Windows, macOS, Linux, Solaris, FreeBSD, OpenBSD etc.
+  \item Hinter Node.js steht eine große Entwickler-Community, die bereit ist, in Problemfällen zu helfen
 \end{compactitem}
 
 Nachteile von Node.js: \cite{nodejs_nachteile}
 
 \begin{compactitem}
-    \item Nicht für CPU-lastige Aufgaben geeignet
-    \item Nicht rückwärtskompatibel, das heißt Code von alten Node.js Versionen muss gegebenenfalls auf neue Node.js Versionen angepasst werden
+  \item Nicht für CPU-lastige Aufgaben geeignet
+  \item Nicht rückwärtskompatibel, das heißt Code von alten Node.js Versionen muss gegebenenfalls auf neue Node.js Versionen angepasst werden
 \end{compactitem}
 
 In dem folgenden "Hello World"-Beispiel, können viele Verbindung gleichzeitig behandelt werden. Bei jeder Verbindung wird die Callback-Funktion ausgeführt, aber wenn keine Arbeit zu erledigen ist, schläft Node.js.
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[scale=1]{pics/node js.PNG}
-    \caption{Sehr simpler Node.js Server}
+  \centering
+  \includegraphics[scale=1]{pics/node js.PNG}
+  \caption{Sehr simpler Node.js Server}
 \end{figure}
 
 M-an merkt den Unterschied zu den heutzutage weit verbreiteten Concurrency-Modellen, die mit OS-Threads arbeiten. Der Vorteil von Node.js hierbei ist, dass
@@ -115,9 +115,9 @@ das benötigt wird, sowie auch Meta-Daten zu dem Node.js Projekt. \cite{node_env
 Erstellt wird dieses mit dem Befehl \texttt{npm init}. Es spielt jedoch eine Rolle, wo dieser Befehl ausgeführt wird, also muss darauf geachtet werden, dass der Befehl in dem Verzeichnis ausgeführt wird, in dem das Projekt erstellt werden soll.
 Die Struktur eines package.json-Files sieht wie folgt aus:
 \begin{figure}[H]
-    \centering
-    \includegraphics[scale=1]{pics/package json.PNG}
-    \caption{Package.json des Scribble-Fight Backends}
+  \centering
+  \includegraphics[scale=1]{pics/package json.PNG}
+  \caption{Package.json des Scribble-Fight Backends}
 \end{figure}
 
 \subsubsection{Express}
@@ -127,9 +127,9 @@ Express wird mit dem Node-Package-Manager mit \texttt{npm install express} insta
 einem Verzeichnis, das ein package.json-File beinhlatet, bei dem Express als Dependency hinzugefügt wurde, dann reicht \texttt{npm install} für die Installation.
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[scale=1]{pics/Express.PNG}
-    \caption{Simpler Web Server mit Express}
+  \centering
+  \includegraphics[scale=1]{pics/Express.PNG}
+  \caption{Simpler Web Server mit Express}
 \end{figure}
 
 \subsection{Socket IO [R]}
@@ -138,8 +138,8 @@ Socket.IO ist eine Library, die eine bidirektionale Echt-Zeit Verbindung zwische
 
 Um dem Client des Spiel im Browser eine bidirektionale Echt-Zeit Kommunikation mit dem Server bereitzustellen, wurde folgendes benutzt:
 \begin{compactitem}
-    \item Ein Node.js Server inklusive SocketIO Package
-    \item Eine JavaScript Client Library von SocketIO (Es bestehen auch einige andere Client Implementationen für Sprachen wie Java, C++, Python, etc.)
+  \item Ein Node.js Server inklusive SocketIO Package
+  \item Eine JavaScript Client Library von SocketIO (Es bestehen auch einige andere Client Implementationen für Sprachen wie Java, C++, Python, etc.)
 \end{compactitem}
 
 Socket.IO funktioniert so, dass der Client, falls möglich, eine SocketIO-Verbindung mit dem Server herstellt.
@@ -147,23 +147,23 @@ Ist keine Verbindung möglich, setzt der Client einen HTTP-long polling-Request 
 Am Client sieht die Syntax für die JavaScript-Library so aus:
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[scale=1]{pics/SocketIO_client.PNG}
-    \caption{Socket.IO Client Beispiel}
-    \label{tech:socketioclient}
+  \centering
+  \includegraphics[scale=1]{pics/SocketIO_client.PNG}
+  \caption{Socket.IO Client Beispiel}
+  \label{tech:socketioclient}
 \end{figure}
 \pagebreak
 Damit der Server die Verbindung annehmen kann, müssen folgende Kriterien erfüllt sein:
 \begin{compactitem}
-    \item Der Browser unterstützt WebSocket
-    \item Die Verbindung wird nicht von Elementen wie Firewall gestört
+  \item Der Browser unterstützt WebSocket
+  \item Die Verbindung wird nicht von Elementen wie Firewall gestört
 \end{compactitem}
 Die API ist auf der Server-Seite dem Client sehr ähnlich, es existiert auch wieder ein \texttt{socket} Objekt, welches von der EventEmitter Klasse von Node.js erbt. Ein Beispiel für den serverseitigen Code, der zu dem Client-Code von Abbildung \ref{tech:socketioclient} gehört:
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[scale=1]{pics/SocketIO_server.PNG}
-    \caption{Socket.IO Server Beispiel}
+  \centering
+  \includegraphics[scale=1]{pics/SocketIO_server.PNG}
+  \caption{Socket.IO Server Beispiel}
 \end{figure}
 
 
@@ -192,17 +192,17 @@ potenzielle Kunde dazu eingeladen  sein Smartphone herauszuholen und einfach den
 ihn dann auf der Webseite Produkte anzubieten.%\cite{qrCodeWiki}
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[scale=1]{pics/googleQR.png}
-    \caption{QR-Code zu www.google.com}
-    \label{fig:tech:qrCode}
+  \centering
+  \includegraphics[scale=1]{pics/googleQR.png}
+  \caption{QR-Code zu www.google.com}
+  \label{fig:tech:qrCode}
 \end{figure}
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.8]{pics/UPCBarcode.png}
-    \caption{UPC Barcode}
-    \label{fig:tech:barcode}
+  \centering
+  \includegraphics[scale=0.8]{pics/UPCBarcode.png}
+  \caption{UPC Barcode}
+  \label{fig:tech:barcode}
 \end{figure}
 
 \subsubsection{QR-Code Implementierung}
@@ -245,10 +245,10 @@ Beispielsweise Farbe, Größe, etc. verändert werden.
 \end{lstlisting}
 Das Resultat dieser Veränderung sieht so aus:
 \begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.7]{pics/fancyQR.png}
-    \caption{Personalisierter QR-Code}
-    \label{fig:tech:persQR}
+  \centering
+  \includegraphics[scale=0.7]{pics/fancyQR.png}
+  \caption{Personalisierter QR-Code}
+  \label{fig:tech:persQR}
 \end{figure}
 
 Bei dieser Arbeit wurde der QR-Code verwendet mit dem Handy zugriff auf den Mapscanner und
@@ -324,55 +324,55 @@ Zum Schluss wurde mit options.scales.y.beginAtZero noch festgelegt, dass der Gra
 
 Mit Veränderung des type Parameters können sehr einfach die Diagrammtypen verändert werden:
 \begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.3]{pics/barChart.png}
-    \caption{Barchart}
-    \label{fig:tech:barchart}
+  \centering
+  \includegraphics[scale=0.3]{pics/barChart.png}
+  \caption{Barchart}
+  \label{fig:tech:barchart}
 \end{figure}
 \begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.3]{pics/pieChart.png}
-    \caption{Piechart}
-    \label{fig:tech:piechart}
+  \centering
+  \includegraphics[scale=0.3]{pics/pieChart.png}
+  \caption{Piechart}
+  \label{fig:tech:piechart}
 \end{figure}
 \begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.3]{pics/lineChart.png}
-    \caption{Linechart}
-    \label{fig:tech:linechart}
+  \centering
+  \includegraphics[scale=0.3]{pics/lineChart.png}
+  \caption{Linechart}
+  \label{fig:tech:linechart}
 \end{figure}
 
 Chart.js stellt noch viele weitere hilfreiche Optionen zur Verfügung. Wird
 zum Beispiel ein logarithmischer Graph benötigt kann dies mit options.scales.myscale.type = ``logarithmic'' eingestellt werden
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.3]{pics/logChart.png}
-    \caption{Logarithmisch an der Y-Achse}
+  \centering
+  \includegraphics[scale=0.3]{pics/logChart.png}
+  \caption{Logarithmisch an der Y-Achse}
 \end{figure}
 \begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.7]{pics/logCode.png}
-    \caption{Code}
+  \centering
+  \includegraphics[scale=0.7]{pics/logCode.png}
+  \caption{Code}
 \end{figure}
 
 
 Weitere hilfreiche Einsellungen sind:
 \begin{compactitem}
-    \item yAxis/xAxis: Konfigurierung der Y- und X-Achse
-    \item label: Die Bezeichnung für den Datensatz, die in der Legende erscheint.
-    \item color: Weißt einem Label eine bestimmte Farbe zu
-    \item datasets.data: Weißt einem label Daten zu
-    \item layout: Konfigurierung des Layouts des Diagramms
-    \item ...
+  \item yAxis/xAxis: Konfigurierung der Y- und X-Achse
+  \item label: Die Bezeichnung für den Datensatz, die in der Legende erscheint.
+  \item color: Weißt einem Label eine bestimmte Farbe zu
+  \item datasets.data: Weißt einem label Daten zu
+  \item layout: Konfigurierung des Layouts des Diagramms
+  \item ...
 \end{compactitem}
 
 Ist es notwendig ein Diagramm zu updaten kann dies mit diesen Funktionen umgesetzt werden. Zum hinzufügen
 von Daten muss als Parameter das Diagramm, der Name des Labels und die Daten mitgegeben werden. Zum entfernen wird nur das Chart benötigt.
 \begin{figure}[H]
-    \centering
-    \includegraphics[scale=1]{pics/updateChart.png}
-    \caption{Code zum updaten eines Diagramms}
+  \centering
+  \includegraphics[scale=1]{pics/updateChart.png}
+  \caption{Code zum updaten eines Diagramms}
 \end{figure}
 
 
@@ -388,19 +388,19 @@ Durch die Unabhängigkeit, die dadurch entsteht, wird die Infrastruktur besser g
 Docker arbeitet mit einem Image-basierten Bereitstellungsmodell. Dieses wird gerne bei Containertools verwendet, da Applikationen mit all ihren Dependencies, egal in welcher Umgebung, genutzt werden können. \cite{docker} \\
 Vorteile von Docker: \cite{docker_vorteile}
 \begin{compactitem}
-    \item Hat ein Benutzer seine oder ihre containerisierte Applikation getestet, kann er oder sie sich sicher sein, dass die Applikation auf jeder anderen Umgebung, auf der Docker installiert ist, auch funktioniert
-    \item Alle Docker Container sind voneinander unabhängig
-    \item Falls Skalierung notwendig ist, können schnell neue Container erstellt werden
-    \item Im Gegensatz zu virtuellen Maschinen beinhalten Container keine eigenen vollständigen Betriebssysteme, deshalb können sie schneller erstellt und auch schneller gestartet werden
+  \item Hat ein Benutzer seine oder ihre containerisierte Applikation getestet, kann er oder sie sich sicher sein, dass die Applikation auf jeder anderen Umgebung, auf der Docker installiert ist, auch funktioniert
+  \item Alle Docker Container sind voneinander unabhängig
+  \item Falls Skalierung notwendig ist, können schnell neue Container erstellt werden
+  \item Im Gegensatz zu virtuellen Maschinen beinhalten Container keine eigenen vollständigen Betriebssysteme, deshalb können sie schneller erstellt und auch schneller gestartet werden
 \end{compactitem}
 
 Wichtige Begriffe im Zusammenhang mit Docker:
 
 \begin{compactitem}
-    \item Image: Vorlage, die nur gelesen werden kann und eine Reihe von Befehlen beinhaltet, um einen Container zu erstellen
-    \item Container: aktive Instanz eines Images
-    \item Dockerfile: eine Textdatei, die den Aufbau des Images beschreibt
-    \item Registry: Unter Registry wird eine Ansammlung gleicher Images mit verschiedenen Tags verstanden, meistens Versionen
+  \item Image: Vorlage, die nur gelesen werden kann und eine Reihe von Befehlen beinhaltet, um einen Container zu erstellen
+  \item Container: aktive Instanz eines Images
+  \item Dockerfile: eine Textdatei, die den Aufbau des Images beschreibt
+  \item Registry: Unter Registry wird eine Ansammlung gleicher Images mit verschiedenen Tags verstanden, meistens Versionen
 \end{compactitem}
 
 \subsubsection{Docker Architektur}
@@ -408,9 +408,9 @@ Die Docker Architektur ist eine Client-Server Architektur. Der Docker Client kom
 Dieser Docker Daemon kann lokal installiert sein, aber der Client kann sich auch mit einem Daemon Remote verbinden. \cite{docker_architektur}
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.6]{pics/docker architecture.PNG}
-    \caption{Veranschaulichung Docker Architektur \cite{docker_architektur}}
+  \centering
+  \includegraphics[scale=0.6]{pics/docker architecture.PNG}
+  \caption{Veranschaulichung Docker Architektur \cite{docker_architektur}}
 \end{figure}
 
 
@@ -420,9 +420,9 @@ Das Kubernetes-Projekt ist 2014 als Open-Source Projekt in die Welt gerufen word
 
 Kubernetes hat mehrere Funktionen, zum Beispiel ist Kubernetes:
 \begin{compactitem}
-    \item eine Containerplattform
-    \item eine Microservices-Plattform
-    \item eine Cloud-Plattform
+  \item eine Containerplattform
+  \item eine Microservices-Plattform
+  \item eine Cloud-Plattform
 \end{compactitem}
 \cite{kubernetes}
 
@@ -455,15 +455,15 @@ Open ``Computer Vision'' (CV) wurde in unserem Kontext als Python Bibliothek ver
 breitgefächerte Auswahl an Bildverarbeitungs-Algorithmen.
 Folgende wurden bei der Maperkennung eingesetzt:
 \begin{compactitem}
-    \item Resizing
-    \item Farbraumkonvertierung
-    \item Weichzeichnung
-    \begin{compactitem}
-        \item Median-Blur
-        \item Gaussian-Blur
-    \end{compactitem}
-    \item adaptive Schwellenwertbildung von Pixelwerten
-    \item Konvertierung eines Zahlen Arrays in eine ``.png''-Datei
+  \item Resizing
+  \item Farbraumkonvertierung
+  \item Weichzeichnung
+  \begin{compactitem}
+    \item Median-Blur
+    \item Gaussian-Blur
+  \end{compactitem}
+  \item adaptive Schwellenwertbildung von Pixelwerten
+  \item Konvertierung eines Zahlen Arrays in eine ``.png''-Datei
 \end{compactitem}
 Auf die Funktionsweise dieser Algorithmen wird im Folgenden (\ref{maai:alogs}) genauer eingegangen.
 \\
@@ -562,10 +562,10 @@ effizient wie möglich an diese Belohnung gelangt. Folgende Grafik erläutert da
 welcher lernen soll einen Stock zu apportieren.
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.4]{pics/reinforcementLearningConcept.png}
-    \caption{Veranschaulichung bestärkendes Lernen \cite{tech:reinforcementlearningDog:cite}}
-    \label{tech:fig:reinfconcept}
+  \centering
+  \includegraphics[scale=0.4]{pics/reinforcementLearningConcept.png}
+  \caption{Veranschaulichung bestärkendes Lernen \cite{tech:reinforcementlearningDog:cite}}
+  \label{tech:fig:reinfconcept}
 \end{figure}
 
 OpenAI Gym hat einen mehr oder weniger vorgegebenen Bauplan, und vorgegebene Regeln, nach welchen
@@ -579,19 +579,19 @@ Das Wissen zu den folgenden elf Absätzen wurde sich aus dem Buch ``Neuronale Ne
 Künstliche Intelligenz funktioniert im Grunde genommen wie das menschliche Gehirn. Es basiert genauso auf Neuronen und deren Axonen, Dendriten und Terminale. Obwohl es verschiedene Arten von Neuronen gibt, haben sie alle gemeinsam, dass sie einen elektrischen Impuls als Reaktion auf einen Input aussenden. Dieser Output hängt von dem Neuron, welches das chemische und elektrische Signal verarbeitet, ab.
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[scale=1]{pics/Neuron.png}
-    \caption{Neuron \cite{tech:neuron:cite}}
-    \label{fig:tech:Neuron}
+  \centering
+  \includegraphics[scale=0.15]{pics/Neuron.jpeg}
+  \caption{Neuron \cite{tech:neuron:cite}}
+  \label{fig:tech:Neuron}
 \end{figure}
 
 Ähnlich funktioniert auch ein Neuronales Netz. Auf eine Eingabe folgt über eine Verarbeitung der Eingabe eine Ausgabe. Und wie bei einem Menschen, welcher etwas Neues kennenlernt, weiß auch das Neuronale Netz nicht, was die korrekte Antwort auf ein Problem ist. Es muss sich also an die Lösung herantasten.
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.3]{pics/eba.png}
-    \caption{Künstliches Neuron}
-    \label{fig:tech:eba}
+  \centering
+  \includegraphics[scale=0.3]{pics/eba.png}
+  \caption{Künstliches Neuron}
+  \label{fig:tech:eba}
 \end{figure}
 
 Ein einfaches mathematisches Beispiel hierfür wäre, wenn einen einfachen Faktor mit zwei Nachkommastellen ermittelt werden soll. Beispiel: Euro in USD umrechnen. Hierfür ist ein Faktor kleiner 1 nötig. Bevor der ganze Prozess des Lernens startet, muss mit einer Eingabe gestartet werden. Dies ist zum Beispiel die Zahl 1. Somit wird der Künstlichen Intelligenz im übertragenen Sinne erklärt: ``Bitte errechne mir wie viele USD in meiner Hand liegen''. Es wurde also ein Input für die KI gefunden. Dieser Input wird über eine nicht ganz zufällig gewählte Gewichtung in eine Berechnung umgewandelt. Es wird angenommen, dass diese Gewichtung ein Faktor <1 also 0,99 sei.
@@ -607,10 +607,10 @@ Die KI wird das tatsächliche Ergebnis von 0,89 nie erreichen. Die von der KI er
 Dieser Wert darf jedoch auch nie zu klein gewählt werden. Wird dies anhand eines etwas komplexeren Beispiel angesehen, so ist klar zu erkennen, dass in der folgenden Kurve der tatsächliche minimale Fehler nie erreicht wird. Um dies zu vermeiden, gibt es verschiedene Methoden. Als Exempel kann eine Art Fehler-Abtastungs-Beschleunigung herangezogen werden. Hier wird der Faktor, um welchen die Abweichung korrigiert wird, in einer Art Beschleunigung angepasst. Der aktuelle Wert ist wie einen Ball zu betrachten, welcher über einen Berg hinunterrollt.
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[scale=1]{pics/ai/fehlerkurve.png}
-    \caption{Fehlerkurve \cite{tech:fehlerkurve:cite}}
-    \label{fig:tech:Fehler}
+  \centering
+  \includegraphics[scale=1]{pics/ai/fehlerkurve.png}
+  \caption{Fehlerkurve \cite{tech:fehlerkurve:cite}}
+  \label{fig:tech:Fehler}
 \end{figure}
 
 Durch das Momentum kann der Ball nachfolgende Hindernisse überwinden. Die Gefahr dabei besteht jedoch, dass der Ball, wenn er nicht noch einmal angeschubst wird, in einem höheren Tal zum Stehen kommt, weil das Momentum zum Zurück- oder Weiterkommen fehlt. Es kann aber auch sein, dass der Ball nie genug Momentum hatte, da er zu wenig stark losbewegt wurde.
@@ -628,10 +628,10 @@ Das Spiel ist wie folgt aufgebaut: ein 3x3 Schachbrett bildet den Untergrund des
 
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.6]{pics/hexapawn/hexapawn_setup.png}
-    \caption{Hexapawn Spielumgebung \cite{tech:hexapawnsetup:cite}}
-    \label{fig:tech:HexapawnSetup}
+  \centering
+  \includegraphics[scale=0.6]{pics/hexapawn/hexapawn_setup.png}
+  \caption{Hexapawn Spielumgebung \cite{tech:hexapawnsetup:cite}}
+  \label{fig:tech:HexapawnSetup}
 \end{figure}
 
 Diese drei Figuren sind gleichwertig und dürfen sich Verhalten wie ein ``Bauer'' im Spiel Schach (also nur nach vor oder zum Schlagen nach links und rechts). \textit{Martin Gardner} setzt dabei die Regel fest, dass der Mensch, auf welcher Seite er auch immer spielt, den ersten Zug macht. Somit ist der Mensch immer in den ungeraden Zügen dran (1, 3, 5, 7) und der Computer/die Künstliche Intelligenz/die Mathematik immer in den geraden Zügen (2, 4, 6) an der Reihe. Nach acht Zügen gibt es garantiert immer einen Gewinner. Das Ziel des Spiels ist es, dass alle gegnerischen Figuren geschmissen werden.
@@ -640,10 +640,10 @@ Um einen solchen ``Hexapawn''-Computer zu bauen, werden vierundzwanzig Streichho
 
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.7]{pics/hexapawn/hexapawn_zuege.jpg}
-    \caption{Hexapawn mögliche Züge \cite{tech:hexapawn:cite}}
-    \label{fig:tech:HexapawnZuege}
+  \centering
+  \includegraphics[scale=0.7]{pics/hexapawn/hexapawn_zuege.jpg}
+  \caption{Hexapawn mögliche Züge \cite{tech:hexapawn:cite}}
+  \label{fig:tech:HexapawnZuege}
 \end{figure}
 
 
@@ -671,9 +671,9 @@ dass laut einer Umfrage im Jahr 2007 ca. 58 Prozent der User und Userinnen das P
 Eine wichtige Funktion, welche bei dieser Arbeit viel verwendet wurde, ist das "Form erzeugen" Werkzeug. Ausgewählt wird es mit dem Shortcut "U". Damit können Formen erstellt und verändert werden. Um zum Beispiel ein Viereck zu erstellen, muss das Unterwerkzeug "Rechteck-Werkzeug" auswählen. Danach
 kann eine beliebig große Fläche aufgezogen werden.
 \begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.7]{pics/erzeugen.png}
-    \caption{Erzeugen Werkzeug}
+  \centering
+  \includegraphics[scale=0.7]{pics/erzeugen.png}
+  \caption{Erzeugen Werkzeug}
 \end{figure}
 
 Um die Formen in die richtige Position zu bekommen, wurde mit dem "Transformieren" Werkzeug
@@ -693,17 +693,17 @@ Wie stark ein Objekt sich dehnt und zusammendrückt sagt viel über die Masse de
 Dies wird auch auf animierte Charaktere angewandt. Wenn ein Charakter nach unten fällt, dehnt sich sein Körper und wenn er landet wird er zusammendrückt, bevor er in einer stabilen Position stehen bleibt (Abbildung \ref{fig:tech:SqashAndStretch}).
 Dabei muss jedoch beachtet werden, dass das Volumen des Objekts immer gleich bleiben muss. Wird ein Objekt nach unten zusammengedrückt muss es sich in die Breite dehnen (Abbildung \ref{fig:tech:SqashAndStretchCube}).
 \begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.5]{pics/SqashAndStretch.png}
-    \caption{Squash and Stretch Charakter}
-    \label{fig:tech:SqashAndStretch}
+  \centering
+  \includegraphics[scale=0.5]{pics/SqashAndStretch.png}
+  \caption{Squash and Stretch Charakter}
+  \label{fig:tech:SqashAndStretch}
 \end{figure}
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.5]{pics/SqashAndStretchCube.png}
-    \caption{Squash and Stretch Quadrat}
-    \label{fig:tech:SqashAndStretchCube}
+  \centering
+  \includegraphics[scale=0.5]{pics/SqashAndStretchCube.png}
+  \caption{Squash and Stretch Quadrat}
+  \label{fig:tech:SqashAndStretchCube}
 \end{figure}
 
 \subsubsection{2. Anticipation}
@@ -711,51 +711,51 @@ Dieses Prinzip soll dem Zuschauer einen Hinweis darauf geben welche Aktion als n
 Das klassische Beispiel hierzu ist ein Sprung. Bevor der Charakter in die Luft springt muss er sich erst nach unten beugen, um Energie aufzubauen. Dies kann mit einer Feder verglichen werden, welche zusammengedrückt wird, und dann schnell losgelassen wird (Abbildung \ref{fig:tech:Spring}).
 Ein weiteres Beispiel ist ein Schlag. Um den Schlag realistischer darzustellen und dem Zuseher zu signalisieren, dass gleich etwas wichtiges passieren wird, holt ein animierter Charakter überdramatisch aus(Abbildung \ref{fig:tech:Punch}).
 \begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.5]{pics/Spring.png}
-    \caption{Sprung}
-    \label{fig:tech:Spring}
+  \centering
+  \includegraphics[scale=0.5]{pics/Spring.png}
+  \caption{Sprung}
+  \label{fig:tech:Spring}
 \end{figure}
 \begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.5]{pics/Punch.png}
-    \caption{Schlag}
-    \label{fig:tech:Punch}
+  \centering
+  \includegraphics[scale=0.5]{pics/Punch.png}
+  \caption{Schlag}
+  \label{fig:tech:Punch}
 \end{figure}
 
 \subsubsection{3. Staging}
 Staging ist die unmissverständliche Präsentation einer Idee einer Aktion. Dieses Prinzip ist sehr breit gefächert, weil es so viele verschiedene
 Teile der Animation abdeckt. Dabei soll dem Zuseher immer klar sein wo er hinschauen soll.
 \begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.2]{pics/Staging.png}
-    \caption{Staging}
-    \label{fig:tech:Staging}
+  \centering
+  \includegraphics[scale=0.2]{pics/Staging.png}
+  \caption{Staging}
+  \label{fig:tech:Staging}
 \end{figure}
 
 \subsubsection{4. Straight Ahead and Pose to Pose}
 Diese beiden Begriffe sind Methoden zum animieren von Zeichnungen. Bei Straight Ahead wird jede Pose hintereinander gezeichnet. Bei Pose to Pose wird die Anfangspose und die Endpose gezeichnet. Danach werden die Frames (Bilder) dazwischen gezeichnet.
 Pose to Pose ist dabei die einfachere Variante, weil genau klar ist, wo sich das Objekt am Schluss befinden wird. Straigt Ahead ist dafür besser geeignet, wenn eine überaschende Aktion ausgeführt werden soll (Wassertropfen, Explosion, etc.).
 \begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.4]{pics/StraightAhead.png}
-    \caption{Straight Ahead}
-    \label{fig:tech:StraightAhead}
+  \centering
+  \includegraphics[scale=0.4]{pics/StraightAhead.png}
+  \caption{Straight Ahead}
+  \label{fig:tech:StraightAhead}
 \end{figure}
 \begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.4]{pics/PoseToPose.png}
-    \caption{Pose To Pose}
-    \label{fig:tech:PoseToPose}
+  \centering
+  \includegraphics[scale=0.4]{pics/PoseToPose.png}
+  \caption{Pose To Pose}
+  \label{fig:tech:PoseToPose}
 \end{figure}
 \subsubsection{5. Follow Through and Overlapping Action}
 Dieses Prinzip besagt, dass manche Körperteile und Anhängsel vom Körper hinterhergezogen werden, bzw. wenn der Körper bremst, wird das Anhängsel nach vorne geschleudert.
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.4]{pics/FollowThrough.png}
-    \caption{Follow Through and Overlapping Action}
-    \label{fig:tech:FollowThrough}
+  \centering
+  \includegraphics[scale=0.4]{pics/FollowThrough.png}
+  \caption{Follow Through and Overlapping Action}
+  \label{fig:tech:FollowThrough}
 \end{figure}
 
 \subsubsection{6. Slow In and Slow Out}
@@ -766,10 +766,10 @@ Jedoch kann dieses Prinzip nicht überall verwendet werden. Bei zum Beispiel ein
 Die meisten Objekte in der Welt folgen in runden Kreisbahnen, sogenannten Arcs (Bögen). Es ist nicht möglich, einfach zwischen einem Anfangs- und Endframe Frames hinzuzufügen, sondern es muss ein runder Bogen erstellt werden, um die
 Animation realistisch wirken zu lassen. Hierbei sollte auch das Slow In and Slow Out Prinzip nicht vergessen werden.
 \begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.18]{pics/Arc.png}
-    \caption{Arc}
-    \label{fig:tech:Arc}
+  \centering
+  \includegraphics[scale=0.18]{pics/Arc.png}
+  \caption{Arc}
+  \label{fig:tech:Arc}
 \end{figure}
 
 \subsubsection{8. Secondary Action}
@@ -788,10 +788,10 @@ Jede Form von Handlung kann so übertrieben werden, dass sie eine andere Wirkung
 Soll ein Charakter fröhlich sein, wird er übertrieben fröhlich dargestellt. Übertreibung bedeutet hierbei jedoch nicht
 verzerrter sondern überzeugender. Bei schnellen Animationen muss die Übertreibung größer sein um bemerkt zu werden.
 \begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.4]{pics/sad.png}
-    \caption{Übertreibung}
-    \label{fig:tech:ex}
+  \centering
+  \includegraphics[scale=0.4]{pics/sad.png}
+  \caption{Übertreibung}
+  \label{fig:tech:ex}
 \end{figure}
 
 \subsubsection{11. Solid Drawing}
