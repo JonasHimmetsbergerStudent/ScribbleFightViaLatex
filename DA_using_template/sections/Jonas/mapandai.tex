@@ -45,7 +45,7 @@ werden zur Hilfe Kameras außerhalb des Fahrzeugs angebracht. In einem Auto, wel
 eingestuft wird, werden diese Kameras für einen automatischen Spurhalteassistenten eingesetzt. Via Bildanalyse und Objekterkennung
 werden die Linien auf der Straße erkannt. \\
 In höheren Stufen ist die Objekterkennung nicht mehr wegzudenken. Es müssen Verkehrsschilder und Personen auf der Straße erkannt
-werden, um daraufhin entsprechen zu agieren.
+werden, um daraufhin entsprechend zu agieren. \cite{selfdriving}
 
 Andere Beispiele:
 \begin{compactitem}
@@ -60,7 +60,7 @@ Wie schon erwähnt kann aus Bildern Daten erkannt werden. Viele Pixel bilden ins
 \\
 Bevor darauf eingegangen wird wieso die Konturenerkennung als Art der Bilderkennung verwendet wurde, ist es noch entscheidend zu wissen, wie der Mensch Objekte erkennt.
 \\
-In unserem Auge passiert die Farberkennung via den Zapfen. Auch hier wird die Wellenlänge des Lichts in ein Gemisch aus Rot, Grün und Blau aufgeteilt. Allerdings wird das reine Farbsehen nicht benötigt, um Objekte zu erkennen. Es reicht schon, wenn nur Informationen über die Helligkeit empfinden. Somit kann zum Beispiel auch in Schwarz-Weiß-Bildern, oder in der Dunkelheit bei wenig Licht, Objekte erkannt werden. Ein Mensch erkennt einen Unterschied zwischen Objekten, welche sich in einem dreidimensionalen Raum befinden leicht, indem das eine Objekt sich in der Helligkeit von dem anderen Objekt unterscheidet. Das heißt, dass wenn z.B. ein Würfel auf einem Boden liegt, ist dieser erkennbar, weil er anders viel Licht reflektiert als der Boden. An der Stelle, wo der Würfel aufhört, kann eine Kontur erkannt werden. Hier ist der Unterschied zwischen Boden und Würfel erkennbar.
+In unserem Auge passiert die Farberkennung via den Zapfen. Auch hier wird die Wellenlänge des Lichts in ein Gemisch aus Rot, Grün und Blau aufgeteilt. Allerdings wird das reine Farbsehen nicht benötigt, um Objekte zu erkennen. Es reicht schon, wenn nur Informationen über die Helligkeit empfunden werden. Somit künnen zum Beispiel auch in Schwarz-Weiß-Bildern, oder in der Dunkelheit bei wenig Licht, Objekte erkannt werden. Ein Mensch erkennt einen Unterschied zwischen Objekten, welche sich in einem dreidimensionalen Raum befinden leicht, indem das eine Objekt sich in der Helligkeit von dem anderen Objekt unterscheidet. Das heißt, dass wenn z.B. ein Würfel auf einem Boden liegt, ist dieser erkennbar, weil er anders viel Licht reflektiert als der Boden. An der Stelle, wo der Würfel aufhört, kann eine Kontur erkannt werden. Hier ist der Unterschied zwischen Boden und Würfel erkennbar.
 \\
 Und genau so passiert auch die Objekterkennung in unserem Spiel ScribbleFight. Hier wird zuerst aus der Live-View, welche vom Client zur Verfügung gestellt wird, das Farbbild in Graustufen konvertiert. Das passiert, indem für jeden Pixel ein ``Durchschnitts-Wert'' der Helligkeit von allen drei Farbwerte (Rot, Grün, Blau), welche in einem 8-Bit System von 0 bis 255 geht, gebildet wird. Wie dies jedoch genauer funktioniert, wird im Kapitel Bildverarbeitungsalgorithmen
 \ref{maai:alogs}
