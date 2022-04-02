@@ -879,10 +879,63 @@ Dieser Map-Array wird dann in ein File abgespeichert. Dieses File dient rein daz
 
 \end{lstlisting}
 
-\subsection{Kommunikation mit der Lobby via Flask und Flask SocketIO [W]}
+\subsection{Kommunikation mit der Lobby via Flask und Flask SocketIO [W]} \label{PythonSocket}
+\setauthor{Weinzierl Ben}
+
+Sobald die User auf den QR-Code clicken, bzw. diesen scannen, werden sie zu der Map Erkennung weitergeleitet. (NewClient)
+Dabei werden 2 Parameter mitgeschickt; Die Game-ID und die Client-ID. Damit der Python-Server diese Parameter entgegennehmen kann wird eine neue Route definiert. Danach werden die Pfadparameter abgespeichert,
+und die HTML-Seite wird geladen (\ref*{PythonParam}). Daraufhin werden die Parameter im Localstorage gespeichert (\ref*{localstorage_map}). Dafür wird der Pfad der URL ausgelesen. Dieser wird aufgesplitet und dann im Localstorage abgespeichert.
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.85]{pics/python_Params.png}
+    \caption{Python Path Parameter}
+    \label{PythonParam}
+\end{figure}
+
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.85]{pics/localStorage.png}
+    \caption{Localstorage}
+    \label{localstorage_map}
+\end{figure}
+
+Um nun die Multiuserfähigkeit zu gewährleisten wird nach jedem ``socket.on'' geprüft,
+von welcher Game-ID und welchem Client der Request kommt. Dafür werden die gameId und clientId der msg mit der des Localstorages verglichen. 
+
+\begin{lstlisting}[language=Python,caption= Socket.on Beispielüberprüfung]
+    socket.on('perspective transformed', function (msg) {
+        let gameId = msg.gameId;
+        let clientId = msg.clientId;
+        let localGameId = localStorage.getItem("myGame");
+        let localClientId = localStorage.getItem("myId")
+        if (gameId != localGameId && clientId != localClientId) {
+            console.log("Falscher Client/Game");
+        } else {
+            ...
+        }
+\end{lstlisting}
+
+Sobald eine spielbare Map erstellt worden ist, wird eine SocketVerbindung zur Lobby hergestellt und dieser wird das Hintergrundbild und der mapstring geschickt. 
+
+\begin{lstlisting}[language=Python,caption=Map wird an Lobby geschickt]
+    const lobbySocket = io('http://localhost:3001')
+        const payLoad = {
+            "method": "picUploaded",
+            "clientId": clientId,
+            "gameId": gameId,
+            "img": img,
+            "map": map
+        }
+
+    lobbySocket.emit('picUploaded', payLoad)
+\end{lstlisting}
+
+PICUPLOADED
 
 \section{KI [H]}\label{maai:ai:title}
-
+\setauthor{Himmetsberger Jonas}
 Die Vorstellung von Künstlichen Intelligenzen gibt es schon seit Mitte des zwanzigsten Jahrhunderts. Bei einer Konferenz von Wissenschaftlern am Dartmouth College im US-Bundesstaat New Hampshire im Jahr 1956 wird das erste Mal bewiesen, dass es möglich ist mit Mathematik menschliche Intelligenz zu simulieren.
 
 %Quelle: https://www.bosch.com/de/stories/geschichte-der-kuenstlichen-intelligenz/
