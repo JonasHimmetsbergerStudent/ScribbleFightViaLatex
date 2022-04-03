@@ -1350,10 +1350,9 @@ Das Ingress-Spec-Field stellt einen Service-Namen und Service-Port bereit, der g
 Die Grundstruktur des Lobbysystems dieser Arbeit wurde auf den
 Grundbausteinen eines Websocket-Spiels gebaut.
 Dieses kann unter \cite{gameLobby} 
-gefunden werden.
 gefunden werden. Auf das Spiel wird hier nicht eingegangen, da für
 diese Arbeit nur die Lobby relevant ist. Das Lobbysystem dieses Spiels hat 3 Funktionen, welche später in ähnlicher Form in der ScribbleFight Lobby verwendet wurden: ``connect'', ``create'' und ``join''.
-Hat sich ein User oder eine Userin ``connectet'' erstellt der Server für diese eine zufällig generierte clientId.
+Hat sich ein User oder eine Userin ``connectet'' erstellt der Server für diese eine zufällig generierte Client-ID.
 Wird ein Spiel erstellt, wird eine Game-ID generiert und der Spieler wird dem Game hinzugefügt.
 Möchte einem Spiel beigetreten werden wird der Spieler zum ``game'' hinzugefügt.
 
@@ -1444,7 +1443,7 @@ nicht mit Websocket, sonder mit SocketIO gearbeitet. Auf die tatsächliche Umset
 
 \subsection{Aufbau von ScribbleFight}
 Bei dieser Arbeit gab es drei Teile. Das Spiel, die Map-Erkennung und die Lobby. Diese wurden im Frontend alle mit HTML, CSS und JavaScript umgesetzt.
-Für das Backend haben die Lobby und das Spiel jeweils einen Node.js Server verwendet. Die Bilderkennung hat dafür einen Python-Flask Server verwendet. Die Lobby, welche als Mittelteil fungierte, hat mittels Socket.io die Kommunikation zwischen den Teilen dargestellt.
+Für das Backend haben die Lobby und das Spiel jeweils einen Node.js Server verwendet. Die Bilderkennung hat dafür einen Python-Flask Server verwendet. Die Lobby, welche als Mittelteil fungierte, hat mittels SocketIO die Kommunikation zwischen den Teilen dargestellt.
 Um die Spieler und Spielerinnen miteinander spielen zu lassen wird ein 4-stelliger Code, die Game-ID, generiert. Dieser kann dann an die Mitspieler und Mitspielerinnen geschickt werden. In der Lobby wird auch ein QR-Code dargestellt welcher auf die Bilderkennung verlinkt.
 Wird dort (auf dem Python Server) ein Bild hochgeladen wird dies an die Lobby weitergeleitet. Sind alle Spieler und Spielerinnen fertig mit dem Upload, wird das Voting gestartet. Steht ein Gewinner fest (bei Gleichstand wird zufällig gewählt), wird auf das Spiel verlinkt. Dabei wird das Gewinnerbild mitgeschickt und die Spieler und Spielerinnen können anfangen, sich zu bekämpfen.
 \begin{figure}[H]
@@ -1631,9 +1630,9 @@ Im ``join'' des Frontends werden alle gejointen Spieler und Spielerinnen ausgege
 \end{lstlisting}
 
 
-Hat ein User seine gezeichnete Map hochgeladen wird der Server benachrichtigt (\ref*{PythonSocket}).
+Hat ein User seine gezeichnete Map hochgeladen wird der Server benachrichtigt (\ref{PythonSocket}).
 Sobald der Server die Nachricht bekommen hat, wird der User der das Bild hochgeladen hat, als ready eingestuft. Dies wird durch das herauslöschen aus dem picGame.clients-Array gemacht.
-Danach wird das Bild unter der richtigen clientId abgespeichert und es wird allen Usern der Lobby mitgeteilt, dass ein Bild hochgeladen wurde.
+Danach wird das Bild unter der richtigen Client-ID abgespeichert und es wird allen Usern der Lobby mitgeteilt, dass ein Bild hochgeladen wurde.
 Dort wird überprüft ob schon alle User ihre Bilder hochgeladen haben. Ist das der Fall erscheint ein Button welcher das Voting starten lässt.
 \begin{lstlisting}[language=html,caption=picUploaded Server]
 
@@ -1708,8 +1707,8 @@ Dort wird überprüft ob schon alle User ihre Bilder hochgeladen haben. Ist das 
 \end{lstlisting}
 
 Wurde das Voting gestartet werden alle User benachrichtigt.
-Daraufhin wird bei allen Usern der Lobby im Frontend ein Balkendiagramm initialisatiert. Die Parameter dieses Diagramms wurden in \ref*{ChartJs} erläutert.
-In das Diagramm werden dann noch die Player eingefügt und es wird jeweils das gezeichnete Bild und ein Votingbutton dargestellt.
+Daraufhin wird bei allen Usern der Lobby im Frontend ein Balkendiagramm initialisatiert. Die Parameter dieses Diagramms wurden in \ref{ChartJs} erläutert.
+In das Diagramm werden dann noch die Player eingefügt und es wird jeweils das gezeichnete Bild und ein Voting-Button dargestellt.
 \begin{lstlisting}[language=html,caption=Start Voting Server]
     
     Server:
@@ -1810,11 +1809,11 @@ In das Diagramm werden dann noch die Player eingefügt und es wird jeweils das g
 \end{lstlisting}
 
 Der nächste Abschnitt wird aufgerufen wenn ein User abgestimmt hat. Der Server wird benachrichtigt und überprüft mit einer Schleife ob der User
-schon einmal gevoted hat. Hat er dies nicht getan, wird ein boolean auf true gesetzt.
+schon einmal gevoted hat. Hat er dies nicht getan, wird ein Boolean auf true gesetzt.
 Danach wird der User aus dem playerVotes.clients-Array herausgelöscht, um ihn nicht nocheinmal abstimmen zu lassen. Die Zeichnung für die abgestimmt wurde(voteGame.vote[votedPlayer]) wird um 1 erhöht und alle User in der Lobby werden benachrichtigt.
 Ist im playerVotes.clients-Array kein Client mehr vorhanden, bedeutet das, dass alle User gevoted haben und es muss ein Gewinner festgestellt werden.
 Dafür werden alle Zeichnungen durchgegangen und es wird sich der Wert der Votes in ``arr'' gemerkt. Daraufhin wird der Index des höchsten Werts des Arrays herausgefunden \cite{indexOfMax}. 
-Damit kann die Gewinnermap in der game Variable gespeichert werden und allen Usern wird vermittelt, dass das Spiel starten kann.
+Damit kann die Gewinnermap in der ``game'' Variable gespeichert werden und allen Usern wird vermittelt, dass das Spiel starten kann.
 \begin{lstlisting}[language=html,caption= User voted Server]
     
     socket.on('voted', message => {
@@ -1897,7 +1896,7 @@ Damit kann die Gewinnermap in der game Variable gespeichert werden und allen Use
         window.location.href = 'http://localhost:3000/' + gameId;
     })
 \end{lstlisting}
-Im Frontend wird zuerst das Diagramm geupdatet und sollten alle User gevoted haben, wird auf das Spiel verlinkt, mit der GameId als Parameter.
+Im Frontend wird zuerst das Diagramm geupdatet und sollten alle User gevoted haben, wird auf das Spiel verlinkt, mit der Game-ID als Parameter.
 
 \subsection{Game Socketverbindung zur Lobby}
 Bei der Initialisierung des Webgames wird eine Funktion namens ``getGame()'' aufgerufen. Diese holt sich aus der URL den GameID Parameter und benachrichtigt den Server.
@@ -1994,7 +1993,7 @@ bei jeder dieser Aktionen etwas ausgegben. Bei ``user-connected'' und ``user-dis
 \end{lstlisting}
 
 \section{Animationen [W]} \label{animations}
-Für das Spiel wurden verschiedene Animationen gebraucht. Eine Standardpose bei der der Spieler still steht ist bei Abbildung \ref*{AnimationSheet} oben links zu sehen.
+Für das Spiel wurden verschiedene Animationen gebraucht. Eine Standardpose bei der der Spieler still steht ist bei Abbildung \ref{AnimationSheet} oben links zu sehen.
 Wurde der Spieler in den Körper bzw. auf den Kopf getroffen werden die nächsten beiden Bilder genutzt. Die folgenden drei Bilder sind eine simple Sprunganimation, bei der der Charakter (nach dem zweiten Prinzip der Animation) sich erst nach unten bückt und dann wegspringt.
 Die letzten 6 Bilder sind eine Laufanimation. Die Abbildung \ref{Wallslide} zeigt einen Wallslide.
 \begin{figure}[H]

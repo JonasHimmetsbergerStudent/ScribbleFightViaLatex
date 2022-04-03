@@ -673,7 +673,7 @@ Eine wichtige Funktion, welche bei dieser Arbeit verwendet wurde, ist das ``Form
 kann eine beliebig große Fläche aufgezogen werden.
 \begin{figure}[H]
   \centering
-  \includegraphics[scale=0.7]{pics/erzeugen.png}
+  \includegraphics[scale=0.6]{pics/erzeugen.png}
   \caption{Erzeugen Werkzeug}
 \end{figure}
 
@@ -681,19 +681,28 @@ Um die Formen in die richtige Position zu bekommen, wurde mit dem ``Transformier
 gearbeitet. Verwendet wird es unter dem Reiter ``Bearbeiten -> Transformieren''.
 Um die Fläche zu skalieren wird an den Ecken mit der Maus die Größe verändert. Sollen die Proportionen des Bildes erhalten bleiben
 kann dabei die Umschalt-Taste gedrückt werden. Damit die Ebene gedreht werden kann, muss an den Rändern gehovert werden bis das Drehsymbol erscheint.
-Um die Ebene zu spiegeln oder auf den Kopf zu stellen kann der Befehl 'Horizontal Spiegeln' bzw. 'Um 180° drehen'.
+Um die Ebene zu spiegeln oder auf den Kopf zu stellen kann der Befehl 'Horizontal Spiegeln' bzw. 'Um 180° drehen' benutzt werden.
+
+Damit die aufgezogenen Flächen die richtige Farbe haben, kann das Icon für den Farbwähler gewählt werden. Dieses öffnet ein Fenster. Bei diesem kann die gewünschte Farbe entweder in Hexadezimalcode oder in RGB (Red,Green,Blue) angegben werden.
+Die Farbe kann aber auch manuell ausgewählt werden oder mit dem ``Pipetten-Werkzeug'' (Shortcut ``I'') ausgesucht werden. 
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=0.6]{pics/color.png}
+  \caption{Farbwähler}
+\end{figure}
+
 
 \subsection{12 Prinzipien der Animation}
-Die Informationen zu diesem Kapitel wurden in Quelle \cite{principles}
+Die Informationen zu diesem Kapitel wurden in Quelle \cite{principles} in Erfahrung gebracht.
 Im Jahr 1981 haben die beiden Disney Animatoren Ollie Johnston und Frank Thomas in ihrem Buch ''Disney Animation: Die Illusion des Lebens'' die Animationsindustrie revolutioniert.
 Darin haben sie 12 Prinzipien der Animation vorgestellt welche seit den 1930er Jahren von Disney in ihren Animationsfilmen angewendet wurden.
-Die Grundlagen dieser Prinzipien bestehen darin, Animationen zu erzeugen, welche den Gesetzen der Physik folgen, doch auch mit Timing, Emotionen etc.
+Die Grundlagen dieser Prinzipien bestehen darin, Animationen zu erzeugen, welche den Gesetzen der Physik folgen.
 
 \subsubsection{1. Squash and Stretch}
 Dieses Prinzip beruht darauf, dass animierte Objekte länger bzw. flacher werden um ihre Geschwindigkeit, Masse oder ihr Momentum zu betonen.
 Wie stark ein Objekt sich dehnt und zusammendrückt sagt viel über die Masse des Objekts aus. Umso mehr Dehnung umso leichter ist das Objekt.
 Dies wird auch auf animierte Charaktere angewandt. Wenn ein Charakter nach unten fällt, dehnt sich sein Körper und wenn er landet wird er zusammendrückt, bevor er in einer stabilen Position stehen bleibt (Abbildung \ref{fig:tech:SqashAndStretch}).
-Dabei muss jedoch beachtet werden, dass das Volumen des Objekts immer gleich bleiben muss. Wird ein Objekt nach unten zusammengedrückt muss es sich in die Breite dehnen (Abbildung \ref{fig:tech:SqashAndStretchCube}).
+Dabei muss jedoch beachtet werden, dass das Volumen des Objekts immer gleich bleiben muss. Wird ein Objekt nach unten zusammengedrückt, muss es sich in die Breite dehnen (Abbildung \ref{fig:tech:SqashAndStretchCube}).
 \begin{figure}[H]
   \centering
   \includegraphics[scale=0.5]{pics/SqashAndStretch.png}
@@ -709,7 +718,7 @@ Dabei muss jedoch beachtet werden, dass das Volumen des Objekts immer gleich ble
 \end{figure}
 
 \subsubsection{2. Anticipation}
-Dieses Prinzip soll dem Zuschauer einen Hinweis darauf geben welche Aktion als nächstes passiert. Außerdem soll dies die Aktion mehr realistischer machen.
+Dieses Prinzip soll dem Zuschauer einen Hinweis darauf geben welche Aktion als nächstes passiert. Außerdem soll dies die Aktion mehr realistisch machen.
 Das klassische Beispiel hierzu ist ein Sprung. Bevor der Charakter in die Luft springt muss er sich erst nach unten beugen, um Energie aufzubauen. Dies kann mit einer Feder verglichen werden, welche zusammengedrückt wird, und dann schnell losgelassen wird (Abbildung \ref{fig:tech:Spring}).
 Ein weiteres Beispiel ist ein Schlag. Um den Schlag realistischer darzustellen und dem Zuseher zu signalisieren, dass gleich etwas wichtiges passieren wird, holt ein animierter Charakter überdramatisch aus(Abbildung \ref{fig:tech:Punch}).
 \begin{figure}[H]
@@ -726,7 +735,7 @@ Ein weiteres Beispiel ist ein Schlag. Um den Schlag realistischer darzustellen u
 \end{figure}
 
 \subsubsection{3. Staging}
-Staging ist die unmissverständliche Präsentation einer Idee einer Aktion. Dieses Prinzip ist sehr breit gefächert, weil es so viele verschiedene
+Staging ist die unmissverständliche Präsentation einer Idee oder einer Aktion. Dieses Prinzip ist sehr breit gefächert, weil es so viele verschiedene
 Teile der Animation abdeckt. Dabei soll dem Zuseher immer klar sein wo er hinschauen soll.
 \begin{figure}[H]
   \centering
@@ -736,7 +745,7 @@ Teile der Animation abdeckt. Dabei soll dem Zuseher immer klar sein wo er hinsch
 \end{figure}
 
 \subsubsection{4. Straight Ahead and Pose to Pose}
-Diese beiden Begriffe sind Methoden zum animieren von Zeichnungen. Bei Straight Ahead wird jede Pose hintereinander gezeichnet. Bei Pose to Pose wird die Anfangspose und die Endpose gezeichnet. Danach werden die Frames (Bilder) dazwischen gezeichnet.
+Diese beiden Begriffe sind Methoden zum Animieren von Zeichnungen. Bei Straight Ahead wird jede Pose hintereinander gezeichnet. Bei Pose to Pose wird die Anfangspose und die Endpose gezeichnet. Danach werden die Frames (Bilder) dazwischen gezeichnet.
 Pose to Pose ist dabei die einfachere Variante, weil genau klar ist, wo sich das Objekt am Schluss befinden wird. Straigt Ahead ist dafür besser geeignet, wenn eine überaschende Aktion ausgeführt werden soll (Wassertropfen, Explosion, etc.).
 \begin{figure}[H]
   \centering
@@ -799,10 +808,16 @@ verzerrter sondern überzeugender. Bei schnellen Animationen muss die Übertreib
 \subsubsection{11. Solid Drawing}
 Beim Solid Drawing (Festkörperzeichnung) geht es darum, dass Objekte und Animationen sich 3-dimensional anfühlen.
 Die 3 Hauptparameter dafür sind: Volumen Gewicht und Balance. Dabei ist es wichtig die Objekte korrekt in 3 Dimensionen darzustellen.
+Ein Tipp für Anfänger ist es, nur Würfel, Quader und Kreise zum Designen von Charakteren zu verwenden.
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=0.8]{pics/solidDrawing.png}
+  \caption{Solid Drawing}
+\end{figure}
 
 \subsubsection{12. Appeal}
 Grundsätzlich besagt dieses Prinzip, dass Charaktere und Objekte ansprechend sein sollen. Sie sollten einen charismatischen
-Aspekt an sich haben, der sympathisch ist. Dabei ist nicht nur gutes Aussehen gemeint, sondern auch interessantes Aussehen. Der Bösewicht sollte zum Beispiel sympathisch sein, im Sinne, dass man ihn gerne ansieht. \\
+Aspekt an sich haben, der sympathisch ist. Dabei ist nicht nur gutes Aussehen gemeint, sondern auch interessantes Aussehen. Der Bösewicht sollte zum Beispiel sympathisch sein, im Sinne, dass man ihn gerne ansieht.
 Da aber jeder Mensch einen eigenen Geschmack hat, kann es schwierig sein, viele Menschen anzusprechen. Deshalb ist es sinnvoll, einem Charakter ein dynamisch interessantes Design zu geben. \\
 \\
 Die Umsetzung dieser Prinzipien wurde in Kapitel \ref{animations} erläutert.
