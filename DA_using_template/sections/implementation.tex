@@ -1813,7 +1813,7 @@ Der nächste Abschnitt wird aufgerufen wenn ein User abgestimmt hat. Der Server 
 schon einmal gevoted hat. Hat er dies nicht getan, wird ein boolean auf true gesetzt.
 Danach wird der User aus dem playerVotes.clients-Array herausgelöscht, um ihn nicht nocheinmal abstimmen zu lassen. Die Zeichnung für die abgestimmt wurde(voteGame.vote[votedPlayer]) wird um 1 erhöht und alle User in der Lobby werden benachrichtigt.
 Ist im playerVotes.clients-Array kein Client mehr vorhanden, bedeutet das, dass alle User gevoted haben und es muss ein Gewinner festgestellt werden.
-Dafür werden alle Zeichnungen durchgegangen und es wird sich der Wert der Votes in ``arr'' gemerkt. Daraufhin wird der Index des höchsten Werts des Arrays herausgefunden. TODO
+Dafür werden alle Zeichnungen durchgegangen und es wird sich der Wert der Votes in ``arr'' gemerkt. Daraufhin wird der Index des höchsten Werts des Arrays herausgefunden \cite{indexOfMax}. 
 Damit kann die Gewinnermap in der game Variable gespeichert werden und allen Usern wird vermittelt, dass das Spiel starten kann.
 \begin{lstlisting}[language=html,caption= User voted Server]
     
@@ -1996,12 +1996,19 @@ bei jeder dieser Aktionen etwas ausgegben. Bei ``user-connected'' und ``user-dis
 \section{Animationen [W]} \label{animations}
 Für das Spiel wurden verschiedene Animationen gebraucht. Eine Standardpose bei der der Spieler still steht ist bei Abbildung \ref*{AnimationSheet} oben links zu sehen.
 Wurde der Spieler in den Körper bzw. auf den Kopf getroffen werden die nächsten beiden Bilder genutzt. Die folgenden drei Bilder sind eine simple Sprunganimation, bei der der Charakter (nach dem zweiten Prinzip der Animation) sich erst nach unten bückt und dann wegspringt.
-Die letzten 6 Bilder sind eine Laufanimation.
+Die letzten 6 Bilder sind eine Laufanimation. Die Abbildung \ref{Wallslide} zeigt einen Wallslide.
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.3]{pics/AnimationSheet.png}
     \caption{Animation Sheet}
     \label{AnimationSheet}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.1]{pics/ScribblePNG/Wallslide.png}
+    \caption{Wallslide}
+    \label{Wallslide}
 \end{figure}
 
 
