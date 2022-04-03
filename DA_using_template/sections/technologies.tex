@@ -177,19 +177,20 @@ Das heißt, Socket.IO ist ein Wrapper rund um die WebSocket API. \cite{socketio}
 \subsection{qrcode.js [W]}
 
 \subsubsection{Was ist ein QR-Code?}
+Die folgenden Absätze bezuehen sich auf die Quellen \cite{qrCodeWiki} \cite{qrCode.js}.
 Ein QR-Code ist ein Matrix-Barcode welcher meistens auf eine bestimmte URL verweist. Die Bezeichnung QR steht für Quick Response,
 also schnelle Antwort. Für die Codierung verwendet der QR-Code 4 Methoden: Numerisch, Alphanumerisch, Byte/Bit und Kanji.
 Besonders populär wurde das QR-Code System dank seiner
 schnellen Lesbarkeit und seiner erhöhten Speicherkapazität im Vergleich zu den
-damalig verwendeten UPC Barcodes(Abbildung \ref{fig:tech:barcode}). Anwendungsfälle für QR-Codes sind Produkt-Tracking, Item-Identifikation, Dokumentenmanagement, etc. .
+damalig verwendeten UPC Barcodes(\ref{fig:tech:barcode}). Außerdem haben QR-Codes eine höhere Korrekturspanne. Selbst wenn 30 Prozent eines QR-Codes nicht gelesen werden können, funktionierien sie trotzdem. Ein weiterer großer Vorteil von QR-Codes ist, dass Logos in den QR-Code eingefügt werden können. Anwendungsfälle für QR-Codes sind Produkt-Tracking, Item-Identifikation, Dokumentenmanagement, etc.
 Ein QR-Code besteht aus schwarzen Quadraten welche in einem großen Quadrat arrangiert werden(Abbildung \ref{fig:tech:qrCode}).
 Dieser kann einfach von einer Kamera oder ähnlichem gescannt und ausgewertet werden.
 Das QR-Code-System wurde von Masahiro Hara von der japanischen Autofirma Denso Wave entwickelt.
 Das Design basiert auf den schwarzen und weißen Spielfiguren des Go-Spiels.
-Ursprünglich wurde das System zum tracken von Fahrzeugen während der Herstellung verwendet.
+Ursprünglich wurde das System zum Tracken von Fahrzeugen während der Herstellung verwendet.
 Heutzutage werden QR-Codes vor allem im Werbebereich verwendet. Oft wird der
 potenzielle Kunde dazu eingeladen  sein Smartphone herauszuholen und einfach den QR-Code zu Scannen um
-ihn dann auf der Webseite Produkte anzubieten.%\cite{qrCodeWiki}
+ihm dann auf der Webseite Produkte anzubieten. 
 
 \begin{figure}[H]
   \centering
@@ -208,7 +209,7 @@ ihn dann auf der Webseite Produkte anzubieten.%\cite{qrCodeWiki}
 \subsubsection{QR-Code Implementierung}
 Hier ist ein einfaches Beispiel wie qrcode.js in eine Webseite eingefügt werden kann.
 Dieser verweist auf https://www.google.com. Wichtig ist hierbei anzumerken, dass dafür die qrcode.js Javascript Bibliothek einzubinden ist.
-Diese kann unter http://davidshimjs.github.io/qrcodejs/ gedownloaded werden. %\cite{qrCode.js}
+Diese kann unter \\ http://davidshimjs.github.io/qrcodejs/ heruntergeladen werden.  
 \begin{lstlisting}[language=html,caption=QR-Code Demo,label=lst:tech:gaussianBlur]
 <html lang="en">
 
@@ -251,12 +252,13 @@ Das Resultat dieser Veränderung sieht so aus:
   \label{fig:tech:persQR}
 \end{figure}
 
-Bei dieser Arbeit wurde der QR-Code verwendet mit dem Handy zugriff auf den Mapscanner und
+Bei dieser Arbeit wurde der QR-Code verwendet mit dem Handy Zugriff auf den Mapscanner und
 das Hochladen der Zeichnung zu gewährleisten.
 
-\subsection{Chart.js [W]}  \label{ChartJs}%\cite{chartJs}
+\subsection{Chart.js [W]}  \label{ChartJs}
+Dieses Kapitel bezieht sich auf Quelle \cite{chartJs}.
 Chart.js ist eine Open-Source JavaScript Bibliothek welche es ermöglicht einfach und schnell Diagramme
-in eine Webseite einzubauen. Die Bibliothek kann entweder mit dem Shell-Befehl \textit{npm i chart.js} eingebunden werden oder via Github unter
+in eine Webseite einzubauen. Die Bibliothek kann entweder mit dem Shell-Befehl \textit{npm i chart.js} eingebunden werden oder via Github unter \\
 \textit{https://github.com/chartjs/Chart.js} gedownloaded werden. Chart.js stellt einem sehr
 viele Möglichkeiten zur Verfügung um die Diagramme zu personalisieren.
 Testify
@@ -320,7 +322,7 @@ Eine einfaches Beispiel für ein Balkendiagramm sieht so aus:
 \end{lstlisting}
 Die Parameter die hier verwendet wurden sind type, welcher den Typ des Diagramms angibt,
 in diesem Fall bar für Balkendiagramm, data, welcher ein JSON Object mit weiteren Parametern ist.
-Zum Schluss wurde mit options.scales.y.beginAtZero noch festgelegt, dass der Graph bei 0 beginnen soll.
+Dann wurde mit options.scales.y.beginAtZero noch festgelegt, dass der Graph bei 0 beginnen soll.
 
 Mit Veränderung des type Parameters können sehr einfach die Diagrammtypen verändert werden:
 \begin{figure}[H]
@@ -361,18 +363,18 @@ Weitere hilfreiche Einsellungen sind:
 \begin{compactitem}
   \item yAxis/xAxis: Konfigurierung der Y- und X-Achse
   \item label: Die Bezeichnung für den Datensatz, die in der Legende erscheint.
-  \item color: Weißt einem Label eine bestimmte Farbe zu
-  \item datasets.data: Weißt einem label Daten zu
+  \item color: Weist einem Label eine bestimmte Farbe zu
+  \item datasets.data: Weist einem label Daten zu
   \item layout: Konfigurierung des Layouts des Diagramms
   \item ...
 \end{compactitem}
 
-Ist es notwendig ein Diagramm zu updaten kann dies mit diesen Funktionen umgesetzt werden. Zum hinzufügen
-von Daten muss als Parameter das Diagramm, der Name des Labels und die Daten mitgegeben werden. Zum entfernen wird nur das Chart benötigt.
+Ist es notwendig ein Diagramm zu aktualisieren kann dies mit folgenden Funktionen umgesetzt werden. Zum Hinzufügen
+von Daten muss als Parameter das Diagramm, der Name des Labels und die Daten mitgegeben werden. Zum Entfernen wird nur das Chart benötigt.
 \begin{figure}[H]
   \centering
   \includegraphics[scale=1]{pics/updateChart.png}
-  \caption{Code zum updaten eines Diagramms}
+  \caption{Code zum aktualisieren eines Diagramms}
 \end{figure}
 
 
@@ -659,16 +661,17 @@ Die Quelle zu den letzten acht Absätzen ist ein Ausschnitt eines Buches mit dem
 \newpage
 \section{Photoshop [W]}
 \setauthor{Weinzierl Ben}
-Für die Character Animation wurde Adobe Photoshop benutzt. Photoshop ist ein Programm mit dem
+Informationen zu diesem Kapitel wurden unter \cite{photoshop} recherchiert.
+Für die Character Animation wurde Adobe Photoshop benutzt. Photoshop ist ein Programm mit dem sowohl
 im professionellen wie im Amateurbereich gearbeitet wird um Bilder zu bearbeiten.
 Aufgrund der unglaublich zahlreichen Einsatzbereiche und Funktionen von Photoshop ist es
 eines der beliebtesten Programme der Design- und Bildbearbeitungsbranche.
 Durch den großen Funktionsumfang ist Photoshop zwar sehr einsteigerunfreundlich, jedoch
 hat es sich trotzdem durchgesetzt. Mit ca. 90 Prozent Marktanteil ist es das mit Abstand größte
-Bildbearbeitungsprogramm. Dadurch ist der Preis mit 24€ pro Monat für die Software sehr hoch, wobei dazugesagt werden muss,
+Bildbearbeitungsprogramm. Dadurch ist der aktuelle Preis mit 24€ pro Monat für die Software sehr hoch, wobei zu erwähnen ist,
 dass laut einer Umfrage im Jahr 2007 ca. 58 Prozent der User und Userinnen das Programm als Schwarzkopie verwenden.
 
-Eine wichtige Funktion, welche bei dieser Arbeit viel verwendet wurde, ist das "Form erzeugen" Werkzeug. Ausgewählt wird es mit dem Shortcut "U". Damit können Formen erstellt und verändert werden. Um zum Beispiel ein Viereck zu erstellen, muss das Unterwerkzeug "Rechteck-Werkzeug" auswählen. Danach
+Eine wichtige Funktion, welche bei dieser Arbeit verwendet wurde, ist das ``Form erzeugen'' Werkzeug. Ausgewählt wird es mit dem Shortcut ``U''. Damit können Formen erstellt und verändert werden. Um zum Beispiel ein Viereck zu erstellen, muss das Unterwerkzeug ``Rechteck-Werkzeug'' ausgewählt werden. Danach
 kann eine beliebig große Fläche aufgezogen werden.
 \begin{figure}[H]
   \centering
@@ -676,13 +679,14 @@ kann eine beliebig große Fläche aufgezogen werden.
   \caption{Erzeugen Werkzeug}
 \end{figure}
 
-Um die Formen in die richtige Position zu bekommen, wurde mit dem "Transformieren" Werkzeug
-gearbeitet. Verwendet wird es unter dem Reiter "Bearbeiten -> Transformieren".
+Um die Formen in die richtige Position zu bekommen, wurde mit dem ``Transformieren'' Werkzeug
+gearbeitet. Verwendet wird es unter dem Reiter ``Bearbeiten -> Transformieren''.
 Um die Fläche zu skalieren wird an den Ecken mit der Maus die Größe verändert. Sollen die Proportionen des Bildes erhalten bleiben
 kann dabei die Umschalt-Taste gedrückt werden. Damit die Ebene gedreht werden kann, muss an den Rändern gehovert werden bis das Drehsymbol erscheint.
 Um die Ebene zu spiegeln oder auf den Kopf zu stellen kann der Befehl 'Horizontal Spiegeln' bzw. 'Um 180° drehen'.
 
 \subsection{12 Prinzipien der Animation}
+Die Informationen zu diesem Kapitel wurden in Quelle \cite{principles}
 Im Jahr 1981 haben die beiden Disney Animatoren Ollie Johnston und Frank Thomas in ihrem Buch ''Disney Animation: Die Illusion des Lebens'' die Animationsindustrie revolutioniert.
 Darin haben sie 12 Prinzipien der Animation vorgestellt welche seit den 1930er Jahren von Disney in ihren Animationsfilmen angewendet wurden.
 Die Grundlagen dieser Prinzipien bestehen darin, Animationen zu erzeugen, welche den Gesetzen der Physik folgen, doch auch mit Timing, Emotionen etc.
@@ -800,5 +804,7 @@ Die 3 Hauptparameter dafür sind: Volumen Gewicht und Balance. Dabei ist es wich
 
 \subsubsection{12. Appeal}
 Grundsätzlich besagt dieses Prinzip, dass Charaktere und Objekte ansprechend sein sollen. Sie sollten einen charismatischen
-Aspekt an sich haben, der sympathisch ist. Dabei ist nicht nur gutes Aussehen gemeint, sondern auch interessantes Aussehen. Der Bösewicht sollte zum Beispiel sympathisch sein, im Sinne, dass man ihn gerne ansieht.
-Da aber jeder Mensch einen eigenen Geschmack hat, kann es schwierig sein, viele Menschen anzusprechen. Deshalb ist es sinnvoll, einem Charakter ein dynamisch interessantes Design zu geben.
+Aspekt an sich haben, der sympathisch ist. Dabei ist nicht nur gutes Aussehen gemeint, sondern auch interessantes Aussehen. Der Bösewicht sollte zum Beispiel sympathisch sein, im Sinne, dass man ihn gerne ansieht. \\
+Da aber jeder Mensch einen eigenen Geschmack hat, kann es schwierig sein, viele Menschen anzusprechen. Deshalb ist es sinnvoll, einem Charakter ein dynamisch interessantes Design zu geben. \\
+\\
+Die Umsetzung dieser Prinzipien wurde in Kapitel \ref{animations} erläutert.

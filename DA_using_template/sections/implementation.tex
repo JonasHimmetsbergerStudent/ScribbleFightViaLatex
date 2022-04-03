@@ -1348,18 +1348,16 @@ Das Ingress-Spec-Field stellt einen Service-Namen und Service-Port bereit, der g
 \setauthor{Weinzierl Ben}
 \subsection{Einfaches Lobby-System}
 Die Grundstruktur des Lobbysystems dieser Arbeit wurde auf den
-Grundbausteinen eines simplen Websocket-Spiels gebaut.
-Dieses kann unter %\cite{gameLobby} 
+Grundbausteinen eines Websocket-Spiels gebaut.
+Dieses kann unter \cite{gameLobby} 
 gefunden werden.
 gefunden werden. Auf das Spiel wird hier nicht eingegangen, da für
-diese Arbeit nur die Lobby relevant ist. Das Lobbysystem dieses Spiels hat 4 Funktionen, welche später in ähnlicher Form in der ScribbleFight Lobby verwendet wurden: ``connect'', ``create'', ``join'' und ``play''.
+diese Arbeit nur die Lobby relevant ist. Das Lobbysystem dieses Spiels hat 3 Funktionen, welche später in ähnlicher Form in der ScribbleFight Lobby verwendet wurden: ``connect'', ``create'' und ``join''.
 Hat sich ein User oder eine Userin ``connectet'' erstellt der Server für diese eine zufällig generierte clientId.
 Wird ein Spiel erstellt, wird eine Game-ID generiert und der Spieler wird dem Game hinzugefügt.
 Möchte einem Spiel beigetreten werden wird der Spieler zum ``game'' hinzugefügt.
 
 \begin{lstlisting}[,language=HTML,label=Gamelobby Websockets]
-    
-    Server:
     const wsServer = new websocketServer({
     "httpServer": httpServer
     })
@@ -1438,7 +1436,7 @@ Möchte einem Spiel beigetreten werden wird der Spieler zum ``game'' hinzugefüg
  \end{lstlisting}
 
 Dieses System hat aber einige Probleme. Erstens wird wenig auf Fehler überprüft.
-Gibt ein Client eine falsche GameID ein, stürzt der Server ab. Zweitens würde bei einer Implementierung mit
+Gibt ein Client, zum Beispiel, eine falsche GameID ein, stürzt der Server ab. Zweitens würde bei einer Implementierung mit
 Websockets das Problem entstehen, dass große Payloads (Pakete zwischen Server und Client) nicht versendet werden könnten.
 Dies würde vor allem beim hin und herschicken der Bilder ein Problem werden. Deshalb wurde
 nicht mit Websocket, sonder mit SocketIO gearbeitet. Auf die tatsächliche Umsetzung für ScribbleFight wird in
@@ -1447,8 +1445,8 @@ nicht mit Websocket, sonder mit SocketIO gearbeitet. Auf die tatsächliche Umset
 \subsection{Aufbau von ScribbleFight}
 Bei dieser Arbeit gab es drei Teile. Das Spiel, die Map-Erkennung und die Lobby. Diese wurden im Frontend alle mit HTML, CSS und JavaScript umgesetzt.
 Für das Backend haben die Lobby und das Spiel jeweils einen Node.js Server verwendet. Die Bilderkennung hat dafür einen Python-Flask Server verwendet. Die Lobby, welche als Mittelteil fungierte, hat mittels Socket.io die Kommunikation zwischen den Teilen dargestellt.
-Um die Spieler und Spielerinnen miteinander spielen zu lassen wird ein 4-stelliger Code, die Game-ID generiert. Dieser kann dann an die Mitspieler und Mitspielerinnen geschickt werden. In der Lobby wird auch ein QR-Code dargestellt welcher auf die Bilderkennung verlinkt.
-Wird dort (auf dem Python Server) ein Bild hochgeladen wird dies an die Lobby weitergeleitet. Sind alle Spieler und Spielerinnen fertig mit dem Upload, wird das Voting gestartet. Steht ein Gewinner fest (bei gleichstand wird zufällig gewählt), wird auf das Spiel verlinkt. Dabei wird das Gewinnerbild mitgeschickt und die Spieler und Spielerinnen können anfangen, sich zu bekämpfen.
+Um die Spieler und Spielerinnen miteinander spielen zu lassen wird ein 4-stelliger Code, die Game-ID, generiert. Dieser kann dann an die Mitspieler und Mitspielerinnen geschickt werden. In der Lobby wird auch ein QR-Code dargestellt welcher auf die Bilderkennung verlinkt.
+Wird dort (auf dem Python Server) ein Bild hochgeladen wird dies an die Lobby weitergeleitet. Sind alle Spieler und Spielerinnen fertig mit dem Upload, wird das Voting gestartet. Steht ein Gewinner fest (bei Gleichstand wird zufällig gewählt), wird auf das Spiel verlinkt. Dabei wird das Gewinnerbild mitgeschickt und die Spieler und Spielerinnen können anfangen, sich zu bekämpfen.
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.3]{pics/architektur.png}
@@ -1458,10 +1456,8 @@ Wird dort (auf dem Python Server) ein Bild hochgeladen wird dies an die Lobby we
 \subsection{Lobby Sockets}\label{SocketLobby}
 Wird die Seite aufgerufen, wird dem User erstmal eine ID zugewiesen. ``guid()'' ist eine Funktion welche eine zufällige 4-stellige Zahl erszeugt.
 Beim Client wird die ID noch im Localstorage gespeichert.
-\begin{lstlisting}[language=html,caption=Socket Connection]
-    
-    Server:
-    io.on('connection', socket => {
+\begin{lstlisting}[language=html,caption=Socket Connection Server]
+        io.on('connection', socket => {
 
         const clientId = guid();
         socket.id.clientId = clientId;
@@ -1471,14 +1467,16 @@ Beim Client wird die ID noch im Localstorage gespeichert.
         }
         socket.emit("connecting", payLoad)
     });
+ 
+\end{lstlisting}
 
-    Client:
+\begin{lstlisting}[language=html,caption=Socket Connection Client]
+    
     socket.on('connecting', response => {
         clientId = response.clientId;
         localStorage.setItem("localClient", clientId)
         console.log("Client id succesfully set" + clientId);
     });
-
 
 \end{lstlisting}
 
@@ -1487,9 +1485,8 @@ Wird ersteres ausgewählt bekommt der Server eine Nachricht, dass dieser Spieler
 Dabei werden einige JSON Variablen initialisiert, welche später gebraucht werden. Die Game-ID wird, wie die Client-ID,
 mit der Funktion guid() initialisatiert. Danach wird der User, benachrichtigt, dass sein Spiel erstellt wurde. Im Frontend wird dann der Gamecode ausgegeben, und
 damit der User, der die Lobby erstellt hat, dieser auch beitritt, wird noch die ``join'' Funktion aufgerufen.
-\begin{lstlisting}[language=html,caption=Create Game]
+\begin{lstlisting}[language=html,caption=Create Game Server]
     
-    Server:
     socket.on('create', message => {
         const clientId = message.clientId;
         const gameId = guid();
@@ -1518,8 +1515,12 @@ damit der User, der die Lobby erstellt hat, dieser auch beitritt, wird noch die 
         socket.emit("create", payLoad)
     });
 
+    
 
-    Client:
+
+\end{lstlisting}
+\begin{lstlisting}[language=html,caption=Create Game Client]
+
     socket.on('create', response => {
         console.log("Game succesfully created with " + response.game.id);
         let gamecode = document.getElementById("gamecode");
@@ -1533,7 +1534,6 @@ damit der User, der die Lobby erstellt hat, dieser auch beitritt, wird noch die 
         socket.emit('join', message)
     })
 
-
 \end{lstlisting}
 
 
@@ -1542,9 +1542,8 @@ Tut er das nicht, oder sind schon zu viele Spieler in der Lobby, wird ein Error 
 benachrichtigt. Alle anderen Spieler dieser Lobby werden dann noch mit io.in benachrichtigt,
 dass ein neuer User gejoined ist. Auf der Clientseite wird im ``newClient'' der QR-Code initialisiert.
 Im ``join'' des Frontends werden alle gejointen Spieler und Spielerinnen ausgegeben.
-\begin{lstlisting}[language=html,caption=Join Game]
+\begin{lstlisting}[language=html,caption=Join Game Server]
     
-    Server:
     socket.on('join', message => {
         if (games[message.gameId]) {
             const clientId = message.clientId;
@@ -1605,7 +1604,9 @@ Im ``join'' des Frontends werden alle gejointen Spieler und Spielerinnen ausgege
     })
 
 
-    Client:
+\end{lstlisting}
+
+\begin{lstlisting}[language=html,caption=Join Game Client ]
     socket.on('newClient', response => {
         var localClient = response.newClient;
         const qrLink = document.getElementById("qrLink");
@@ -1629,13 +1630,13 @@ Im ``join'' des Frontends werden alle gejointen Spieler und Spielerinnen ausgege
     })
 \end{lstlisting}
 
+
 Hat ein User seine gezeichnete Map hochgeladen wird der Server benachrichtigt (\ref*{PythonSocket}).
 Sobald der Server die Nachricht bekommen hat, wird der User der das Bild hochgeladen hat, als ready eingestuft. Dies wird durch das herauslöschen aus dem picGame.clients-Array gemacht.
 Danach wird das Bild unter der richtigen clientId abgespeichert und es wird allen Usern der Lobby mitgeteilt, dass ein Bild hochgeladen wurde.
 Dort wird überprüft ob schon alle User ihre Bilder hochgeladen haben. Ist das der Fall erscheint ein Button welcher das Voting starten lässt.
-\begin{lstlisting}[language=html,caption=picUploaded]
-    
-    Server:
+\begin{lstlisting}[language=html,caption=picUploaded Server]
+
     socket.on('picUploaded', message => {
         const gameId = message.gameId;
         const game = games[gameId];
@@ -1670,10 +1671,10 @@ Dort wird überprüft ob schon alle User ihre Bilder hochgeladen haben. Ist das 
         let gameString = "" + gameId
         io.in(gameString).emit('picUploaded', payLoad)
     })
+    
+\end{lstlisting}
 
-
-
-    Client:
+\begin{lstlisting}[language=html,caption=picUploaded Client]
     socket.on('picUploaded', response => {
         var picGame = response.picGame
         var game = response.game
@@ -1704,13 +1705,12 @@ Dort wird überprüft ob schon alle User ihre Bilder hochgeladen haben. Ist das 
         }
 
     })
-    
 \end{lstlisting}
 
 Wurde das Voting gestartet werden alle User benachrichtigt.
 Daraufhin wird bei allen Usern der Lobby im Frontend ein Balkendiagramm initialisatiert. Die Parameter dieses Diagramms wurden in \ref*{ChartJs} erläutert.
 In das Diagramm werden dann noch die Player eingefügt und es wird jeweils das gezeichnete Bild und ein Votingbutton dargestellt.
-\begin{lstlisting}[language=html,caption=Start Voting]
+\begin{lstlisting}[language=html,caption=Start Voting Server]
     
     Server:
     socket.on('startVoting, message => {
@@ -1724,8 +1724,10 @@ In das Diagramm werden dann noch die Player eingefügt und es wird jeweils das g
         socket.emit('startVoting', payLoad)
     })
 
+\end{lstlisting}
 
-    Client:
+\begin{lstlisting}[language=html,caption=Start Voting Client]
+
     socket.on('startVoting', response => {
         var info = document.getElementById("info")
         var game = response.game;
@@ -1813,9 +1815,8 @@ Danach wird der User aus dem playerVotes.clients-Array herausgelöscht, um ihn n
 Ist im playerVotes.clients-Array kein Client mehr vorhanden, bedeutet das, dass alle User gevoted haben und es muss ein Gewinner festgestellt werden.
 Dafür werden alle Zeichnungen durchgegangen und es wird sich der Wert der Votes in ``arr'' gemerkt. Daraufhin wird der Index des höchsten Werts des Arrays herausgefunden. TODO
 Damit kann die Gewinnermap in der game Variable gespeichert werden und allen Usern wird vermittelt, dass das Spiel starten kann.
-\begin{lstlisting}[language=html,caption= User voted]
+\begin{lstlisting}[language=html,caption= User voted Server]
     
-    Server:
     socket.on('voted', message => {
         const gameId = message.gameId;
         const game = games[gameId];
@@ -1878,9 +1879,10 @@ Damit kann die Gewinnermap in der game Variable gespeichert werden und allen Use
         }
     })
     
+\end{lstlisting}
 
+\begin{lstlisting}[language=html,caption=User voted Client]
 
-    Client:
     socket.on('voted', response => {
         const myChart = Chart.getChart('myChart')
         var voteGame = response.voteGame;
@@ -1894,7 +1896,6 @@ Damit kann die Gewinnermap in der game Variable gespeichert werden und allen Use
         const gameId = game.id;
         window.location.href = 'http://localhost:3000/' + gameId;
     })
-    
 \end{lstlisting}
 Im Frontend wird zuerst das Diagramm geupdatet und sollten alle User gevoted haben, wird auf das Spiel verlinkt, mit der GameId als Parameter.
 
@@ -1902,9 +1903,8 @@ Im Frontend wird zuerst das Diagramm geupdatet und sollten alle User gevoted hab
 Bei der Initialisierung des Webgames wird eine Funktion namens ``getGame()'' aufgerufen. Diese holt sich aus der URL den GameID Parameter und benachrichtigt den Server.
 Der Server schickt dann dem Client das Gewinnerbild mit dem zugehörigen Map-Array.
 Hat der Client die Response erhalten, setzt er das Hintergrundbild und der Kampf kann beginnen.
-\begin{lstlisting}[language=html,caption=Webgame Socket]
+\begin{lstlisting}[language=html,caption=Webgame Socket Server]
     
-    Server:
     socket.on('rafi_game', message => {
         const gameId = message.gameId;
         const game = games[gameId];
@@ -1918,8 +1918,9 @@ Hat der Client die Response erhalten, setzt er das Hintergrundbild und der Kampf
         socket.emit('rafi_game', payLoad)
     })
 
+\end{lstlisting}
 
-    Client:
+\begin{lstlisting}[language=html,caption=Webgame Socket Client]
     function getGame() {
         var pathArray = window.location.pathname.split('/');
         var gameId = pathArray[1];
@@ -1945,7 +1946,7 @@ Hat der Client die Response erhalten, setzt er das Hintergrundbild und der Kampf
     }
 \end{lstlisting}
 
-\section{Animationen}
+\section{Animationen} \label{animations}
 Für das Spiel wurden verschiedene Animationen gebraucht. Eine Standardpose bei der der Spieler still steht ist bei Abbildung \ref*{AnimationSheet} oben links zu sehen.
 Wurde der Spieler in den Körper bzw. auf den Kopf getroffen werden die nächsten beiden Bilder genutzt. Die nächsten drei Bilder sind eine simple Sprunganimation, bei der der Charakter (nach dem zweiten Prinzip der Animation) sich erst nach unten bückt und dann wegspringt.
 Die letzten 6 Bilder sind eine Laufanimation.
