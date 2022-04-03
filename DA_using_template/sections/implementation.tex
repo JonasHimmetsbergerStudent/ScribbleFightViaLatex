@@ -1899,8 +1899,8 @@ Damit kann die Gewinnermap in der ``game'' Variable gespeichert werden und allen
 Im Frontend wird zuerst das Diagramm geupdatet und sollten alle User gevoted haben, wird auf das Spiel verlinkt, mit der Game-ID als Parameter.
 
 \subsection{Game Socketverbindung zur Lobby}
-Bei der Initialisierung des Webgames wird eine Funktion namens ``getGame()'' aufgerufen. Diese holt sich aus der URL den GameID Parameter und benachrichtigt den Server.
-Der Server schickt dann dem Client das Gewinnerbild mit dem zugehörigen Map-Array.
+Bei der Initialisierung des Webgames wird eine Funktion namens ``getGame()'' aufgerufen. Diese holt sich aus der URL den GameID Parameter und benachrichtigt den Server der Lobby.
+Dieser schickt dann dem Game-Server das Gewinnerbild mit dem zugehörigen Map-Array.
 Hat der Client die Response erhalten, setzt er das Hintergrundbild und der Kampf kann beginnen.
 \begin{lstlisting}[language=html,caption=Webgame Socket Server]
     
